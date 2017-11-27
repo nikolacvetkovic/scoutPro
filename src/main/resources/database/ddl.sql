@@ -1,4 +1,18 @@
-create schema scout_pro_development;
+create schema if not exists scout_pro_development;
+
+drop table if exists scout_pro_development.pesdbinfo;
+drop table if exists scout_pro_development.corestats;
+drop table if exists scout_pro_development.game;
+drop table if exists scout_pro_development.positionplayedstats;
+drop table if exists scout_pro_development.characteristic;
+drop table if exists scout_pro_development.whoscoredinfo;
+drop table if exists scout_pro_development.marketvalue;
+drop table if exists scout_pro_development.transfer;
+drop table if exists scout_pro_development.transfermarktinfo;
+drop table if exists scout_pro_development.psmlInfo;
+drop table if exists scout_pro_development.player;
+
+
 
 create table if not exists scout_pro_development.player (
 	id int auto_increment not null,
@@ -7,7 +21,8 @@ create table if not exists scout_pro_development.player (
     pesDbUrl varchar(256) null,
     psmlUrl varchar(256) null,
     primary key(id))
-    engine = InnoDB;
+    engine = InnoDB
+    collate = utf8_unicode_ci;
     
 create table if not exists scout_pro_development.transfermarktInfo(
 	id int auto_increment not null,
@@ -24,7 +39,8 @@ create table if not exists scout_pro_development.transfermarktInfo(
     primary key(id),
     index indtmtoplayer(playerId ASC),
     constraint tm_player foreign key(playerId) references scout_pro_development.player(id) on delete no action on update no action)
-    engine = InnoDB;
+    engine = InnoDB
+    collate = utf8_unicode_ci;
     
 create table if not exists scout_pro_development.marketValue(
 	id int auto_increment not null,
@@ -34,8 +50,9 @@ create table if not exists scout_pro_development.marketValue(
     primary key(id),
     index indmvtotm(transfermarktInfoId ASC),
     constraint mv_tm foreign key(transfermarktInfoId) references scout_pro_development.transfermarktinfo(id) on delete no action on update no action)
-    engine = InnoDB;
-    drop table scout_pro_development.transfermarktinfo;
+    engine = InnoDB
+    collate = utf8_unicode_ci;
+    
 create table if not exists scout_pro_development.transfer(
 	id int auto_increment not null,
     fromTeam varchar(50) not null,
@@ -47,7 +64,8 @@ create table if not exists scout_pro_development.transfer(
     primary key(id),
     index indtrtotm(transfermarktInfoId ASC),
     constraint tr_tm foreign key(transfermarktInfoId) references scout_pro_development.transfermarktinfo(id) on delete no action on update no action)
-    engine = InnoDB;
+    engine = InnoDB
+    collate = utf8_unicode_ci;
     
 create table if not exists scout_pro_development.whoScoredInfo(
 	id int auto_increment not null,
@@ -57,7 +75,8 @@ create table if not exists scout_pro_development.whoScoredInfo(
     primary key(id),
     index indwstoplayer(playerId ASC),
     constraint ws_player foreign key(playerId) references scout_pro_development.player(id) on delete no action on update no action)
-    engine = InnoDB;
+    engine = InnoDB
+    collate = utf8_unicode_ci;
     
 create table if not exists scout_pro_development.coreStats(
 	id int auto_increment not null,
@@ -78,7 +97,8 @@ create table if not exists scout_pro_development.coreStats(
     primary key(id),
     index indcstows(whoScoredInfoId ASC),
     constraint cs_ws foreign key(whoScoredInfoId) references scout_pro_development.whoscoredinfo(id) on delete no action on update no action)
-	engine = InnoDB;
+	engine = InnoDB
+    collate = utf8_unicode_ci;
     
 create table if not exists scout_pro_development.positionPlayedStats(
 	id int auto_increment not null,
@@ -91,7 +111,8 @@ create table if not exists scout_pro_development.positionPlayedStats(
 	primary key(id),
     index indppstows(whoScoredInfoId ASC),
     constraint pps_ws foreign key(whoScoredInfoId) references scout_pro_development.whoscoredinfo(id) on delete no action on update no action)
-	engine = InnoDB;
+	engine = InnoDB
+    collate = utf8_unicode_ci;
     
 create table if not exists scout_pro_development.characteristic(
 	id int not null,
@@ -100,7 +121,8 @@ create table if not exists scout_pro_development.characteristic(
     styleOfPlay text,
 	primary key(id),
     constraint ch_ws foreign key(id) references scout_pro_development.whoscoredinfo(id) on delete no action on update no action)
-    engine = InnoDB;
+    engine = InnoDB
+    collate = utf8_unicode_ci;
     
 create table if not exists scout_pro_development.game(
 	id int auto_increment not null,
@@ -120,4 +142,37 @@ create table if not exists scout_pro_development.game(
     primary key(id),
     index indgtows(whoScoredInfoId ASC),
     constraint g_ws foreign key(whoScoredInfoId) references scout_pro_development.whoscoredinfo(id) on delete no action on update no action)
-	engine = InnoDB;
+	engine = InnoDB
+    collate = utf8_unicode_ci;
+    
+create table if not exists scout_pro_development.pesDbInfo(
+	id int auto_increment not null,
+    season varchar(5) not null,
+    teamName varchar(50) not null,
+    foot varchar(5) not null,
+    weekCondition char(1) not null,
+    primaryPosition varchar(3) not null,
+    otherPositions varchar(40) null,
+    playingStyle text null,
+    playerSkills text null,
+    comPlayingStyles text null,
+    lastChange timestamp not null,
+    playerId int not null,
+    primary key(id),
+    index indpdbtoplayer(playerId ASC),
+    constraint pdb_player foreign key(playerId) references scout_pro_development.player(id) on delete no action on update no action)
+	engine = InnoDB
+    collate = utf8_unicode_ci;
+    
+create table if not exists scout_pro_development.psmlInfo(
+	id int auto_increment not null,
+    teamName varchar(50) not null default 'Free Agent',
+    teamValue decimal(15,2) null default 00.00,
+    lastChange timestamp not null,
+    playerId int not null,
+    primary key(id),
+    index indpstoplayer(playerId),
+    constraint ps_player foreign key(playerId) references scout_pro_development.player(id) on delete no action on update no action)
+    engine = InnoDB
+    collate = utf8_unicode_ci;
+ 
