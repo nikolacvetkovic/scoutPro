@@ -2,6 +2,7 @@ package com.riocode.scoutpro.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -129,27 +130,23 @@ public class PositionPlayedStats implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+        return 11;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
+        if (this == object) return true;
         if (!(object instanceof PositionPlayedStats)) {
             return false;
         }
-        PositionPlayedStats other = (PositionPlayedStats) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        PositionPlayedStats c = (PositionPlayedStats) object;        
+        return this.id != null && Objects.equals(this.id, c.id);
     }
 
     @Override
     public String toString() {
-        return "com.riocode.scoutpro.model.Positionplayedstats[ id=" + id + " ]";
+        return "com.riocode.scoutpro.model.Positionplayedstats[ id=" + this.id + " ]";
     }
 
 }

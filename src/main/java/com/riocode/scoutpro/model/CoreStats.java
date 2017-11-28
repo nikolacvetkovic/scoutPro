@@ -1,6 +1,7 @@
 package com.riocode.scoutpro.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -244,27 +245,23 @@ public class CoreStats implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+        return 9;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
+        if (this == object) return true;
         if (!(object instanceof CoreStats)) {
             return false;
         }
-        CoreStats other = (CoreStats) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        CoreStats c = (CoreStats) object;        
+        return this.id != null && Objects.equals(this.id, c.id);
     }
 
     @Override
     public String toString() {
-        return "com.riocode.scoutpro.model.Corestats[ id=" + id + " ]";
+        return "com.riocode.scoutpro.model.Corestats[ id=" + this.id + " ]";
     }
 
 }
