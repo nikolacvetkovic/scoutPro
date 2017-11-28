@@ -24,20 +24,7 @@ import javax.validation.constraints.Size;
 @Table(name = "corestats", catalog = "scout_pro_development", schema = "")
 @NamedQueries({
     @NamedQuery(name = "CoreStats.findAll", query = "SELECT c FROM CoreStats c")
-    , @NamedQuery(name = "CoreStats.findById", query = "SELECT c FROM CoreStats c WHERE c.id = :id")
-    , @NamedQuery(name = "CoreStats.findByCompetition", query = "SELECT c FROM CoreStats c WHERE c.competition = :competition")
-    , @NamedQuery(name = "CoreStats.findByStartedApps", query = "SELECT c FROM CoreStats c WHERE c.startedApps = :startedApps")
-    , @NamedQuery(name = "CoreStats.findBySubApps", query = "SELECT c FROM CoreStats c WHERE c.subApps = :subApps")
-    , @NamedQuery(name = "CoreStats.findByMins", query = "SELECT c FROM CoreStats c WHERE c.mins = :mins")
-    , @NamedQuery(name = "CoreStats.findByGoals", query = "SELECT c FROM CoreStats c WHERE c.goals = :goals")
-    , @NamedQuery(name = "CoreStats.findByAssists", query = "SELECT c FROM CoreStats c WHERE c.assists = :assists")
-    , @NamedQuery(name = "CoreStats.findByYellowCards", query = "SELECT c FROM CoreStats c WHERE c.yellowCards = :yellowCards")
-    , @NamedQuery(name = "CoreStats.findByRedCards", query = "SELECT c FROM CoreStats c WHERE c.redCards = :redCards")
-    , @NamedQuery(name = "CoreStats.findByShotsPerGame", query = "SELECT c FROM CoreStats c WHERE c.shotsPerGame = :shotsPerGame")
-    , @NamedQuery(name = "Corestats.findByPassSuccess", query = "SELECT c FROM CoreStats c WHERE c.passSuccess = :passSuccess")
-    , @NamedQuery(name = "Corestats.findByAerialsWon", query = "SELECT c FROM CoreStats c WHERE c.aerialsWon = :aerialsWon")
-    , @NamedQuery(name = "Corestats.findByManOfTheMatch", query = "SELECT c FROM CoreStats c WHERE c.manOfTheMatch = :manOfTheMatch")
-    , @NamedQuery(name = "Corestats.findByRating", query = "SELECT c FROM CoreStats c WHERE c.rating = :rating")})
+    , @NamedQuery(name = "CoreStats.findById", query = "SELECT c FROM CoreStats c WHERE c.id = :id")})
 public class CoreStats implements Serializable {
 
     private static final long serialVersionUID = 1L;

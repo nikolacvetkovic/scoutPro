@@ -13,8 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,19 +25,7 @@ import javax.validation.constraints.Size;
 @Table(name = "game", catalog = "scout_pro_development", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Game.findAll", query = "SELECT g FROM Game g")
-    , @NamedQuery(name = "Game.findById", query = "SELECT g FROM Game g WHERE g.id = :id")
-    , @NamedQuery(name = "Game.findByCompetition", query = "SELECT g FROM Game g WHERE g.competition = :competition")
-    , @NamedQuery(name = "Game.findByDateOfGame", query = "SELECT g FROM Game g WHERE g.dateOfGame = :dateOfGame")
-    , @NamedQuery(name = "Game.findByTeam1", query = "SELECT g FROM Game g WHERE g.team1 = :team1")
-    , @NamedQuery(name = "Game.findByTeam2", query = "SELECT g FROM Game g WHERE g.team2 = :team2")
-    , @NamedQuery(name = "Game.findByResult", query = "SELECT g FROM Game g WHERE g.result = :result")
-    , @NamedQuery(name = "Game.findByManOfTheMatch", query = "SELECT g FROM Game g WHERE g.manOfTheMatch = :manOfTheMatch")
-    , @NamedQuery(name = "Game.findByGoals", query = "SELECT g FROM Game g WHERE g.goals = :goals")
-    , @NamedQuery(name = "Game.findByAssists", query = "SELECT g FROM Game g WHERE g.assists = :assists")
-    , @NamedQuery(name = "Game.findByYellowCard", query = "SELECT g FROM Game g WHERE g.yellowCard = :yellowCard")
-    , @NamedQuery(name = "Game.findByRedCard", query = "SELECT g FROM Game g WHERE g.redCard = :redCard")
-    , @NamedQuery(name = "Game.findByMinutesPlayed", query = "SELECT g FROM Game g WHERE g.minutesPlayed = :minutesPlayed")
-    , @NamedQuery(name = "Game.findByRating", query = "SELECT g FROM Game g WHERE g.rating = :rating")})
+    , @NamedQuery(name = "Game.findById", query = "SELECT g FROM Game g WHERE g.id = :id")})
 public class Game implements Serializable {
 
     private static final long serialVersionUID = 1L;

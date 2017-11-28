@@ -25,9 +25,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "marketvalue", catalog = "scout_pro_development", schema = "")
 @NamedQueries({
     @NamedQuery(name = "MarketValue.findAll", query = "SELECT m FROM MarketValue m")
-    , @NamedQuery(name = "MarketValue.findById", query = "SELECT m FROM MarketValue m WHERE m.id = :id")
-    , @NamedQuery(name = "MarketValue.findByValue", query = "SELECT m FROM MarketValue m WHERE m.value = :value")
-    , @NamedQuery(name = "MarketValue.findByDatePoint", query = "SELECT m FROM MarketValue m WHERE m.datePoint = :datePoint")})
+    , @NamedQuery(name = "MarketValue.findById", query = "SELECT m FROM MarketValue m WHERE m.id = :id")})
 public class MarketValue implements Serializable {
 
     private static final long serialVersionUID = 1L;

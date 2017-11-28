@@ -27,11 +27,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Player.findAll", query = "SELECT p FROM Player p")
     , @NamedQuery(name = "Player.findById", query = "SELECT p FROM Player p WHERE p.id = :id")
-    , @NamedQuery(name = "Player.findByName", query = "SELECT p FROM Player p WHERE p.name = :name")
-    , @NamedQuery(name = "Player.findByTransfermarktUrl", query = "SELECT p FROM Player p WHERE p.transfermarktUrl = :transfermarktUrl")
-    , @NamedQuery(name = "Player.findByWhoScoredUrl", query = "SELECT p FROM Player p WHERE p.whoScoredUrl = :whoScoredUrl")
-    , @NamedQuery(name = "Player.findByPesDbUrl", query = "SELECT p FROM Player p WHERE p.pesDbUrl = :pesDbUrl")
-    , @NamedQuery(name = "Player.findByPsmlUrl", query = "SELECT p FROM Player p WHERE p.psmlUrl = :psmlUrl")})
+    , @NamedQuery(name = "Player.findByName", query = "SELECT p FROM Player p WHERE p.name = :name")})
 public class Player implements Serializable {
 
     private static final long serialVersionUID = 1L;

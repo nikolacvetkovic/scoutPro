@@ -33,14 +33,12 @@ import org.hibernate.annotations.Parameter;
     @NamedQuery(name = "TransfermarktInfo.findAll", query = "SELECT t FROM TransfermarktInfo t")
     , @NamedQuery(name = "TransfermarktInfo.findById", query = "SELECT t FROM TransfermarktInfo t WHERE t.id = :id")
     , @NamedQuery(name = "TransfermarktInfo.findByPlayerName", query = "SELECT t FROM TransfermarktInfo t WHERE t.playerName = :playerName")
-    , @NamedQuery(name = "TransfermarktInfo.findByDateOfBirth", query = "SELECT t FROM TransfermarktInfo t WHERE t.dateOfBirth = :dateOfBirth")
     , @NamedQuery(name = "TransfermarktInfo.findByAge", query = "SELECT t FROM TransfermarktInfo t WHERE t.age = :age")
     , @NamedQuery(name = "TransfermarktInfo.findByNationality", query = "SELECT t FROM TransfermarktInfo t WHERE t.nationality = :nationality")
     , @NamedQuery(name = "TransfermarktInfo.findByNationalTeam", query = "SELECT t FROM TransfermarktInfo t WHERE t.nationalTeam = :nationalTeam")
     , @NamedQuery(name = "TransfermarktInfo.findByClubTeam", query = "SELECT t FROM TransfermarktInfo t WHERE t.clubTeam = :clubTeam")
     , @NamedQuery(name = "TransfermarktInfo.findByContractUntil", query = "SELECT t FROM TransfermarktInfo t WHERE t.contractUntil = :contractUntil")
-    , @NamedQuery(name = "TransfermarktInfo.findByPosition", query = "SELECT t FROM TransfermarktInfo t WHERE t.position = :position")
-    , @NamedQuery(name = "TransfermarktInfo.findByLastChange", query = "SELECT t FROM TransfermarktInfo t WHERE t.lastChange = :lastChange")})
+    , @NamedQuery(name = "TransfermarktInfo.findByPosition", query = "SELECT t FROM TransfermarktInfo t WHERE t.position = :position")})
 public class TransfermarktInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;

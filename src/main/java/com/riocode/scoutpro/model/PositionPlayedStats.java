@@ -25,12 +25,7 @@ import javax.validation.constraints.Size;
 @Table(name = "positionplayedstats", catalog = "scout_pro_development", schema = "")
 @NamedQueries({
     @NamedQuery(name = "PositionPlayedStats.findAll", query = "SELECT p FROM PositionPlayedStats p")
-    , @NamedQuery(name = "PositionPlayedStats.findById", query = "SELECT p FROM PositionPlayedStats p WHERE p.id = :id")
-    , @NamedQuery(name = "PositionPlayedStats.findByPosition", query = "SELECT p FROM PositionPlayedStats p WHERE p.position = :position")
-    , @NamedQuery(name = "PositionPlayedStats.findByApps", query = "SELECT p FROM PositionPlayedStats p WHERE p.apps = :apps")
-    , @NamedQuery(name = "PositionPlayedStats.findByGoals", query = "SELECT p FROM PositionPlayedStats p WHERE p.goals = :goals")
-    , @NamedQuery(name = "PositionPlayedStats.findByAssists", query = "SELECT p FROM PositionPlayedStats p WHERE p.assists = :assists")
-    , @NamedQuery(name = "PositionPlayedStats.findByRating", query = "SELECT p FROM PositionPlayedStats p WHERE p.rating = :rating")})
+    , @NamedQuery(name = "PositionPlayedStats.findById", query = "SELECT p FROM PositionPlayedStats p WHERE p.id = :id")})
 public class PositionPlayedStats implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -28,10 +28,7 @@ import javax.validation.constraints.Size;
 @Table(name = "psmlinfo", catalog = "scout_pro_development", schema = "")
 @NamedQueries({
     @NamedQuery(name = "PsmlInfo.findAll", query = "SELECT p FROM PsmlInfo p")
-    , @NamedQuery(name = "PsmlInfo.findById", query = "SELECT p FROM PsmlInfo p WHERE p.id = :id")
-    , @NamedQuery(name = "PsmlInfo.findByTeamName", query = "SELECT p FROM PsmlInfo p WHERE p.teamName = :teamName")
-    , @NamedQuery(name = "PsmlInfo.findByTeamValue", query = "SELECT p FROM PsmlInfo p WHERE p.teamValue = :teamValue")
-    , @NamedQuery(name = "PsmlInfo.findByLastChange", query = "SELECT p FROM PsmlInfo p WHERE p.lastChange = :lastChange")})
+    , @NamedQuery(name = "PsmlInfo.findById", query = "SELECT p FROM PsmlInfo p WHERE p.id = :id")})
 public class PsmlInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;

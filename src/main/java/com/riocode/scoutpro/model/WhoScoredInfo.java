@@ -31,8 +31,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "WhoScoredInfo.findAll", query = "SELECT w FROM WhoScoredInfo w")
     , @NamedQuery(name = "WhoScoredInfo.findById", query = "SELECT w FROM WhoScoredInfo w WHERE w.id = :id")
-    , @NamedQuery(name = "WhoScoredInfo.findBySeason", query = "SELECT w FROM WhoScoredInfo w WHERE w.season = :season")
-    , @NamedQuery(name = "WhoScoredInfo.findByLastChange", query = "SELECT w FROM WhoScoredInfo w WHERE w.lastChange = :lastChange")})
+    , @NamedQuery(name = "WhoScoredInfo.findBySeason", query = "SELECT w FROM WhoScoredInfo w WHERE w.season = :season")})
 public class WhoScoredInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;

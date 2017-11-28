@@ -26,12 +26,7 @@ import javax.validation.constraints.Size;
 @Table(name = "transfer", catalog = "scout_pro_development", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Transfer.findAll", query = "SELECT t FROM Transfer t")
-    , @NamedQuery(name = "Transfer.findById", query = "SELECT t FROM Transfer t WHERE t.id = :id")
-    , @NamedQuery(name = "Transfer.findByFromTeam", query = "SELECT t FROM Transfer t WHERE t.fromTeam = :fromTeam")
-    , @NamedQuery(name = "Transfer.findByToTeam", query = "SELECT t FROM Transfer t WHERE t.toTeam = :toTeam")
-    , @NamedQuery(name = "Transfer.findByDateOfTransfer", query = "SELECT t FROM Transfer t WHERE t.dateOfTransfer = :dateOfTransfer")
-    , @NamedQuery(name = "Transfer.findByMarketValue", query = "SELECT t FROM Transfer t WHERE t.marketValue = :marketValue")
-    , @NamedQuery(name = "Transfer.findByTransferFee", query = "SELECT t FROM Transfer t WHERE t.transferFee = :transferFee")})
+    , @NamedQuery(name = "Transfer.findById", query = "SELECT t FROM Transfer t WHERE t.id = :id")})
 public class Transfer implements Serializable {
 
     private static final long serialVersionUID = 1L;
