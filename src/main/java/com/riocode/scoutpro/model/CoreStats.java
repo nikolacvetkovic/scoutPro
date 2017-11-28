@@ -105,10 +105,6 @@ public class CoreStats implements Serializable {
     public CoreStats() {
     }
 
-    public CoreStats(Integer id) {
-        this.id = id;
-    }
-
     public CoreStats(Integer id, String competition, String startedApps, String subApps, String mins, String goals, String assists, String yellowCards, String redCards, String shotsPerGame, String passSuccess, String aerialsWon, String manOfTheMatch, String rating) {
         this.id = id;
         this.competition = competition;

@@ -104,10 +104,6 @@ public class TransfermarktInfo implements Serializable {
     public TransfermarktInfo() {
     }
 
-    public TransfermarktInfo(Integer id) {
-        this.id = id;
-    }
-
     public TransfermarktInfo(Integer id, String playerName, String dateOfBirth, int age, String nationality, String nationalTeam, String clubTeam, String contractUntil, String position, Date lastChange) {
         this.id = id;
         this.playerName = playerName;

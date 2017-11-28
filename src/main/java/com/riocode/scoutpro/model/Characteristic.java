@@ -56,10 +56,6 @@ public class Characteristic implements Serializable {
     public Characteristic() {
     }
 
-    public Characteristic(Integer id) {
-        this.id = id;
-    }
-
     public Integer getId() {
         return id;
     }

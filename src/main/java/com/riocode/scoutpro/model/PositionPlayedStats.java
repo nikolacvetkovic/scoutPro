@@ -51,7 +51,6 @@ public class PositionPlayedStats implements Serializable {
     @NotNull
     @Column(name = "assists")
     private int assists;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "rating")
@@ -61,10 +60,6 @@ public class PositionPlayedStats implements Serializable {
     private WhoScoredInfo whoScoredInfo;
 
     public PositionPlayedStats() {
-    }
-
-    public PositionPlayedStats(Integer id) {
-        this.id = id;
     }
 
     public PositionPlayedStats(Integer id, String position, int apps, int goals, int assists, BigDecimal rating) {

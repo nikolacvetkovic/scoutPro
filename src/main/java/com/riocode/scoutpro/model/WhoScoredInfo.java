@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -59,14 +60,10 @@ public class WhoScoredInfo implements Serializable {
     @JoinColumn(name = "playerId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Player player;
-//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "whoscoredinfo") ????
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "whoscoredinfo")
     private Characteristic characteristic;
 
     public WhoScoredInfo() {
-    }
-
-    public WhoScoredInfo(Integer id) {
-        this.id = id;
     }
 
     public WhoScoredInfo(Integer id, String season, Date lastChange) {

@@ -263,10 +263,6 @@ public class PesDbInfo implements Serializable {
     public PesDbInfo() {
     }
 
-    public PesDbInfo(Integer id) {
-        this.id = id;
-    }
-
     public PesDbInfo(Integer id, String season, String teamName, String foot, Character weekCondition, String primaryPosition, Date lastChange) {
         this.id = id;
         this.season = season;

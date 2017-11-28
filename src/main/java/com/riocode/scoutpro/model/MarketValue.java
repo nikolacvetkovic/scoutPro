@@ -34,7 +34,7 @@ public class MarketValue implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // proveriti da li ce raditi sa nazivom  kolone "value"
     @Basic(optional = false)
     @NotNull
     @Column(name = "value")
@@ -48,10 +48,6 @@ public class MarketValue implements Serializable {
     private TransfermarktInfo transfermarktInfo;
 
     public MarketValue() {
-    }
-
-    public MarketValue(Integer id) {
-        this.id = id;
     }
 
     public MarketValue(Integer id, BigDecimal value, Date datePoint) {

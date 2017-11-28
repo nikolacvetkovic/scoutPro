@@ -49,7 +49,6 @@ public class Transfer implements Serializable {
     @NotNull
     @Column(name = "dateOfTransfer")
     private Date dateOfTransfer;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "marketValue")
@@ -63,10 +62,6 @@ public class Transfer implements Serializable {
     private TransfermarktInfo transfermarktInfo;
 
     public Transfer() {
-    }
-
-    public Transfer(Integer id) {
-        this.id = id;
     }
 
     public Transfer(Integer id, String fromTeam, String toTeam, Date dateOfTransfer, BigDecimal marketValue, BigDecimal transferFee) {

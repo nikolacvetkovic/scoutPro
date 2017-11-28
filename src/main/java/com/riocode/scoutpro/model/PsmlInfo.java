@@ -42,7 +42,6 @@ public class PsmlInfo implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "teamName")
     private String teamName;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "teamValue")
     private BigDecimal teamValue;
     @Basic(optional = false)
@@ -55,10 +54,6 @@ public class PsmlInfo implements Serializable {
     private Player player;
 
     public PsmlInfo() {
-    }
-
-    public PsmlInfo(Integer id) {
-        this.id = id;
     }
 
     public PsmlInfo(Integer id, String teamName, Date lastChange) {

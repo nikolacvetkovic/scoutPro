@@ -97,10 +97,6 @@ public class Game implements Serializable {
     public Game() {
     }
 
-    public Game(Integer id) {
-        this.id = id;
-    }
-
     public Game(Integer id, String competition, Date dateOfGame, String team1, String team2, String result, boolean manOfTheMatch, String goals, String assists, boolean yellowCard, boolean redCard, String minutesPlayed, String rating) {
         this.id = id;
         this.competition = competition;
