@@ -16,6 +16,7 @@ drop table if exists scout_pro_development.player;
 
 create table if not exists scout_pro_development.player (
 	id int auto_increment not null,
+    name varchar(256) not null,
     transfermarktUrl varchar(256) null,
     whoScoredUrl varchar(256) null,
     pesDbUrl varchar(256) null,
@@ -25,7 +26,7 @@ create table if not exists scout_pro_development.player (
     collate = utf8_unicode_ci;
     
 create table if not exists scout_pro_development.transfermarktInfo(
-	id int auto_increment not null,
+	id int not null,
     playerName varchar(256) not null,
     dateOfBirth varchar(15) not null,
     age int not null,
@@ -35,10 +36,8 @@ create table if not exists scout_pro_development.transfermarktInfo(
     contractUntil varchar(12) not null,
     position varchar(15) not null,
     lastChange timestamp not null,
-    playerId int not null,
     primary key(id),
-    index indtmtoplayer(playerId ASC),
-    constraint tm_player foreign key(playerId) references scout_pro_development.player(id) on delete no action on update no action)
+    constraint tm_player foreign key(id) references scout_pro_development.player(id) on delete no action on update no action)
     engine = InnoDB
     collate = utf8_unicode_ci;
     
@@ -153,6 +152,34 @@ create table if not exists scout_pro_development.pesDbInfo(
     weekCondition char(1) not null,
     primaryPosition varchar(3) not null,
     otherPositions varchar(40) null,
+    attackingProwess int not null,
+    ballControl int not null,
+    dribbling int not null,
+    lowPass int not null,
+    loftedPass int not null,
+    finishing int not null,
+    placeKicking int not null,
+    swerve int not null,
+    header int not null,
+    defensiveProwess int not null,
+    ballWinning int not null,
+    kickingPower int not null,
+    speed int not null,
+    explosivePower int not null,
+    bodyControl int not null,
+    physicalContact int not null,
+    jump int not null,
+    stamina int not null,
+    goalkeeping int not null,
+    catching int not null,
+    clearing int not null,
+    reflexes int not null,
+    coverage int not null,
+    form int not null,
+    injuryResistance int not null,
+    weakFootUsage int not null,
+    weakFootAccuracy int not null,
+    overallRating int not null,
     playingStyle text null,
     playerSkills text null,
     comPlayingStyles text null,
