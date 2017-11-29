@@ -51,7 +51,7 @@ public class Characteristic implements Serializable {
     @Column(name = "styleOfPlay")
     private String styleOfPlay;
     @OneToOne(optional = false)
-    @JoinColumn(name = "whoscoredId", referencedColumnName = "id")
+    @JoinColumn(name = "id", referencedColumnName = "id")
     private WhoScoredInfo whoscoredinfo;
 
     public Characteristic() {
