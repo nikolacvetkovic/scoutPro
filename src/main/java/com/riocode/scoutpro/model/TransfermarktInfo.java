@@ -99,7 +99,7 @@ public class TransfermarktInfo implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transfermarktInfo")
     private List<MarketValue> marketValueList;
     @OneToOne(optional = false)
-    @JoinColumn(name = "playerid", referencedColumnName = "id")
+    @JoinColumn(name = "id", referencedColumnName = "id")
     private Player player;
 
     public TransfermarktInfo() {
