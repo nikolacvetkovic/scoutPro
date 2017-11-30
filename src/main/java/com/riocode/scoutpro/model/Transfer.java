@@ -2,7 +2,7 @@ package com.riocode.scoutpro.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -49,7 +49,7 @@ public class Transfer implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "dateOfTransfer")
-    private Date dateOfTransfer;
+    private LocalDate dateOfTransfer;
     @Basic(optional = false)
     @NotNull
     @Column(name = "marketValue")
@@ -65,8 +65,7 @@ public class Transfer implements Serializable {
     public Transfer() {
     }
 
-    public Transfer(Integer id, String fromTeam, String toTeam, Date dateOfTransfer, BigDecimal marketValue, BigDecimal transferFee) {
-        this.id = id;
+    public Transfer(String fromTeam, String toTeam, LocalDate dateOfTransfer, BigDecimal marketValue, BigDecimal transferFee) {
         this.fromTeam = fromTeam;
         this.toTeam = toTeam;
         this.dateOfTransfer = dateOfTransfer;
@@ -98,11 +97,11 @@ public class Transfer implements Serializable {
         this.toTeam = toTeam;
     }
 
-    public Date getDateOfTransfer() {
+    public LocalDate getDateOfTransfer() {
         return dateOfTransfer;
     }
 
-    public void setDateOfTransfer(Date dateOfTransfer) {
+    public void setDateOfTransfer(LocalDate dateOfTransfer) {
         this.dateOfTransfer = dateOfTransfer;
     }
 

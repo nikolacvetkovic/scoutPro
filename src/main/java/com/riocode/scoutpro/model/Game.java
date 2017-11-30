@@ -1,7 +1,7 @@
 package com.riocode.scoutpro.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -43,7 +43,7 @@ public class Game implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "dateOfGame")
-    private Date dateOfGame;
+    private LocalDate dateOfGame;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -98,8 +98,7 @@ public class Game implements Serializable {
     public Game() {
     }
 
-    public Game(Integer id, String competition, Date dateOfGame, String team1, String team2, String result, boolean manOfTheMatch, String goals, String assists, boolean yellowCard, boolean redCard, String minutesPlayed, String rating) {
-        this.id = id;
+    public Game(String competition, LocalDate dateOfGame, String team1, String team2, String result, boolean manOfTheMatch, String goals, String assists, boolean yellowCard, boolean redCard, String minutesPlayed, String rating) {
         this.competition = competition;
         this.dateOfGame = dateOfGame;
         this.team1 = team1;
@@ -130,11 +129,11 @@ public class Game implements Serializable {
         this.competition = competition;
     }
 
-    public Date getDateOfGame() {
+    public LocalDate getDateOfGame() {
         return dateOfGame;
     }
 
-    public void setDateOfGame(Date dateOfGame) {
+    public void setDateOfGame(LocalDate dateOfGame) {
         this.dateOfGame = dateOfGame;
     }
 

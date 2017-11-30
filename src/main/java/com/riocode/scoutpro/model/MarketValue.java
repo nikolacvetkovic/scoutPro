@@ -2,7 +2,7 @@ package com.riocode.scoutpro.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -38,25 +38,19 @@ public class MarketValue implements Serializable {
     // proveriti da li ce raditi sa nazivom  kolone "value"
     @Basic(optional = false)
     @NotNull
-    @Column(name = "value")
-    private BigDecimal value;
+    @Column(name = "worth")
+    private BigDecimal worth;
     @Basic(optional = false)
     @NotNull
     @Column(name = "datePoint")
-    private Date datePoint;
+    private LocalDate datePoint;
     @JoinColumn(name = "transfermarktInfoId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TransfermarktInfo transfermarktInfo;
 
     public MarketValue() {
     }
-
-    public MarketValue(Integer id, BigDecimal value, Date datePoint) {
-        this.id = id;
-        this.value = value;
-        this.datePoint = datePoint;
-    }
-
+    
     public Integer getId() {
         return id;
     }
@@ -65,19 +59,19 @@ public class MarketValue implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getValue() {
-        return value;
+    public BigDecimal getWorth() {
+        return worth;
     }
 
-    public void setValue(BigDecimal value) {
-        this.value = value;
+    public void setWorth(BigDecimal worth) {
+        this.worth = worth;
     }
 
-    public Date getDatePoint() {
+    public LocalDate getDatePoint() {
         return datePoint;
     }
 
-    public void setDatePoint(Date datePoint) {
+    public void setDatePoint(LocalDate datePoint) {
         this.datePoint = datePoint;
     }
 

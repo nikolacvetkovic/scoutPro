@@ -63,8 +63,7 @@ public class PositionPlayedStats implements Serializable {
     public PositionPlayedStats() {
     }
 
-    public PositionPlayedStats(Integer id, String position, int apps, int goals, int assists, BigDecimal rating) {
-        this.id = id;
+    public PositionPlayedStats(String position, int apps, int goals, int assists, BigDecimal rating) {
         this.position = position;
         this.apps = apps;
         this.goals = goals;
