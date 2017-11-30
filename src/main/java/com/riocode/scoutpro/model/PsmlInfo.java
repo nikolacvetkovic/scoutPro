@@ -2,7 +2,7 @@ package com.riocode.scoutpro.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -15,8 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -48,8 +46,7 @@ public class PsmlInfo implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastChange")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastChange;
+    private LocalDateTime lastChange;
     @JoinColumn(name = "playerId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Player player;
@@ -57,8 +54,7 @@ public class PsmlInfo implements Serializable {
     public PsmlInfo() {
     }
 
-    public PsmlInfo(Integer id, String teamName, Date lastChange) {
-        this.id = id;
+    public PsmlInfo(String teamName, LocalDateTime lastChange) {
         this.teamName = teamName;
         this.lastChange = lastChange;
     }
@@ -87,11 +83,11 @@ public class PsmlInfo implements Serializable {
         this.teamValue = teamValue;
     }
 
-    public Date getLastChange() {
+    public LocalDateTime getLastChange() {
         return lastChange;
     }
 
-    public void setLastChange(Date lastChange) {
+    public void setLastChange(LocalDateTime lastChange) {
         this.lastChange = lastChange;
     }
 

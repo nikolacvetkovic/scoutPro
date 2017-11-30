@@ -1,6 +1,7 @@
 package com.riocode.scoutpro.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -50,8 +51,7 @@ public class WhoScoredInfo implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastChange")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastChange;
+    private LocalDateTime lastChange;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo")
     private List<PositionPlayedStats> positionPlayedStatsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo")
@@ -65,12 +65,6 @@ public class WhoScoredInfo implements Serializable {
     private Characteristic characteristic;
 
     public WhoScoredInfo() {
-    }
-
-    public WhoScoredInfo(Integer id, String season, Date lastChange) {
-        this.id = id;
-        this.season = season;
-        this.lastChange = lastChange;
     }
 
     public Integer getId() {
@@ -89,11 +83,11 @@ public class WhoScoredInfo implements Serializable {
         this.season = season;
     }
 
-    public Date getLastChange() {
+    public LocalDateTime getLastChange() {
         return lastChange;
     }
 
-    public void setLastChange(Date lastChange) {
+    public void setLastChange(LocalDateTime lastChange) {
         this.lastChange = lastChange;
     }
 

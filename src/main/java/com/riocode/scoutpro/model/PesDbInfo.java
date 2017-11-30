@@ -1,6 +1,7 @@
 package com.riocode.scoutpro.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -41,6 +42,13 @@ import javax.validation.constraints.Size;
     , @NamedQuery(name = "PesDbInfo.findByLastChange", query = "SELECT p FROM PesDbInfo p WHERE p.lastChange = :lastChange")})
 public class PesDbInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 5)
@@ -249,14 +257,7 @@ public class PesDbInfo implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastChange")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastChange;
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
+    private LocalDateTime lastChange;    
     @JoinColumn(name = "playerId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Player player;
@@ -264,8 +265,7 @@ public class PesDbInfo implements Serializable {
     public PesDbInfo() {
     }
 
-    public PesDbInfo(Integer id, String season, String teamName, String foot, Character weekCondition, String primaryPosition, Date lastChange) {
-        this.id = id;
+    public PesDbInfo(String season, String teamName, String foot, Character weekCondition, String primaryPosition, LocalDateTime lastChange) {
         this.season = season;
         this.teamName = teamName;
         this.foot = foot;
@@ -584,11 +584,11 @@ public class PesDbInfo implements Serializable {
         this.comPlayingStyles = comPlayingStyles;
     }
 
-    public Date getLastChange() {
+    public LocalDateTime getLastChange() {
         return lastChange;
     }
 
-    public void setLastChange(Date lastChange) {
+    public void setLastChange(LocalDateTime lastChange) {
         this.lastChange = lastChange;
     }
     
