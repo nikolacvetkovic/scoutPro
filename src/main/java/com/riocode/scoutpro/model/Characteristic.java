@@ -1,9 +1,12 @@
 package com.riocode.scoutpro.model;
 
+import com.riocode.scoutpro.jpa.converter.ListStringConverter;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -40,16 +43,19 @@ public class Characteristic implements Serializable {
     private Integer id;
     @Lob
     @Size(max = 65535)
+    @Convert(converter = ListStringConverter.class)
     @Column(name = "strengths")
-    private String strengths;
+    private List<String> strengths;
     @Lob
     @Size(max = 65535)
+    @Convert(converter = ListStringConverter.class)
     @Column(name = "weaknesses")
-    private String weaknesses;
+    private List<String> weaknesses;
     @Lob
     @Size(max = 65535)
+    @Convert(converter = ListStringConverter.class)
     @Column(name = "styleOfPlay")
-    private String styleOfPlay;
+    private List<String> styleOfPlay;
     @OneToOne(optional = false)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private WhoScoredInfo whoscoredinfo;
@@ -65,27 +71,27 @@ public class Characteristic implements Serializable {
         this.id = id;
     }
 
-    public String getStrengths() {
+    public List<String> getStrengths() {
         return strengths;
     }
 
-    public void setStrengths(String strengths) {
+    public void setStrengths(List<String> strengths) {
         this.strengths = strengths;
     }
 
-    public String getWeaknesses() {
+    public List<String> getWeaknesses() {
         return weaknesses;
     }
 
-    public void setWeaknesses(String weaknesses) {
+    public void setWeaknesses(List<String> weaknesses) {
         this.weaknesses = weaknesses;
     }
 
-    public String getStyleOfPlay() {
+    public List<String> getStyleOfPlay() {
         return styleOfPlay;
     }
 
-    public void setStyleOfPlay(String styleOfPlay) {
+    public void setStyleOfPlay(List<String> styleOfPlay) {
         this.styleOfPlay = styleOfPlay;
     }
 

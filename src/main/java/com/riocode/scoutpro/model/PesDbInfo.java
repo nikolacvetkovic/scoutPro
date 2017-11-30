@@ -1,11 +1,14 @@
 package com.riocode.scoutpro.model;
 
+import com.riocode.scoutpro.jpa.converter.ListStringConverter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,8 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -244,16 +245,19 @@ public class PesDbInfo implements Serializable {
     private int overallRating;
     @Lob
     @Size(max = 65535)
+    @Convert(converter = ListStringConverter.class)
     @Column(name = "playingStyle")
-    private String playingStyle;
+    private List<String> playingStyle;
     @Lob
     @Size(max = 65535)
+    @Convert(converter = ListStringConverter.class)
     @Column(name = "playerSkills")
-    private String playerSkills;
+    private List<String> playerSkills;
     @Lob
     @Size(max = 65535)
+    @Convert(converter = ListStringConverter.class)
     @Column(name = "comPlayingStyles")
-    private String comPlayingStyles;
+    private List<String> comPlayingStyles;
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastChange")
@@ -560,27 +564,27 @@ public class PesDbInfo implements Serializable {
         this.overallRating = overallRating;
     }
 
-    public String getPlayingStyle() {
+    public List<String> getPlayingStyle() {
         return playingStyle;
     }
 
-    public void setPlayingStyle(String playingStyle) {
+    public void setPlayingStyle(List<String> playingStyle) {
         this.playingStyle = playingStyle;
     }
 
-    public String getPlayerSkills() {
+    public List<String> getPlayerSkills() {
         return playerSkills;
     }
 
-    public void setPlayerSkills(String playerSkills) {
+    public void setPlayerSkills(List<String> playerSkills) {
         this.playerSkills = playerSkills;
     }
 
-    public String getComPlayingStyles() {
+    public List<String> getComPlayingStyles() {
         return comPlayingStyles;
     }
 
-    public void setComPlayingStyles(String comPlayingStyles) {
+    public void setComPlayingStyles(List<String> comPlayingStyles) {
         this.comPlayingStyles = comPlayingStyles;
     }
 
