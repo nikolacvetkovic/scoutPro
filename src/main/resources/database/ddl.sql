@@ -12,8 +12,6 @@ drop table if exists scout_pro_development.transfermarktinfo;
 drop table if exists scout_pro_development.psmlInfo;
 drop table if exists scout_pro_development.player;
 
-
-
 create table if not exists scout_pro_development.player (
 	id int auto_increment not null,
     name varchar(256) not null,
@@ -43,7 +41,7 @@ create table if not exists scout_pro_development.transfermarktInfo(
     
 create table if not exists scout_pro_development.marketValue(
 	id int auto_increment not null,
-    value decimal(15,2) not null,
+    worth decimal(15,2) not null,
     datePoint datetime not null,
     transfermarktInfoId int not null,
     primary key(id),
