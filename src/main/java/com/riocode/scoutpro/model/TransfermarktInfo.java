@@ -84,7 +84,7 @@ public class TransfermarktInfo implements Serializable {
     private String contractUntil;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 15)
+    @Size(min = 1, max = 20)
     @Column(name = "position")
     private String position;
     @Basic(optional = false)
