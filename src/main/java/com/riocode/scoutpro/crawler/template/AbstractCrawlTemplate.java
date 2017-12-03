@@ -1,6 +1,8 @@
 package com.riocode.scoutpro.crawler.template;
 
 import com.riocode.scoutpro.model.Player;
+import java.io.IOException;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 /**
@@ -17,8 +19,13 @@ public abstract class AbstractCrawlTemplate implements CrawlTemplate{
         this.player = player;
     }
     
-    @Override
-    public abstract void crawl(Document document);
+    public Player start() throws IOException{
+        return crawl(getDocument(this.url));
+    }
+        
+    protected Document getDocument(String url) throws IOException{
+        return Jsoup.connect(url).get();
+    }
 
     public void setPlayer(Player player) {
         this.player = player;
