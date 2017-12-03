@@ -1,7 +1,6 @@
 package com.riocode.scoutpro.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -53,11 +52,11 @@ public class Transfer implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "marketValue")
-    private BigDecimal marketValue;
+    private String marketValue;
     @Basic(optional = false)
     @NotNull
     @Column(name = "transferFee")
-    private BigDecimal transferFee;
+    private String transferFee;
     @JoinColumn(name = "transfermarktInfoId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TransfermarktInfo transfermarktInfo;
@@ -65,7 +64,7 @@ public class Transfer implements Serializable {
     public Transfer() {
     }
 
-    public Transfer(String fromTeam, String toTeam, LocalDate dateOfTransfer, BigDecimal marketValue, BigDecimal transferFee) {
+    public Transfer(String fromTeam, String toTeam, LocalDate dateOfTransfer, String marketValue, String transferFee) {
         this.fromTeam = fromTeam;
         this.toTeam = toTeam;
         this.dateOfTransfer = dateOfTransfer;
@@ -105,19 +104,19 @@ public class Transfer implements Serializable {
         this.dateOfTransfer = dateOfTransfer;
     }
 
-    public BigDecimal getMarketValue() {
+    public String getMarketValue() {
         return marketValue;
     }
 
-    public void setMarketValue(BigDecimal marketValue) {
+    public void setMarketValue(String marketValue) {
         this.marketValue = marketValue;
     }
 
-    public BigDecimal getTransferFee() {
+    public String getTransferFee() {
         return transferFee;
     }
 
-    public void setTransferFee(BigDecimal transferFee) {
+    public void setTransferFee(String transferFee) {
         this.transferFee = transferFee;
     }
 
