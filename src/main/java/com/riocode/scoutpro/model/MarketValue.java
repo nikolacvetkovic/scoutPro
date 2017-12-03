@@ -35,7 +35,6 @@ public class MarketValue implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    // proveriti da li ce raditi sa nazivom  kolone "value"
     @Basic(optional = false)
     @NotNull
     @Column(name = "worth")
@@ -44,6 +43,10 @@ public class MarketValue implements Serializable {
     @NotNull
     @Column(name = "datePoint")
     private LocalDate datePoint;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "clubTeam")
+    private String clubTeam;
     @JoinColumn(name = "transfermarktInfoId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TransfermarktInfo transfermarktInfo;
@@ -73,6 +76,14 @@ public class MarketValue implements Serializable {
 
     public void setDatePoint(LocalDate datePoint) {
         this.datePoint = datePoint;
+    }
+    
+    public String getClubTeam() {
+        return clubTeam;
+    }
+
+    public void setClubTeam(String clubTeam) {
+        this.clubTeam = clubTeam;
     }
 
     public TransfermarktInfo getTransfermarktInfo() {
