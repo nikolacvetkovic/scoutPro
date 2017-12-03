@@ -68,6 +68,12 @@
             <artifactId>jsoup</artifactId>
             <version>1.10.3</version>
       </dependency>
+                      <!--Json Processing-->
+      <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+      </dependency>
+
                        <!--JSP compiling-->      
       <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
