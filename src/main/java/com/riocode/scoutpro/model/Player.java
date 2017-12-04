@@ -1,6 +1,7 @@
 package com.riocode.scoutpro.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -56,11 +57,11 @@ public class Player implements Serializable {
     private String psmlUrl;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
-    private List<PsmlInfo> psmlInfoList;
+    private List<PsmlInfo> psmlInfoList = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
-    private List<PesDbInfo> pesDbInfoList;
+    private List<PesDbInfo> pesDbInfoList = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
-    private List<WhoScoredInfo> whoScoredInfoList;
+    private List<WhoScoredInfo> whoScoredInfoList = new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "player")
     private TransfermarktInfo transfermarktInfo;
 
