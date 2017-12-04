@@ -6,7 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.riocode.scoutpro.crawler.helper.CrawlHelper;
-import com.riocode.scoutpro.crawler.template.AbstractCrawlTemplate;
+import com.riocode.scoutpro.crawler.template.CoreAbstractCrawlTemplate;
 import com.riocode.scoutpro.model.MarketValue;
 import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.model.Transfer;
@@ -27,7 +27,7 @@ import org.jsoup.select.Elements;
  * @author Nikola Cvetkovic
  */
 
-public class TransfermarktCrawlTemplateImpl extends AbstractCrawlTemplate{
+public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
     
     private final TransfermarktInfo transfermarktInfo;
         
