@@ -37,7 +37,7 @@ public class Game implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 5)
+    @Size(min = 1, max = 40)
     @Column(name = "competition")
     private String competition;
     @Basic(optional = false)
@@ -65,12 +65,12 @@ public class Game implements Serializable {
     private boolean manOfTheMatch;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
+    @Size(min = 1, max = 5)
     @Column(name = "goals")
     private String goals;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
+    @Size(min = 1, max = 5)
     @Column(name = "assists")
     private String assists;
     @Basic(optional = false)
@@ -83,12 +83,12 @@ public class Game implements Serializable {
     private boolean redCard;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
+    @Size(min = 1, max = 5)
     @Column(name = "minutesPlayed")
     private String minutesPlayed;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
+    @Size(min = 1, max = 5)
     @Column(name = "rating")
     private String rating;
     @JoinColumn(name = "whoScoredInfoId", referencedColumnName = "id")
