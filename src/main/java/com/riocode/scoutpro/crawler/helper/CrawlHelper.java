@@ -25,4 +25,8 @@ public class CrawlHelper {
         return doc.select(selector);
     }
     
+    public static String getAttributeValue(Element doc, String selector, String attr){
+        return doc.select(selector).first().attr(attr);
+    }
+    
 }
