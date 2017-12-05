@@ -8,7 +8,6 @@ import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -68,15 +67,16 @@ public class PesDbInfo implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "weekCondition")
-    private Character weekCondition;
+    private String weekCondition;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
     @Column(name = "primaryPosition")
     private String primaryPosition;
     @Size(max = 40)
+    @Convert(converter = ListStringConverter.class)
     @Column(name = "otherPositions")
-    private String otherPositions;
+    private List<String> otherPositions;
     @Basic(optional = false)
     @NotNull
     @Min(40)
@@ -245,9 +245,8 @@ public class PesDbInfo implements Serializable {
     private int overallRating;
     @Lob
     @Size(max = 65535)
-    @Convert(converter = ListStringConverter.class)
     @Column(name = "playingStyle")
-    private List<String> playingStyle;
+    private String playingStyle;
     @Lob
     @Size(max = 65535)
     @Convert(converter = ListStringConverter.class)
@@ -269,7 +268,7 @@ public class PesDbInfo implements Serializable {
     public PesDbInfo() {
     }
 
-    public PesDbInfo(String season, String teamName, String foot, Character weekCondition, String primaryPosition, LocalDateTime lastChange) {
+    public PesDbInfo(String season, String teamName, String foot, String weekCondition, String primaryPosition, LocalDateTime lastChange) {
         this.season = season;
         this.teamName = teamName;
         this.foot = foot;
@@ -316,11 +315,11 @@ public class PesDbInfo implements Serializable {
         this.foot = foot;
     }
 
-    public Character getWeekCondition() {
+    public String getWeekCondition() {
         return weekCondition;
     }
 
-    public void setWeekCondition(Character weekCondition) {
+    public void setWeekCondition(String weekCondition) {
         this.weekCondition = weekCondition;
     }
 
@@ -332,11 +331,11 @@ public class PesDbInfo implements Serializable {
         this.primaryPosition = primaryPosition;
     }
 
-    public String getOtherPositions() {
+    public List<String> getOtherPositions() {
         return otherPositions;
     }
 
-    public void setOtherPositions(String otherPositions) {
+    public void setOtherPositions(List<String> otherPositions) {
         this.otherPositions = otherPositions;
     }
 
@@ -564,11 +563,11 @@ public class PesDbInfo implements Serializable {
         this.overallRating = overallRating;
     }
 
-    public List<String> getPlayingStyle() {
+    public String getPlayingStyle() {
         return playingStyle;
     }
 
-    public void setPlayingStyle(List<String> playingStyle) {
+    public void setPlayingStyle(String playingStyle) {
         this.playingStyle = playingStyle;
     }
 
