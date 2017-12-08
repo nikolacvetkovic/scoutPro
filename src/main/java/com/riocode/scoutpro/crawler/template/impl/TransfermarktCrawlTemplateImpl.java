@@ -1,5 +1,8 @@
 package com.riocode.scoutpro.crawler.template.impl;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -12,12 +15,16 @@ import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.model.Transfer;
 import com.riocode.scoutpro.model.TransfermarktInfo;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -51,20 +58,20 @@ public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
     private void crawlCoreData(Document doc){
         String name = CrawlHelper.getElementData(doc, "h1[itemprop=name]", false);
         transfermarktInfo.setPlayerName(name);
-        String clubTeam = CrawlHelper.getElementData(doc, "div.premium-profil-text:contains(Current club) a", false);
+        String clubTeam = CrawlHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Current club)) td a:nth-of-type(2)", false);
         transfermarktInfo.setClubTeam(clubTeam);
-        String contractUntil = CrawlHelper.getElementData(doc, "div.premium-profil-text:contains(Contract until) a", false);
+        String contractUntil = CrawlHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Contract until)) td", false);
         transfermarktInfo.setContractUntil(contractUntil);
-        String nationality = CrawlHelper.getElementData(doc, "div.premium-profil-text:contains(Nationality) a", false);
+        String nationality = CrawlHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Nationality)) td", false);
         transfermarktInfo.setNationality(nationality);
-        String position = CrawlHelper.getElementData(doc, "div.premium-profil-text:contains(Position) a", false);
+        String position = CrawlHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Position)) td", false);
         transfermarktInfo.setPosition(position);
         String birthDate = CrawlHelper.getElementData(doc, "span[itemprop=birthDate]", false);
         birthDate = birthDate.substring(0, birthDate.indexOf("("));
         transfermarktInfo.setDateOfBirth(birthDate);
         int age = Integer.parseInt(CrawlHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Age)) td", false));
         transfermarktInfo.setAge(age);
-        String nationalTeam = CrawlHelper.getElementData(doc, "div.dataDaten p:has(span:contains(Current international)) span.dataValue a", false);
+        String nationalTeam = CrawlHelper.getElementData(doc, "div.dataContent div.dataDaten:nth-of-type(3) p:nth-of-type(1) span.dataValue", false);
         transfermarktInfo.setNationalTeam(nationalTeam);
         transfermarktInfo.setLastChange(LocalDateTime.now());
     }
@@ -78,14 +85,17 @@ public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
                 script = script.substring(script.indexOf("new Highcharts.Chart(") + 21);
                 script = script.substring(0, script.indexOf(",'tooltip':{"));
                 script = script + "}";
-                script = script.replaceAll("\\\\x20", " ");
-                script = script.replaceAll("\\\\x23", "#");
-                script = script.replaceAll("\\\\x28", "(");
-                script = script.replaceAll("\\\\x3A", ":");
-                script = script.replaceAll("\\\\x2F", "/");
-                script = script.replaceAll("\\\\x3F", "?");
-                script = script.replaceAll("\\\\x3D", "=");
-                script = script.replaceAll("\\\\x29", ")");
+                script = StringEscapeUtils.unescapeJava(script.replaceAll("(?i)\\\\x([0-9a-f]{2})", "\\\\u00$1"));
+//                script = script.replaceAll("\\\\x", "");
+//                script = script.replaceAll("\\\\x20", " ");
+//                script = script.replaceAll("\\\\x23", "#");
+//                script = script.replaceAll("\\\\x28", "(");
+//                script = script.replaceAll("\\\\x3A", ":");
+//                script = script.replaceAll("\\\\x2F", "/");
+//                script = script.replaceAll("\\\\x3F", "?");
+//                script = script.replaceAll("\\\\x3D", "=");
+//                script = script.replaceAll("\\\\x29", ")");
+//                script = script.replaceAll("\\\\x2D", "-");
                 break;
             }
         }
