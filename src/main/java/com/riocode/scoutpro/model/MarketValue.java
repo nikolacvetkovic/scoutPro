@@ -1,5 +1,6 @@
 package com.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -47,6 +48,7 @@ public class MarketValue implements Serializable {
     @NotNull
     @Column(name = "clubTeam")
     private String clubTeam;
+    @JsonBackReference
     @JoinColumn(name = "transfermarktInfoId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TransfermarktInfo transfermarktInfo;

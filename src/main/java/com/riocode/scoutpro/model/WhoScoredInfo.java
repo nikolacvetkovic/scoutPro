@@ -1,8 +1,9 @@
 package com.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -19,8 +20,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -52,15 +51,20 @@ public class WhoScoredInfo implements Serializable {
     @NotNull
     @Column(name = "lastChange")
     private LocalDateTime lastChange;
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo")
     private List<PositionPlayedStats> positionPlayedStatsList;
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo")
     private List<Game> gameList;
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo")
     private List<CoreStats> coreStatsList;
+    @JsonBackReference
     @JoinColumn(name = "playerId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Player player;
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "whoscoredinfo")
     private Characteristic characteristic;
 

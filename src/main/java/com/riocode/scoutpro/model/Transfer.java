@@ -1,5 +1,6 @@
 package com.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -57,6 +58,7 @@ public class Transfer implements Serializable {
     @NotNull
     @Column(name = "transferFee")
     private String transferFee;
+    @JsonBackReference
     @JoinColumn(name = "transfermarktInfoId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TransfermarktInfo transfermarktInfo;

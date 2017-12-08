@@ -1,5 +1,7 @@
 package com.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -91,10 +93,13 @@ public class TransfermarktInfo implements Serializable {
     @NotNull
     @Column(name = "lastChange")
     private LocalDateTime lastChange;
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transfermarktInfo")
     private List<Transfer> transferList;
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transfermarktInfo")
     private List<MarketValue> marketValueList;
+    @JsonBackReference
     @OneToOne(optional = false)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Player player;

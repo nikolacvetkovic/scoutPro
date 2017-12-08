@@ -1,5 +1,6 @@
 package com.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.riocode.scoutpro.jpa.converter.ListStringConverter;
 import java.io.Serializable;
 import java.util.List;
@@ -56,6 +57,7 @@ public class Characteristic implements Serializable {
     @Convert(converter = ListStringConverter.class)
     @Column(name = "styleOfPlay")
     private List<String> styleOfPlay;
+    @JsonBackReference
     @OneToOne(optional = false)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private WhoScoredInfo whoscoredinfo;

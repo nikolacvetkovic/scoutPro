@@ -1,5 +1,6 @@
 package com.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -99,6 +100,7 @@ public class CoreStats implements Serializable {
     @Size(min = 1, max = 5)
     @Column(name = "rating")
     private String rating;
+    @JsonBackReference
     @JoinColumn(name = "whoScoredInfoId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private WhoScoredInfo whoScoredInfo;

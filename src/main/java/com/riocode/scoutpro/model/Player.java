@@ -1,5 +1,6 @@
 package com.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,13 +56,16 @@ public class Player implements Serializable {
     @Size(max = 256)
     @Column(name = "psmlUrl")
     private String psmlUrl;
-    
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
     private List<PsmlInfo> psmlInfoList = new ArrayList<>();
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
     private List<PesDbInfo> pesDbInfoList = new ArrayList<>();
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
     private List<WhoScoredInfo> whoScoredInfoList = new ArrayList<>();
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "player")
     private TransfermarktInfo transfermarktInfo;
 

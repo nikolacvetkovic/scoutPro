@@ -1,5 +1,6 @@
 package com.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -91,6 +92,7 @@ public class Game implements Serializable {
     @Size(min = 1, max = 5)
     @Column(name = "rating")
     private String rating;
+    @JsonBackReference
     @JoinColumn(name = "whoScoredInfoId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private WhoScoredInfo whoScoredInfo;

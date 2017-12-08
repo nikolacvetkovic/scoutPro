@@ -1,5 +1,6 @@
 package com.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -47,6 +48,7 @@ public class PsmlInfo implements Serializable {
     @NotNull
     @Column(name = "lastChange")
     private LocalDateTime lastChange;
+    @JsonBackReference
     @JoinColumn(name = "playerId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Player player;

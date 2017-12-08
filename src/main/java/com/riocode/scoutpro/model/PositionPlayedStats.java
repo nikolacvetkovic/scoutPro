@@ -1,5 +1,6 @@
 package com.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -56,6 +57,7 @@ public class PositionPlayedStats implements Serializable {
     @NotNull
     @Column(name = "rating")
     private BigDecimal rating;
+    @JsonBackReference
     @JoinColumn(name = "whoScoredInfoId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private WhoScoredInfo whoScoredInfo;

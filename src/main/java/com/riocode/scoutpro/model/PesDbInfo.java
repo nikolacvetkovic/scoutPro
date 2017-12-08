@@ -1,5 +1,6 @@
 package com.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.riocode.scoutpro.jpa.converter.ListStringConverter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -260,7 +261,8 @@ public class PesDbInfo implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastChange")
-    private LocalDateTime lastChange;    
+    private LocalDateTime lastChange;
+    @JsonBackReference    
     @JoinColumn(name = "playerId", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Player player;
