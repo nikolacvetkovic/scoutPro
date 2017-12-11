@@ -9,6 +9,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,13 +58,13 @@ public class Player implements Serializable {
     @Column(name = "psmlUrl")
     private String psmlUrl;
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private List<PsmlInfo> psmlInfoList = new ArrayList<>();
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private List<PesDbInfo> pesDbInfoList = new ArrayList<>();
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private List<WhoScoredInfo> whoScoredInfoList = new ArrayList<>();
     @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "player")
