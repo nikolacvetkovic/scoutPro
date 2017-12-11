@@ -41,6 +41,8 @@ public class PesDbCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
     public void crawlCoreData(Document doc){
         String season = this.url.split("/")[3].replaceAll("[^0-9]", "").trim();
         pesDbInfo.setSeason(season);
+        String pesDbName = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(1) td", false);
+        pesDbInfo.setPesDbName(pesDbName);
         String teamName = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(3) td a", false);
         pesDbInfo.setTeamName(teamName);
         String foot = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(10) td", false);

@@ -40,7 +40,7 @@ import javax.validation.constraints.Size;
     , @NamedQuery(name = "PesDbInfo.findByWeekCondition", query = "SELECT p FROM PesDbInfo p WHERE p.weekCondition = :weekCondition")
     , @NamedQuery(name = "PesDbInfo.findByPrimaryPosition", query = "SELECT p FROM PesDbInfo p WHERE p.primaryPosition = :primaryPosition")
     , @NamedQuery(name = "PesDbInfo.findByOtherPositions", query = "SELECT p FROM PesDbInfo p WHERE p.otherPositions = :otherPositions")
-    , @NamedQuery(name = "PesDbInfo.findByLastChange", query = "SELECT p FROM PesDbInfo p WHERE p.lastChange = :lastChange")})
+    , @NamedQuery(name = "PesDbInfo.findByLastChange", query = "SELECT p FROM PesDbInfo p WHERE p.lastMeasured = :lastMeasured")})
 public class PesDbInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,6 +55,11 @@ public class PesDbInfo implements Serializable {
     @Size(min = 1, max = 5)
     @Column(name = "season")
     private String season;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 256)
+    @Column(name = "pesDbName")
+    private String pesDbName;
     @Basic(optional = false)
     @NotNull()
     @Size(min = 1, max = 50)
@@ -299,6 +304,14 @@ public class PesDbInfo implements Serializable {
 
     public void setSeason(String season) {
         this.season = season;
+    }
+    
+    public String getPesDbName() {
+        return pesDbName;
+    }
+
+    public void setPesDbName(String pesDbName) {
+        this.pesDbName = pesDbName;
     }
 
     public String getTeamName() {
@@ -615,6 +628,6 @@ public class PesDbInfo implements Serializable {
     @Override
     public String toString() {
         return "com.riocode.scoutpro.model.Pesdbinfo[ id=" + this.id + " ]";
-    }
+    }    
 
 }
