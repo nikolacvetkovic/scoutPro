@@ -2,6 +2,7 @@ package com.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -45,6 +46,10 @@ public class Player implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "name")
     private String name;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "myPlayer")
+    private boolean myPlayer;
     @Size(max = 256)
     @Column(name = "transfermarktUrl")
     private String transfermarktUrl;
@@ -57,6 +62,10 @@ public class Player implements Serializable {
     @Size(max = 256)
     @Column(name = "psmlUrl")
     private String psmlUrl;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "lastMeasured")
+    private LocalDateTime lastMeasured;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private List<PsmlInfo> psmlInfoList = new ArrayList<>();
@@ -74,7 +83,7 @@ public class Player implements Serializable {
     }
 
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Integer id) {
@@ -83,7 +92,7 @@ public class Player implements Serializable {
 
     
     public List<PsmlInfo> getPsmlInfoList() {
-        return psmlInfoList;
+        return this.psmlInfoList;
     }
 
     public void setPsmlInfoList(List<PsmlInfo> psmlInfoList) {
@@ -91,7 +100,7 @@ public class Player implements Serializable {
     }
     
     public List<PesDbInfo> getPesDbInfoList() {
-        return pesDbInfoList;
+        return this.pesDbInfoList;
     }
 
     public void setPesDbInfoList(List<PesDbInfo> pesDbInfoList) {
@@ -99,7 +108,7 @@ public class Player implements Serializable {
     }
     
     public List<WhoScoredInfo> getWhoscoredInfoList() {
-        return whoScoredInfoList;
+        return this.whoScoredInfoList;
     }
 
     public void setWhoscoredInfoList(List<WhoScoredInfo> whoScoredInfoList) {
@@ -107,34 +116,13 @@ public class Player implements Serializable {
     }
 
     public TransfermarktInfo getTransfermarktInfo() {
-        return transfermarktInfo;
+        return this.transfermarktInfo;
     }
 
     public void setTransfermarktInfo(TransfermarktInfo transfermarktInfo) {
         this.transfermarktInfo = transfermarktInfo;
     }
-
-    @Override
-    public int hashCode() {
-        return 1;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (this == object) return true;
-        if (!(object instanceof Player)) {
-            return false;
-        }
-        Player c = (Player) object;        
-        return this.id != null && Objects.equals(this.id, c.id);
-    }
-
-    @Override
-    public String toString() {
-        return "com.riocode.scoutpro.model.Player[ id=" + this.id + " ]";
-    }
-
+    
     public String getName() {
         return name;
     }
@@ -142,7 +130,15 @@ public class Player implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
+    
+    public boolean isMyPlayer(){
+        return this.myPlayer;
+    }
+    
+    public void setMyPlayer(boolean myPlayer){
+        this.myPlayer = myPlayer;
+    }
+    
     public String getTransfermarktUrl() {
         return transfermarktUrl;
     }
@@ -173,6 +169,35 @@ public class Player implements Serializable {
 
     public void setPsmlUrl(String psmlUrl) {
         this.psmlUrl = psmlUrl;
+    }
+
+    public LocalDateTime getLastMeasured() {
+        return lastMeasured;
+    }
+
+    public void setLastMeasured(LocalDateTime lastMeasured) {
+        this.lastMeasured = lastMeasured;
+    }    
+    
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+    
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (this == object) return true;
+        if (!(object instanceof Player)) {
+            return false;
+        }
+        Player c = (Player) object;        
+        return this.id != null && Objects.equals(this.id, c.id);
+    }
+
+    @Override
+    public String toString() {
+        return "com.riocode.scoutpro.model.Player[ id=" + this.id + " ]";
     }
 
 }
