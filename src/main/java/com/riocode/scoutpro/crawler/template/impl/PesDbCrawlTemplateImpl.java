@@ -51,7 +51,7 @@ public class PesDbCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         String primaryPosition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(12) td div", false);
         pesDbInfo.setPrimaryPosition(primaryPosition);
         pesDbInfo.setOtherPositions(extractOtherPositions(doc));
-        pesDbInfo.setLastChange(LocalDateTime.now());
+        pesDbInfo.setLastMeasured(LocalDateTime.now());
     }
     
     public void crawlRatings(Document doc){

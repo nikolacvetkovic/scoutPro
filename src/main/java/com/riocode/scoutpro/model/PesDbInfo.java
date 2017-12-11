@@ -260,8 +260,8 @@ public class PesDbInfo implements Serializable {
     private List<String> comPlayingStyles;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "lastChange")
-    private LocalDateTime lastChange;
+    @Column(name = "lastMeasured")
+    private LocalDateTime lastMeasured;
     @JsonBackReference    
     @JoinColumn(name = "playerId", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -270,13 +270,13 @@ public class PesDbInfo implements Serializable {
     public PesDbInfo() {
     }
 
-    public PesDbInfo(String season, String teamName, String foot, String weekCondition, String primaryPosition, LocalDateTime lastChange) {
+    public PesDbInfo(String season, String teamName, String foot, String weekCondition, String primaryPosition, LocalDateTime lastMeasured) {
         this.season = season;
         this.teamName = teamName;
         this.foot = foot;
         this.weekCondition = weekCondition;
         this.primaryPosition = primaryPosition;
-        this.lastChange = lastChange;
+        this.lastMeasured = lastMeasured;
     }
 
     public Integer getId() {
@@ -589,12 +589,12 @@ public class PesDbInfo implements Serializable {
         this.comPlayingStyles = comPlayingStyles;
     }
 
-    public LocalDateTime getLastChange() {
-        return lastChange;
+    public LocalDateTime getLastMeasured() {
+        return lastMeasured;
     }
 
-    public void setLastChange(LocalDateTime lastChange) {
-        this.lastChange = lastChange;
+    public void setLastMeasured(LocalDateTime lastMeasured) {
+        this.lastMeasured = lastMeasured;
     }
     
     @Override
