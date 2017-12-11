@@ -49,8 +49,8 @@ public class WhoScoredInfo implements Serializable {
     private String season;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "lastChange")
-    private LocalDateTime lastChange;
+    @Column(name = "lastMeasured")
+    private LocalDateTime lastMeasured;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo")
     private List<PositionPlayedStats> positionPlayedStatsList;
@@ -87,12 +87,12 @@ public class WhoScoredInfo implements Serializable {
         this.season = season;
     }
 
-    public LocalDateTime getLastChange() {
-        return lastChange;
+    public LocalDateTime getLastMeasured() {
+        return lastMeasured;
     }
 
-    public void setLastChange(LocalDateTime lastChange) {
-        this.lastChange = lastChange;
+    public void setLastMeasured(LocalDateTime lastMeasured) {
+        this.lastMeasured = lastMeasured;
     }
 
     public List<PositionPlayedStats> getPositionPlayedStatsList() {

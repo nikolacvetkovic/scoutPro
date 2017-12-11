@@ -61,7 +61,7 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
             coreStats.add(cs);
         }
         whoScoredInfo.setCoreStatsList(coreStats);
-        whoScoredInfo.setLastChange(LocalDateTime.now());
+        whoScoredInfo.setLastMeasured(LocalDateTime.now());
     }
     
     private void crawlPositionPlayedStats(Document doc){
