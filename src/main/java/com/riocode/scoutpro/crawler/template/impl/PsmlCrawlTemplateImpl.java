@@ -42,7 +42,7 @@ public class PsmlCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
         String teamValue = CrawlHelper.getElementData(doc, "table.innerTable tbody tr:nth-of-type(2) td:nth-of-type(3) p:nth-of-type(1)", true);
         teamValue = teamValue.replaceAll("[^0-9,]", "").replace(",", "");
         psmlInfo.setTeamValue(new BigDecimal(teamValue));
-        psmlInfo.setLastChange(LocalDateTime.now());
+        psmlInfo.setLastMeasured(LocalDateTime.now());
     }
     
     @Override

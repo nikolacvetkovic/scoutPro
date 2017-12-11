@@ -46,8 +46,8 @@ public class PsmlInfo implements Serializable {
     private BigDecimal teamValue;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "lastChange")
-    private LocalDateTime lastChange;
+    @Column(name = "lastMeasured")
+    private LocalDateTime lastMeasured;
     @JsonBackReference
     @JoinColumn(name = "playerId", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -56,9 +56,9 @@ public class PsmlInfo implements Serializable {
     public PsmlInfo() {
     }
 
-    public PsmlInfo(String teamName, LocalDateTime lastChange) {
+    public PsmlInfo(String teamName, LocalDateTime lastMeasured) {
         this.teamName = teamName;
-        this.lastChange = lastChange;
+        this.lastMeasured = lastMeasured;
     }
 
     public Integer getId() {
@@ -85,12 +85,12 @@ public class PsmlInfo implements Serializable {
         this.teamValue = teamValue;
     }
 
-    public LocalDateTime getLastChange() {
-        return lastChange;
+    public LocalDateTime getLastMeasured() {
+        return lastMeasured;
     }
 
-    public void setLastChange(LocalDateTime lastChange) {
-        this.lastChange = lastChange;
+    public void setLastMeasured(LocalDateTime lastMeasured) {
+        this.lastMeasured = lastMeasured;
     }
 
     public Player getPlayer() {
