@@ -91,8 +91,8 @@ public class TransfermarktInfo implements Serializable {
     private String position;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "lastChange")
-    private LocalDateTime lastChange;
+    @Column(name = "lastMeasured")
+    private LocalDateTime lastMeasured;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transfermarktInfo")
     private List<Transfer> transferList;
@@ -107,7 +107,7 @@ public class TransfermarktInfo implements Serializable {
     public TransfermarktInfo() {
     }
 
-    public TransfermarktInfo(String playerName, String dateOfBirth, int age, String nationality, String nationalTeam, String clubTeam, String contractUntil, String position, LocalDateTime lastChange) {
+    public TransfermarktInfo(String playerName, String dateOfBirth, int age, String nationality, String nationalTeam, String clubTeam, String contractUntil, String position, LocalDateTime lastMeasured) {
         this.playerName = playerName;
         this.dateOfBirth = dateOfBirth;
         this.age = age;
@@ -116,7 +116,7 @@ public class TransfermarktInfo implements Serializable {
         this.clubTeam = clubTeam;
         this.contractUntil = contractUntil;
         this.position = position;
-        this.lastChange = lastChange;
+        this.lastMeasured = lastMeasured;
     }
 
     public Integer getId() {
@@ -191,12 +191,12 @@ public class TransfermarktInfo implements Serializable {
         this.position = position;
     }
 
-    public LocalDateTime getLastChange() {
-        return lastChange;
+    public LocalDateTime getLastMeasured() {
+        return lastMeasured;
     }
 
-    public void setLastChange(LocalDateTime lastChange) {
-        this.lastChange = lastChange;
+    public void setLastMeasured(LocalDateTime lastMeasured) {
+        this.lastMeasured = lastMeasured;
     }
 
     public List<Transfer> getTransferList() {

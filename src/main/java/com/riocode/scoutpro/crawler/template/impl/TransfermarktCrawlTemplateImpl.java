@@ -1,8 +1,5 @@
 package com.riocode.scoutpro.crawler.template.impl;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -15,15 +12,12 @@ import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.model.Transfer;
 import com.riocode.scoutpro.model.TransfermarktInfo;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -73,7 +67,7 @@ public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         transfermarktInfo.setAge(age);
         String nationalTeam = CrawlHelper.getElementData(doc, "div.dataContent div.dataDaten:nth-of-type(3) p:nth-of-type(1) span.dataValue", false);
         transfermarktInfo.setNationalTeam(nationalTeam);
-        transfermarktInfo.setLastChange(LocalDateTime.now());
+        transfermarktInfo.setLastMeasured(LocalDateTime.now());
     }
     
     private void crawlMarketValues(Document doc){
