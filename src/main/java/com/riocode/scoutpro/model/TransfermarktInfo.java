@@ -3,6 +3,8 @@ package com.riocode.scoutpro.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -74,6 +76,14 @@ public class TransfermarktInfo implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "nationalTeam")
     private String nationalTeam;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "currentValue")
+    private BigDecimal currentValue;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "lastChangedCurrentValue")
+    private LocalDate lastChangedCurrentValue;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -157,6 +167,22 @@ public class TransfermarktInfo implements Serializable {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+    
+    public BigDecimal getCurrentValue() {
+        return currentValue;
+    }
+
+    public void setCurrentValue(BigDecimal currentValue) {
+        this.currentValue = currentValue;
+    }
+    
+    public LocalDate getLastChangedCurrentValue() {
+        return lastChangedCurrentValue;
+    }
+
+    public void setLastChangedCurrentValue(LocalDate lastChangedCurrentValue) {
+        this.lastChangedCurrentValue = lastChangedCurrentValue;
     }
 
     public String getNationalTeam() {
@@ -242,6 +268,6 @@ public class TransfermarktInfo implements Serializable {
     @Override
     public String toString() {
         return "com.riocode.scoutpro.model.Transfermarktinfo[ id=" + this.id + " ]";
-    }
+    }   
 
 }
