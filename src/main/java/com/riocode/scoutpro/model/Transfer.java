@@ -56,6 +56,7 @@ public class Transfer implements Serializable {
     private String marketValue;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 20)
     @Column(name = "transferFee")
     private String transferFee;
     @JsonBackReference
