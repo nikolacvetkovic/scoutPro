@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -105,13 +106,13 @@ public class TransfermarktInfo implements Serializable {
     @Column(name = "lastMeasured")
     private LocalDateTime lastMeasured;
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "transfermarktInfo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "transfermarktInfo", orphanRemoval = true)
     @OrderBy("dateOfTransfer")
-    private List<Transfer> transferList;
+    private List<Transfer> transferList = new ArrayList<>();
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "transfermarktInfo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "transfermarktInfo", orphanRemoval = true)
     @OrderBy("datePoint")
-    private List<MarketValue> marketValueList;
+    private List<MarketValue> marketValueList = new ArrayList<>();
     @JsonBackReference
     @OneToOne(optional = false)
     @JoinColumn(name = "id", referencedColumnName = "id")

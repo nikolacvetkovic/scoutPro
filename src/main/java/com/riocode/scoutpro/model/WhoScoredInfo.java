@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -53,15 +54,15 @@ public class WhoScoredInfo implements Serializable {
     @Column(name = "lastMeasured")
     private LocalDateTime lastMeasured;
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo")
-    private List<PositionPlayedStats> positionPlayedStatsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo", orphanRemoval = true)
+    private List<PositionPlayedStats> positionPlayedStatsList = new ArrayList<>();
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo", orphanRemoval = true)
     @OrderBy("dateOfGame")
-    private List<Game> gameList;
+    private List<Game> gameList = new ArrayList<>();
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo")
-    private List<CoreStats> coreStatsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo", orphanRemoval = true)
+    private List<CoreStats> coreStatsList = new ArrayList<>();
     @JsonBackReference
     @JoinColumn(name = "playerId", referencedColumnName = "id")
     @ManyToOne(optional = false)
