@@ -1,6 +1,7 @@
 package com.riocode.scoutpro.dao;
 
 import com.riocode.scoutpro.model.Player;
+import java.util.List;
 
 /**
  *
@@ -9,7 +10,8 @@ import com.riocode.scoutpro.model.Player;
 
 public interface PlayerDao {
     Player create(Player player);
+    List<Player> getAll();
     Player getById(int id);
-    void update(Player player);
+    Player update(Player player);
     void delete(Player player);
 }
