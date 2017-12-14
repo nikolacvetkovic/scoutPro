@@ -16,8 +16,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -36,15 +34,22 @@ public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         super(player);
         this.url = player.getTransfermarktUrl();
         this.transfermarktInfo = new TransfermarktInfo();
+        this.transfermarktInfo.setPlayer(this.player);
+        this.player.setTransfermarktInfo(this.transfermarktInfo);
+    }
+    
+    public TransfermarktCrawlTemplateImpl(TransfermarktInfo transfermarktInfo){
+        super(transfermarktInfo.getPlayer());
+        this.url = this.player.getTransfermarktUrl();
+        this.transfermarktInfo = transfermarktInfo;
     }
     
     @Override
     public Player crawl(Document document) throws IOException{
         crawlCoreData(document);
+        crawlCurrentValue(document);
         crawlMarketValues(document);
         crawlTransfers(document);
-        this.transfermarktInfo.setPlayer(this.player);
-        this.player.setTransfermarktInfo(this.transfermarktInfo);
         
         return player;
     }
@@ -68,6 +73,23 @@ public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         String nationalTeam = CrawlHelper.getElementData(doc, "div.dataContent div.dataDaten:nth-of-type(3) p:nth-of-type(1) span.dataValue", false);
         transfermarktInfo.setNationalTeam(nationalTeam);
         transfermarktInfo.setLastMeasured(LocalDateTime.now());
+    }
+    
+    private void crawlCurrentValue(Document doc){
+        Elements scripts = CrawlHelper.getElements(doc, "script");
+        String script = null;
+        for (Element s : scripts) {
+            script = s.toString();
+            if (script.contains("gaOptout")) {
+                script = script.substring(script.indexOf("ga('require', 'ec')"));
+                script = script.substring(script.indexOf("price\":\"") + 8, script.indexOf("\"});")).trim();
+                break;
+            }
+        }
+        transfermarktInfo.setCurrentValue(new BigDecimal(script));
+        String lastChangeCurrentValue = CrawlHelper.getElementData(doc, "div.dataMarktwert a p", false);
+        lastChangeCurrentValue = lastChangeCurrentValue.split(":")[1].trim();
+        transfermarktInfo.setLastChangedCurrentValue(extractDate(lastChangeCurrentValue));
     }
     
     private void crawlMarketValues(Document doc){
@@ -96,7 +118,7 @@ public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
         JsonObject jsonObject = gson.fromJson(script, JsonObject.class);
         JsonArray jsonArray = jsonObject.getAsJsonArray("series").get(0).getAsJsonObject().getAsJsonArray("data");
-        List<MarketValue> marketValues = new ArrayList<>();
+        
         for(JsonElement e : jsonArray){
             MarketValue mv = new MarketValue();
             JsonObject o = e.getAsJsonObject();
@@ -107,14 +129,13 @@ public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
             String clubTeam = o.get("verein").getAsString().trim();
             mv.setClubTeam(clubTeam);
             mv.setTransfermarktInfo(this.transfermarktInfo);
-            marketValues.add(mv);
+            transfermarktInfo.getMarketValueList().add(mv);
         }
-        transfermarktInfo.setMarketValueList(marketValues);
     }
     
     private void crawlTransfers(Document doc){
         Elements elements = CrawlHelper.getElements(doc, "div.responsive-table tr.zeile-transfer");
-        List<Transfer> transfers = new ArrayList<>();
+        
         for(Element e : elements){
             Transfer t = new Transfer();
             String date = CrawlHelper.getElementData(e, "td:nth-of-type(2)", false);
@@ -129,9 +150,8 @@ public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
             String transferFee = CrawlHelper.getElementData(e, "td.zelle-abloese", false);
             t.setTransferFee(transferFee);
             t.setTransfermarktInfo(this.transfermarktInfo);
-            transfers.add(t);
+            transfermarktInfo.getTransferList().add(t);
         }
-        transfermarktInfo.setTransferList(transfers);
     }
     
     private LocalDate extractDate(String d){
