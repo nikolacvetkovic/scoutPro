@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -68,12 +69,15 @@ public class Player implements Serializable {
     private LocalDateTime lastMeasured;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    @OrderBy("lastMeasured")
     private List<PsmlInfo> psmlInfoList = new ArrayList<>();
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    @OrderBy("lastMeasured")
     private List<PesDbInfo> pesDbInfoList = new ArrayList<>();
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    @OrderBy("lastMeasured")
     private List<WhoScoredInfo> whoScoredInfoList = new ArrayList<>();
     @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "player")

@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -56,6 +57,7 @@ public class WhoScoredInfo implements Serializable {
     private List<PositionPlayedStats> positionPlayedStatsList;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo")
+    @OrderBy("dateOfGame")
     private List<Game> gameList;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo")
