@@ -25,16 +25,22 @@ public class PesDbCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         super(player);
         this.url = player.getPesDbUrl();
         this.pesDbInfo = new PesDbInfo();
-    }      
+        this.pesDbInfo.setPlayer(this.player);
+        this.player.getPesDbInfoList().add(this.pesDbInfo);
+    }
+    
+    public PesDbCrawlTemplateImpl(PesDbInfo pesDbInfo){
+        super(pesDbInfo.getPlayer());
+        this.url = this.player.getPesDbUrl();
+        this.pesDbInfo = pesDbInfo;
+    }
     
     @Override
     public Player crawl(Document document) throws IOException {
         crawlCoreData(document);
         crawlRatings(document);
         crawlAdditionalData(document);
-        this.pesDbInfo.setPlayer(this.player);
-        this.player.getPesDbInfoList().add(this.pesDbInfo);
-        
+                
         return this.player;
     }
     
