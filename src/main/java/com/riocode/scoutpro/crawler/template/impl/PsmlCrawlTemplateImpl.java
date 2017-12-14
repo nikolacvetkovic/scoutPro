@@ -25,14 +25,20 @@ public class PsmlCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
         super(player);
         this.url = player.getPsmlUrl();
         this.psmlInfo = new PsmlInfo();
+        this.psmlInfo.setPlayer(player);
+        this.player.getPsmlInfoList().add(this.psmlInfo);
+    }
+    
+    public PsmlCrawlTemplateImpl(PsmlInfo psmlInfo){
+        super(psmlInfo.getPlayer());
+        this.url = this.player.getPsmlUrl();
+        this.psmlInfo = psmlInfo;
     }
     
     @Override
     public Player crawl(Document document) throws IOException {
         crawlCoreData(document);
-        this.psmlInfo.setPlayer(player);
-        this.player.getPsmlInfoList().add(this.psmlInfo);
-        
+                
         return this.player;
     }
 
