@@ -32,8 +32,7 @@ import javax.validation.constraints.Size;
 @Table(name = "player", catalog = "scout_pro_development", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Player.findAll", query = "SELECT p FROM Player p")
-    , @NamedQuery(name = "Player.findById", query = "SELECT p FROM Player p WHERE p.id = :id")
-    , @NamedQuery(name = "Player.findByName", query = "SELECT p FROM Player p WHERE p.name = :name")})
+    , @NamedQuery(name = "Player.findById", query = "SELECT p FROM Player p WHERE p.id = :id")})
 public class Player implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,11 +41,6 @@ public class Player implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 256)
-    @Column(name = "name")
-    private String name;
     @Basic(optional = false)
     @NotNull
     @Column(name = "myPlayer")
@@ -125,14 +119,6 @@ public class Player implements Serializable {
 
     public void setTransfermarktInfo(TransfermarktInfo transfermarktInfo) {
         this.transfermarktInfo = transfermarktInfo;
-    }
-    
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
     
     public boolean isMyPlayer(){
