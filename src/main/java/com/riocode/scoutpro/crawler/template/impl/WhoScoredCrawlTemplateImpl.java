@@ -32,6 +32,15 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
         super(player);
         this.url = player.getWhoScoredUrl();
         this.whoScoredInfo = new WhoScoredInfo();
+        this.whoScoredInfo.setPlayer(this.player);
+        this.player.getWhoscoredInfoList().add(this.whoScoredInfo);
+        this.whoScoredInfo.setCharacteristic(new Characteristic());
+    }
+    
+    public WhoScoredCrawlTemplateImpl(WhoScoredInfo whoScoredInfo){
+        super(whoScoredInfo.getPlayer());
+        this.url = this.player.getWhoScoredUrl();
+        this.whoScoredInfo = whoScoredInfo;
     }
 
     @Override
@@ -40,15 +49,12 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
         crawlPositionPlayedStats(document);
         crawlCharacteristic(document);
         crawlGames(document);
-        this.whoScoredInfo.setPlayer(this.player);
-        this.player.getWhoscoredInfoList().add(this.whoScoredInfo);
         
         return this.player;
     }
     
     private void crawlCoreData(Document doc){
         whoScoredInfo.setSeason(defineDate());
-        List<CoreStats> coreStats = new ArrayList<>();
         Elements table = CrawlHelper.getElements(doc, "div#statistics-table-summary tbody#player-table-statistics-body tr");
         for (int i = 0; i < table.size(); i++) {
             CoreStats cs = null;
@@ -58,14 +64,12 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
                 cs = extractCoreStatsAverage(table.get(i));
             }
             cs.setWhoScoredInfo(whoScoredInfo);
-            coreStats.add(cs);
+            whoScoredInfo.getCoreStatsList().add(cs);
         }
-        whoScoredInfo.setCoreStatsList(coreStats);
         whoScoredInfo.setLastMeasured(LocalDateTime.now());
     }
     
     private void crawlPositionPlayedStats(Document doc){
-        List<PositionPlayedStats> ppsList = new ArrayList<>();
         Elements table = CrawlHelper.getElements(doc, "div#player-positional-statistics tbody tr");
         for (Element row : table) {
             PositionPlayedStats pps = new PositionPlayedStats();
@@ -75,20 +79,18 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
             pps.setAssists(Integer.parseInt(CrawlHelper.getElementData(row, "td:nth-of-type(4)", false)));
             pps.setRating(new BigDecimal(CrawlHelper.getElementData(row, "td.rating", false)));
             pps.setWhoScoredInfo(whoScoredInfo);
-            ppsList.add(pps);
+            whoScoredInfo.getPositionPlayedStatsList().add(pps);
         }
-        whoScoredInfo.setPositionPlayedStatsList(ppsList);
     }
     
     private void crawlCharacteristic(Document doc){
-        Characteristic characteristic = new Characteristic();
         List<String> strengths = new ArrayList<>();
         Elements el1 = CrawlHelper.getElements(doc, "div.character-card div.strengths tr");
         for(Element e : el1){
             String s = CrawlHelper.getElementData(e, "td:nth-of-type(1) div", true) + " - " + CrawlHelper.getElementData(e, "td:nth-of-type(2) span", false);
             strengths.add(s);
         }
-        characteristic.setStrengths(strengths);
+        whoScoredInfo.getCharacteristic().setStrengths(strengths);
         
         List<String> weaknesses = new ArrayList<>();
         Elements el2 = CrawlHelper.getElements(doc, "div.character-card div.weaknesses tr");
@@ -96,7 +98,7 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
             String s = CrawlHelper.getElementData(e, "td:nth-of-type(1) div", true) + " - " + CrawlHelper.getElementData(e, "td:nth-of-type(2) span", false);
             weaknesses.add(s);
         }
-        characteristic.setWeaknesses(weaknesses);
+        whoScoredInfo.getCharacteristic().setWeaknesses(weaknesses);
         
         List<String> stylesOfPlay = new ArrayList<>();
         Elements el3 = CrawlHelper.getElements(doc, "div.style li");
@@ -104,9 +106,8 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
             String s = e.ownText();
             stylesOfPlay.add(s);
         }
-        characteristic.setStyleOfPlay(stylesOfPlay);
-        characteristic.setWhoscoredinfo(whoScoredInfo);
-        whoScoredInfo.setCharacteristic(characteristic);
+        whoScoredInfo.getCharacteristic().setStyleOfPlay(stylesOfPlay);
+        whoScoredInfo.getCharacteristic().setWhoscoredinfo(whoScoredInfo);
     }
     
     private void crawlGames(Document doc){
@@ -129,9 +130,8 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
             g.setYellowCard(extractYellowCard(el));
             g.setRedCard(extractRedCard(el));
             g.setWhoScoredInfo(whoScoredInfo);
-            games.add(g);
+            whoScoredInfo.getGameList().add(g);
         }
-        whoScoredInfo.setGameList(games);
     }
     
     private String defineDate(){
