@@ -1,12 +1,9 @@
 package com.riocode.scoutpro.controller;
 
-import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.service.PlayerService;
-import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,29 +19,28 @@ public class SiteController {
     @Autowired
     private PlayerService playerService;
     
-    @RequestMapping("/")
-    public String index(){
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String index(ModelMap modelMap){
+        modelMap.addAttribute("players", playerService.getAll());
+        
         return "index";
     }
     
-    @RequestMapping(value = "/player", method = RequestMethod.POST)
-    public String create(Player player, ModelMap model) throws IOException{
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    public String dashboard(){
         
-        model.addAttribute("player", playerService.create(player));
-        return "index";
+        return "dashboard";
     }
     
-    @RequestMapping("/player/{id}")
-    public String player(@PathVariable int id, ModelMap model){
+    @RequestMapping(value = "/compare", method = RequestMethod.GET)
+    public String compare(){
         
-        model.addAttribute("player", playerService.getById(id));
-        return "index";
+        return "compare";
     }
     
-    @RequestMapping(value = "/player/{id}", method = RequestMethod.DELETE)
-    public String player(@PathVariable int id){
+    @RequestMapping(value = "/compare", method = RequestMethod.POST)
+    public String compareResult(){
         
-        playerService.delete(id);
-        return "index";
+        return "compareResult";
     }
 }
