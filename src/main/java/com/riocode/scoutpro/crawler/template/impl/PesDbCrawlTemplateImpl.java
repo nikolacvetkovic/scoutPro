@@ -47,19 +47,11 @@ public class PesDbCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
     public void crawlCoreData(Document doc){
         String season = this.url.split("/")[3].replaceAll("[^0-9]", "").trim();
         pesDbInfo.setSeason(season);
-        String pesDbName = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(1) td", false);
-        pesDbInfo.setPesDbName(pesDbName);
-        String teamName = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(3) td a", false);
-        pesDbInfo.setTeamName(teamName);
-        String foot = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(10) td", false);
-        foot = foot.split(" ")[0];
-        pesDbInfo.setFoot(foot);
-        String weekCondition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(11) td", false);
-        pesDbInfo.setWeekCondition(weekCondition);
-        String primaryPosition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(12) td div", false);
-        pesDbInfo.setPrimaryPosition(primaryPosition);
-        pesDbInfo.setOtherPositions(extractOtherPositions(doc));
-        pesDbInfo.setLastMeasured(LocalDateTime.now());
+        if(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(3) td a", false).equals("Free Agent")){
+            extractCoreDataFreePlayer(doc);
+        } else {
+            extractCoreDataStandard(doc);
+        }
     }
     
     public void crawlRatings(Document doc){
@@ -148,19 +140,55 @@ public class PesDbCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         pesDbInfo.setPlayerSkills(playerSkills);
         pesDbInfo.setComPlayingStyles(comPlayingStyles);
     }
-
+    
+    private void extractCoreDataStandard(Document doc){
+        String pesDbName = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(1) td", false);
+        pesDbInfo.setPesDbName(pesDbName);
+        String teamName = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(3) td a", false);
+        pesDbInfo.setTeamName(teamName);
+        String foot = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(10) td", false);
+        foot = foot.split(" ")[0];
+        pesDbInfo.setFoot(foot);
+        String weekCondition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(11) td", false);
+        pesDbInfo.setWeekCondition(weekCondition);
+        String primaryPosition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(12) td div", false);        
+        pesDbInfo.setPrimaryPosition(primaryPosition);
+        pesDbInfo.setOtherPositions(extractOtherPositions(doc));
+        pesDbInfo.setLastMeasured(LocalDateTime.now());
+    }
+    
+    private void extractCoreDataFreePlayer(Document doc){
+        String pesDbName = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(1) td", false);
+        pesDbInfo.setPesDbName(pesDbName);
+        String teamName = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(2) td a", false);
+        pesDbInfo.setTeamName(teamName);
+        String foot = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(9) td", false);
+        foot = foot.split(" ")[0];
+        pesDbInfo.setFoot(foot);
+        String weekCondition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(10) td", false);
+        pesDbInfo.setWeekCondition(weekCondition);        
+        String primaryPosition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(11) td div", false);        
+        pesDbInfo.setPrimaryPosition(primaryPosition);
+        pesDbInfo.setOtherPositions(extractOtherPositions(doc));
+        pesDbInfo.setLastMeasured(LocalDateTime.now());
+    }
+    
     private List<String> extractOtherPositions(Element e){
         List<String> positions = new ArrayList<>();
         Elements weakerPositions = CrawlHelper.getElements(e, "table.player tbody table tr td.positions div span.pos1");
         String s = null;
-        for(Element el : weakerPositions){
-            s = el.text() + "(w)";
-            positions.add(s);
+        if(weakerPositions.size() > 0){
+            for(Element el : weakerPositions){
+                s = el.text() + "(w)";
+                positions.add(s);
+            }
         }
         Elements strongerPositions = CrawlHelper.getElements(e, "table.player tbody table tr td.positions div span.pos2");
-        for(Element el : strongerPositions){
-            s = el.text() + "(s)";
-            positions.add(s);
+        if(strongerPositions.size() > 0){
+            for(Element el : strongerPositions){
+                s = el.text() + "(s)";
+                positions.add(s);
+            }
         }
         
         return positions;
