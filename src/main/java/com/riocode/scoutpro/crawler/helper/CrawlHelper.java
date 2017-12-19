@@ -11,10 +11,15 @@ import org.jsoup.select.Elements;
 public class CrawlHelper {
     
     public static String getElementData(Element doc, String selector, boolean own){
-        if(own) 
-            return doc.select(selector).first().ownText().trim();
-        
-        return doc.select(selector).first().text().trim();
+        Element e = null;
+        if(own){ 
+            e = doc.select(selector).first();
+            if(e == null) return null;
+            return e.ownText().trim();
+        }
+        e = doc.select(selector).first();
+        if(e == null) return null;
+        return e.text().trim();
     }
     
     public static Element getElement(Element doc, String selector){
