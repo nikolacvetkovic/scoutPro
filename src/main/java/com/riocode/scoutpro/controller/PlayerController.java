@@ -50,50 +50,50 @@ public class PlayerController {
         return playerService.create(player);
     }
     // Update Core Player
-    @RequestMapping(value = "/player", method = RequestMethod.PUT)
+    @RequestMapping(value = "/player/{id}", method = RequestMethod.PUT)
     public Player update(Player player) throws IOException{
                 
         return playerService.update(player);
     }
     // Update Transfermarkt
-    @RequestMapping(value = "/player/transfermarkt", method = RequestMethod.PUT)
-    public Player updateTransfermarktInfo(int id){
+    @RequestMapping(value = "/player/transfermarkt/{id}", method = RequestMethod.PUT)
+    public Player updateTransfermarktInfo(@PathVariable int id){
         
         return playerService.updateTransfermarktInfo(id);
     }
     // Update last WhoScored
-    @RequestMapping(value = "/player/whoscored", method = RequestMethod.PUT)
-    public Player updateWhoScoredInfo(int id){
+    @RequestMapping(value = "/player/whoscored/{id}", method = RequestMethod.PUT)
+    public Player updateWhoScoredInfo(@PathVariable int id){
         
         return playerService.updateExistingWhoScoredInfo(id);
     }
     // Update last PesDb
-    @RequestMapping(value = "/player/pesdb", method = RequestMethod.PUT)
-    public Player updatePesDbInfo(int id){
+    @RequestMapping(value = "/player/pesdb/{id}", method = RequestMethod.PUT)
+    public Player updatePesDbInfo(@PathVariable int id){
         
         return playerService.updateExistingPesDbInfo(id);
     }
     // Update last Psml
-    @RequestMapping(value = "/player/psml", method = RequestMethod.PUT)
-    public Player updatePsmlInfo(int id){
+    @RequestMapping(value = "/player/psml/{id}", method = RequestMethod.PUT)
+    public Player updatePsmlInfo(@PathVariable int id){
         
         return playerService.updateExistingPsmlInfo(id);
     }
     // Create WhoScored
-    @RequestMapping(value = "/player/whoscored", method = RequestMethod.POST)
-    public Player createWhoScoredInfo(int id){
+    @RequestMapping(value = "/player/whoscored/{id}", method = RequestMethod.POST)
+    public Player createWhoScoredInfo(@PathVariable int id){
         
         return playerService.createWhoScoredInfo(id);
     }    
     // Create PesDb
-    @RequestMapping(value = "/player/pesdb", method = RequestMethod.POST)
-    public Player createPesDbInfo(int id){
+    @RequestMapping(value = "/player/pesdb/{id}", method = RequestMethod.POST)
+    public Player createPesDbInfo(@PathVariable int id){
         
         return playerService.createPesDbInfo(id);
     }
     // Create Psml
-    @RequestMapping(value = "/player/psml", method = RequestMethod.POST)
-    public Player createPsmlInfo(int id){
+    @RequestMapping(value = "/player/psml/{id}", method = RequestMethod.POST)
+    public Player createPsmlInfo(@PathVariable int id){
         
         return playerService.createPsmlInfo(id);
     }
