@@ -34,7 +34,6 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
         this.whoScoredInfo = new WhoScoredInfo();
         this.whoScoredInfo.setPlayer(this.player);
         this.player.getWhoscoredInfoList().add(this.whoScoredInfo);
-        this.whoScoredInfo.setCharacteristic(new Characteristic());
     }
     
     public WhoScoredCrawlTemplateImpl(WhoScoredInfo whoScoredInfo){
@@ -86,32 +85,42 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
     private void crawlCharacteristic(Document doc){
         List<String> strengths = new ArrayList<>();
         Elements el1 = CrawlHelper.getElements(doc, "div.character-card div.strengths tr");
-        for(Element e : el1){
-            String s = CrawlHelper.getElementData(e, "td:nth-of-type(1) div", true) + " - " + CrawlHelper.getElementData(e, "td:nth-of-type(2) span", false);
-            strengths.add(s);
+        if(el1.size() > 0){
+            for(Element e : el1){
+                String s1 = CrawlHelper.getElementData(e, "td:nth-of-type(1) div", true);
+                String s2 = CrawlHelper.getElementData(e, "td:nth-of-type(2) span", false);
+                if(s1 != null && s2 != null) strengths.add(s1 + " - " + s2);
+            }
         }
-        whoScoredInfo.getCharacteristic().setStrengths(strengths);
-        
         List<String> weaknesses = new ArrayList<>();
         Elements el2 = CrawlHelper.getElements(doc, "div.character-card div.weaknesses tr");
-        for (Element e : el2) {
-            String s = CrawlHelper.getElementData(e, "td:nth-of-type(1) div", true) + " - " + CrawlHelper.getElementData(e, "td:nth-of-type(2) span", false);
-            weaknesses.add(s);
+        if(el2.size() > 0){
+            for (Element e : el2) {
+                String s1 = CrawlHelper.getElementData(e, "td:nth-of-type(1) div", true);
+                String s2 = CrawlHelper.getElementData(e, "td:nth-of-type(2) span", false);
+                if(s1 != null && s2 != null) weaknesses.add(s1 + " - " + s2);
+            }
         }
-        whoScoredInfo.getCharacteristic().setWeaknesses(weaknesses);
         
         List<String> stylesOfPlay = new ArrayList<>();
         Elements el3 = CrawlHelper.getElements(doc, "div.style li");
-        for (Element e : el3) {
-            String s = e.ownText();
-            stylesOfPlay.add(s);
+        if(el3.size() > 0){
+            for (Element e : el3) {
+                String s = e.ownText();
+                if(s != null) stylesOfPlay.add(s);
+            }
         }
-        whoScoredInfo.getCharacteristic().setStyleOfPlay(stylesOfPlay);
-        whoScoredInfo.getCharacteristic().setWhoscoredinfo(whoScoredInfo);
+        
+        if(strengths.size() > 0 || weaknesses.size() > 0 || stylesOfPlay.size() > 0){
+            whoScoredInfo.setCharacteristic(new Characteristic());
+            whoScoredInfo.getCharacteristic().setWhoscoredinfo(whoScoredInfo);
+            if(strengths.size() > 0) whoScoredInfo.getCharacteristic().setStrengths(strengths);
+            if(weaknesses.size() > 0) whoScoredInfo.getCharacteristic().setWeaknesses(weaknesses);
+            if(stylesOfPlay.size() > 0) whoScoredInfo.getCharacteristic().setStyleOfPlay(stylesOfPlay);
+        }
     }
     
     private void crawlGames(Document doc){
-        List<Game> games = new ArrayList<>();
         Elements elements = CrawlHelper.getElements(doc, "table#player-fixture tbody tr");
         for (Element e : elements) {
             Game g = new Game();
