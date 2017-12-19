@@ -112,7 +112,7 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
         }
         
         if(strengths.size() > 0 || weaknesses.size() > 0 || stylesOfPlay.size() > 0){
-            whoScoredInfo.setCharacteristic(new Characteristic());
+            if(whoScoredInfo.getCharacteristic() == null) whoScoredInfo.setCharacteristic(new Characteristic());
             whoScoredInfo.getCharacteristic().setWhoscoredinfo(whoScoredInfo);
             if(strengths.size() > 0) whoScoredInfo.getCharacteristic().setStrengths(strengths);
             if(weaknesses.size() > 0) whoScoredInfo.getCharacteristic().setWeaknesses(weaknesses);
