@@ -24,7 +24,7 @@ public abstract class WebDriverAbstractCrawlTemplate implements CrawlTemplate{
         return crawl(getDocument(this.url));
     }
         
-    protected Document getDocument(String url) throws IOException{
+    protected Document getDocument(String url){
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver driver = null;
         String html = null;
@@ -33,7 +33,7 @@ public abstract class WebDriverAbstractCrawlTemplate implements CrawlTemplate{
             driver.get(url);
             Thread.sleep(5000);
             html = driver.getPageSource();
-        } catch (Exception e){
+        } catch (InterruptedException e){
             
         } finally {
             if(driver != null)
