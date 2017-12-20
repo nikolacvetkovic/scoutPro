@@ -1,5 +1,6 @@
 package com.riocode.scoutpro.controller;
 
+import com.riocode.scoutpro.exception.PlayerNotFoundException;
 import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.service.impl.PlayerServiceImpl;
 import java.io.IOException;
@@ -26,79 +27,97 @@ public class PlayerController {
     private PlayerServiceImpl playerService;
     
     // Get All Players
-    @RequestMapping(value = "/player", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/player", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Player> allPlayers(){
         
         return playerService.getAll();
     }
     // Get One Complete Player
-    @RequestMapping(value = "/player/complete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/player/complete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player oneCompletePlayer(@PathVariable int id){
+        Player p = playerService.getCompleteById(id);
+        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return playerService.getCompleteById(id);
+        return p;
     }
     // Get One Core Player
-    @RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/player/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player onePlayer(@PathVariable int id){
+        Player p = playerService.getById(id);
+        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return playerService.getById(id);
+        return p;
     }
     // Create Player
-    @RequestMapping(value = "/player", method = RequestMethod.POST)
+    @RequestMapping(value = "/player", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player create(Player player) throws IOException{
         
         return playerService.create(player);
     }
     // Update Core Player
-    @RequestMapping(value = "/player/{id}", method = RequestMethod.PUT)
-    public Player update(Player player) throws IOException{
+    @RequestMapping(value = "/player/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Player update(Player player){
                 
         return playerService.update(player);
     }
     // Update Transfermarkt
-    @RequestMapping(value = "/player/transfermarkt/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/player/transfermarkt/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player updateTransfermarktInfo(@PathVariable int id){
+        Player p = playerService.updateTransfermarktInfo(id);
+        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return playerService.updateTransfermarktInfo(id);
+        return p;
     }
     // Update last WhoScored
-    @RequestMapping(value = "/player/whoscored/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/player/whoscored/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player updateWhoScoredInfo(@PathVariable int id){
+        Player p = playerService.updateExistingWhoScoredInfo(id);
+        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return playerService.updateExistingWhoScoredInfo(id);
+        return p;
     }
     // Update last PesDb
-    @RequestMapping(value = "/player/pesdb/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/player/pesdb/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player updatePesDbInfo(@PathVariable int id){
+        Player p = playerService.updateExistingPesDbInfo(id);
+        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return playerService.updateExistingPesDbInfo(id);
+        return p;
     }
     // Update last Psml
-    @RequestMapping(value = "/player/psml/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/player/psml/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player updatePsmlInfo(@PathVariable int id){
+        Player p = playerService.updateExistingPsmlInfo(id);
+        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return playerService.updateExistingPsmlInfo(id);
+        return p;
     }
     // Create WhoScored
-    @RequestMapping(value = "/player/whoscored/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/player/whoscored/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player createWhoScoredInfo(@PathVariable int id){
+        Player p = playerService.createWhoScoredInfo(id);
+        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return playerService.createWhoScoredInfo(id);
+        return p;
     }    
     // Create PesDb
-    @RequestMapping(value = "/player/pesdb/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/player/pesdb/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player createPesDbInfo(@PathVariable int id){
+        Player p = playerService.createPesDbInfo(id);
+        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return playerService.createPesDbInfo(id);
+        return p;
     }
     // Create Psml
-    @RequestMapping(value = "/player/psml/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/player/psml/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player createPsmlInfo(@PathVariable int id){
+        Player p = playerService.createPsmlInfo(id);
+        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return playerService.createPsmlInfo(id);
+        return p;
     }
     // Delete Player
-    @RequestMapping(value = "/player/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/player/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity deletePlayer(@PathVariable int id){
         
         playerService.delete(id);
