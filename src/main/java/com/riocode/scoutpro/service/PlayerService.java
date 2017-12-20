@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface PlayerService {
     Player create(Player player) throws IOException;
-    Player update(Player player) throws IOException;
+    Player update(Player player);
     
     Player updateTransfermarktInfo(int playerId);
     Player updateExistingWhoScoredInfo(int playerId);
