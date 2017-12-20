@@ -5,6 +5,7 @@ import com.riocode.scoutpro.crawler.template.impl.PsmlCrawlTemplateImpl;
 import com.riocode.scoutpro.crawler.template.impl.TransfermarktCrawlTemplateImpl;
 import com.riocode.scoutpro.crawler.template.impl.WhoScoredCrawlTemplateImpl;
 import com.riocode.scoutpro.dao.impl.PlayerDaoImpl;
+import com.riocode.scoutpro.exception.PlayerNotFoundException;
 import com.riocode.scoutpro.model.PesDbInfo;
 import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.model.PsmlInfo;
@@ -44,16 +45,18 @@ public class PlayerServiceImpl implements PlayerService{
     @Override
     public Player getCompleteById(int playerId) {
         Player p = playerDao.getById(playerId);
-        p.getTransfermarktInfo().getTransferList().size();
-        p.getTransfermarktInfo().getMarketValueList().size();
-        p.getWhoscoredInfoList().size();
-        for(WhoScoredInfo ws : p.getWhoscoredInfoList()){
-            ws.getCoreStatsList().size();
-            ws.getPositionPlayedStatsList().size();
-            ws.getGameList().size();
+        if(p != null){
+            p.getTransfermarktInfo().getTransferList().size();
+            p.getTransfermarktInfo().getMarketValueList().size();
+            p.getWhoscoredInfoList().size();
+            for(WhoScoredInfo ws : p.getWhoscoredInfoList()){
+                ws.getCoreStatsList().size();
+                ws.getPositionPlayedStatsList().size();
+                ws.getGameList().size();
+            }
+            p.getPesDbInfoList().size();
+            p.getPsmlInfoList().size();
         }
-        p.getPesDbInfoList().size();
-        p.getPsmlInfoList().size();
         
         return p;
     }   
@@ -82,8 +85,9 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
     @Override
-    public Player update(Player player) throws IOException {
-        playerDao.getById(player.getId());
+    public Player update(Player player){
+        Player p = playerDao.getById(player.getId());
+        if(p == null) throw new PlayerNotFoundException("Player not found.");
         player.setLastMeasured(LocalDateTime.now());
         
         return playerDao.update(player);        
@@ -92,76 +96,82 @@ public class PlayerServiceImpl implements PlayerService{
     @Override
     public Player updateTransfermarktInfo(int playerId) {
         Player p = playerDao.getById(playerId);
-        p.getTransfermarktInfo().getTransferList().size();
-        p.getTransfermarktInfo().getTransferList().clear();
-        p.getTransfermarktInfo().getMarketValueList().size();
-        p.getTransfermarktInfo().getMarketValueList().clear();
-        TransfermarktCrawlTemplateImpl tmCrawlTemplate = new TransfermarktCrawlTemplateImpl(p.getTransfermarktInfo());
-        try {
-            tmCrawlTemplate.start();
-        } catch (IOException ex) {
-            Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if(p != null) {
+            p.getTransfermarktInfo().getTransferList().size();
+            p.getTransfermarktInfo().getTransferList().clear();
+            p.getTransfermarktInfo().getMarketValueList().size();
+            p.getTransfermarktInfo().getMarketValueList().clear();
+            TransfermarktCrawlTemplateImpl tmCrawlTemplate = new TransfermarktCrawlTemplateImpl(p.getTransfermarktInfo());
+            try {
+                tmCrawlTemplate.start();
+            } catch (IOException ex) {
+                Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
         return p;
     }
 
     @Override
     public Player updateExistingWhoScoredInfo(int playerId) {
         Player p = playerDao.getById(playerId);
-        WhoScoredInfo ws = p.getWhoscoredInfoList().get(p.getWhoscoredInfoList().size()-1);
-        ws.getCoreStatsList().size();
-        ws.getCoreStatsList().clear();
-        ws.getPositionPlayedStatsList().size();
-        ws.getPositionPlayedStatsList().clear();
-        ws.getGameList().size();
-        ws.getGameList().clear();
-        WhoScoredCrawlTemplateImpl wsCrawlTemplate = new WhoScoredCrawlTemplateImpl(ws);
-        try {
-            wsCrawlTemplate.start();
-        } catch (IOException ex) {
-            Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if(p != null) {
+            WhoScoredInfo ws = p.getWhoscoredInfoList().get(p.getWhoscoredInfoList().size()-1);
+            ws.getCoreStatsList().size();
+            ws.getCoreStatsList().clear();
+            ws.getPositionPlayedStatsList().size();
+            ws.getPositionPlayedStatsList().clear();
+            ws.getGameList().size();
+            ws.getGameList().clear();
+            WhoScoredCrawlTemplateImpl wsCrawlTemplate = new WhoScoredCrawlTemplateImpl(ws);
+            try {
+                wsCrawlTemplate.start();
+            } catch (IOException ex) {
+                Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
         return p;
     }
 
     @Override
     public Player updateExistingPesDbInfo(int playerId) {
         Player p = playerDao.getById(playerId);
-        PesDbInfo pesDb = p.getPesDbInfoList().get(p.getPesDbInfoList().size()-1);
-        PesDbCrawlTemplateImpl pesDbCrawlTemplate = new PesDbCrawlTemplateImpl(pesDb);
-        try {
-            pesDbCrawlTemplate.start();
-        } catch (IOException ex) {
-            Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        if(p != null){
+            PesDbInfo pesDb = p.getPesDbInfoList().get(p.getPesDbInfoList().size()-1);
+            PesDbCrawlTemplateImpl pesDbCrawlTemplate = new PesDbCrawlTemplateImpl(pesDb);
+            try {
+                pesDbCrawlTemplate.start();
+            } catch (IOException ex) {
+                Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        
         return p;
     }
 
     @Override
     public Player updateExistingPsmlInfo(int playerId) {
         Player p = playerDao.getById(playerId);
-        PsmlInfo psml = p.getPsmlInfoList().get(p.getPsmlInfoList().size()-1);
-        PsmlCrawlTemplateImpl psmlCrawlTemplate = new PsmlCrawlTemplateImpl(psml);
-        try {
-            psmlCrawlTemplate.start();
-        } catch (IOException ex) {
-            Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if(p != null){
+            PsmlInfo psml = p.getPsmlInfoList().get(p.getPsmlInfoList().size()-1);
+            PsmlCrawlTemplateImpl psmlCrawlTemplate = new PsmlCrawlTemplateImpl(psml);
+            try {
+                psmlCrawlTemplate.start();
+            } catch (IOException ex) {
+                Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
         return p;
     }
 
     @Override
     public Player createWhoScoredInfo(int playerId) {
         Player p = playerDao.getById(playerId);
-        WhoScoredCrawlTemplateImpl wsDbCrawlTemplate = new WhoScoredCrawlTemplateImpl(p);
-        try {
-            wsDbCrawlTemplate.start();
-        } catch (IOException ex) {
-            Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if(p != null){
+            WhoScoredCrawlTemplateImpl wsDbCrawlTemplate = new WhoScoredCrawlTemplateImpl(p);
+            try {
+                wsDbCrawlTemplate.start();
+            } catch (IOException ex) {
+                Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return p;
     }
@@ -169,11 +179,13 @@ public class PlayerServiceImpl implements PlayerService{
     @Override
     public Player createPesDbInfo(int playerId) {
         Player p = playerDao.getById(playerId);
-        PesDbCrawlTemplateImpl pesDbCrawlTemplate = new PesDbCrawlTemplateImpl(p);
-        try {
-            pesDbCrawlTemplate.start();
-        } catch (IOException ex) {
-            Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if(p != null){
+            PesDbCrawlTemplateImpl pesDbCrawlTemplate = new PesDbCrawlTemplateImpl(p);
+            try {
+                pesDbCrawlTemplate.start();
+            } catch (IOException ex) {
+                Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return p;
     }
@@ -181,18 +193,21 @@ public class PlayerServiceImpl implements PlayerService{
     @Override
     public Player createPsmlInfo(int playerId) {
         Player p = playerDao.getById(playerId);
-        PsmlCrawlTemplateImpl psmlCrawlTemplate = new PsmlCrawlTemplateImpl(p);
-        try {
-            psmlCrawlTemplate.start();
-        } catch (IOException ex) {
-            Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if(p != null){
+            PsmlCrawlTemplateImpl psmlCrawlTemplate = new PsmlCrawlTemplateImpl(p);
+            try {
+                psmlCrawlTemplate.start();
+            } catch (IOException ex) {
+                Logger.getLogger(PlayerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return p;
     }
     
     @Override
     public void delete(int id) {
-        Player player = playerDao.getById(id);          
+        Player player = playerDao.getById(id);
+        if(player == null) throw new PlayerNotFoundException("Player not found.");
         playerDao.delete(player);
     }
     
