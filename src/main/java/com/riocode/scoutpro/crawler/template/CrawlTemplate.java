@@ -1,7 +1,6 @@
 package com.riocode.scoutpro.crawler.template;
 
 import com.riocode.scoutpro.model.Player;
-import java.io.IOException;
 import org.jsoup.nodes.Document;
 
 /**
@@ -10,5 +9,5 @@ import org.jsoup.nodes.Document;
  */
 
 public interface CrawlTemplate {
-    Player crawl(Document document) throws IOException;
+    Player crawl(Document document);
 }
