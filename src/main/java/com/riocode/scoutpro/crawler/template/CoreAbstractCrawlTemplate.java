@@ -20,7 +20,7 @@ public abstract class CoreAbstractCrawlTemplate implements CrawlTemplate{
         this.player = player;
     }
     
-    public Player start() throws IOException{
+    public Player start(){
         return crawl(getDocument(this.url));
     }
         
