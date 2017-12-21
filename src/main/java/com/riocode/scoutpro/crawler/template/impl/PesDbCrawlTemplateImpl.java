@@ -4,7 +4,6 @@ import com.riocode.scoutpro.crawler.helper.CrawlHelper;
 import com.riocode.scoutpro.crawler.template.CoreAbstractCrawlTemplate;
 import com.riocode.scoutpro.model.PesDbInfo;
 import com.riocode.scoutpro.model.Player;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,7 @@ public class PesDbCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
     }
     
     @Override
-    public Player crawl(Document document) throws IOException {
+    public Player crawl(Document document){
         crawlCoreData(document);
         crawlRatings(document);
         crawlAdditionalData(document);

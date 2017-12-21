@@ -1,7 +1,6 @@
 package com.riocode.scoutpro.crawler.template;
 
 import com.riocode.scoutpro.model.Player;
-import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.WebDriver;

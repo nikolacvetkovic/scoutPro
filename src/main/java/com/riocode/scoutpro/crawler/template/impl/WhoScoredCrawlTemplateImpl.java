@@ -8,7 +8,6 @@ import com.riocode.scoutpro.model.Game;
 import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.model.PositionPlayedStats;
 import com.riocode.scoutpro.model.WhoScoredInfo;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,7 +42,7 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
     }
 
     @Override
-    public Player crawl(Document document) throws IOException {
+    public Player crawl(Document document){
         crawlCoreData(document);
         crawlPositionPlayedStats(document);
         crawlCharacteristic(document);

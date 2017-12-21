@@ -4,7 +4,6 @@ import com.riocode.scoutpro.crawler.helper.CrawlHelper;
 import com.riocode.scoutpro.crawler.template.WebDriverAbstractCrawlTemplate;
 import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.model.PsmlInfo;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import org.jsoup.Jsoup;
@@ -36,7 +35,7 @@ public class PsmlCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
     }
     
     @Override
-    public Player crawl(Document document) throws IOException {
+    public Player crawl(Document document){
         crawlCoreData(document);
                 
         return this.player;
@@ -52,7 +51,7 @@ public class PsmlCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
     }
     
     @Override
-    protected Document getDocument(String url) throws IOException {
+    protected Document getDocument(String url){
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver driver = null;
         String html = null;
@@ -62,7 +61,7 @@ public class PsmlCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
             Thread.sleep(5000);
             driver.switchTo().frame("content");
             html = driver.getPageSource();
-        } catch (Exception e){
+        } catch (InterruptedException e){
             
         } finally {
             if(driver != null)

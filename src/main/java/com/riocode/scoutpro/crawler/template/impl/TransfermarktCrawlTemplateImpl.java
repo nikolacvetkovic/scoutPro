@@ -11,7 +11,6 @@ import com.riocode.scoutpro.model.MarketValue;
 import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.model.Transfer;
 import com.riocode.scoutpro.model.TransfermarktInfo;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,7 +44,7 @@ public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
     }
     
     @Override
-    public Player crawl(Document document) throws IOException{
+    public Player crawl(Document document){
         crawlCoreData(document);
         crawlCurrentValue(document);
         crawlMarketValues(document);
