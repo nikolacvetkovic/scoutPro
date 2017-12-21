@@ -35,18 +35,14 @@ public class PlayerController {
     // Get One Complete Player
     @RequestMapping(value = "/player/complete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player oneCompletePlayer(@PathVariable int id){
-        Player p = playerService.getCompleteById(id);
-        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return p;
+        return playerService.getCompleteById(id);
     }
     // Get One Core Player
     @RequestMapping(value = "/player/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player onePlayer(@PathVariable int id){
-        Player p = playerService.getById(id);
-        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return p;
+        return playerService.getById(id);
     }
     // Create Player
     @RequestMapping(value = "/player", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -63,58 +59,44 @@ public class PlayerController {
     // Update Transfermarkt
     @RequestMapping(value = "/player/transfermarkt/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player updateTransfermarktInfo(@PathVariable int id){
-        Player p = playerService.updateTransfermarktInfo(id);
-        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return p;
+        return playerService.updateTransfermarktInfo(id);
     }
     // Update last WhoScored
     @RequestMapping(value = "/player/whoscored/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player updateWhoScoredInfo(@PathVariable int id){
-        Player p = playerService.updateExistingWhoScoredInfo(id);
-        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return p;
+        return playerService.updateExistingWhoScoredInfo(id);
     }
     // Update last PesDb
     @RequestMapping(value = "/player/pesdb/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player updatePesDbInfo(@PathVariable int id){
-        Player p = playerService.updateExistingPesDbInfo(id);
-        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return p;
+        return playerService.updateExistingPesDbInfo(id);
     }
     // Update last Psml
     @RequestMapping(value = "/player/psml/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player updatePsmlInfo(@PathVariable int id){
-        Player p = playerService.updateExistingPsmlInfo(id);
-        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return p;
+        return playerService.updateExistingPsmlInfo(id);
     }
     // Create WhoScored
     @RequestMapping(value = "/player/whoscored/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player createWhoScoredInfo(@PathVariable int id){
-        Player p = playerService.createWhoScoredInfo(id);
-        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return p;
+        return playerService.createWhoScoredInfo(id);
     }    
     // Create PesDb
     @RequestMapping(value = "/player/pesdb/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player createPesDbInfo(@PathVariable int id){
-        Player p = playerService.createPesDbInfo(id);
-        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return p;
+        return playerService.createPesDbInfo(id);
     }
     // Create Psml
     @RequestMapping(value = "/player/psml/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player createPsmlInfo(@PathVariable int id){
-        Player p = playerService.createPsmlInfo(id);
-        if(p == null) throw new PlayerNotFoundException("Player with id=" + id + " not found.");
         
-        return p;
+        return playerService.createPsmlInfo(id);
     }
     // Delete Player
     @RequestMapping(value = "/player/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
