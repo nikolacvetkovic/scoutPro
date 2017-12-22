@@ -5,6 +5,7 @@ import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.service.impl.PlayerServiceImpl;
 import java.io.IOException;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -46,13 +47,13 @@ public class PlayerController {
     }
     // Create Player
     @RequestMapping(value = "/player", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Player create(Player player) throws IOException{
+    public Player create(@Valid Player player) throws IOException{
         
         return playerService.create(player);
     }
     // Update Core Player
     @RequestMapping(value = "/player/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Player update(Player player){
+    public Player update(@Valid Player player){
                 
         return playerService.update(player);
     }
