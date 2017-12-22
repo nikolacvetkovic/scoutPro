@@ -1,7 +1,6 @@
 package com.riocode.scoutpro.service;
 
 import com.riocode.scoutpro.model.Player;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -10,7 +9,7 @@ import java.util.List;
  */
 
 public interface PlayerService {
-    Player create(Player player) throws IOException;
+    Player create(Player player);
     Player update(Player player);
     
     Player updateTransfermarktInfo(int playerId);
@@ -25,6 +24,8 @@ public interface PlayerService {
     List<Player> getAll();
     Player getById(int playerId);
     Player getCompleteById(int playerId);
+    List<Player> getByName(String name);
+    Player getByTransfermarktUrl(String transfermarktUrl);
     
     void delete(int playerId);
 }

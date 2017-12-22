@@ -5,13 +5,13 @@ import com.riocode.scoutpro.crawler.template.impl.PsmlCrawlTemplateImpl;
 import com.riocode.scoutpro.crawler.template.impl.TransfermarktCrawlTemplateImpl;
 import com.riocode.scoutpro.crawler.template.impl.WhoScoredCrawlTemplateImpl;
 import com.riocode.scoutpro.dao.impl.PlayerDaoImpl;
+import com.riocode.scoutpro.exception.DuplicatePlayerException;
 import com.riocode.scoutpro.exception.PlayerNotFoundException;
 import com.riocode.scoutpro.model.PesDbInfo;
 import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.model.PsmlInfo;
 import com.riocode.scoutpro.model.WhoScoredInfo;
 import com.riocode.scoutpro.service.PlayerService;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -58,10 +58,27 @@ public class PlayerServiceImpl implements PlayerService{
         p.getPsmlInfoList().size();
         
         return p;
-    }   
-        
+    }
+
     @Override
-    public Player create(Player player) throws IOException{
+    public List<Player> getByName(String name) {
+        List<Player> p = playerDao.getByName(name);
+        if(p == null) throw  new PlayerNotFoundException("playerName", name);
+        return p;
+    }
+
+    @Override
+    public Player getByTransfermarktUrl(String transfermarktUrl) {
+        Player p = playerDao.getByTransfermarktUrl(transfermarktUrl);
+        if(p == null) throw  new PlayerNotFoundException("transfermarktUrl", transfermarktUrl);
+        
+        return p;
+    }      
+                
+    @Override
+    public Player create(Player player){
+        Player p = playerDao.getByTransfermarktUrl(player.getTransfermarktUrl()); //lose jer transfermarkt teorijski moze biti null
+        if(p != null) throw new DuplicatePlayerException();
         if(!player.getTransfermarktUrl().equals("")){
             TransfermarktCrawlTemplateImpl tmCrawlTemplate = new TransfermarktCrawlTemplateImpl(player);
             tmCrawlTemplate.start();

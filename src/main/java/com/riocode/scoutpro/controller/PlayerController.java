@@ -1,6 +1,5 @@
 package com.riocode.scoutpro.controller;
 
-import com.riocode.scoutpro.exception.PlayerNotFoundException;
 import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.service.impl.PlayerServiceImpl;
 import java.io.IOException;
@@ -44,6 +43,12 @@ public class PlayerController {
     public Player onePlayer(@PathVariable int id){
         
         return playerService.getById(id);
+    }
+    
+    @RequestMapping(value = "/player/search/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Player> playersByName(@PathVariable String name){
+        
+        return playerService.getByName(name);
     }
     // Create Player
     @RequestMapping(value = "/player", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

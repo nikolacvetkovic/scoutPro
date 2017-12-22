@@ -5,6 +5,9 @@ import com.riocode.scoutpro.model.Player;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -32,7 +35,27 @@ public class PlayerDaoImpl implements PlayerDao{
     public Player getById(int id) {
         return entityManager.find(Player.class, id);
     }
-    
+
+    @Override
+    public List<Player> getByName(String name) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Player> criteria = cb.createQuery(Player.class);
+        Root<Player> r = criteria.from(Player.class);
+        criteria.select(r).where(cb.like(r.get("transfermarktInfo").get("playerName"), "%" + name +"%"));
+        
+        return entityManager.createQuery(criteria).getResultList();
+    }
+
+    @Override
+    public Player getByTransfermarktUrl(String transfermarktUrl) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Player> criteria = cb.createQuery(Player.class);
+        Root<Player> r = criteria.from(Player.class);
+        criteria.select(r).where(cb.equal(r.get("transfermarktUrl"), transfermarktUrl));
+        
+        return entityManager.createQuery(criteria).getSingleResult();
+    }
+            
     @Override
     public Player update(Player player) { 
         return entityManager.merge(player);
