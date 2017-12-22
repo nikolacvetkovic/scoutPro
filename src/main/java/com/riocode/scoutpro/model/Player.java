@@ -46,21 +46,23 @@ public class Player implements Serializable {
     @NotNull
     @Column(name = "myPlayer")
     private boolean myPlayer;
-    @Pattern(regexp = "^(https://www\\.transfermarkt\\.com/).+$")
+    @Pattern(regexp = "^(https://www\\.transfermarkt\\.com/.+/profil/spieler/)\\d+$", message = "Not valid Transfermarkt url")
     @Size(max = 256)
     @Column(name = "transfermarktUrl")
     private String transfermarktUrl;
+    @Pattern(regexp = "^(https://www\\.whoscored\\.com/Players/\\d+/Show/).+$", message = "Not valid Whoscored url")
     @Size(max = 256)
     @Column(name = "whoScoredUrl")
     private String whoScoredUrl;
+    @Pattern(regexp = "^(http://pesdb\\.net/pes20[1-9][0-9]/\\?id=)\\d+$", message = "Not valid PesDb url")
     @Size(max = 256)
     @Column(name = "pesDbUrl")
     private String pesDbUrl;
+    @Pattern(regexp = "^(http://psml\\.rs/(index\\.php)?\\?action=shwply&playerID=)\\d+$", message = "Not valid Psml url")
     @Size(max = 256)
     @Column(name = "psmlUrl")
     private String psmlUrl;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "lastMeasured")
     private LocalDateTime lastMeasured;
     @JsonManagedReference
