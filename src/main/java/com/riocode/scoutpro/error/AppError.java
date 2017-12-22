@@ -1,6 +1,7 @@
 package com.riocode.scoutpro.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.riocode.scoutpro.error.BindingSubAppErr.Field;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
 
 /**
  *
@@ -83,5 +85,15 @@ public class AppError {
                     = new ConstraintViolationSubAppErr(c.getRootBeanClass().getSimpleName(),((PathImpl)c.getPropertyPath()).getLeafNode().asString(), c.getInvalidValue().toString(), c.getMessage());
             this.subErrors.add(subAppErr);
         }
+    }
+    
+    public void extractBindErrors(String target, List<FieldError> l){
+        if(this.subErrors == null) this.subErrors = new ArrayList<>();
+        BindingSubAppErr b = new BindingSubAppErr(target);
+        for (FieldError fieldError : l) {
+            Field f = b.createFieldError(fieldError.getField(), String.valueOf(fieldError.getRejectedValue()), fieldError.getDefaultMessage());
+            b.addField(f);
+        }
+        this.subErrors.add(b);
     }
 }
