@@ -14,15 +14,7 @@ public class PlayerNotFoundException extends RuntimeException{
         super();
     }
     
-    public PlayerNotFoundException(String message){
-        super(message);
-    }
-    
-    public PlayerNotFoundException(Throwable t){
-        super(t);
-    }
-    
-    public PlayerNotFoundException(String message, Throwable t){
-        super(message, t);
+    public PlayerNotFoundException(String parameterName, Object parameterValue){
+        super("Player not found for parameter [" + parameterName + "=" + String.valueOf(parameterValue) + "]");
     }
 }
