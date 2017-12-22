@@ -1,8 +1,8 @@
 package com.riocode.scoutpro.exception.handler;
 
 import com.riocode.scoutpro.error.AppError;
+import com.riocode.scoutpro.exception.DuplicatePlayerException;
 import com.riocode.scoutpro.exception.PlayerNotFoundException;
-import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -27,6 +26,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler(PlayerNotFoundException.class)
     public ResponseEntity<AppError> handlePlayerNotFound(HttpServletRequest req, PlayerNotFoundException ex){
         AppError err = new AppError(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND, 
+                                    ex.getLocalizedMessage(), req.getRequestURI());
+        
+        return buildResponseEntity(err);
+    }
+    
+    @ExceptionHandler(DuplicatePlayerException.class)
+    public ResponseEntity<AppError> handleDuplicatePlayer(HttpServletRequest req, DuplicatePlayerException ex){
+        AppError err = new AppError(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST, 
                                     ex.getLocalizedMessage(), req.getRequestURI());
         
         return buildResponseEntity(err);
