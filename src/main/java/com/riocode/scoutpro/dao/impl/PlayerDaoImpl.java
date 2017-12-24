@@ -47,13 +47,13 @@ public class PlayerDaoImpl implements PlayerDao{
     }
 
     @Override
-    public Player getByTransfermarktUrl(String transfermarktUrl) {
+    public List<Player> getByTransfermarktUrl(String transfermarktUrl) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Player> criteria = cb.createQuery(Player.class);
         Root<Player> r = criteria.from(Player.class);
         criteria.select(r).where(cb.equal(r.get("transfermarktUrl"), transfermarktUrl));
         
-        return entityManager.createQuery(criteria).getSingleResult();
+        return entityManager.createQuery(criteria).getResultList();
     }
             
     @Override

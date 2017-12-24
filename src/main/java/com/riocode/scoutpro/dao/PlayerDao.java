@@ -13,7 +13,7 @@ public interface PlayerDao {
     List<Player> getAll();
     Player getById(int id);
     List<Player> getByName(String name);
-    Player getByTransfermarktUrl(String transfermarktUrl);
+    List<Player> getByTransfermarktUrl(String transfermarktUrl);
     Player update(Player player);
     void delete(Player player);
 }
