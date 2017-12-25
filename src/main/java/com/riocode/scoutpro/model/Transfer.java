@@ -1,6 +1,7 @@
 package com.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -46,6 +47,7 @@ public class Transfer implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "toTeam")
     private String toTeam;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     @Basic(optional = false)
     @NotNull
     @Column(name = "dateOfTransfer")

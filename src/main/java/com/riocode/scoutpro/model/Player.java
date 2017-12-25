@@ -1,5 +1,6 @@
 package com.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -62,6 +63,7 @@ public class Player implements Serializable {
     @Size(max = 256)
     @Column(name = "psmlUrl")
     private String psmlUrl;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
     @Basic(optional = false)
     @Column(name = "lastMeasured")
     private LocalDateTime lastMeasured;

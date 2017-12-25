@@ -1,6 +1,7 @@
 package com.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.riocode.scoutpro.jpa.converter.ListStringConverter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -263,6 +264,7 @@ public class PesDbInfo implements Serializable {
     @Convert(converter = ListStringConverter.class)
     @Column(name = "comPlayingStyles")
     private List<String> comPlayingStyles;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastMeasured")

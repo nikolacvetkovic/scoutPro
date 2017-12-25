@@ -1,6 +1,7 @@
 package com.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -82,6 +83,7 @@ public class TransfermarktInfo implements Serializable {
     @NotNull
     @Column(name = "currentValue")
     private BigDecimal currentValue;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastChangedCurrentValue")
@@ -101,6 +103,7 @@ public class TransfermarktInfo implements Serializable {
     @Size(min = 1, max = 40)
     @Column(name = "position")
     private String position;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastMeasured")

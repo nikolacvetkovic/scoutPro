@@ -1,6 +1,7 @@
 package com.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -44,6 +45,7 @@ public class PsmlInfo implements Serializable {
     private String teamName;
     @Column(name = "teamValue")
     private BigDecimal teamValue;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastMeasured")

@@ -1,6 +1,7 @@
 package com.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -49,6 +50,7 @@ public class WhoScoredInfo implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "season")
     private String season;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastMeasured")
