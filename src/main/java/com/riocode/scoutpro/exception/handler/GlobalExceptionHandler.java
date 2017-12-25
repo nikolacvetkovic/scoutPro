@@ -6,6 +6,7 @@ import com.riocode.scoutpro.exception.ParseException;
 import com.riocode.scoutpro.exception.PlayerNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,6 +66,23 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
                                 ex.getLocalizedMessage(), req.getRequestURI());
         }
         return buildResponseEntity(err);
+    }
+    
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<AppError> handleConstraintViolation(HttpServletRequest req, DataIntegrityViolationException ex){
+        Throwable t = null;
+        AppError err = null;
+        if(ex.getCause() != null && ex.getCause().getCause() != null) {
+            t = ex.getCause().getCause();
+                if(t.getLocalizedMessage().contains("Duplicate")){
+                    err = new AppError(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST, 
+                                     "Player exists", req.getRequestURI());
+                } else {
+                    err = new AppError(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST, 
+                                     ex.getLocalizedMessage(), req.getRequestURI());
+                }
+        }
+            return buildResponseEntity(err);
     }
     
     @Override
