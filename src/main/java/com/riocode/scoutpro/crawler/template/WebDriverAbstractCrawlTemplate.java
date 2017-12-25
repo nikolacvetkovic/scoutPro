@@ -1,5 +1,6 @@
 package com.riocode.scoutpro.crawler.template;
 
+import com.riocode.scoutpro.exception.ParseException;
 import com.riocode.scoutpro.model.Player;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,7 +21,11 @@ public abstract class WebDriverAbstractCrawlTemplate implements CrawlTemplate{
     }
     
     public Player start(){
-        return crawl(getDocument(this.url));
+        try{
+            return crawl(getDocument(this.url));
+        } catch (NullPointerException | NumberFormatException ex){
+            throw new ParseException("Bad regex");
+        }
     }
         
     protected Document getDocument(String url){

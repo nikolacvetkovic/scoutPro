@@ -2,6 +2,7 @@ package com.riocode.scoutpro.exception.handler;
 
 import com.riocode.scoutpro.error.AppError;
 import com.riocode.scoutpro.exception.DuplicatePlayerException;
+import com.riocode.scoutpro.exception.ParseException;
 import com.riocode.scoutpro.exception.PlayerNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
@@ -34,6 +35,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler(DuplicatePlayerException.class)
     public ResponseEntity<AppError> handleDuplicatePlayer(HttpServletRequest req, DuplicatePlayerException ex){
         AppError err = new AppError(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST, 
+                                    ex.getLocalizedMessage(), req.getRequestURI());
+        
+        return buildResponseEntity(err);
+    }
+    
+    @ExceptionHandler(ParseException.class)
+    public ResponseEntity<AppError> handleParseException(HttpServletRequest req, ParseException ex){
+        AppError err = new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR, 
                                     ex.getLocalizedMessage(), req.getRequestURI());
         
         return buildResponseEntity(err);

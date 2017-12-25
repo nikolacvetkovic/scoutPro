@@ -2,6 +2,7 @@ package com.riocode.scoutpro.service.impl;
 
 import com.riocode.scoutpro.dao.PlayerDao;
 import com.riocode.scoutpro.exception.DuplicatePlayerException;
+import com.riocode.scoutpro.exception.ParseException;
 import com.riocode.scoutpro.exception.PlayerNotFoundException;
 import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.model.WhoScoredInfo;
@@ -190,6 +191,7 @@ public class PlayerServiceImpl implements PlayerService{
     private void resolveAsyncExceptions(Throwable ex){
         if(ex.getCause() != null && ex.getCause() instanceof PlayerNotFoundException) throw (RuntimeException)ex.getCause();
         if(ex.getCause() !=null && ex.getCause() instanceof DuplicatePlayerException) throw (RuntimeException)ex.getCause();
+        if(ex.getCause() !=null && ex.getCause() instanceof ParseException) throw (RuntimeException)ex.getCause();
     }
     
 }
