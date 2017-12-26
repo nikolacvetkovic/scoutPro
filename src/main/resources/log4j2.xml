@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration level="info">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--<PatternLayout pattern="%highlight{%d [%t] %-5level: %msg%n%throwable}{STYLE=Logback}" />-->
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5p [%-20.20t] %x %-45.45logger{1.} line:%4.4L : %msg %rEx%n" />
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console" />
+        </Root>
+<!--        <Logger level="info" name="org.spring" additivity="false">
+            <AppenderRef ref="Console" />
+        </Logger>-->
+    </Loggers>
+</Configuration>
