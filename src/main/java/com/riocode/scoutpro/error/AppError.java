@@ -17,7 +17,7 @@ import org.springframework.validation.FieldError;
  */
 
 public class AppError {
-    
+        
     private int httpStatusCode;
     private HttpStatus httpStatus;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss")
@@ -25,13 +25,23 @@ public class AppError {
     private String message;
     private List<SubAppErr> subErrors;
     private String path;
+    private String trackingId;
 
-    public AppError(int httpStatusCode, HttpStatus httpStatus, String message, String path){
+    public AppError(String trackingId, int httpStatusCode, HttpStatus httpStatus, String message, String path){
+        this.trackingId = trackingId;
         this.timestamp = LocalDateTime.now();
         this.httpStatusCode = httpStatusCode;
         this.httpStatus = httpStatus;
         this.message = message;
         this.path = path;
+    }
+    
+    public String getTrackingId() {
+        return trackingId;
+    }
+
+    public void setTrackingId(String trackingId) {
+        this.trackingId = trackingId;
     }
     
     public int getHttpStatusCode() {
