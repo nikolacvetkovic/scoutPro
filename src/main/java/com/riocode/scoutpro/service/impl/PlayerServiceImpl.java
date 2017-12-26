@@ -15,6 +15,7 @@ import java.util.concurrent.Future;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.TransactionSystemException;
 
 /**
  *
@@ -192,6 +193,7 @@ public class PlayerServiceImpl implements PlayerService{
         if(ex.getCause() != null && ex.getCause() instanceof PlayerNotFoundException) throw (RuntimeException)ex.getCause();
         if(ex.getCause() !=null && ex.getCause() instanceof DuplicatePlayerException) throw (RuntimeException)ex.getCause();
         if(ex.getCause() !=null && ex.getCause() instanceof ParseException) throw (RuntimeException)ex.getCause();
+        if(ex.getCause() !=null && ex.getCause() instanceof TransactionSystemException) throw (RuntimeException)ex.getCause();
     }
     
 }
