@@ -152,7 +152,8 @@ public class PesDbCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         pesDbInfo.setWeekCondition(weekCondition);
         String primaryPosition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(12) td div", false);        
         pesDbInfo.setPrimaryPosition(primaryPosition);
-        pesDbInfo.setOtherPositions(extractOtherPositions(doc));
+        pesDbInfo.setOtherStrongPositions(extractOtherStrongPositions(doc));
+        pesDbInfo.setOtherWeakPositions(extractOtherWeakPositions(doc));
         pesDbInfo.setLastMeasured(LocalDateTime.now());
     }
     
@@ -168,25 +169,33 @@ public class PesDbCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         pesDbInfo.setWeekCondition(weekCondition);        
         String primaryPosition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(11) td div", false);        
         pesDbInfo.setPrimaryPosition(primaryPosition);
-        pesDbInfo.setOtherPositions(extractOtherPositions(doc));
+        pesDbInfo.setOtherStrongPositions(extractOtherStrongPositions(doc));
+        pesDbInfo.setOtherWeakPositions(extractOtherWeakPositions(doc));
         pesDbInfo.setLastMeasured(LocalDateTime.now());
     }
     
-    private List<String> extractOtherPositions(Element e){
+    private List<String> extractOtherWeakPositions(Element e){
         List<String> positions = new ArrayList<>();
         Elements weakerPositions = CrawlHelper.getElements(e, "table.player tbody table tr td.positions div span.pos1");
         String s = null;
         if(weakerPositions.size() > 0){
             for(Element el : weakerPositions){
-                s = el.text() + "(w)";
+                s = el.text();
                 positions.add(s);
             }
         }
+        
+        return positions;
+    }
+    private List<String> extractOtherStrongPositions(Element e){
+        List<String> positions = new ArrayList<>();
         Elements strongerPositions = CrawlHelper.getElements(e, "table.player tbody table tr td.positions div span.pos2");
+        String s = null;
         if(strongerPositions.size() > 0){
             for(Element el : strongerPositions){
-                s = el.text() + "(s)";
-                positions.add(s);
+                s = el.text();
+                if(!s.equals(pesDbInfo.getPrimaryPosition()))
+                    positions.add(s);
             }
         }
         

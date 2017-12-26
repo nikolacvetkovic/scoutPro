@@ -40,7 +40,6 @@ import javax.validation.constraints.Size;
     , @NamedQuery(name = "PesDbInfo.findByFoot", query = "SELECT p FROM PesDbInfo p WHERE p.foot = :foot")
     , @NamedQuery(name = "PesDbInfo.findByWeekCondition", query = "SELECT p FROM PesDbInfo p WHERE p.weekCondition = :weekCondition")
     , @NamedQuery(name = "PesDbInfo.findByPrimaryPosition", query = "SELECT p FROM PesDbInfo p WHERE p.primaryPosition = :primaryPosition")
-    , @NamedQuery(name = "PesDbInfo.findByOtherPositions", query = "SELECT p FROM PesDbInfo p WHERE p.otherPositions = :otherPositions")
     , @NamedQuery(name = "PesDbInfo.findByLastChange", query = "SELECT p FROM PesDbInfo p WHERE p.lastMeasured = :lastMeasured")})
 public class PesDbInfo implements Serializable {
 
@@ -80,10 +79,14 @@ public class PesDbInfo implements Serializable {
     @Size(min = 1, max = 3)
     @Column(name = "primaryPosition")
     private String primaryPosition;
-    @Size(max = 40)
+    @Size(max = 50)
     @Convert(converter = ListStringConverter.class)
-    @Column(name = "otherPositions")
-    private List<String> otherPositions;
+    @Column(name = "otherStrongPositions")
+    private List<String> otherStrongPositions;
+    @Size(max = 50)
+    @Convert(converter = ListStringConverter.class)
+    @Column(name = "otherWeakPositions")
+    private List<String> otherWeakPositions;
     @Basic(optional = false)
     @NotNull
     @Min(40)
@@ -348,12 +351,20 @@ public class PesDbInfo implements Serializable {
         this.primaryPosition = primaryPosition;
     }
 
-    public List<String> getOtherPositions() {
-        return otherPositions;
+    public List<String> getOtherStrongPositions() {
+        return otherStrongPositions;
     }
 
-    public void setOtherPositions(List<String> otherPositions) {
-        this.otherPositions = otherPositions;
+    public void setOtherStrongPositions(List<String> otherStrongPositions) {
+        this.otherStrongPositions = otherStrongPositions;
+    }
+    
+    public List<String> getOtherWeakPositions() {
+        return otherWeakPositions;
+    }
+
+    public void setOtherWeakPositions(List<String> otherWeakPositions) {
+        this.otherWeakPositions = otherWeakPositions;
     }
 
     public int getAttackingProwess() {
