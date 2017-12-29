@@ -113,9 +113,9 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
         if(strengths.size() > 0 || weaknesses.size() > 0 || stylesOfPlay.size() > 0){
             if(whoScoredInfo.getCharacteristic() == null) whoScoredInfo.setCharacteristic(new Characteristic());
             whoScoredInfo.getCharacteristic().setWhoscoredinfo(whoScoredInfo);
-            if(strengths.size() > 0) whoScoredInfo.getCharacteristic().setStrengths(strengths);
-            if(weaknesses.size() > 0) whoScoredInfo.getCharacteristic().setWeaknesses(weaknesses);
-            if(stylesOfPlay.size() > 0) whoScoredInfo.getCharacteristic().setStyleOfPlay(stylesOfPlay);
+            whoScoredInfo.getCharacteristic().setStrengths(strengths);
+            whoScoredInfo.getCharacteristic().setWeaknesses(weaknesses);
+            whoScoredInfo.getCharacteristic().setStyleOfPlay(stylesOfPlay);
         }
     }
     
@@ -127,7 +127,8 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
             g.setDateOfGame(LocalDate.parse(CrawlHelper.getElementData(e, "td.date", false), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
             g.setTeam1(CrawlHelper.getElementData(e, "td.home a", false));
             g.setTeam2(CrawlHelper.getElementData(e, "td.away a", false));
-            g.setResult(CrawlHelper.getElementData(e, "td.result a", false));
+            String result = CrawlHelper.getElementData(e, "td.result a", false);
+            g.setResult(result.replaceAll("[^\\d:]", ""));
             g.setMinutesPlayed(CrawlHelper.getElementData(e, "td.info", false));
             g.setRating(CrawlHelper.getElementData(e, "td.rating", false));
             g.setManOfTheMatch(isManOfTheMatch(e));
