@@ -71,6 +71,25 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
                 err.extractViolations(((ConstraintViolationException) t).getConstraintViolations());
             }
         } else {
+            return additionalHandleConstraintViolation(req, ex);
+        }
+        return buildResponseEntity(err);
+    }
+    
+    
+    public ResponseEntity<AppError> additionalHandleConstraintViolation(HttpServletRequest req, TransactionSystemException ex){
+        LOG.error(ex.getLocalizedMessage(), ex);
+        Throwable t = null;
+        AppError err = null;
+        if(ex.getCause() != null) {
+            t = ex.getCause();
+            if(t instanceof ConstraintViolationException){
+                
+                err = new AppError(ThreadContext.pop(), HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST, 
+                                    "Validation Error", req.getRequestURI());
+                err.extractViolations(((ConstraintViolationException) t).getConstraintViolations());
+            }
+        } else {
             err = new AppError(ThreadContext.pop(), HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST, 
                                 ex.getLocalizedMessage(), req.getRequestURI());
         }
@@ -82,8 +101,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         LOG.error(ex.getLocalizedMessage(), ex);
         Throwable t = null;
         AppError err = null;
-        if(ex.getCause() != null && ex.getCause().getCause() != null) {
-            t = ex.getCause().getCause();
+        if(ex.getCause() != null) {
+            t = ex.getCause();
                 if(t.getLocalizedMessage().contains("Duplicate")){
                     err = new AppError(ThreadContext.pop(), HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST, 
                                      "Player exists", req.getRequestURI());
