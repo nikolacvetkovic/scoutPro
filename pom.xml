@@ -23,8 +23,9 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <java.version>1.8</java.version>
     <jquery.version>3.2.1</jquery.version>
-    <bootstrap.version>3.3.7-1</bootstrap.version>
-    <popper.version>1.12.5</popper.version>
+    <bootstrap.version>4.0.0-beta.2</bootstrap.version>
+    <popper.version>1.12.3</popper.version>
+    <font-awesome.version>4.7.0</font-awesome.version>
   </properties>
   
   <dependencies>
@@ -116,7 +117,11 @@
             <artifactId>popper.js</artifactId>
             <version>${popper.version}</version>
       </dependency>
-
+      <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>${font-awesome.version}</version>
+      </dependency>
 
                        <!--MySQL Connector-->
       <dependency>
