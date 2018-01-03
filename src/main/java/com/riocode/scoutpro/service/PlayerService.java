@@ -22,6 +22,7 @@ public interface PlayerService {
     Player createPsmlInfo(int playerId);
     
     List<Player> getAll();
+    List<Player> getAllComplete();
     Player getById(int playerId);
     Player getCompleteById(int playerId);
     List<Player> getByName(String name);

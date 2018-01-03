@@ -32,6 +32,12 @@ public class PlayerController {
         
         return playerService.getAll();
     }
+    // Get All Complete Players
+    @RequestMapping(value = "/player/complete", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Player> allCompletePlayers(){
+        
+        return playerService.getAllComplete();
+    }
     // Get One Complete Player
     @RequestMapping(value = "/player/complete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Player oneCompletePlayer(@PathVariable int id){
@@ -52,7 +58,7 @@ public class PlayerController {
     }
     // Create Player
     @RequestMapping(value = "/player", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Player create(@Valid Player player) throws IOException{
+    public Player create(@Valid Player player) {
         
         return playerService.create(player);
     }

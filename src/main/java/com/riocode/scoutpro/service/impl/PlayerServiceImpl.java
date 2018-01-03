@@ -63,6 +63,26 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
     @Override
+    public List<Player> getAllComplete() {
+        List<Player> players = playerDao.getAll();
+        for (Player player : players) {
+            player.getTransfermarktInfo().getTransferList().size();
+            player.getTransfermarktInfo().getMarketValueList().size();
+            player.getWhoscoredInfoList().size();
+            for(WhoScoredInfo ws : player.getWhoscoredInfoList()){
+                ws.getCoreStatsList().size();
+                ws.getPositionPlayedStatsList().size();
+                ws.getGameList().size();
+            }
+            player.getPesDbInfoList().size();
+            player.getPsmlInfoList().size();
+        }
+        
+        return players;
+    }
+    
+
+    @Override
     public List<Player> getByName(String name) {
         List<Player> p = playerDao.getByName(name);
         if(p == null) throw  new PlayerNotFoundException("playerName", name);
