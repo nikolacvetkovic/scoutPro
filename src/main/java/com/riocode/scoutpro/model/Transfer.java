@@ -54,11 +54,12 @@ public class Transfer implements Serializable {
     private LocalDate dateOfTransfer;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "marketValue")
     private String marketValue;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 25)
     @Column(name = "transferFee")
     private String transferFee;
     @JsonBackReference
