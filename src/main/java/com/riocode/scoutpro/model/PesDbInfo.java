@@ -267,7 +267,7 @@ public class PesDbInfo implements Serializable {
     @Convert(converter = ListStringConverter.class)
     @Column(name = "comPlayingStyles")
     private List<String> comPlayingStyles;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastMeasured")
