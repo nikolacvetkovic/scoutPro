@@ -1,0 +1,51 @@
+html, body {
+    height: 100%;
+}
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+.container-fluid {
+    max-height: 100%;
+}
+.table td, .table th {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 5px;
+    text-align: center;
+}
+#left tbody td {
+    cursor: pointer;
+}
+.table-scroll tbody {
+    position: absolute;
+    overflow-y: scroll;
+    height: 250px;
+}
+.table-scroll tr {
+    width: 100%;
+    table-layout: fixed;
+    display: inline-table;
+}
+.table-scroll thead > tr > th {
+    border: none;
+}
+h6 {
+    text-align: center;
+    margin-bottom: 0;
+    margin-top: 8px;
+}
+hr {
+    margin-top: 0px;
+}
+#right-side .row {
+    width: 98%;
+    margin-left: auto;
+    margin-right: auto;
+}
+p {
+    margin: 0;
+}
