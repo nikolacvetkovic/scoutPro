@@ -45,7 +45,7 @@ public class PsmlInfo implements Serializable {
     private String teamName;
     @Column(name = "teamValue")
     private BigDecimal teamValue;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastMeasured")

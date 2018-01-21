@@ -50,7 +50,7 @@ public class WhoScoredInfo implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "season")
     private String season;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastMeasured")
