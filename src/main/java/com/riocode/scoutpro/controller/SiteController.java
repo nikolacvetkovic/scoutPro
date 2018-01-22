@@ -32,6 +32,12 @@ public class SiteController {
         return "dashboard";
     }
     
+    @RequestMapping(value = "/addplayer", method = RequestMethod.GET)
+    public String addplayer(){
+        
+        return "addplayer";
+    }
+    
     @RequestMapping(value = "/compare", method = RequestMethod.GET)
     public String compare(){
         

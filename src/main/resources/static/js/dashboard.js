@@ -80,27 +80,29 @@ function setListenersOnRows(){
         fillWhoScoredInfo(selectedPlayer);
         fillPesDbInfo(selectedPlayer);
         setColorOnRatings();
+        setBackgroundColorOnUserPlayers(jsonData, this);
+        setUrlsOnBadges(selectedPlayer);
+        setListenersOnBadges();
     });    
 }
 
 function fillTransfermarkInfo(selectedPlayer){
-    $('#tm div.row:nth-of-type(1) div:nth-of-type(2) p').empty();
-    $('#tm div.row:nth-of-type(1) div:nth-of-type(2) p:nth-of-type(1)').append(selectedPlayer.transfermarktInfo.nationalTeam);
-    $('#tm div.row:nth-of-type(1) div:nth-of-type(2) p:nth-of-type(2)').append(selectedPlayer.transfermarktInfo.clubTeam);
-    $('#tm div.row:nth-of-type(1) div:nth-of-type(2) p:nth-of-type(3)').append(selectedPlayer.transfermarktInfo.contractUntil);
-    $('#tm div.row:nth-of-type(2) div:nth-of-type(2) p').empty();
-    $('#tm div.row:nth-of-type(2) div:nth-of-type(2) p:nth-of-type(1)').append(selectedPlayer.transfermarktInfo.currentValue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + ' €');
-    $('#tm div.row:nth-of-type(2) div:nth-of-type(2) p:nth-of-type(2)').append(selectedPlayer.transfermarktInfo.lastChangedCurrentValue);
-    $('#tm > p span').empty();
-    $('#tm > p span').append(selectedPlayer.transfermarktInfo.lastMeasured);
+    $('#tm tr td:nth-of-type(2)').empty();
+    $('#nationalTeam').append(selectedPlayer.transfermarktInfo.nationalTeam);
+    $('#clubTeam').append(selectedPlayer.transfermarktInfo.clubTeam);
+    $('#contractUntil').append(selectedPlayer.transfermarktInfo.contractUntil);
+    $('#currentValue').append(selectedPlayer.transfermarktInfo.currentValue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + ' €');
+    $('#lastChangedCurrentValue').append(selectedPlayer.transfermarktInfo.lastChangedCurrentValue);
+    $('#tm #lastMeasured').empty();
+    $('#tm #lastMeasured').append('(' + selectedPlayer.transfermarktInfo.lastMeasured + ')');
 }
 
 function fillPsmlInfo(selectedPlayer){
-    $('#psml div.row div:nth-of-type(2) p').empty();
-    $('#psml div.row div:nth-of-type(2) p:nth-of-type(1)').append(selectedPlayer.psmlInfoList[selectedPlayer.psmlInfoList.length-1].teamName);
-    $('#psml div.row div:nth-of-type(2) p:nth-of-type(2)').append(selectedPlayer.psmlInfoList[selectedPlayer.psmlInfoList.length-1].teamValue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + ' €');
-    $('#psml > p span').empty();
-    $('#psml > p span').append(selectedPlayer.psmlInfoList[selectedPlayer.psmlInfoList.length-1].lastMeasured);
+    $('#psml tr td:nth-of-type(2)').empty();
+    $('#psml #clubTeam').append(selectedPlayer.psmlInfoList[selectedPlayer.psmlInfoList.length-1].teamName);
+    $('#psmlValue').append(selectedPlayer.psmlInfoList[selectedPlayer.psmlInfoList.length-1].teamValue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + ' €');
+    $('#psml #lastMeasured').empty();
+    $('#psml #lastMeasured').append('(' + selectedPlayer.psmlInfoList[selectedPlayer.psmlInfoList.length-1].lastMeasured + ')');
 }
 
 function fillPesDbInfo(selectedPlayer){
@@ -140,8 +142,8 @@ function fillPesDbInfo(selectedPlayer){
     $('#weakFootUsage').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].weakFootUsage);
     $('#weakFootAccuracy').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].weakFootAccuracy);
     $('#overallRating').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].overallRating);
-    $('#pesDb > p span').empty();
-    $('#pesDb > p span').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].lastMeasured);
+    $('#pesDb #lastMeasured').empty();
+    $('#pesDb #lastMeasured').append('(' + selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].lastMeasured + ')');
 }
 
 function fillWhoScoredInfo(selectedPlayer){
@@ -184,9 +186,11 @@ function fillWhoScoredInfo(selectedPlayer){
         var rating = document.createElement('td');
         rating.appendChild(document.createTextNode(coreStats.rating));
         tr.appendChild(rating);
+        $('#ws tbody tr').css('font-weight', 'normal');
+        $('#ws tbody:last-child').css('font-weight', 'bold');
         $('#ws table tbody').append(tr);
-        $('#ws > p span').empty();
-        $('#ws > p span').append(selectedPlayer.whoScoredInfoList[selectedPlayer.whoScoredInfoList.length-1].lastMeasured);
+        $('#ws #lastMeasured').empty();
+        $('#ws #lastMeasured').append('(' + selectedPlayer.whoScoredInfoList[selectedPlayer.whoScoredInfoList.length-1].lastMeasured + ')');
     });
 }
 
@@ -204,6 +208,65 @@ function setColorOnRatings(){
             } else if(rating.textContent >= 75){
                 rating.style.color = 'rgb(31, 193, 58)';
             }
+        }
+    });
+}
+
+function setBackgroundColorOnSelectedPlayer(){
+    $('#left tbody tr.table-danger').removeClass('table-danger');
+    $(this).addClass('table-danger');
+}
+
+function setBackgroundColorOnUserPlayers(jsonData, selectedRow){
+    var rows = document.querySelectorAll('#left tbody tr');
+    rows.forEach(function(row){
+        row.className = '';
+        row.style.fontWeight = 'normal';
+        var rowId = parseInt(row.querySelector('td:nth-of-type(1)').textContent);
+        for(var i = 0; i < jsonData.length; i++){
+            if(jsonData[i].id === rowId && jsonData[i].myPlayer){
+                row.className = 'table-success';
+                break;
+            }
+        }
+    });
+    $(selectedRow).removeClass('table-success');
+    $(selectedRow).css('font-weight', 'bold');
+    $(selectedRow).addClass('table-danger');
+}
+
+function setUrlsOnBadges(selectedPlayer){
+    $('#tm h6 span.badge').attr('data-url', '/player/transfermarkt/' + selectedPlayer.id);
+    $('#psml h6 span.badge').attr('data-url', '/player/psml/' + selectedPlayer.id);
+    $('#pesDb h6 span.badge').attr('data-url', '/player/pesdb/' + selectedPlayer.id);
+    $('#ws h6 span.badge').attr('data-url', '/player/whoscored/' + selectedPlayer.id);
+}
+
+function setListenersOnBadges(){
+    $('span.badge[data-url]').on('click', function(){
+        var URL = $(this).attr('data-url');
+        if(URL !== '#'){
+            $.ajax({
+                url: URL,
+                type: 'PUT',
+                success: function(updatedPlayer){
+                    var siteForUpdate = URL.split('/')[2];
+                    switch (siteForUpdate){
+                        case 'transfermarkt':
+                            fillTransfermarkInfo(updatedPlayer);
+                            break;
+                        case 'psml':
+                            fillPsmlInfo(updatedPlayer);
+                            break;
+                        case 'pesdb':
+                            fillPesDbInfo(updatedPlayer);
+                            break;
+                        case 'whoscored':
+                            fillWhoScoredInfo(updatedPlayer);
+                            break;
+                    }
+                }
+            });
         }
     });
 }

@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="partials/header.jsp" %>
-    
+
         <div class="row">
             <div id="left" class="col-lg-6 my-2" style="overflow: scroll;overflow-x: hidden; padding-left: 0; padding-right: 0;">
                 <table class="table table-hover table-scroll" style="margin-bottom: 0">
@@ -9,41 +9,41 @@
                             <th class="">Name</th>
                             <th class="" style="width: 10%">
                                 Age
-                                <span class="badge badge-primary" style="cursor: pointer">
+                                <span class="badge badge-primary">
                                     <i class="fa fa-sort-desc" aria-hidden="true"></i>
-                                </span><span class="badge badge-primary" style="cursor: pointer">
+                                </span><span class="badge badge-primary">
                                     <i class="fa fa-sort-asc" aria-hidden="true"></i>
                                 </span>
                             </th>
                             <th class="" style="width: 14%">
                                 Position
-                                <span class="badge badge-primary" style="cursor: pointer">
+                                <span class="badge badge-primary">
                                     <i class="fa fa-sort-desc" aria-hidden="true"></i>
-                                </span><span class="badge badge-primary" style="cursor: pointer">
+                                </span><span class="badge badge-primary">
                                     <i class="fa fa-sort-asc" aria-hidden="true"></i>
                                 </span>
                             </th>
                             <th class="" style="width: 13%">
                                 Overall
-                                <span class="badge badge-primary" style="cursor: pointer">
+                                <span class="badge badge-primary">
                                     <i class="fa fa-sort-desc" aria-hidden="true"></i>
-                                </span><span class="badge badge-primary" style="cursor: pointer">
+                                </span><span class="badge badge-primary">
                                     <i class="fa fa-sort-asc" aria-hidden="true"></i>
                                 </span>
                             </th>
                             <th class="">
                                 Psml Value
-                                <span class="badge badge-primary" style="cursor: pointer">
+                                <span class="badge badge-primary">
                                     <i class="fa fa-sort-desc" aria-hidden="true"></i>
-                                </span><span class="badge badge-primary" style="cursor: pointer">
+                                </span><span class="badge badge-primary">
                                     <i class="fa fa-sort-asc" aria-hidden="true"></i>
                                 </span>
                             </th>
                             <th class="">
                                 TM Value
-                                <span class="badge badge-primary" style="cursor: pointer">
+                                <span class="badge badge-primary">
                                     <i class="fa fa-sort-desc" aria-hidden="true"></i>
-                                </span><span class="badge badge-primary" style="cursor: pointer">
+                                </span><span class="badge badge-primary">
                                     <i class="fa fa-sort-asc" aria-hidden="true"></i>
                                 </span>
                             </th>
@@ -57,51 +57,61 @@
                 <div id="right" style="overflow: scroll;overflow-x: hidden;">
                 <div class="row" style="width: 99%;">
                     <div id="tm" class="col-lg-6" style="border-right-style: solid; border-width: 2px;">
-                        <h6>Transfermarkt Info</h6>
+                        <h6>Transfermarkt Info <span id="lastMeasured" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
                         <hr style="width: 40%;">
                         <div class="row">
-                            <div class="col-sm-6 col-lg-6">
-                                <p>National team</p>
-                                <p>Club team</p>
-                                <p>Contract until</p>
-                            </div>
-                            <div class="col-sm-6 col-lg-6">
-                                <p></p>
-                                <p></p>
-                                <p></p>
+                            <div class="col-sm-12 col-lg-12">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%">National team</td>
+                                            <td id="nationalTeam"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 50%">Club team</td>
+                                            <td id="clubTeam"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 50%">Contract until</td>
+                                            <td id="contractUntil"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 50%">Current value</td>
+                                            <td id="currentValue"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 50%">Last changed</td>
+                                            <td id="lastChangedCurrentValue"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6 col-lg-6">
-                                <p>Current value</p>
-                                <p>Last changed</p>
-                            </div>
-                            <div class="col-sm-6 col-lg-6">
-                                <p></p>
-                                <p></p>
-                            </div>
-                        </div>
-                        <p style="text-align: right;">Checked <span></span></p>
                     </div>
                     <div id="psml" class="col-lg-6">
-                        <h6>Psml Info</h6>
+                        <h6>Psml Info <span id="lastMeasured" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
                         <hr style="width: 30%;">
                         <div class="row">
-                            <div class="col-sm-6 col-lg-6">
-                                <p>Club team</p>
-                                <p>Psml value</p>
-                            </div>
-                            <div class="col-sm-6 col-lg-6">
-                                <p></p>
-                                <p></p>
+                            <div class="col-sm-12 col-lg-12">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%">Club team</td>
+                                            <td id="clubTeam"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 50%">Psml value</td>
+                                            <td id="psmlValue"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <p style="text-align: right;">Checked <span></span></p>
                     </div>
                 </div>
                 <div class="row" style="border-style: solid none; border-width: 2px;">
                     <div id="pesDb" class="col-lg-12">
-                        <h6>PesDb Info</h6>
+                        <h6>PesDb Info <span id="lastMeasured" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
                         <hr style="width: 20%;">
                         <div class="row" style="">
                             <div class="col-sm-4 col-lg-4" style="padding: 0">
@@ -275,12 +285,11 @@
                                 </table>
                             </div>
                         </div>
-                        <p style="text-align: right;">Checked <span></span></p>
                     </div>
                 </div>
                 <div class="row">
                     <div id="ws" class="col-lg-12">
-                        <h6>Whoscored Info</h6>
+                        <h6>Whoscored Info <span id="lastMeasured" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
                         <hr style="width: 20%;">
                         <div class="row">
                             <div class="col-sm-12 col-lg-12">
@@ -306,7 +315,6 @@
                                 </table>
                             </div>
                         </div>
-                        <p style="text-align: right;">Checked <span></span></p>
                     </div>
                 </div>
             </div>
