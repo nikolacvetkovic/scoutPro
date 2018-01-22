@@ -49,3 +49,21 @@ hr {
 p {
     margin: 0;
 }
+#pesDb table tr td, #ws table tr td, #tm table tr td, #psml table tr td {
+    padding: 0;
+}
+span.badge {
+    cursor: pointer;
+}
+span.lastMeasured {
+    font-size: 10px;
+}
+#overallRating {
+    font-weight: bold;
+}
+
+#addplayer form {
+    margin-top: 100px;
+    height: 330px;
+    color: rgb(255, 255, 255);
+}

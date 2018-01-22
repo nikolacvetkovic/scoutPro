@@ -28,7 +28,7 @@
                         <a class="nav-link" href="/dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Add Player</a>
+                        <a class="nav-link" href="/addplayer">Add Player</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Compare players</a>
@@ -49,7 +49,7 @@
         </nav>
         <div class="container-fluid">
             <div class="alert alert-success mt-2 my-2 py-2" style="display: none;">
-                Dashboard
+                
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

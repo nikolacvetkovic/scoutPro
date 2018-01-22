@@ -103,7 +103,7 @@ public class TransfermarktInfo implements Serializable {
     @Size(min = 1, max = 40)
     @Column(name = "position")
     private String position;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     @Basic(optional = false)
     @NotNull
     @Column(name = "lastMeasured")

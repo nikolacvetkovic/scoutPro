@@ -63,7 +63,7 @@ public class Player implements Serializable {
     @Size(max = 256)
     @Column(name = "psmlUrl")
     private String psmlUrl;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     @Basic(optional = false)
     @Column(name = "lastMeasured")
     private LocalDateTime lastMeasured;
