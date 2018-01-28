@@ -43,8 +43,14 @@ public class PsmlCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
 
     private void crawlCoreData(Document doc){
         String teamName = CrawlHelper.getElementData(doc, "table.innerTable tbody tr:nth-of-type(2) td:nth-of-type(2) p:nth-of-type(2) a", false);
+        if(teamName == null){
+            teamName = CrawlHelper.getElementData(doc, "table.innerTable tbody tr:nth-of-type(2) td:nth-of-type(2) p:nth-of-type(2)", true);
+        }
         psmlInfo.setTeamName(teamName);
         String teamValue = CrawlHelper.getElementData(doc, "table.innerTable tbody tr:nth-of-type(2) td:nth-of-type(3) p:nth-of-type(1)", true);
+        if(!teamValue.contains(",")){
+            teamValue = CrawlHelper.getElementData(doc, "table.innerTable tbody tr:nth-of-type(2) td:nth-of-type(3) p:nth-of-type(1) span", false);
+        }
         teamValue = teamValue.replaceAll("[^0-9,]", "").replace(",", "");
         psmlInfo.setTeamValue(new BigDecimal(teamValue));
         psmlInfo.setLastMeasured(LocalDateTime.now());
@@ -52,7 +58,7 @@ public class PsmlCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
     
     @Override
     protected Document getDocument(String url){
-        System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "E:/chromedriver.exe");
         WebDriver driver = null;
         String html = null;
         try {
@@ -68,6 +74,6 @@ public class PsmlCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
                 driver.quit();
         }
         return Jsoup.parse(html);
-    }
+    }  
     
 }
