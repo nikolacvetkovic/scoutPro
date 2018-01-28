@@ -79,6 +79,12 @@ public class PesDbInfo implements Serializable {
     @Size(min = 1, max = 3)
     @Column(name = "primaryPosition")
     private String primaryPosition;
+    @Basic(optional = false)
+    @NotNull
+    @Min(1)
+    @Max(13)
+    @Column(name = "positionNumberValue")
+    private int positionNumberValue;
     @Size(max = 50)
     @Convert(converter = ListStringConverter.class)
     @Column(name = "otherStrongPositions")
@@ -349,6 +355,14 @@ public class PesDbInfo implements Serializable {
 
     public void setPrimaryPosition(String primaryPosition) {
         this.primaryPosition = primaryPosition;
+    }
+    
+    public int getPositionNumberValue() {
+        return positionNumberValue;
+    }
+
+    public void setPositionNumberValue(int positionNumberValue) {
+        this.positionNumberValue = positionNumberValue;
     }
 
     public List<String> getOtherStrongPositions() {
