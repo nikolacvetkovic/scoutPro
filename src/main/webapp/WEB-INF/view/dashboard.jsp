@@ -15,7 +15,7 @@
                                     <i class="fa fa-sort-asc" aria-hidden="true"></i>
                                 </span>
                             </th>
-                            <th class="" style="width: 14%">
+                            <th id="position" style="width: 14%">
                                 Position
                                 <span class="badge badge-primary">
                                     <i class="fa fa-sort-desc" aria-hidden="true"></i>
@@ -58,7 +58,7 @@
                 <div class="row" style="width: 99%;">
                     <div id="tm" class="col-lg-6" style="border-right-style: solid; border-width: 2px;">
                         <h6>Transfermarkt Info <span id="lastMeasured" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
-                        <hr style="width: 40%;">
+                        <hr style="width: 55%;">
                         <div class="row">
                             <div class="col-sm-12 col-lg-12">
                                 <table class="table table-hover">
@@ -90,7 +90,7 @@
                     </div>
                     <div id="psml" class="col-lg-6">
                         <h6>Psml Info <span id="lastMeasured" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
-                        <hr style="width: 30%;">
+                        <hr style="width: 40%;">
                         <div class="row">
                             <div class="col-sm-12 col-lg-12">
                                 <table class="table table-hover">
@@ -290,7 +290,7 @@
                 <div class="row">
                     <div id="ws" class="col-lg-12">
                         <h6>Whoscored Info <span id="lastMeasured" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
-                        <hr style="width: 20%;">
+                        <hr style="width: 25%;">
                         <div class="row">
                             <div class="col-sm-12 col-lg-12">
                                 <table class="table table-hover">
