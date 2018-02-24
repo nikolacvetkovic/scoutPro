@@ -76,3 +76,10 @@ span.lastMeasured {
     font-size: 12px;
     color: #000;
 }
+
+.fa-arrow-circle-down {
+    color: red;
+}
+.fa-arrow-circle-up {
+    color: green;
+}
