@@ -150,7 +150,12 @@ public class PesDbCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         pesDbInfo.setFoot(foot);
         String weekCondition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(11) td", false);
         pesDbInfo.setWeekCondition(weekCondition);
-        String primaryPosition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(12) td div", false);        
+        String primaryPosition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(12) td div", false);
+        for (Positions p : Positions.values()) {
+            if(p.toString().equals(primaryPosition)){
+                pesDbInfo.setPositionNumberValue(p.getNumberValue());
+            }
+        }
         pesDbInfo.setPrimaryPosition(primaryPosition);
         pesDbInfo.setOtherStrongPositions(extractOtherStrongPositions(doc));
         pesDbInfo.setOtherWeakPositions(extractOtherWeakPositions(doc));
@@ -200,6 +205,21 @@ public class PesDbCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         }
         
         return positions;
+    }
+    
+    private enum Positions {
+        GK(1), CB(2), LB(3), RB(4), DMF(5), CMF(6), LMF(7), RMF(8), AMF(9), LWF(10), RWF(11), SS(12), CF(13);
+        
+        private int numberValue;
+        
+        private Positions(int numberValue) {
+            this.numberValue = numberValue;
+        }
+        
+        public int getNumberValue(){
+            return this.numberValue;
+        }
+        
     }
     
 }

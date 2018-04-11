@@ -5,7 +5,7 @@
   <groupId>com.riocode</groupId>
   <artifactId>scoutpro</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
   <name>ScoutPro</name>
 
@@ -137,7 +137,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
             <configuration>
-              <main-class>${start-class}</main-class>
+              <!--<main-class>${start-class}</main-class>-->
               <layout>ZIP</layout>
             </configuration>
             <executions>
