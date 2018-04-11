@@ -154,6 +154,7 @@ create table if not exists scout_pro_development.pesDbInfo(
     foot varchar(5) not null,
     weekCondition varchar(1) not null,
     primaryPosition varchar(3) not null,
+    positionNumberValue int not null,
     otherStrongPositions varchar(50) null,
     otherWeakPositions varchar(50) null,    
     attackingProwess int not null,

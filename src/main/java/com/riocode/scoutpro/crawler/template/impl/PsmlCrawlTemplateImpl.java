@@ -58,7 +58,7 @@ public class PsmlCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
     
     @Override
     protected Document getDocument(String url){
-        System.setProperty("webdriver.chrome.driver", "E:/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver driver = null;
         String html = null;
         try {
