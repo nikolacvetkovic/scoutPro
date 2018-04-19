@@ -172,7 +172,12 @@ public class PesDbCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         pesDbInfo.setFoot(foot);
         String weekCondition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(10) td", false);
         pesDbInfo.setWeekCondition(weekCondition);        
-        String primaryPosition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(11) td div", false);        
+        String primaryPosition = CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(11) td div", false);
+        for (Positions p : Positions.values()) {
+            if(p.toString().equals(primaryPosition)){
+                pesDbInfo.setPositionNumberValue(p.getNumberValue());
+            }
+        }
         pesDbInfo.setPrimaryPosition(primaryPosition);
         pesDbInfo.setOtherStrongPositions(extractOtherStrongPositions(doc));
         pesDbInfo.setOtherWeakPositions(extractOtherWeakPositions(doc));
