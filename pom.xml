@@ -129,6 +129,13 @@
             <artifactId>mysql-connector-java</artifactId>
       </dependency>
 
+                        <!--PostgreSQL Connector-->
+      <dependency>
+          <groupId>org.postgresql</groupId>
+          <artifactId>postgresql</artifactId>
+          <version>42.1.4</version>
+      </dependency>
+
   </dependencies>
     
   <build>
