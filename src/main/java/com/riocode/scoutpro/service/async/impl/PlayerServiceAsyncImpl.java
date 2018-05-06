@@ -66,6 +66,7 @@ public class PlayerServiceAsyncImpl implements PlayerServiceAsync{
         p.getTransfermarktInfo().getTransferList().clear();
         p.getTransfermarktInfo().getMarketValueList().size();
         p.getTransfermarktInfo().getMarketValueList().clear();
+        p.getPsmlInfoList().size();
         TransfermarktCrawlTemplateImpl tmCrawlTemplate = new TransfermarktCrawlTemplateImpl(p.getTransfermarktInfo());
         tmCrawlTemplate.start();
         return new AsyncResult<>(p);
