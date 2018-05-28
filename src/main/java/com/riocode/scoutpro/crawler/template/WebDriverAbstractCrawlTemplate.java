@@ -29,7 +29,6 @@ public abstract class WebDriverAbstractCrawlTemplate implements CrawlTemplate{
     }
         
     protected Document getDocument(String url){
-        System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver driver = null;
         String html = null;
         try {
