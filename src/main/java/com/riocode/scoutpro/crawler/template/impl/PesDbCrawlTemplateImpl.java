@@ -88,25 +88,25 @@ public class PesDbCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
                 Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(1) td", false)));
         pesDbInfo.setJump(
                 Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(2) td", false)));
-        pesDbInfo.setStamina(
-                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(3) td", false)));
         pesDbInfo.setGoalkeeping(
-                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(4) td", false)));
+                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(3) td", false)));
         pesDbInfo.setCatching(
-                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(5) td", false)));
+                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(4) td", false)));
         pesDbInfo.setClearing(
-                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(6) td", false)));
+                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(5) td", false)));
         pesDbInfo.setReflexes(
-                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(7) td", false)));
+                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(6) td", false)));
         pesDbInfo.setCoverage(
+                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(7) td", false)));
+        pesDbInfo.setStamina(
                 Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(8) td", false)));
-        pesDbInfo.setForm(
-                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(9) td", false)));
-        pesDbInfo.setInjuryResistance(
-                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(10) td", false)));
         pesDbInfo.setWeakFootUsage(
-                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(11) td", false)));
+                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(9) td", false)));
         pesDbInfo.setWeakFootAccuracy(
+                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(10) td", false)));
+        pesDbInfo.setForm(
+                Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(11) td", false)));
+        pesDbInfo.setInjuryResistance(
                 Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(12) td", false)));
         pesDbInfo.setOverallRating(
                 Integer.parseInt(CrawlHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(14) td", false)));
