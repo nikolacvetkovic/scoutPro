@@ -233,31 +233,37 @@ function setListenersOnBadges(){
                 success: function(updatedPlayer){
                     var siteForUpdate = URL.split('/')[2];
                     var currentlySelectedPlayerId = parseInt($('#tab-body tr[selected="selected"] td:nth-of-type(1)').get(0).textContent);
-                    if(updatedPlayer.id === currentlySelectedPlayerId){
-                        switch (siteForUpdate){
-                            case 'transfermarkt':
+                    switch (siteForUpdate){
+                        case 'transfermarkt':
+                            updateDataScript(updatedPlayer, updateDataScriptTransfermarkt);
+                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:last-of-type').html(formatPlayerValue(updatedPlayer.transfermarktInfo.currentValue));
+                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6) i').removeClass();
+                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6) i').addClass(getArrowBasedOnRelation(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue, updatedPlayer.transfermarktInfo.currentValue));
+                            if(updatedPlayer.id === currentlySelectedPlayerId){
                                 fillTransfermarkInfo(updatedPlayer);
-                                updateDataScript(updatedPlayer, updateDataScriptTransfermarkt);
-                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:last-of-type').html(formatPlayerValue(updatedPlayer.transfermarktInfo.currentValue));
-                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6) i').removeClass();
-                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6) i').addClass(getArrowBasedOnRelation(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue, updatedPlayer.transfermarktInfo.currentValue));
-                                break;
-                            case 'psml':
+                            }
+                            break;
+                        case 'psml':
+                            updateDataScript(updatedPlayer, updateDataScriptPsml);
+                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6)').html(formatPlayerValue(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue).concat(' ').concat('<i class="'+getArrowBasedOnRelation(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue, updatedPlayer.transfermarktInfo.currentValue)+'" aria-hidden="true"></i>'));
+                            if(updatedPlayer.id === currentlySelectedPlayerId){
                                 fillPsmlInfo(updatedPlayer);
-                                updateDataScript(updatedPlayer, updateDataScriptPsml);
-                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6)').html(formatPlayerValue(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue).concat(' ').concat('<i class="'+getArrowBasedOnRelation(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue, updatedPlayer.transfermarktInfo.currentValue)+'" aria-hidden="true"></i>'));
-                                break;
-                            case 'pesdb':
+                            }
+                            break;
+                        case 'pesdb':
+                            updateDataScript(updatedPlayer, updateDataScriptPesDb);
+                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(5)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].primaryPosition);
+                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(5)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].overallRating);
+                            if(updatedPlayer.id === currentlySelectedPlayerId){
                                 fillPesDbInfo(updatedPlayer);
-                                updateDataScript(updatedPlayer, updateDataScriptPesDb);
-                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(5)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].primaryPosition);
-                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(5)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].overallRating);
-                                break;
-                            case 'whoscored':
+                            }                            
+                            break;
+                        case 'whoscored':
+                            updateDataScript(updatedPlayer, updateDataScriptWhoScored);
+                            if(updatedPlayer.id === currentlySelectedPlayerId){
                                 fillWhoScoredInfo(updatedPlayer);
-                                updateDataScript(updatedPlayer, updateDataScriptWhoScored);
-                                break;
-                        }
+                            }  
+                            break;
                     }
                 }
             });
