@@ -31,6 +31,21 @@ function getAllPlayers(){
     });
 }
 
+function fillTableWithPlayers(data){
+    $('#tab-body').empty();
+    data.forEach(function(player){
+            var tr = document.createElement('tr');
+            if(player.myPlayer) $(tr).addClass('table-success');
+            $('#tab-body').append($(tr).append($('<td>').css('display', 'none').append(player.id))
+                                        .append($('<td>').append(player.transfermarktInfo.playerName + ' ').append($('<a>').attr('href', '/player/complete/'+player.id).attr('target', '_blank').append($('<i>').addClass('fa fa-external-link').attr('aria-hidden', true))))
+                                        .append($('<td>').css('width', '10%').append(player.transfermarktInfo.age))
+                                        .append($('<td>').css('width', '14%').append(player.pesDbInfoList[player.pesDbInfoList.length-1].primaryPosition))
+                                        .append($('<td>').css('width', '13%').append(player.pesDbInfoList[player.pesDbInfoList.length-1].overallRating))
+                                        .append($('<td>').append(formatPlayerValue(player.psmlInfoList[player.psmlInfoList.length-1].teamValue) + ' ').css('text-align', 'right').css('padding-right', '3.5%').append($(' <i>').addClass(getArrowBasedOnRelation(player.psmlInfoList[player.psmlInfoList.length-1].teamValue, player.transfermarktInfo.currentValue))))
+                                        .append($('<td>').append(formatPlayerValue(player.transfermarktInfo.currentValue)).css('text-align', 'right').css('padding-right', '4.5%')));
+    });
+}
+
 function setListenersOnRows(){
     $('#left tbody').on('click', 'tr', function(){
         var jsonData = JSON.parse(document.querySelector('#jsonData').textContent);
@@ -181,14 +196,10 @@ function setColorOnRatings(){
     });
 }
 
-function setBackgroundColorOnSelectedPlayer(){
-    $('#left tbody tr.table-danger').removeClass('table-danger');
-    $(this).addClass('table-danger');
-}
-
 function setBackgroundColorOnUserPlayers(jsonData, selectedRow){
     var rows = document.querySelectorAll('#left tbody tr');
     rows.forEach(function(row){
+        row.removeAttribute('selected');
         row.className = '';
         row.style.fontWeight = 'normal';
         var rowId = parseInt(row.querySelector('td:nth-of-type(1)').textContent);
@@ -201,6 +212,7 @@ function setBackgroundColorOnUserPlayers(jsonData, selectedRow){
     });
     $(selectedRow).removeClass('table-success');
     $(selectedRow).css('font-weight', 'bold');
+    $(selectedRow).attr('selected', 'true');
     $(selectedRow).addClass('table-danger');
 }
 
@@ -220,36 +232,32 @@ function setListenersOnBadges(){
                 type: 'PUT',
                 success: function(updatedPlayer){
                     var siteForUpdate = URL.split('/')[2];
-                    switch (siteForUpdate){
-                        case 'transfermarkt':
-                            fillTransfermarkInfo(updatedPlayer);
-                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:last-of-type').html('€ ' + updatedPlayer.transfermarktInfo.currentValue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'));
-                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6) i').removeClass();
-                            if(updatedPlayer.transfermarktInfo.currentValue === updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue){
-                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6) i').addClass('fa fa-minus-square');
-                            } else if(updatedPlayer.transfermarktInfo.currentValue < updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue){
-                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6) i').addClass('fa fa-arrow-circle-down');
-                            } else {
-                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6) i').addClass('fa fa-arrow-circle-up');
-                            }
-                            break;
-                        case 'psml':
-                            fillPsmlInfo(updatedPlayer);
-                            var tdPsmlValue = '€ ' + updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                            if(updatedPlayer.transfermarktInfo.currentValue === updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue){
-                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6)').html(tdPsmlValue.concat(' <i class="fa fa-minus-square" aria-hidden="true"></i>'));
-                            } else if(updatedPlayer.transfermarktInfo.currentValue < updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue){
-                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6)').html(tdPsmlValue.concat(' <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>'));
-                            } else {
-                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6)').html(tdPsmlValue.concat(' <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>'));
-                            }
-                            break;
-                        case 'pesdb':
-                            fillPesDbInfo(updatedPlayer);
-                            break;
-                        case 'whoscored':
-                            fillWhoScoredInfo(updatedPlayer);
-                            break;
+                    var currentlySelectedPlayerId = parseInt($('#tab-body tr[selected="selected"] td:nth-of-type(1)').get(0).textContent);
+                    if(updatedPlayer.id === currentlySelectedPlayerId){
+                        switch (siteForUpdate){
+                            case 'transfermarkt':
+                                fillTransfermarkInfo(updatedPlayer);
+                                updateDataScript(updatedPlayer, updateDataScriptTransfermarkt);
+                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:last-of-type').html(formatPlayerValue(updatedPlayer.transfermarktInfo.currentValue));
+                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6) i').removeClass();
+                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6) i').addClass(getArrowBasedOnRelation(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue, updatedPlayer.transfermarktInfo.currentValue));
+                                break;
+                            case 'psml':
+                                fillPsmlInfo(updatedPlayer);
+                                updateDataScript(updatedPlayer, updateDataScriptPsml);
+                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6)').html(formatPlayerValue(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue).concat(' ').concat('<i class="'+getArrowBasedOnRelation(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue, updatedPlayer.transfermarktInfo.currentValue)+'" aria-hidden="true"></i>'));
+                                break;
+                            case 'pesdb':
+                                fillPesDbInfo(updatedPlayer);
+                                updateDataScript(updatedPlayer, updateDataScriptPesDb);
+                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(5)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].primaryPosition);
+                                $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(5)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].overallRating);
+                                break;
+                            case 'whoscored':
+                                fillWhoScoredInfo(updatedPlayer);
+                                updateDataScript(updatedPlayer, updateDataScriptWhoScored);
+                                break;
+                        }
                     }
                 }
             });
@@ -267,25 +275,43 @@ function setSortByPositionAscOnBadge(){
     });
 }
 
-function fillTableWithPlayers(data){
-    $('#tab-body').empty();
-    data.forEach(function(player){
-            var tr = document.createElement('tr');
-            if(player.myPlayer) $(tr).addClass('table-success');
-            var tdPsmlValue = '€ ' + player.psmlInfoList[player.psmlInfoList.length-1].teamValue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-            if(player.transfermarktInfo.currentValue === player.psmlInfoList[player.psmlInfoList.length-1].teamValue){
-                tdPsmlValue =  tdPsmlValue.concat(' <i class="fa fa-minus-square" aria-hidden="true"></i>');
-            } else if(player.transfermarktInfo.currentValue < player.psmlInfoList[player.psmlInfoList.length-1].teamValue){
-                tdPsmlValue =  tdPsmlValue.concat(' <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>');
-            } else {
-                tdPsmlValue =  tdPsmlValue.concat(' <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>');
-            }
-            $('#tab-body').append($(tr).append($('<td>').css('display', 'none').append(player.id))
-                                        .append($('<td>').append(player.transfermarktInfo.playerName + ' ').append($('<a>').attr('href', '/player/complete/'+player.id).append($('<i>').addClass('fa fa-external-link').attr('aria-hidden', true))))
-                                        .append($('<td>').css('width', '10%').append(player.transfermarktInfo.age))
-                                        .append($('<td>').css('width', '14%').append(player.pesDbInfoList[player.pesDbInfoList.length-1].primaryPosition))
-                                        .append($('<td>').css('width', '13%').append(player.pesDbInfoList[player.pesDbInfoList.length-1].overallRating))
-                                        .append($('<td>').append(tdPsmlValue).css('text-align', 'right').css('padding-right', '3.5%'))
-                                        .append($('<td>').append('€ ' + player.transfermarktInfo.currentValue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'))));
+function updateDataScript(updatedPlayer, callback){
+    var jsonData = JSON.parse(document.querySelector('#jsonData').textContent);
+    jsonData.forEach(function(player){
+        if(player.id === updatedPlayer.id){
+            callback(player, updatedPlayer);
+            return false;
+        }
     });
+    $('#jsonData').html(JSON.stringify(jsonData));
+}
+
+function updateDataScriptTransfermarkt(currentPlayer, updatedPlayer){
+    currentPlayer.transfermarktInfo = updatedPlayer.transfermarktInfo;
+}
+
+function updateDataScriptWhoScored(currentPlayer, updatedPlayer){
+    currentPlayer.whoScoredInfoList[currentPlayer.whoScoredInfoList.length-1] = updatedPlayer.whoScoredInfoList[currentPlayer.whoScoredInfoList.length-1];
+}
+
+function updateDataScriptPesDb(currentPlayer, updatedPlayer){
+    currentPlayer.pesDbInfoList[currentPlayer.pesDbInfoList.length-1] = updatedPlayer.pesDbInfoList[currentPlayer.pesDbInfoList.length-1];
+}
+
+function updateDataScriptPsml(currentPlayer, updatedPlayer){
+    currentPlayer.psmlInfoList[currentPlayer.psmlInfoList.length-1] = updatedPlayer.psmlInfoList[currentPlayer.psmlInfoList.length-1];
+}
+
+function getArrowBasedOnRelation(psmlValue, tmValue){
+    if(psmlValue === tmValue){
+        return 'fa fa-minus-square';
+    } else if(psmlValue > tmValue){
+        return 'fa fa-arrow-circle-down';
+    } else {
+        return 'fa fa-arrow-circle-up';
+    }
+}
+
+function formatPlayerValue(value){
+    return '€ ' + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
 }
