@@ -67,68 +67,72 @@ function setListenersOnRows(){
 
 function fillTransfermarkInfo(selectedPlayer){
     $('#tm tr td:nth-of-type(2)').empty();
-    $('#nationalTeam').append(selectedPlayer.transfermarktInfo.nationalTeam);
-    $('#clubTeam').append(selectedPlayer.transfermarktInfo.clubTeam);
-    $('#contractUntil').append(selectedPlayer.transfermarktInfo.contractUntil);
-    $('#currentValue').append(selectedPlayer.transfermarktInfo.currentValue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + ' €');
-    $('#lastChangedCurrentValue').append(selectedPlayer.transfermarktInfo.lastChangedCurrentValue);
+    var transfermarktInfo = selectedPlayer.transfermarktInfo;
+    $('#nationalTeam').append(transfermarktInfo.nationalTeam);
+    $('#clubTeam').append(transfermarktInfo.clubTeam);
+    $('#contractUntil').append(transfermarktInfo.contractUntil);
+    $('#currentValue').append(formatPlayerValue(transfermarktInfo.currentValue));
+    $('#lastChangedCurrentValue').append(transfermarktInfo.lastChangedCurrentValue);
     $('#tm #lastMeasured').empty();
-    $('#tm #lastMeasured').append('(' + selectedPlayer.transfermarktInfo.lastMeasured + ')');
+    $('#tm #lastMeasured').append('(' + transfermarktInfo.lastMeasured + ')');
 }
 
 function fillPsmlInfo(selectedPlayer){
     $('#psml tr td:nth-of-type(2)').empty();
-    $('#psml #clubTeam').append(selectedPlayer.psmlInfoList[selectedPlayer.psmlInfoList.length-1].teamName);
-    $('#psmlValue').append(selectedPlayer.psmlInfoList[selectedPlayer.psmlInfoList.length-1].teamValue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + ' €');
+    var psmlInfo = selectedPlayer.psmlInfoList[selectedPlayer.psmlInfoList.length-1];
+    $('#psml #clubTeam').append(psmlInfo.teamName);
+    $('#psmlValue').append(formatPlayerValue(psmlInfo.teamValue));
     $('#psml #lastMeasured').empty();
-    $('#psml #lastMeasured').append('(' + selectedPlayer.psmlInfoList[selectedPlayer.psmlInfoList.length-1].lastMeasured + ')');
+    $('#psml #lastMeasured').append('(' + psmlInfo.lastMeasured + ')');
 }
 
 function fillPesDbInfo(selectedPlayer){
     $('#pesDb tr td:nth-of-type(2)').empty();
-    $('#pesDbName').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].pesDbName);
-    $('#teamName').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].teamName);
-    $('#foot').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].foot);
-    $('#weekCondition').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].weekCondition);
-    $('#primaryPosition').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].primaryPosition);
-    $('#otherStrongPositions').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].otherStrongPositions.join(', '));
-    $('#otherWeakPositions').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].otherWeakPositions.join(', '));
-    $('#attackingProwess').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].attackingProwess);
-    $('#ballControl').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].ballControl);
-    $('#dribbling').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].dribbling);
-    $('#lowPass').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].lowPass);
-    $('#loftedPass').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].loftedPass);
-    $('#finishing').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].finishing);
-    $('#placeKicking').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].placeKicking);
-    $('#swerve').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].swerve);
-    $('#header').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].header);
-    $('#defensiveProwess').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].defensiveProwess);
-    $('#ballWinning').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].ballWinning);
-    $('#kickingPower').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].kickingPower);
-    $('#speed').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].speed);
-    $('#explosivePower').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].explosivePower);
-    $('#bodyControl').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].bodyControl);
-    $('#physicalContact').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].physicalContact);
-    $('#jump').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].jump);
-    $('#stamina').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].stamina);
-    $('#goalkeeping').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].goalkeeping);
-    $('#catching').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].catching);
-    $('#clearing').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].clearing);
-    $('#reflexes').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].reflexes);
-    $('#coverage').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].coverage);
-    $('#form').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].form);
-    $('#injuryResistance').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].injuryResistance);
-    $('#weakFootUsage').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].weakFootUsage);
-    $('#weakFootAccuracy').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].weakFootAccuracy);
-    $('#overallRating').append(selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].overallRating);
+    var pesDbInfo = selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1];
+    $('#pesDbName').append(pesDbInfo.pesDbName);
+    $('#teamName').append(pesDbInfo.teamName);
+    $('#foot').append(pesDbInfo.foot);
+    $('#weekCondition').append(pesDbInfo.weekCondition);
+    $('#primaryPosition').append(pesDbInfo.primaryPosition);
+    $('#otherStrongPositions').append(pesDbInfo.otherStrongPositions.join(', '));
+    $('#otherWeakPositions').append(pesDbInfo.otherWeakPositions.join(', '));
+    $('#attackingProwess').append(pesDbInfo.attackingProwess);
+    $('#ballControl').append(pesDbInfo.ballControl);
+    $('#dribbling').append(pesDbInfo.dribbling);
+    $('#lowPass').append(pesDbInfo.lowPass);
+    $('#loftedPass').append(pesDbInfo.loftedPass);
+    $('#finishing').append(pesDbInfo.finishing);
+    $('#placeKicking').append(pesDbInfo.placeKicking);
+    $('#swerve').append(pesDbInfo.swerve);
+    $('#header').append(pesDbInfo.header);
+    $('#defensiveProwess').append(pesDbInfo.defensiveProwess);
+    $('#ballWinning').append(pesDbInfo.ballWinning);
+    $('#kickingPower').append(pesDbInfo.kickingPower);
+    $('#speed').append(pesDbInfo.speed);
+    $('#explosivePower').append(pesDbInfo.explosivePower);
+    $('#bodyControl').append(pesDbInfo.bodyControl);
+    $('#physicalContact').append(pesDbInfo.physicalContact);
+    $('#jump').append(pesDbInfo.jump);
+    $('#stamina').append(pesDbInfo.stamina);
+    $('#goalkeeping').append(pesDbInfo.goalkeeping);
+    $('#catching').append(pesDbInfo.catching);
+    $('#clearing').append(pesDbInfo.clearing);
+    $('#reflexes').append(pesDbInfo.reflexes);
+    $('#coverage').append(pesDbInfo.coverage);
+    $('#form').append(pesDbInfo.form);
+    $('#injuryResistance').append(pesDbInfo.injuryResistance);
+    $('#weakFootUsage').append(pesDbInfo.weakFootUsage);
+    $('#weakFootAccuracy').append(pesDbInfo.weakFootAccuracy);
+    $('#overallRating').append(pesDbInfo.overallRating);
     $('#pesDb #lastMeasured').empty();
-    $('#pesDb #lastMeasured').append('(' + selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1].lastMeasured + ')');
+    $('#pesDb #lastMeasured').append('(' + pesDbInfo.lastMeasured + ')');
     setColorOnRatings();
 }
 
 function fillWhoScoredInfo(selectedPlayer){
     $('#ws table tbody').empty();
-    selectedPlayer.whoScoredInfoList[selectedPlayer.whoScoredInfoList.length-1].coreStatsList.forEach(function(coreStats, i){
+    var whoscoredInfo = selectedPlayer.whoScoredInfoList[selectedPlayer.whoScoredInfoList.length-1];
+    whoscoredInfo.coreStatsList.forEach(function(coreStats, i){
         var tr = document.createElement('tr');
         var competition = document.createElement('td');
         competition.appendChild(document.createTextNode(coreStats.competition));
@@ -174,7 +178,7 @@ function fillWhoScoredInfo(selectedPlayer){
         $('#ws tbody:last-child').css('font-weight', 'bold');
         $('#ws table tbody').append(tr);
         $('#ws #lastMeasured').empty();
-        $('#ws #lastMeasured').append('(' + selectedPlayer.whoScoredInfoList[selectedPlayer.whoScoredInfoList.length-1].lastMeasured + ')');
+        $('#ws #lastMeasured').append('(' + whoscoredInfo.lastMeasured + ')');
     });
 }
 
@@ -252,7 +256,7 @@ function setListenersOnBadges(){
                             break;
                         case 'pesdb':
                             updateDataScript(updatedPlayer, updateDataScriptPesDb);
-                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(5)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].primaryPosition);
+                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(4)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].primaryPosition);
                             $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(5)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].overallRating);
                             if(updatedPlayer.id === currentlySelectedPlayerId){
                                 fillPesDbInfo(updatedPlayer);
