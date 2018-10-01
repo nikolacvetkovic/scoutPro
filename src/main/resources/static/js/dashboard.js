@@ -94,8 +94,20 @@ function fillPesDbInfo(selectedPlayer){
     $('#foot').append(pesDbInfo.foot);
     $('#weekCondition').append(pesDbInfo.weekCondition);
     $('#primaryPosition').append(pesDbInfo.primaryPosition);
-    $('#otherStrongPositions').append(pesDbInfo.otherStrongPositions.join(', '));
-    $('#otherWeakPositions').append(pesDbInfo.otherWeakPositions.join(', '));
+    var otherStrongPositions = [];
+    pesDbInfo.otherStrongPositions.forEach(function(position, i){
+        otherStrongPositions = otherStrongPositions.concat('<span>'+position+'</span>');
+        if(!(i === pesDbInfo.otherStrongPositions.length-1))
+            otherStrongPositions = otherStrongPositions.concat(', ');
+    });
+    $('#otherStrongPositions').append(otherStrongPositions);
+    var otherWeakPositions = [];
+    pesDbInfo.otherWeakPositions.forEach(function(position, i){
+        otherWeakPositions = otherWeakPositions.concat('<span>'+position+'</span>');
+        if(!(i === pesDbInfo.otherWeakPositions.length-1))
+            otherWeakPositions = otherWeakPositions.concat(', ');
+    });    
+    $('#otherWeakPositions').append(otherWeakPositions);
     $('#attackingProwess').append(pesDbInfo.attackingProwess);
     $('#ballControl').append(pesDbInfo.ballControl);
     $('#dribbling').append(pesDbInfo.dribbling);
@@ -127,6 +139,7 @@ function fillPesDbInfo(selectedPlayer){
     $('#pesDb #lastMeasured').empty();
     $('#pesDb #lastMeasured').append('(' + pesDbInfo.lastMeasured + ')');
     setColorOnRatings();
+    setColorOnPositions();
 }
 
 function fillWhoScoredInfo(selectedPlayer){
@@ -197,6 +210,16 @@ function setColorOnRatings(){
                 rating.style.color = 'rgb(31, 193, 58)';
             }
         }
+    });
+}
+
+function setColorOnPositions(){
+    $('#primaryPosition').css('color', getColorBasedOnPosition($('#primaryPosition').html()));
+    $('#otherStrongPositions span').get().forEach(function(span){
+        $(span).css('color', getColorBasedOnPosition($(span).html()));
+    });
+    $('#otherWeakPositions span').get().forEach(function(span){
+        $(span).css('color', getColorBasedOnPosition($(span).html()));
     });
 }
 
@@ -319,6 +342,29 @@ function getArrowBasedOnRelation(psmlValue, tmValue){
         return 'fa fa-arrow-circle-down';
     } else {
         return 'fa fa-arrow-circle-up';
+    }
+}
+
+function getColorBasedOnPosition(position){
+    switch(position){
+        case 'GK':
+            return 'rgb(150, 138, 1)';
+            break;
+        case 'CB':
+        case 'LB':
+        case 'RB':
+            return 'rgb(18, 37, 237)';
+        break;
+        case 'DMF':
+        case 'CMF':
+        case 'LMF':
+        case 'RMF':
+        case 'AMF':
+            return 'rgb(31, 193, 58)';
+        break;
+        default:
+            return 'rgb(242, 0, 0)';
+        break;
     }
 }
 
