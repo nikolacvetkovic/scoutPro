@@ -28,7 +28,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Transactional
-@Async
 public class PlayerServiceAsyncImpl implements PlayerServiceAsync{
 
     @Autowired
@@ -56,56 +55,6 @@ public class PlayerServiceAsyncImpl implements PlayerServiceAsync{
         }
         player.setLastMeasured(LocalDateTime.now());
         return new AsyncResult<>(playerDao.create(player));
-    }
-
-    @Override
-    public Future<Player> updateTransfermarktInfo(int playerId) {
-        Player p = playerDao.getById(playerId);
-        if(p == null) throw  new PlayerNotFoundException("playerId", playerId);
-        p.getTransfermarktInfo().getTransferList().size();
-        p.getTransfermarktInfo().getTransferList().clear();
-        p.getTransfermarktInfo().getMarketValueList().size();
-        p.getTransfermarktInfo().getMarketValueList().clear();
-        p.getPsmlInfoList().size();
-        TransfermarktCrawlTemplateImpl tmCrawlTemplate = new TransfermarktCrawlTemplateImpl(p.getTransfermarktInfo());
-        tmCrawlTemplate.start();
-        return new AsyncResult<>(p);
-    }
-
-    @Override
-    public Future<Player> updateExistingWhoScoredInfo(int playerId) {
-        Player p = playerDao.getById(playerId);
-        if(p == null) throw new PlayerNotFoundException("playerId", playerId);
-        WhoScoredInfo ws = p.getWhoscoredInfoList().get(p.getWhoscoredInfoList().size()-1);
-        ws.getCoreStatsList().size();
-        ws.getCoreStatsList().clear();
-        ws.getPositionPlayedStatsList().size();
-        ws.getPositionPlayedStatsList().clear();
-        ws.getGameList().size();
-        ws.getGameList().clear();
-        WhoScoredCrawlTemplateImpl wsCrawlTemplate = new WhoScoredCrawlTemplateImpl(ws);
-        wsCrawlTemplate.start();
-        return new AsyncResult<>(p);
-    }
-
-    @Override
-    public Future<Player> updateExistingPesDbInfo(int playerId) {
-        Player p = playerDao.getById(playerId);
-        if(p == null) throw  new PlayerNotFoundException("playerId", playerId);
-        PesDbInfo pesDb = p.getPesDbInfoList().get(p.getPesDbInfoList().size()-1);
-        PesDbCrawlTemplateImpl pesDbCrawlTemplate = new PesDbCrawlTemplateImpl(pesDb);
-        pesDbCrawlTemplate.start();
-        return new AsyncResult<>(p);
-    }
-
-    @Override
-    public Future<Player> updateExistingPsmlInfo(int playerId) {
-        Player p = playerDao.getById(playerId);
-        if(p == null) throw  new PlayerNotFoundException("playerId", playerId);
-        PsmlInfo psml = p.getPsmlInfoList().get(p.getPsmlInfoList().size()-1);
-        PsmlCrawlTemplateImpl psmlCrawlTemplate = new PsmlCrawlTemplateImpl(psml);
-        psmlCrawlTemplate.start();
-        return new AsyncResult<>(p);
     }
 
     @Override

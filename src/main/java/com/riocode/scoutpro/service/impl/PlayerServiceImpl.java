@@ -1,10 +1,16 @@
 package com.riocode.scoutpro.service.impl;
 
+import com.riocode.scoutpro.crawler.template.impl.PesDbCrawlTemplateImpl;
+import com.riocode.scoutpro.crawler.template.impl.PsmlCrawlTemplateImpl;
+import com.riocode.scoutpro.crawler.template.impl.TransfermarktCrawlTemplateImpl;
+import com.riocode.scoutpro.crawler.template.impl.WhoScoredCrawlTemplateImpl;
 import com.riocode.scoutpro.dao.PlayerDao;
 import com.riocode.scoutpro.exception.DuplicatePlayerException;
 import com.riocode.scoutpro.exception.ParseException;
 import com.riocode.scoutpro.exception.PlayerNotFoundException;
+import com.riocode.scoutpro.model.PesDbInfo;
 import com.riocode.scoutpro.model.Player;
+import com.riocode.scoutpro.model.PsmlInfo;
 import com.riocode.scoutpro.model.WhoScoredInfo;
 import com.riocode.scoutpro.service.PlayerService;
 import com.riocode.scoutpro.service.async.PlayerServiceAsync;
@@ -15,6 +21,7 @@ import java.util.concurrent.Future;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.TransactionSystemException;
 
@@ -121,50 +128,52 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public Player updateTransfermarktInfo(int playerId) {
-        Future<Player> task = playerServiceAsync.updateTransfermarktInfo(playerId);
-        
-        try {
-            return task.get();
-        } catch (InterruptedException | ExecutionException ex) {
-            resolveAsyncExceptions(ex);
-            throw new RuntimeException(ex);
-        }
+        Player p = playerDao.getById(playerId);
+        if(p == null) throw  new PlayerNotFoundException("playerId", playerId);
+        p.getTransfermarktInfo().getTransferList().size();
+        p.getTransfermarktInfo().getTransferList().clear();
+        p.getTransfermarktInfo().getMarketValueList().size();
+        p.getTransfermarktInfo().getMarketValueList().clear();
+        p.getPsmlInfoList().size();
+        TransfermarktCrawlTemplateImpl tmCrawlTemplate = new TransfermarktCrawlTemplateImpl(p.getTransfermarktInfo());
+        tmCrawlTemplate.start();
+        return p;
     }
 
     @Override
     public Player updateExistingWhoScoredInfo(int playerId) {
-        Future<Player> task = playerServiceAsync.updateExistingWhoScoredInfo(playerId);
-        
-        try {
-            return task.get();
-        } catch (InterruptedException | ExecutionException ex) {
-            resolveAsyncExceptions(ex);
-            throw new RuntimeException(ex);
-        }
+        Player p = playerDao.getById(playerId);
+        if(p == null) throw new PlayerNotFoundException("playerId", playerId);
+        WhoScoredInfo ws = p.getWhoscoredInfoList().get(p.getWhoscoredInfoList().size()-1);
+        ws.getCoreStatsList().size();
+        ws.getCoreStatsList().clear();
+        ws.getPositionPlayedStatsList().size();
+        ws.getPositionPlayedStatsList().clear();
+        ws.getGameList().size();
+        ws.getGameList().clear();
+        WhoScoredCrawlTemplateImpl wsCrawlTemplate = new WhoScoredCrawlTemplateImpl(ws);
+        wsCrawlTemplate.start();
+        return p;
     }
 
     @Override
     public Player updateExistingPesDbInfo(int playerId) {
-        Future<Player> task = playerServiceAsync.updateExistingPesDbInfo(playerId);
-        
-        try {
-            return task.get();
-        } catch (InterruptedException | ExecutionException ex) {
-            resolveAsyncExceptions(ex);
-            throw new RuntimeException(ex);
-        }
+        Player p = playerDao.getById(playerId);
+        if(p == null) throw  new PlayerNotFoundException("playerId", playerId);
+        PesDbInfo pesDb = p.getPesDbInfoList().get(p.getPesDbInfoList().size()-1);
+        PesDbCrawlTemplateImpl pesDbCrawlTemplate = new PesDbCrawlTemplateImpl(pesDb);
+        pesDbCrawlTemplate.start();
+        return p;
     }
 
     @Override
     public Player updateExistingPsmlInfo(int playerId) {
-        Future<Player> task = playerServiceAsync.updateExistingPsmlInfo(playerId);
-        
-        try {
-            return task.get();
-        } catch (InterruptedException | ExecutionException ex) {
-            resolveAsyncExceptions(ex);
-            throw new RuntimeException(ex);
-        }
+        Player p = playerDao.getById(playerId);
+        if(p == null) throw  new PlayerNotFoundException("playerId", playerId);
+        PsmlInfo psml = p.getPsmlInfoList().get(p.getPsmlInfoList().size()-1);
+        PsmlCrawlTemplateImpl psmlCrawlTemplate = new PsmlCrawlTemplateImpl(psml);
+        psmlCrawlTemplate.start();
+        return p;
     }
 
     @Override
