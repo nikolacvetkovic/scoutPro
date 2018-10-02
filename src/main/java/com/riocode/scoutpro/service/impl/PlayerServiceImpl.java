@@ -186,42 +186,6 @@ public class PlayerServiceImpl implements PlayerService{
         psmlCrawlTemplate.start();
         return p;
     }
-
-//    @Override
-//    public Player createWhoScoredInfo(int playerId) {
-//        Future<Player> task = playerServiceAsync.createWhoScoredInfo(playerId);
-//
-//        try {
-//            return task.get();
-//        } catch (InterruptedException | ExecutionException ex) {
-//            resolveAsyncExceptions(ex);
-//            throw new RuntimeException(ex);
-//        }
-//    }
-//
-//    @Override
-//    public Player createPesDbInfo(int playerId) {
-//        Future<Player> task = playerServiceAsync.createPesDbInfo(playerId);
-//
-//        try {
-//            return task.get();
-//        } catch (InterruptedException | ExecutionException ex) {
-//            resolveAsyncExceptions(ex);
-//            throw new RuntimeException(ex);
-//        }
-//    }
-//
-//    @Override
-//    public Player createPsmlInfo(int playerId) {
-//        Future<Player> task = playerServiceAsync.createPsmlInfo(playerId);
-//
-//        try {
-//            return task.get();
-//        } catch (InterruptedException | ExecutionException ex) {
-//            resolveAsyncExceptions(ex);
-//            throw new RuntimeException(ex);
-//        }
-//    }
     
     @Override
     public void delete(int id) {
