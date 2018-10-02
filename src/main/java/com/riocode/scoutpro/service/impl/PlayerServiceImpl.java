@@ -16,6 +16,7 @@ import com.riocode.scoutpro.service.PlayerService;
 import com.riocode.scoutpro.service.async.PlayerServiceAsync;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import javax.transaction.Transactional;
@@ -106,14 +107,24 @@ public class PlayerServiceImpl implements PlayerService{
                 
     @Override
     public Player create(Player player){
-        Future<Player> task = playerServiceAsync.create(player);
-        
+        List<Player> l = playerDao.getByTransfermarktUrl(player.getTransfermarktUrl()); //lose jer transfermarkt teorijski moze biti null
+        if(l.size() > 0) throw new DuplicatePlayerException();
+
+        CompletableFuture<Player> p1 = playerServiceAsync.createTransfermarktInfo(player);
+        CompletableFuture<Player> p2 = playerServiceAsync.createWhoScoredInfo(player);
+        CompletableFuture<Player> p3 = playerServiceAsync.createPesDbInfo(player);
+        CompletableFuture<Player> p4 = playerServiceAsync.createPsmlInfo(player);
+
+        CompletableFuture.allOf(p1, p2, p3, p4).join();
+        Player p;
         try {
-            return task.get();
+            p = p1.get();
+            p.setLastMeasured(LocalDateTime.now());
         } catch (InterruptedException | ExecutionException ex) {
-            resolveAsyncExceptions(ex);
             throw new RuntimeException(ex);
         }
+
+        return playerDao.create(p);
     }
 
     @Override
@@ -176,41 +187,41 @@ public class PlayerServiceImpl implements PlayerService{
         return p;
     }
 
-    @Override
-    public Player createWhoScoredInfo(int playerId) {
-        Future<Player> task = playerServiceAsync.createWhoScoredInfo(playerId);
-        
-        try {
-            return task.get();
-        } catch (InterruptedException | ExecutionException ex) {
-            resolveAsyncExceptions(ex);
-            throw new RuntimeException(ex);
-        }
-    }
-
-    @Override
-    public Player createPesDbInfo(int playerId) {
-        Future<Player> task = playerServiceAsync.createPesDbInfo(playerId);
-        
-        try {
-            return task.get();
-        } catch (InterruptedException | ExecutionException ex) {
-            resolveAsyncExceptions(ex);
-            throw new RuntimeException(ex);
-        }
-    }
-
-    @Override
-    public Player createPsmlInfo(int playerId) {
-        Future<Player> task = playerServiceAsync.createPsmlInfo(playerId);
-        
-        try {
-            return task.get();
-        } catch (InterruptedException | ExecutionException ex) {
-            resolveAsyncExceptions(ex);
-            throw new RuntimeException(ex);
-        }
-    }
+//    @Override
+//    public Player createWhoScoredInfo(int playerId) {
+//        Future<Player> task = playerServiceAsync.createWhoScoredInfo(playerId);
+//
+//        try {
+//            return task.get();
+//        } catch (InterruptedException | ExecutionException ex) {
+//            resolveAsyncExceptions(ex);
+//            throw new RuntimeException(ex);
+//        }
+//    }
+//
+//    @Override
+//    public Player createPesDbInfo(int playerId) {
+//        Future<Player> task = playerServiceAsync.createPesDbInfo(playerId);
+//
+//        try {
+//            return task.get();
+//        } catch (InterruptedException | ExecutionException ex) {
+//            resolveAsyncExceptions(ex);
+//            throw new RuntimeException(ex);
+//        }
+//    }
+//
+//    @Override
+//    public Player createPsmlInfo(int playerId) {
+//        Future<Player> task = playerServiceAsync.createPsmlInfo(playerId);
+//
+//        try {
+//            return task.get();
+//        } catch (InterruptedException | ExecutionException ex) {
+//            resolveAsyncExceptions(ex);
+//            throw new RuntimeException(ex);
+//        }
+//    }
     
     @Override
     public void delete(int id) {

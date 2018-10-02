@@ -17,10 +17,6 @@ public interface PlayerService {
     Player updateExistingPesDbInfo(int playerId);
     Player updateExistingPsmlInfo(int playerId);
     
-    Player createWhoScoredInfo(int playerId);
-    Player createPesDbInfo(int playerId);
-    Player createPsmlInfo(int playerId);
-    
     List<Player> getAll();
     List<Player> getAllComplete();
     Player getById(int playerId);
