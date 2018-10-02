@@ -92,28 +92,10 @@ public class PlayerController {
         
         return playerService.updateExistingPsmlInfo(id);
     }
-    // Create WhoScored
-    @RequestMapping(value = "/player/whoscored/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Player createWhoScoredInfo(@PathVariable int id){
-        
-        return playerService.createWhoScoredInfo(id);
-    }    
-    // Create PesDb
-    @RequestMapping(value = "/player/pesdb/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Player createPesDbInfo(@PathVariable int id){
-        
-        return playerService.createPesDbInfo(id);
-    }
-    // Create Psml
-    @RequestMapping(value = "/player/psml/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Player createPsmlInfo(@PathVariable int id){
-        
-        return playerService.createPsmlInfo(id);
-    }
     // Delete Player
     @RequestMapping(value = "/player/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity deletePlayer(@PathVariable int id){
-        
+
         playerService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
