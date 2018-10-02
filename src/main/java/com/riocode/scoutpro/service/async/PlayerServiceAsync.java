@@ -1,6 +1,8 @@
 package com.riocode.scoutpro.service.async;
 
 import com.riocode.scoutpro.model.Player;
+
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 /**
@@ -9,9 +11,8 @@ import java.util.concurrent.Future;
  */
 
 public interface PlayerServiceAsync {
-    Future<Player> create(Player player);
-
-    Future<Player> createWhoScoredInfo(int playerId);
-    Future<Player> createPesDbInfo(int playerId);
-    Future<Player> createPsmlInfo(int playerId);
+    CompletableFuture<Player> createTransfermarktInfo(Player player);
+    CompletableFuture<Player> createWhoScoredInfo(Player player);
+    CompletableFuture<Player> createPesDbInfo(Player player);
+    CompletableFuture<Player> createPsmlInfo(Player player);
 }

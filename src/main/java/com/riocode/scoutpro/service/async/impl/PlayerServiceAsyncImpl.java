@@ -14,6 +14,8 @@ import com.riocode.scoutpro.model.WhoScoredInfo;
 import com.riocode.scoutpro.service.async.PlayerServiceAsync;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,56 +34,37 @@ public class PlayerServiceAsyncImpl implements PlayerServiceAsync{
 
     @Autowired
     private PlayerDao playerDao;
-    
+
+    @Async
     @Override
-    public Future<Player> create(Player player) {
-        List<Player> l = playerDao.getByTransfermarktUrl(player.getTransfermarktUrl()); //lose jer transfermarkt teorijski moze biti null
-        if(l.size() > 0) throw new DuplicatePlayerException();
-        if(!player.getTransfermarktUrl().equals("")){
-            TransfermarktCrawlTemplateImpl tmCrawlTemplate = new TransfermarktCrawlTemplateImpl(player);
-            tmCrawlTemplate.start();
-        }
-        if(!player.getWhoScoredUrl().equals("")){
-            WhoScoredCrawlTemplateImpl wsCrawlTemplate = new WhoScoredCrawlTemplateImpl(player);
-            wsCrawlTemplate.start();
-        }
-        if(!player.getPesDbUrl().equals("")){
-            PesDbCrawlTemplateImpl pesDbCrawlTemplate = new PesDbCrawlTemplateImpl(player);
-            pesDbCrawlTemplate.start();
-        }
-        if(!player.getPsmlUrl().equals("")){
-            PsmlCrawlTemplateImpl psmlCrawlTemplate = new PsmlCrawlTemplateImpl(player);
-            psmlCrawlTemplate.start();
-        }
-        player.setLastMeasured(LocalDateTime.now());
-        return new AsyncResult<>(playerDao.create(player));
+    public CompletableFuture<Player> createTransfermarktInfo(Player player){
+        TransfermarktCrawlTemplateImpl tmCrawlTemplate = new TransfermarktCrawlTemplateImpl(player);
+        tmCrawlTemplate.start();
+        return CompletableFuture.completedFuture(player);
     }
 
+    @Async
     @Override
-    public Future<Player> createWhoScoredInfo(int playerId) {
-        Player p = playerDao.getById(playerId);
-        if(p == null) throw  new PlayerNotFoundException("playerId", playerId);
-        WhoScoredCrawlTemplateImpl wsDbCrawlTemplate = new WhoScoredCrawlTemplateImpl(p);
+    public CompletableFuture<Player> createWhoScoredInfo(Player player) {
+        WhoScoredCrawlTemplateImpl wsDbCrawlTemplate = new WhoScoredCrawlTemplateImpl(player);
         wsDbCrawlTemplate.start();
-        return new AsyncResult<>(p);
+        return CompletableFuture.completedFuture(player);
     }
 
+    @Async
     @Override
-    public Future<Player> createPesDbInfo(int playerId) {
-        Player p = playerDao.getById(playerId);
-        if(p == null) throw  new PlayerNotFoundException("playerId", playerId);
-        PesDbCrawlTemplateImpl pesDbCrawlTemplate = new PesDbCrawlTemplateImpl(p);
+    public CompletableFuture<Player> createPesDbInfo(Player player) {
+        PesDbCrawlTemplateImpl pesDbCrawlTemplate = new PesDbCrawlTemplateImpl(player);
         pesDbCrawlTemplate.start();
-        return new AsyncResult<>(p);
+        return CompletableFuture.completedFuture(player);
     }
 
+    @Async
     @Override
-    public Future<Player> createPsmlInfo(int playerId) {
-        Player p = playerDao.getById(playerId);
-        if(p == null) throw  new PlayerNotFoundException("playerId", playerId);
-        PsmlCrawlTemplateImpl psmlCrawlTemplate = new PsmlCrawlTemplateImpl(p);
+    public CompletableFuture<Player> createPsmlInfo(Player player) {
+        PsmlCrawlTemplateImpl psmlCrawlTemplate = new PsmlCrawlTemplateImpl(player);
         psmlCrawlTemplate.start();
-        return new AsyncResult<>(p);
+        return CompletableFuture.completedFuture(player);
     }
     
 }
