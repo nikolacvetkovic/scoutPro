@@ -36,7 +36,7 @@ function fillTableWithPlayers(data){
     data.forEach(function(player){
             var tr = document.createElement('tr');
             if(player.myPlayer) $(tr).addClass('table-success');
-            $('#tab-body').append($(tr).append($('<td>').css('display', 'none').append(player.id))
+            $('#tab-body').append($(tr).append($('<td>').css('display', 'none').attr('id-value', player.id).append(player.id))
                                         .append($('<td>').append(player.transfermarktInfo.playerName + ' ').append($('<a>').attr('href', '/player/complete/'+player.id).attr('target', '_blank').append($('<i>').addClass('fa fa-external-link').attr('aria-hidden', true))))
                                         .append($('<td>').css('width', '10%').append(player.transfermarktInfo.age))
                                         .append($('<td>').css('width', '14%').append(player.pesDbInfoList[player.pesDbInfoList.length-1].primaryPosition))
@@ -253,6 +253,7 @@ function setUrlsOnBadges(selectedPlayer){
 function setListenersOnBadges(){
     $('span.badge[data-url]').on('click', function(){
         var URL = $(this).attr('data-url');
+        setLoadingSpinner(URL.split('/')[2]);
         if(URL !== '#'){
             $.ajax({
                 url: URL,
@@ -263,24 +264,24 @@ function setListenersOnBadges(){
                     switch (siteForUpdate){
                         case 'transfermarkt':
                             updateDataScript(updatedPlayer, updateDataScriptTransfermarkt);
-                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:last-of-type').html(formatPlayerValue(updatedPlayer.transfermarktInfo.currentValue));
-                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6) i').removeClass();
-                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6) i').addClass(getArrowBasedOnRelation(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue, updatedPlayer.transfermarktInfo.currentValue));
+                            $('#tab-body tr:has(td[id-value="'+updatedPlayer.id+'"]) td:last-of-type').html(formatPlayerValue(updatedPlayer.transfermarktInfo.currentValue));
+                            $('#tab-body tr:has(td[id-value="'+updatedPlayer.id+'"]) td:nth-of-type(6) i').removeClass();
+                            $('#tab-body tr:has(td[id-value="'+updatedPlayer.id+'"]) td:nth-of-type(6) i').addClass(getArrowBasedOnRelation(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue, updatedPlayer.transfermarktInfo.currentValue));
                             if(updatedPlayer.id === currentlySelectedPlayerId){
                                 fillTransfermarkInfo(updatedPlayer);
                             }
                             break;
                         case 'psml':
                             updateDataScript(updatedPlayer, updateDataScriptPsml);
-                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(6)').html(formatPlayerValue(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue).concat(' ').concat('<i class="'+getArrowBasedOnRelation(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue, updatedPlayer.transfermarktInfo.currentValue)+'" aria-hidden="true"></i>'));
+                            $('#tab-body tr:has(td[id-value="'+updatedPlayer.id+'"]) td:nth-of-type(6)').html(formatPlayerValue(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue).concat(' ').concat('<i class="'+getArrowBasedOnRelation(updatedPlayer.psmlInfoList[updatedPlayer.psmlInfoList.length-1].teamValue, updatedPlayer.transfermarktInfo.currentValue)+'" aria-hidden="true"></i>'));
                             if(updatedPlayer.id === currentlySelectedPlayerId){
                                 fillPsmlInfo(updatedPlayer);
                             }
                             break;
                         case 'pesdb':
                             updateDataScript(updatedPlayer, updateDataScriptPesDb);
-                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(4)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].primaryPosition);
-                            $('#tab-body tr:has(td:nth-of-type(1):contains('+updatedPlayer.id+')) td:nth-of-type(5)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].overallRating);
+                            $('#tab-body tr:has(td[id-value="'+updatedPlayer.id+'"]) td:nth-of-type(4)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].primaryPosition);
+                            $('#tab-body tr:has(td[id-value="'+updatedPlayer.id+'"]) td:nth-of-type(5)').html(updatedPlayer.pesDbInfoList[updatedPlayer.pesDbInfoList.length-1].overallRating);
                             if(updatedPlayer.id === currentlySelectedPlayerId){
                                 fillPesDbInfo(updatedPlayer);
                             }                            
@@ -292,6 +293,7 @@ function setListenersOnBadges(){
                             }  
                             break;
                     }
+                    removeLoadingSpinner();
                 }
             });
         }
@@ -370,4 +372,64 @@ function getColorBasedOnPosition(position){
 
 function formatPlayerValue(value){
     return '€ ' + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+}
+
+function setLoadingSpinner(site){
+    switch(site){
+        case 'transfermarkt':
+           createSpinner('tm');
+        break;
+        case 'psml':
+            createSpinner('psml');
+        break;
+        case 'pesdb':
+            createSpinnerPesDb();
+        break;
+        case 'whoscored':
+            createSpinnerWhoScored();
+        break;
+    }
+}
+
+function createSpinner(siteElementId){
+    $('#'+siteElementId+' .row').append($('<div>').css({
+        'height': '100%',
+        'width': '100%',
+        'position' : 'absolute',
+        'z-index': 10,
+        'top': 0,
+        'left': '0',
+        'background-color': 'rgba(150, 150, 150, 0.8)'
+        }).addClass('spinner').append($('<img>').attr('src', '/Gear-3.6s-200px.gif').css({'max-height': '100%', 'max-width': '100%', 'margin-left': '30%'})));
+}
+
+function createSpinnerPesDb(){
+    $('#pesDb .row').append($('<div>').css({
+        'height': '100%',
+        'width': '100%',
+        'position' : 'absolute',
+        'z-index': 10,
+        'top': 0,
+        'left': '0',
+        'background-color': 'rgba(150, 150, 150, 0.8)'
+        }).addClass('spinner').append($('<img>').attr('src', '/Gear-3.6s-200px.gif').css({'max-height': '100%', 'max-width': '100%', 'margin': '12% auto', 'display': 'block'})));
+}
+
+function createSpinnerWhoScored(){
+    $('#ws .row').append($('<div>').css({
+        'height': '100%',
+        'width': '100%',
+        'position' : 'absolute',
+        'z-index': 10,
+        'top': 0,
+        'left': '0',
+        'background-color': 'rgba(150, 150, 150, 0.8)'
+        }).addClass('spinner').append($('<img>').attr('src', '/Gear-3.6s-200px.gif').css({'height': '80%', 'display': 'block', 'margin': '1em auto'})));
+}
+
+function removeLoadingSpinner(){
+    $('#tm .row .spinner').remove();
+    $('#psml .row .spinner').remove();
+    $('#pesDb .row .spinner').remove();
+    $('#ws .row .spinner').remove();
 }
