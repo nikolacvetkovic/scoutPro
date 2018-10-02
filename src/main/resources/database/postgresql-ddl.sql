@@ -27,7 +27,7 @@ create table if not exists scout_pro_development.transfermarktInfo(
     dateOfBirth varchar(15) not null,
     age int not null,
     nationality varchar(50) not null,
-    nationalTeam varchar(50) not null,
+    nationalTeam varchar(50),
     currentValue numeric(15,2) not null,
     lastChangedCurrentValue datetime not null,
     clubTeam varchar(50) not null,

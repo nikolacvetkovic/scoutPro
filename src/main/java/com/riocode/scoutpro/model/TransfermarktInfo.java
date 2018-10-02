@@ -75,7 +75,6 @@ public class TransfermarktInfo implements Serializable {
     @Column(name = "nationality")
     private String nationality;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "nationalTeam")
     private String nationalTeam;
