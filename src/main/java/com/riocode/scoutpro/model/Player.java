@@ -47,11 +47,11 @@ public class Player implements Serializable {
     @NotNull
     @Column(name = "myPlayer")
     private boolean myPlayer;
-    @Pattern(regexp = "^(https://www\\.transfermarkt\\.com/.+/profil/spieler/)\\d+$", message = "Not valid Transfermarkt url")
+    @Pattern(regexp = "^(http(s)?://www\\.transfermarkt\\.com/.+/profil/spieler/)\\d+$", message = "Not valid Transfermarkt url")
     @Size(max = 256)
     @Column(name = "transfermarktUrl")
     private String transfermarktUrl;
-    @Pattern(regexp = "^(https://www\\.whoscored\\.com/Players/\\d+/Show/).+$", message = "Not valid Whoscored url")
+    @Pattern(regexp = "^(http(s)?://www\\.whoscored\\.com/Players/\\d+/Show/).+$", message = "Not valid Whoscored url")
     @Size(max = 256)
     @Column(name = "whoScoredUrl")
     private String whoScoredUrl;
