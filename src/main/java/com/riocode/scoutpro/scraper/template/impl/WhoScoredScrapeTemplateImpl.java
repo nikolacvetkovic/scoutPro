@@ -1,7 +1,7 @@
-package com.riocode.scoutpro.crawler.template.impl;
+package com.riocode.scoutpro.scraper.template.impl;
 
-import com.riocode.scoutpro.crawler.helper.CrawlHelper;
-import com.riocode.scoutpro.crawler.template.WebDriverAbstractCrawlTemplate;
+import com.riocode.scoutpro.scraper.helper.ScrapeHelper;
+import com.riocode.scoutpro.scraper.template.WebDriverAbstractScrapeTemplate;
 import com.riocode.scoutpro.model.Characteristic;
 import com.riocode.scoutpro.model.CoreStats;
 import com.riocode.scoutpro.model.Game;
@@ -23,11 +23,11 @@ import org.jsoup.select.Elements;
  * @author Nikola Cvetkovic
  */
 
-public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
+public class WhoScoredScrapeTemplateImpl extends WebDriverAbstractScrapeTemplate {
     
     private final WhoScoredInfo whoScoredInfo;
 
-    public WhoScoredCrawlTemplateImpl(Player player) {
+    public WhoScoredScrapeTemplateImpl(Player player) {
         super(player);
         this.url = player.getWhoScoredUrl();
         this.whoScoredInfo = new WhoScoredInfo();
@@ -35,25 +35,25 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
         this.player.getWhoscoredInfoList().add(this.whoScoredInfo);
     }
     
-    public WhoScoredCrawlTemplateImpl(WhoScoredInfo whoScoredInfo){
+    public WhoScoredScrapeTemplateImpl(WhoScoredInfo whoScoredInfo){
         super(whoScoredInfo.getPlayer());
         this.url = this.player.getWhoScoredUrl();
         this.whoScoredInfo = whoScoredInfo;
     }
 
     @Override
-    public Player crawl(Document document){
-        crawlCoreData(document);
-        crawlPositionPlayedStats(document);
-        crawlCharacteristic(document);
-        crawlGames(document);
+    public Player scrape(Document document){
+        scrapeCoreData(document);
+        scrapePositionPlayedStats(document);
+        scrapeCharacteristic(document);
+        scrapeGames(document);
         
         return this.player;
     }
     
-    private void crawlCoreData(Document doc){
+    private void scrapeCoreData(Document doc){
         whoScoredInfo.setSeason(defineDate());
-        Elements table = CrawlHelper.getElements(doc, "div#statistics-table-summary tbody#player-table-statistics-body tr");
+        Elements table = ScrapeHelper.getElements(doc, "div#statistics-table-summary tbody#player-table-statistics-body tr");
         for (int i = 0; i < table.size(); i++) {
             CoreStats cs = null;
             if ((i+1) != table.size()){
@@ -67,42 +67,42 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
         whoScoredInfo.setLastMeasured(LocalDateTime.now());
     }
     
-    private void crawlPositionPlayedStats(Document doc){
-        Elements table = CrawlHelper.getElements(doc, "div#player-positional-statistics tbody tr");
+    private void scrapePositionPlayedStats(Document doc){
+        Elements table = ScrapeHelper.getElements(doc, "div#player-positional-statistics tbody tr");
         for (Element row : table) {
             PositionPlayedStats pps = new PositionPlayedStats();
-            pps.setPosition(CrawlHelper.getElementData(row, "td.position-name", true));
-            pps.setApps(Integer.parseInt(CrawlHelper.getElementData(row, "td:nth-of-type(2)", false)));
-            pps.setGoals(Integer.parseInt(CrawlHelper.getElementData(row, "td:nth-of-type(3)", false)));
-            pps.setAssists(Integer.parseInt(CrawlHelper.getElementData(row, "td:nth-of-type(4)", false)));
-            pps.setRating(new BigDecimal(CrawlHelper.getElementData(row, "td.rating", false)));
+            pps.setPosition(ScrapeHelper.getElementData(row, "td.position-name", true));
+            pps.setApps(Integer.parseInt(ScrapeHelper.getElementData(row, "td:nth-of-type(2)", false)));
+            pps.setGoals(Integer.parseInt(ScrapeHelper.getElementData(row, "td:nth-of-type(3)", false)));
+            pps.setAssists(Integer.parseInt(ScrapeHelper.getElementData(row, "td:nth-of-type(4)", false)));
+            pps.setRating(new BigDecimal(ScrapeHelper.getElementData(row, "td.rating", false)));
             pps.setWhoScoredInfo(whoScoredInfo);
             whoScoredInfo.getPositionPlayedStatsList().add(pps);
         }
     }
     
-    private void crawlCharacteristic(Document doc){
+    private void scrapeCharacteristic(Document doc){
         List<String> strengths = new ArrayList<>();
-        Elements el1 = CrawlHelper.getElements(doc, "div.character-card div.strengths tr");
+        Elements el1 = ScrapeHelper.getElements(doc, "div.character-card div.strengths tr");
         if(el1.size() > 0){
             for(Element e : el1){
-                String s1 = CrawlHelper.getElementData(e, "td:nth-of-type(1) div", true);
-                String s2 = CrawlHelper.getElementData(e, "td:nth-of-type(2) span", false);
+                String s1 = ScrapeHelper.getElementData(e, "td:nth-of-type(1) div", true);
+                String s2 = ScrapeHelper.getElementData(e, "td:nth-of-type(2) span", false);
                 if(s1 != null && s2 != null) strengths.add(s1 + " - " + s2);
             }
         }
         List<String> weaknesses = new ArrayList<>();
-        Elements el2 = CrawlHelper.getElements(doc, "div.character-card div.weaknesses tr");
+        Elements el2 = ScrapeHelper.getElements(doc, "div.character-card div.weaknesses tr");
         if(el2.size() > 0){
             for (Element e : el2) {
-                String s1 = CrawlHelper.getElementData(e, "td:nth-of-type(1) div", true);
-                String s2 = CrawlHelper.getElementData(e, "td:nth-of-type(2) span", false);
+                String s1 = ScrapeHelper.getElementData(e, "td:nth-of-type(1) div", true);
+                String s2 = ScrapeHelper.getElementData(e, "td:nth-of-type(2) span", false);
                 if(s1 != null && s2 != null) weaknesses.add(s1 + " - " + s2);
             }
         }
         
         List<String> stylesOfPlay = new ArrayList<>();
-        Elements el3 = CrawlHelper.getElements(doc, "div.style li");
+        Elements el3 = ScrapeHelper.getElements(doc, "div.style li");
         if(el3.size() > 0){
             for (Element e : el3) {
                 String s = e.ownText();
@@ -119,21 +119,21 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
         }
     }
     
-    private void crawlGames(Document doc){
-        Elements elements = CrawlHelper.getElements(doc, "table#player-fixture tbody tr");
+    private void scrapeGames(Document doc){
+        Elements elements = ScrapeHelper.getElements(doc, "table#player-fixture tbody tr");
         for (Element e : elements) {
             Game g = new Game();
-            g.setCompetition(CrawlHelper.getAttributeValue(e, "td.tournament span a", "title"));
-            g.setDateOfGame(LocalDate.parse(CrawlHelper.getElementData(e, "td.date", false), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-            g.setTeam1(CrawlHelper.getElementData(e, "td.home a", false));
-            g.setTeam2(CrawlHelper.getElementData(e, "td.away a", false));
-            String result = CrawlHelper.getElementData(e, "td.result a", false);
+            g.setCompetition(ScrapeHelper.getAttributeValue(e, "td.tournament span a", "title"));
+            g.setDateOfGame(LocalDate.parse(ScrapeHelper.getElementData(e, "td.date", false), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+            g.setTeam1(ScrapeHelper.getElementData(e, "td.home a", false));
+            g.setTeam2(ScrapeHelper.getElementData(e, "td.away a", false));
+            String result = ScrapeHelper.getElementData(e, "td.result a", false);
             g.setResult(result.replaceAll("[^\\d:]", ""));
-            g.setMinutesPlayed(CrawlHelper.getElementData(e, "td.info", false));
-            g.setRating(CrawlHelper.getElementData(e, "td.rating", false));
+            g.setMinutesPlayed(ScrapeHelper.getElementData(e, "td.info", false));
+            g.setRating(ScrapeHelper.getElementData(e, "td.rating", false));
             g.setManOfTheMatch(isManOfTheMatch(e));
             
-            Element el = CrawlHelper.getElement(e, "td:nth-of-type(7)");
+            Element el = ScrapeHelper.getElement(e, "td:nth-of-type(7)");
             g.setGoals(extractAchievements(el, "Goal"));
             g.setAssists(extractAchievements(el, "Assist"));
             g.setYellowCard(extractYellowCard(el));
@@ -154,8 +154,8 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
     
     private CoreStats extractCoreStats(Element e){
         CoreStats cs = new CoreStats();
-        cs.setCompetition(CrawlHelper.getElementData(e, "td.tournament a.tournament-link", true));
-        String apps = CrawlHelper.getElementData(e, "td:nth-of-type(2)", false);
+        cs.setCompetition(ScrapeHelper.getElementData(e, "td.tournament a.tournament-link", true));
+        String apps = ScrapeHelper.getElementData(e, "td:nth-of-type(2)", false);
         if(apps.contains("(")){
             apps = apps.replace(")", "");
             cs.setStartedApps(apps.split("\\(")[0]);
@@ -164,23 +164,23 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
             cs.setStartedApps(apps);
             cs.setSubApps("0");
         }
-        cs.setMins(CrawlHelper.getElementData(e, "td[class*=minsPlayed]", false));
-        cs.setGoals(CrawlHelper.getElementData(e, "td[class*=goal]", false));
-        cs.setAssists(CrawlHelper.getElementData(e, "td[class*=assistTotal]", false));
-        cs.setYellowCards(CrawlHelper.getElementData(e, "td[class*=yellowCard]", false));
-        cs.setRedCards(CrawlHelper.getElementData(e, "td[class*=redCard]", false));
-        cs.setShotsPerGame(CrawlHelper.getElementData(e, "td[class*=shotsPerGame]", false));
-        cs.setPassSuccess(CrawlHelper.getElementData(e, "td[class*=passSuccess]", false));
-        cs.setAerialsWon(CrawlHelper.getElementData(e, "td[class*=aerialWonPerGame]", false));
-        cs.setManOfTheMatch(CrawlHelper.getElementData(e, "td[class*=manOfTheMatch]", false));
-        cs.setRating(CrawlHelper.getElementData(e, "td[class*=rating]", false));
+        cs.setMins(ScrapeHelper.getElementData(e, "td[class*=minsPlayed]", false));
+        cs.setGoals(ScrapeHelper.getElementData(e, "td[class*=goal]", false));
+        cs.setAssists(ScrapeHelper.getElementData(e, "td[class*=assistTotal]", false));
+        cs.setYellowCards(ScrapeHelper.getElementData(e, "td[class*=yellowCard]", false));
+        cs.setRedCards(ScrapeHelper.getElementData(e, "td[class*=redCard]", false));
+        cs.setShotsPerGame(ScrapeHelper.getElementData(e, "td[class*=shotsPerGame]", false));
+        cs.setPassSuccess(ScrapeHelper.getElementData(e, "td[class*=passSuccess]", false));
+        cs.setAerialsWon(ScrapeHelper.getElementData(e, "td[class*=aerialWonPerGame]", false));
+        cs.setManOfTheMatch(ScrapeHelper.getElementData(e, "td[class*=manOfTheMatch]", false));
+        cs.setRating(ScrapeHelper.getElementData(e, "td[class*=rating]", false));
         
         return cs;
     }
     
     private CoreStats extractCoreStatsAverage(Element e){
         CoreStats cs = new CoreStats();
-        Elements elements = CrawlHelper.getElements(e, "td strong");
+        Elements elements = ScrapeHelper.getElements(e, "td strong");
         cs.setCompetition(elements.get(0).text());
         cs.setStartedApps(elements.get(1).text());
         cs.setSubApps("0");
@@ -199,21 +199,21 @@ public class WhoScoredCrawlTemplateImpl extends WebDriverAbstractCrawlTemplate{
     }
     
     private String extractAchievements(Element e, String achievement){
-        Elements achievements = CrawlHelper.getElements(e, "span span[title="+ achievement +"]");
+        Elements achievements = ScrapeHelper.getElements(e, "span span[title="+ achievement +"]");
         
         return String.valueOf(achievements.size());
     }
     
     private boolean isManOfTheMatch(Element e){
-        return CrawlHelper.getElement(e, "td:nth-of-type(6) span") != null;
+        return ScrapeHelper.getElement(e, "td:nth-of-type(6) span") != null;
     }
     
     private boolean extractYellowCard(Element e){
-        return CrawlHelper.getElement(e, "span span[title=Yellow Card]") != null;
+        return ScrapeHelper.getElement(e, "span span[title=Yellow Card]") != null;
     }
 
     private boolean extractRedCard(Element e){
-        return CrawlHelper.getElement(e, "span span[title=Red Card]") != null;
+        return ScrapeHelper.getElement(e, "span span[title=Red Card]") != null;
     }
     
 }

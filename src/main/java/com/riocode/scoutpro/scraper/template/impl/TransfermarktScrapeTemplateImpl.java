@@ -1,12 +1,12 @@
-package com.riocode.scoutpro.crawler.template.impl;
+package com.riocode.scoutpro.scraper.template.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.riocode.scoutpro.crawler.helper.CrawlHelper;
-import com.riocode.scoutpro.crawler.template.CoreAbstractCrawlTemplate;
+import com.riocode.scoutpro.scraper.helper.ScrapeHelper;
+import com.riocode.scoutpro.scraper.template.CoreAbstractScrapeTemplate;
 import com.riocode.scoutpro.model.MarketValue;
 import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.model.Transfer;
@@ -25,11 +25,11 @@ import org.jsoup.select.Elements;
  * @author Nikola Cvetkovic
  */
 
-public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
+public class TransfermarktScrapeTemplateImpl extends CoreAbstractScrapeTemplate {
     
     private final TransfermarktInfo transfermarktInfo;
         
-    public TransfermarktCrawlTemplateImpl(Player player){
+    public TransfermarktScrapeTemplateImpl(Player player){
         super(player);
         this.url = player.getTransfermarktUrl();
         this.transfermarktInfo = new TransfermarktInfo();
@@ -37,45 +37,45 @@ public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         this.player.setTransfermarktInfo(this.transfermarktInfo);
     }
     
-    public TransfermarktCrawlTemplateImpl(TransfermarktInfo transfermarktInfo){
+    public TransfermarktScrapeTemplateImpl(TransfermarktInfo transfermarktInfo){
         super(transfermarktInfo.getPlayer());
         this.url = this.player.getTransfermarktUrl();
         this.transfermarktInfo = transfermarktInfo;
     }
     
     @Override
-    public Player crawl(Document document){
-        crawlCoreData(document);
-        crawlCurrentValue(document);
-        crawlMarketValues(document);
-        crawlTransfers(document);
+    public Player scrape(Document document){
+        scrapeCoreData(document);
+        scrapeCurrentValue(document);
+        scrapeMarketValues(document);
+        scrapeTransfers(document);
         
         return player;
     }
     
-    private void crawlCoreData(Document doc){
-        String name = CrawlHelper.getElementData(doc, "h1[itemprop=name]", false);
+    private void scrapeCoreData(Document doc){
+        String name = ScrapeHelper.getElementData(doc, "h1[itemprop=name]", false);
         transfermarktInfo.setPlayerName(name);
-        String clubTeam = CrawlHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Current club)) td a:nth-of-type(2)", false);
+        String clubTeam = ScrapeHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Current club)) td a:nth-of-type(2)", false);
         transfermarktInfo.setClubTeam(clubTeam);
-        String contractUntil = CrawlHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Contract until)) td", false);
+        String contractUntil = ScrapeHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Contract until)) td", false);
         transfermarktInfo.setContractUntil(contractUntil);
-        String nationality = CrawlHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Nationality)) td", false);
+        String nationality = ScrapeHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Nationality)) td", false);
         transfermarktInfo.setNationality(nationality);
-        String position = CrawlHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Position)) td", false);
+        String position = ScrapeHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Position)) td", false);
         transfermarktInfo.setPosition(position);
-        String birthDate = CrawlHelper.getElementData(doc, "span[itemprop=birthDate]", false);
+        String birthDate = ScrapeHelper.getElementData(doc, "span[itemprop=birthDate]", false);
         birthDate = birthDate.substring(0, birthDate.indexOf("("));
         transfermarktInfo.setDateOfBirth(birthDate);
-        int age = Integer.parseInt(CrawlHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Age)) td", false));
+        int age = Integer.parseInt(ScrapeHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Age)) td", false));
         transfermarktInfo.setAge(age);
-        String nationalTeam = CrawlHelper.getElementData(doc, "div.dataContent div.dataDaten:nth-of-type(3) p:nth-of-type(1) span.dataValue", false);
+        String nationalTeam = ScrapeHelper.getElementData(doc, "div.dataContent div.dataDaten:nth-of-type(3) p:nth-of-type(1) span.dataValue", false);
         transfermarktInfo.setNationalTeam(nationalTeam);
         transfermarktInfo.setLastMeasured(LocalDateTime.now());
     }
     
-    private void crawlCurrentValue(Document doc){
-        Elements scripts = CrawlHelper.getElements(doc, "script");
+    private void scrapeCurrentValue(Document doc){
+        Elements scripts = ScrapeHelper.getElements(doc, "script");
         String script = null;
         for (Element s : scripts) {
             script = s.toString();
@@ -86,12 +86,12 @@ public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
             }
         }
         transfermarktInfo.setCurrentValue(new BigDecimal(script));
-        String lastChangeCurrentValue = CrawlHelper.getElementData(doc, "div.dataMarktwert a p", false);
+        String lastChangeCurrentValue = ScrapeHelper.getElementData(doc, "div.dataMarktwert a p", false);
         lastChangeCurrentValue = lastChangeCurrentValue.split(":")[1].trim();
         transfermarktInfo.setLastChangedCurrentValue(extractDate(lastChangeCurrentValue));
     }
     
-    private void crawlMarketValues(Document doc){
+    private void scrapeMarketValues(Document doc){
         Elements scripts = doc.select("script[type=text/javascript]");
         String script = null;
         for (Element s : scripts) {
@@ -132,21 +132,21 @@ public class TransfermarktCrawlTemplateImpl extends CoreAbstractCrawlTemplate{
         }
     }
     
-    private void crawlTransfers(Document doc){
-        Elements elements = CrawlHelper.getElements(doc, "div.responsive-table tr.zeile-transfer");
+    private void scrapeTransfers(Document doc){
+        Elements elements = ScrapeHelper.getElements(doc, "div.responsive-table tr.zeile-transfer");
         
         for(Element e : elements){
             Transfer t = new Transfer();
-            String date = CrawlHelper.getElementData(e, "td:nth-of-type(2)", false);
+            String date = ScrapeHelper.getElementData(e, "td:nth-of-type(2)", false);
             LocalDate d = extractDate(date);
             t.setDateOfTransfer(d);
-            String fromTeam = CrawlHelper.getElementData(e, "td:nth-of-type(6)", false);
+            String fromTeam = ScrapeHelper.getElementData(e, "td:nth-of-type(6)", false);
             t.setFromTeam(fromTeam);
-            String toTeam = CrawlHelper.getElementData(e, "td:nth-of-type(10)", false);
+            String toTeam = ScrapeHelper.getElementData(e, "td:nth-of-type(10)", false);
             t.setToTeam(toTeam);
-            String marketValue = CrawlHelper.getElementData(e, "td.zelle-mw", false);
+            String marketValue = ScrapeHelper.getElementData(e, "td.zelle-mw", false);
             t.setMarketValue(marketValue);
-            String transferFee = CrawlHelper.getElementData(e, "td.zelle-abloese", false);
+            String transferFee = ScrapeHelper.getElementData(e, "td.zelle-abloese", false);
             t.setTransferFee(transferFee);
             t.setTransfermarktInfo(this.transfermarktInfo);
             transfermarktInfo.getTransferList().add(t);

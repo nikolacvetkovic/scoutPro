@@ -1,9 +1,9 @@
 package com.riocode.scoutpro.service.impl;
 
-import com.riocode.scoutpro.crawler.template.impl.PesDbCrawlTemplateImpl;
-import com.riocode.scoutpro.crawler.template.impl.PsmlCrawlTemplateImpl;
-import com.riocode.scoutpro.crawler.template.impl.TransfermarktCrawlTemplateImpl;
-import com.riocode.scoutpro.crawler.template.impl.WhoScoredCrawlTemplateImpl;
+import com.riocode.scoutpro.scraper.template.impl.PesDbScrapeTemplateImpl;
+import com.riocode.scoutpro.scraper.template.impl.PsmlScrapeTemplateImpl;
+import com.riocode.scoutpro.scraper.template.impl.TransfermarktScrapeTemplateImpl;
+import com.riocode.scoutpro.scraper.template.impl.WhoScoredScrapeTemplateImpl;
 import com.riocode.scoutpro.dao.PlayerDao;
 import com.riocode.scoutpro.exception.DuplicatePlayerException;
 import com.riocode.scoutpro.exception.ParseException;
@@ -18,11 +18,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.TransactionSystemException;
 
@@ -146,7 +144,7 @@ public class PlayerServiceImpl implements PlayerService{
         p.getTransfermarktInfo().getMarketValueList().size();
         p.getTransfermarktInfo().getMarketValueList().clear();
         p.getPsmlInfoList().size();
-        TransfermarktCrawlTemplateImpl tmCrawlTemplate = new TransfermarktCrawlTemplateImpl(p.getTransfermarktInfo());
+        TransfermarktScrapeTemplateImpl tmCrawlTemplate = new TransfermarktScrapeTemplateImpl(p.getTransfermarktInfo());
         tmCrawlTemplate.start();
         return p;
     }
@@ -162,7 +160,7 @@ public class PlayerServiceImpl implements PlayerService{
         ws.getPositionPlayedStatsList().clear();
         ws.getGameList().size();
         ws.getGameList().clear();
-        WhoScoredCrawlTemplateImpl wsCrawlTemplate = new WhoScoredCrawlTemplateImpl(ws);
+        WhoScoredScrapeTemplateImpl wsCrawlTemplate = new WhoScoredScrapeTemplateImpl(ws);
         wsCrawlTemplate.start();
         return p;
     }
@@ -172,7 +170,7 @@ public class PlayerServiceImpl implements PlayerService{
         Player p = playerDao.getById(playerId);
         if(p == null) throw  new PlayerNotFoundException("playerId", playerId);
         PesDbInfo pesDb = p.getPesDbInfoList().get(p.getPesDbInfoList().size()-1);
-        PesDbCrawlTemplateImpl pesDbCrawlTemplate = new PesDbCrawlTemplateImpl(pesDb);
+        PesDbScrapeTemplateImpl pesDbCrawlTemplate = new PesDbScrapeTemplateImpl(pesDb);
         pesDbCrawlTemplate.start();
         return p;
     }
@@ -182,7 +180,7 @@ public class PlayerServiceImpl implements PlayerService{
         Player p = playerDao.getById(playerId);
         if(p == null) throw  new PlayerNotFoundException("playerId", playerId);
         PsmlInfo psml = p.getPsmlInfoList().get(p.getPsmlInfoList().size()-1);
-        PsmlCrawlTemplateImpl psmlCrawlTemplate = new PsmlCrawlTemplateImpl(psml);
+        PsmlScrapeTemplateImpl psmlCrawlTemplate = new PsmlScrapeTemplateImpl(psml);
         psmlCrawlTemplate.start();
         return p;
     }

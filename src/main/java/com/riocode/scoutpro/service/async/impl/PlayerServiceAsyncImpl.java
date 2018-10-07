@@ -1,26 +1,17 @@
 package com.riocode.scoutpro.service.async.impl;
 
-import com.riocode.scoutpro.crawler.template.impl.PesDbCrawlTemplateImpl;
-import com.riocode.scoutpro.crawler.template.impl.PsmlCrawlTemplateImpl;
-import com.riocode.scoutpro.crawler.template.impl.TransfermarktCrawlTemplateImpl;
-import com.riocode.scoutpro.crawler.template.impl.WhoScoredCrawlTemplateImpl;
+import com.riocode.scoutpro.scraper.template.impl.PesDbScrapeTemplateImpl;
+import com.riocode.scoutpro.scraper.template.impl.PsmlScrapeTemplateImpl;
+import com.riocode.scoutpro.scraper.template.impl.TransfermarktScrapeTemplateImpl;
+import com.riocode.scoutpro.scraper.template.impl.WhoScoredScrapeTemplateImpl;
 import com.riocode.scoutpro.dao.PlayerDao;
-import com.riocode.scoutpro.exception.DuplicatePlayerException;
-import com.riocode.scoutpro.exception.PlayerNotFoundException;
-import com.riocode.scoutpro.model.PesDbInfo;
 import com.riocode.scoutpro.model.Player;
-import com.riocode.scoutpro.model.PsmlInfo;
-import com.riocode.scoutpro.model.WhoScoredInfo;
 import com.riocode.scoutpro.service.async.PlayerServiceAsync;
-import java.time.LocalDateTime;
-import java.util.List;
+
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,7 +29,7 @@ public class PlayerServiceAsyncImpl implements PlayerServiceAsync{
     @Async
     @Override
     public CompletableFuture<Player> createTransfermarktInfo(Player player){
-        TransfermarktCrawlTemplateImpl tmCrawlTemplate = new TransfermarktCrawlTemplateImpl(player);
+        TransfermarktScrapeTemplateImpl tmCrawlTemplate = new TransfermarktScrapeTemplateImpl(player);
         tmCrawlTemplate.start();
         return CompletableFuture.completedFuture(player);
     }
@@ -46,7 +37,7 @@ public class PlayerServiceAsyncImpl implements PlayerServiceAsync{
     @Async
     @Override
     public CompletableFuture<Player> createWhoScoredInfo(Player player) {
-        WhoScoredCrawlTemplateImpl wsDbCrawlTemplate = new WhoScoredCrawlTemplateImpl(player);
+        WhoScoredScrapeTemplateImpl wsDbCrawlTemplate = new WhoScoredScrapeTemplateImpl(player);
         wsDbCrawlTemplate.start();
         return CompletableFuture.completedFuture(player);
     }
@@ -54,7 +45,7 @@ public class PlayerServiceAsyncImpl implements PlayerServiceAsync{
     @Async
     @Override
     public CompletableFuture<Player> createPesDbInfo(Player player) {
-        PesDbCrawlTemplateImpl pesDbCrawlTemplate = new PesDbCrawlTemplateImpl(player);
+        PesDbScrapeTemplateImpl pesDbCrawlTemplate = new PesDbScrapeTemplateImpl(player);
         pesDbCrawlTemplate.start();
         return CompletableFuture.completedFuture(player);
     }
@@ -62,7 +53,7 @@ public class PlayerServiceAsyncImpl implements PlayerServiceAsync{
     @Async
     @Override
     public CompletableFuture<Player> createPsmlInfo(Player player) {
-        PsmlCrawlTemplateImpl psmlCrawlTemplate = new PsmlCrawlTemplateImpl(player);
+        PsmlScrapeTemplateImpl psmlCrawlTemplate = new PsmlScrapeTemplateImpl(player);
         psmlCrawlTemplate.start();
         return CompletableFuture.completedFuture(player);
     }

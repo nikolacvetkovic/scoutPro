@@ -1,41 +1,48 @@
-package com.riocode.scoutpro.crawler.template;
+package com.riocode.scoutpro.scraper.template;
 
-import com.riocode.scoutpro.exception.GetDocumentConnectionException;
 import com.riocode.scoutpro.exception.ParseException;
 import com.riocode.scoutpro.model.Player;
-import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 /**
  *
  * @author Nikola Cvetkovic
  */
 
-public abstract class CoreAbstractCrawlTemplate implements CrawlTemplate{
-    
+public abstract class WebDriverAbstractScrapeTemplate implements ScrapeTemplate {
     protected Player player;
     protected String url;
     
-    public CoreAbstractCrawlTemplate(Player player){
+    public WebDriverAbstractScrapeTemplate(Player player){
         this.player = player;
     }
     
     public Player start(){
         try{
-           return crawl(getDocument(this.url));
+            return scrape(getDocument(this.url));
         } catch (NullPointerException | NumberFormatException ex){
             throw new ParseException("Bad regex");
         }
-        
     }
         
     protected Document getDocument(String url){
+        WebDriver driver = null;
+        String html = null;
         try {
-            return Jsoup.connect(url).get();
-        } catch (IOException ex) {
-            throw new GetDocumentConnectionException(ex);
+            driver = new ChromeDriver();
+            driver.get(url);
+            Thread.sleep(5000);
+            html = driver.getPageSource();
+        } catch (InterruptedException e){
+            
+        } finally {
+            if(driver != null)
+                driver.quit();
         }
+        return Jsoup.parse(html);
     }
 
     public void setPlayer(Player player) {
@@ -53,5 +60,4 @@ public abstract class CoreAbstractCrawlTemplate implements CrawlTemplate{
     public String getUrl() {
         return url;
     }
-            
 }

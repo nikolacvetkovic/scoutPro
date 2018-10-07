@@ -1,4 +1,4 @@
-package com.riocode.scoutpro.crawler.helper;
+package com.riocode.scoutpro.scraper.helper;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -8,7 +8,7 @@ import org.jsoup.select.Elements;
  * @author Nikola Cvetkovic
  */
 
-public class CrawlHelper {
+public class ScrapeHelper {
     
     public static String getElementData(Element doc, String selector, boolean own){
         Element e = null;
