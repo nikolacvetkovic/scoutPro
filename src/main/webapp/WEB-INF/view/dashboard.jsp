@@ -3,6 +3,14 @@
 
         <div class="row">
             <div id="left" class="col-lg-6 my-2" style="overflow: scroll;overflow-x: hidden; padding-left: 0; padding-right: 0;">
+                <div class="text-center">
+                    <button id="allPlayersButton" class="btn" style="background-color: rgba(61, 201, 179, 1); border-color: rgba(61, 201, 179, 1); color:rgba(255, 255, 255, 0.8);">All Players
+                    </button>
+                    <button id="myPlayersButton" class="btn" style="background-color: rgba(61, 201, 179, 1); border-color: rgba(61, 201, 179, 1); color: rgba(255, 255, 255, 0.8);">My Players
+                    </button>
+                    <button id="freePlayersButton" class="btn" style="background-color: rgba(61, 201, 179, 1); border-color: rgba(61, 201, 179, 1); color: rgba(255, 255, 255, 0.8);">Free Players
+                    </button>
+                </div>
                 <table class="table table-hover table-scroll" style="margin-bottom: 0">
                     <thead>
                         <tr>
