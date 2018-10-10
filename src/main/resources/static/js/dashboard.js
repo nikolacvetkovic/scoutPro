@@ -7,6 +7,7 @@ $(window).on('load', function() {
     setListenersOnRows();
     setListenersOnBadges();
     setSortByPositionAscOnBadge();
+    setSortByAffiliation();
 });
 
 function setWindowAndFont(){
@@ -39,7 +40,7 @@ function fillTableWithPlayers(data){
             $('#tab-body').append($(tr).append($('<td>').css('display', 'none').attr('id-value', player.id).append(player.id))
                                         .append($('<td>').append(player.transfermarktInfo.playerName + ' ').append($('<a>').attr('href', '/player/complete/'+player.id).attr('target', '_blank').append($('<i>').addClass('fa fa-external-link').attr('aria-hidden', true))))
                                         .append($('<td>').css('width', '10%').append(player.transfermarktInfo.age))
-                                        .append($('<td>').css('width', '14%').append(player.pesDbInfoList[player.pesDbInfoList.length-1].primaryPosition))
+                                        .append($('<td>').css('width', '14%').append(player.pesDbInfoList[player.pesDbInfoList.length-1].primaryPosition).attr('position-value', player.pesDbInfoList[player.pesDbInfoList.length-1].positionNumberValue))
                                         .append($('<td>').css('width', '13%').append(player.pesDbInfoList[player.pesDbInfoList.length-1].overallRating))
                                         .append($('<td>').append(formatPlayerValue(player.psmlInfoList[player.psmlInfoList.length-1].teamValue) + ' ').css('text-align', 'right').css('padding-right', '3.5%').append($(' <i>').addClass(getArrowBasedOnRelation(player.psmlInfoList[player.psmlInfoList.length-1].teamValue, player.transfermarktInfo.currentValue))))
                                         .append($('<td>').append(formatPlayerValue(player.transfermarktInfo.currentValue)).css('text-align', 'right').css('padding-right', '4.5%')));
@@ -302,12 +303,23 @@ function setListenersOnBadges(){
 
 function setSortByPositionAscOnBadge(){
     $('#position span.badge:has(i.fa-sort-asc)').on('click', function(){
-        var jsonData = JSON.parse(document.querySelector('#jsonData').textContent);
-        jsonData.sort(function(a, b){
-            return a.pesDbInfoList[a.pesDbInfoList.length - 1].positionNumberValue - b.pesDbInfoList[b.pesDbInfoList.length - 1].positionNumberValue;
+        var playerList = $('#tab-body tr').get();
+        playerList.sort(function(a, b){
+            var aPositionNumberValue = parseInt(a.querySelector('td:nth-of-type(4)').getAttribute('position-value'));
+            var bPositionNumberValue = parseInt(b.querySelector('td:nth-of-type(4)').getAttribute('position-value'));
+            return aPositionNumberValue - bPositionNumberValue;
         });
-        fillTableWithPlayers(jsonData);
+        $('#tab-body').empty();
+        for (var i = 0; i < playerList.length; i++) {
+            $('#tab-body').append(playerList[i]);        
+        }
     });
+}
+
+function setSortByAffiliation(){
+    $('#allPlayersButton').on('click', showAllPlayers);
+    $('#myPlayersButton').on('click', showMyPlayers);
+    $('#freePlayersButton').on('click', showFreePlayers);
 }
 
 function updateDataScript(updatedPlayer, callback){
@@ -432,4 +444,21 @@ function removeLoadingSpinner(){
     $('#psml .row .spinner').remove();
     $('#pesDb .row .spinner').remove();
     $('#ws .row .spinner').remove();
+}
+
+function showAllPlayers(){
+    var jsonData = JSON.parse(document.querySelector('#jsonData').textContent);
+    fillTableWithPlayers(jsonData);
+}
+
+function showMyPlayers(){
+    var jsonData = JSON.parse(document.querySelector('#jsonData').textContent);
+    var myPlayers = jsonData.filter(player => player.myPlayer);
+    fillTableWithPlayers(myPlayers);
+}
+
+function showFreePlayers(){
+    var jsonData = JSON.parse(document.querySelector('#jsonData').textContent);
+    var freePlayers = jsonData.filter(player => player.psmlInfoList[player.psmlInfoList.length-1].teamName === 'FA');
+    fillTableWithPlayers(freePlayers);
 }
