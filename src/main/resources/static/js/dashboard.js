@@ -7,7 +7,7 @@ $(window).on('load', function() {
     setListenersOnRows();
     setListenersOnBadges();
     setSortByPositionAscOnBadge();
-    setSortByAffiliation();
+    setFilterByAffiliation();
 });
 
 function setWindowAndFont(){
@@ -316,7 +316,7 @@ function setSortByPositionAscOnBadge(){
     });
 }
 
-function setSortByAffiliation(){
+function setFilterByAffiliation(){
     $('#allPlayersButton').on('click', showAllPlayers);
     $('#myPlayersButton').on('click', showMyPlayers);
     $('#freePlayersButton').on('click', showFreePlayers);
