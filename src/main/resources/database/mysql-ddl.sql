@@ -50,7 +50,7 @@ create table if not exists scout_pro_development.marketValue(
     transfermarktInfoId int not null,
     primary key(id),
     index indmvtotm(transfermarktInfoId ASC),
-    constraint mv_tm foreign key(transfermarktInfoId) references scout_pro_development.transfermarktinfo(id) on delete no action on update no action)
+    constraint mv_tm foreign key(transfermarktInfoId) references scout_pro_development.transfermarktInfo(id) on delete no action on update no action)
     engine = InnoDB
     collate = utf8_unicode_ci;
     
@@ -64,7 +64,7 @@ create table if not exists scout_pro_development.transfer(
     transfermarktInfoId int not null,
     primary key(id),
     index indtrtotm(transfermarktInfoId ASC),
-    constraint tr_tm foreign key(transfermarktInfoId) references scout_pro_development.transfermarktinfo(id) on delete no action on update no action)
+    constraint tr_tm foreign key(transfermarktInfoId) references scout_pro_development.transfermarktInfo(id) on delete no action on update no action)
     engine = InnoDB
     collate = utf8_unicode_ci;
     
@@ -97,7 +97,7 @@ create table if not exists scout_pro_development.coreStats(
     whoScoredInfoId int not null,
     primary key(id),
     index indcstows(whoScoredInfoId ASC),
-    constraint cs_ws foreign key(whoScoredInfoId) references scout_pro_development.whoscoredinfo(id) on delete no action on update no action)
+    constraint cs_ws foreign key(whoScoredInfoId) references scout_pro_development.whoScoredInfo(id) on delete no action on update no action)
 	engine = InnoDB
     collate = utf8_unicode_ci;
     
@@ -111,7 +111,7 @@ create table if not exists scout_pro_development.positionPlayedStats(
 	whoScoredInfoId int not null,
 	primary key(id),
     index indppstows(whoScoredInfoId ASC),
-    constraint pps_ws foreign key(whoScoredInfoId) references scout_pro_development.whoscoredinfo(id) on delete no action on update no action)
+    constraint pps_ws foreign key(whoScoredInfoId) references scout_pro_development.whoScoredInfo(id) on delete no action on update no action)
 	engine = InnoDB
     collate = utf8_unicode_ci;
     
@@ -121,7 +121,7 @@ create table if not exists scout_pro_development.characteristic(
     weaknesses text,
     styleOfPlay text,
 	primary key(id),
-    constraint ch_ws foreign key(id) references scout_pro_development.whoscoredinfo(id) on delete no action on update no action)
+    constraint ch_ws foreign key(id) references scout_pro_development.whoScoredInfo(id) on delete no action on update no action)
     engine = InnoDB
     collate = utf8_unicode_ci;
     
@@ -142,7 +142,7 @@ create table if not exists scout_pro_development.game(
 	whoScoredInfoId int not null,
     primary key(id),
     index indgtows(whoScoredInfoId ASC),
-    constraint g_ws foreign key(whoScoredInfoId) references scout_pro_development.whoscoredinfo(id) on delete no action on update no action)
+    constraint g_ws foreign key(whoScoredInfoId) references scout_pro_development.whoScoredInfo(id) on delete no action on update no action)
 	engine = InnoDB
     collate = utf8_unicode_ci;
     
