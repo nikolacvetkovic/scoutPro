@@ -3300,7 +3300,7 @@
 											"top": 450,
 											"width": 252.916015625,
 											"height": 13,
-											"text": "-weekCondition: String",
+											"text": "-weekCondition: Character",
 											"horizontalAlignment": 0
 										},
 										{
@@ -38940,7 +38940,7 @@
 															},
 															"name": "weekCondition",
 															"visibility": "private",
-															"type": "String"
+															"type": "Character"
 														},
 														{
 															"_type": "UMLAttribute",
