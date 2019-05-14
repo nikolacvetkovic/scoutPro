@@ -1,184 +1,223 @@
+-- cleaning --
+drop schema scout_pro_development cascade;
+drop user if exists scout_pro_dev;
+
+-- creating --
 create schema if not exists scout_pro_development;
-
-drop table if exists scout_pro_development.pesdbinfo;
-drop table if exists scout_pro_development.corestats;
-drop table if exists scout_pro_development.game;
-drop table if exists scout_pro_development.positionplayedstats;
-drop table if exists scout_pro_development.characteristic;
-drop table if exists scout_pro_development.whoscoredinfo;
-drop table if exists scout_pro_development.marketvalue;
-drop table if exists scout_pro_development.transfer;
-drop table if exists scout_pro_development.transfermarktinfo;
-drop table if exists scout_pro_development.psmlInfo;
-drop table if exists scout_pro_development.player;
-
 create table if not exists scout_pro_development.player (
 	id serial primary key,
-    myPlayer boolean not null,
-    transfermarktUrl varchar(256) null unique,
-    whoScoredUrl varchar(256) null,
-    pesDbUrl varchar(256) null,
-    psmlUrl varchar(256) null,
-    lastMeasured timestamp not null);
-    
-create table if not exists scout_pro_development.transfermarktInfo(
-	id serial primary key,
-    playerName varchar(256) not null,
-    dateOfBirth varchar(15) not null,
-    age int not null,
-    nationality varchar(50) not null,
-    nationalTeam varchar(50) not null,
-    currentValue numeric(15,2) not null,
-    lastChangedCurrentValue date not null,
-    clubTeam varchar(50) not null,
-    contractUntil varchar(12) not null,
-    position varchar(40) not null,
-    lastMeasured timestamp not null,
-    constraint tm_player foreign key(id) references scout_pro_development.player(id) on delete no action on update no action);
+	player_name varchar(256) not null,
+    my_player boolean not null,
+    transfermarkt_url varchar(256) null unique,
+    who_scored_url varchar(256) null,
+    pes_db_url varchar(256) null,
+    psml_url varchar(256) null,
+    transfermarkt_last_measured timestamp not null,
+    who_scored_last_measured timestamp not null,
+    pes_db_last_measured timestamp not null,
+    psml_last_measured timestamp not null);
 
-create table if not exists scout_pro_development.marketValue(
+create table if not exists scout_pro_development.transfermarkt_info(
+	id serial primary key,
+    date_of_birth varchar(15) not null,
+    age smallserial not null,
+    nationality varchar(50) not null,
+    national_team varchar(50) not null,
+    club_team varchar(50) not null,
+    contract_until varchar(12) not null,
+    position varchar(40) not null,
+    player_id int not null,
+    constraint fk_tm_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action);
+
+    create index ix_transfermarkt_info_player_id on scout_pro_development.transfermarkt_info(player_id);
+
+create table if not exists scout_pro_development.market_value(
 	id serial primary key,
     worth numeric(15,2) not null,
-    datePoint date not null,
-    clubTeam varchar(50) not null,
-    transfermarktInfoId int not null,
-    constraint mv_tm foreign key(transfermarktInfoId) references scout_pro_development.transfermarktinfo(id) on delete no action on update no action);
+    date_point date not null,
+    club_team varchar(50) not null,
+    player_id int not null,
+    constraint fk_mv_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action);
 
-	create index indmvtotm on scout_pro_development.marketValue(transfermarktInfoId);
+	create index ix_market_value_player_id on scout_pro_development.market_value(player_id);
 
 create table if not exists scout_pro_development.transfer(
 	id serial primary key,
-    fromTeam varchar(50) not null,
-    toTeam varchar(50) not null,
-    dateOfTransfer date not null,
-    marketValue varchar(25) not null,
-    transferFee varchar(25) not null,
-    transfermarktInfoId int not null,
-    constraint tr_tm foreign key(transfermarktInfoId) references scout_pro_development.transfermarktinfo(id) on delete no action on update no action);
+    from_team varchar(50) not null,
+    to_team varchar(50) not null,
+    date_of_transfer date not null,
+    market_value varchar(25) not null,
+    transfer_fee varchar(25) not null,
+    player_id int not null,
+    constraint fk_tr_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action);
 
-	create index indtrtotm on scout_pro_development.transfer(transfermarktInfoId);
+	create index ix_transfer_player_id on scout_pro_development.transfer(player_id);
 
-create table if not exists scout_pro_development.whoScoredInfo(
+create table if not exists scout_pro_development.who_scored_info(
 	id serial primary key,
-    season varchar(10) not null,
-    lastMeasured timestamp not null,
-    playerId int not null,
-    constraint ws_player foreign key(playerId) references scout_pro_development.player(id) on delete no action on update no action);
+    strengths varchar(512) not null,
+    weaknesses varchar(512) not null,
+    style_of_play varchar(512) not null,
+    player_id int not null,
+    constraint fk_who_scored_info_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action);
 
-	create index indwstoplayer on scout_pro_development.whoScoredInfo(playerId);
+	create index ix_who_scored_info_player_id on scout_pro_development.who_scored_info(player_id);
 
-create table if not exists scout_pro_development.coreStats(
+create table if not exists scout_pro_development.statistics_by_competition(
 	id serial primary key,
     competition varchar(100) not null,
-    startedApps varchar(3) not null,
-    subApps varchar(3) not null,
-    mins varchar(4) not null,
-    goals varchar(3) not null,
-    assists varchar(3) not null,
-    yellowCards varchar(2) not null,
-    redCards varchar(2) not null,
-    shotsPerGame varchar(4) not null,
-    passSuccess varchar(5) not null,
-    aerialsWon varchar(4) not null,
-    manOfTheMatch varchar(3) not null,
-    rating varchar(5) not null,
-    whoScoredInfoId int not null,
-    constraint cs_ws foreign key(whoScoredInfoId) references scout_pro_development.whoscoredinfo(id) on delete no action on update no action);
+    started_apps smallserial not null,
+    subApps smallserial not null,
+    mins smallserial not null,
+    goals smallserial not null,
+    assists smallserial not null,
+    yellowCards smallserial not null,
+    redCards smallserial not null,
+    shotsPerGame numeric(5,2) not null,
+    passSuccess numeric(5,2) not null,
+    aerialsWon numeric(5,2) not null,
+    manOfTheMatch smallserial not null,
+    rating numeric(5,2) not null,
+    who_scored_info_id int not null,
+    constraint fk_stcomp_who_scored_info_id foreign key(who_scored_info_id) references scout_pro_development.who_scored_info(id) on delete no action on update no action);
 
-	create index indcstows on scout_pro_development.coreStats(whoScoredInfoId);
+	create index ix_stat_by_comp_who_scored_info_id on scout_pro_development.statistics_by_competition(who_scored_info_id);
 
-create table if not exists scout_pro_development.positionPlayedStats(
+create table if not exists scout_pro_development.statistics_by_position(
 	id serial primary key,
     position varchar(3) not null,
-    apps int not null,
-    goals int not null,
-    assists int not null,
+    app smallserial not null,
+    goal smallserial not null,
+    assist smallserial not null,
     rating numeric(5,2) not null,
-	whoScoredInfoId int not null,
-    constraint pps_ws foreign key(whoScoredInfoId) references scout_pro_development.whoscoredinfo(id) on delete no action on update no action);
+	who_scored_info_id int not null,
+    constraint fk_stpos_who_scored_info_id foreign key(who_scored_info_id) references scout_pro_development.who_scored_info(id) on delete no action on update no action);
 
-	create index indppstows on scout_pro_development.positionPlayedStats(whoScoredInfoId);
+	create index ix_stat_by_pos_who_scored_info_id on scout_pro_development.statistics_by_position(who_scored_info_id);
 
-create table if not exists scout_pro_development.characteristic(
-	id serial primary key,
-    strengths text,
-    weaknesses text,
-    styleOfPlay text,
-    constraint ch_ws foreign key(id) references scout_pro_development.whoscoredinfo(id) on delete no action on update no action);
-
-create table if not exists scout_pro_development.game(
+create table if not exists scout_pro_development.who_scored_game(
 	id serial primary key,
     competition varchar(50) not null,
-    dateOfGame date not null,
+    date_of_game date not null,
     team1 varchar(50) not null,
     team2 varchar(50) not null,
     result varchar(5) not null,
-    manOfTheMatch boolean not null,
-    goals varchar(5) not null,
-    assists varchar(5) not null,
-    yellowCard boolean not null,
-    redCard boolean not null,
-    minutesPlayed varchar(5) not null,
-    rating varchar(5) not null,
-	whoScoredInfoId int not null,
-    constraint g_ws foreign key(whoScoredInfoId) references scout_pro_development.whoscoredinfo(id) on delete no action on update no action);
+    man_of_the_match boolean not null,
+    goal smallserial not null,
+    assist smallserial not null,
+    yellow_card boolean not null,
+    red_card boolean not null,
+    minutes_played smallserial not null,
+    rating numeric(5,2) not null,
+	who_scored_info_id int not null,
+    constraint fk_gm_who_scored_info_id foreign key(who_scored_info_id) references scout_pro_development.who_scored_info(id) on delete no action on update no action);
 
-	create index indgtows on scout_pro_development.game(whoScoredInfoId);
+	create index ix_game_who_scored_info_id on scout_pro_development.who_scored_game(who_scored_info_id);
 
-create table if not exists scout_pro_development.pesDbInfo(
+create table if not exists scout_pro_development.pes_db_info(
 	id serial primary key,
-    season varchar(5) not null,
-    pesDbName varchar(256) not null,
-    teamName varchar(50) not null,
+    player_name varchar(256) not null,
+    team_name varchar(50) not null,
     foot varchar(5) not null,
-    weekCondition varchar(1) not null,
-    primaryPosition varchar(3) not null,
-    positionNumberValue int not null,
-    otherStrongPositions varchar(50) null,
-    otherWeakPositions varchar(50) null,
-    attackingProwess int not null,
-    ballControl int not null,
-    dribbling int not null,
-    lowPass int not null,
-    loftedPass int not null,
-    finishing int not null,
-    placeKicking int not null,
-    swerve int not null,
-    header int not null,
-    defensiveProwess int not null,
-    ballWinning int not null,
-    kickingPower int not null,
-    speed int not null,
-    explosivePower int not null,
-    bodyControl int not null,
-    physicalContact int not null,
-    jump int not null,
-    stamina int not null,
-    goalkeeping int not null,
-    catching int not null,
-    clearing int not null,
-    reflexes int not null,
-    coverage int not null,
-    form int not null,
-    injuryResistance int not null,
-    weakFootUsage int not null,
-    weakFootAccuracy int not null,
-    overallRating int not null,
-    playingStyle varchar(20) not null,
-    playerSkills text not null,
-    comPlayingStyles text not null,
-    lastMeasured timestamp not null,
-    playerId int not null,
-    constraint pdb_player foreign key(playerId) references scout_pro_development.player(id) on delete no action on update no action);
+    week_condition char(1) not null,
+    primary_position varchar(3) not null,
+    other_strong_positions varchar(100) null,
+    other_weak_positions varchar(100) null,
+    attacking_prowess smallserial not null,
+    ball_control smallserial not null,
+    dribbling smallserial not null,
+    low_pass smallserial not null,
+    lofted_pass smallserial not null,
+    finishing smallserial not null,
+    place_kicking smallserial not null,
+    swerve smallserial not null,
+    header smallserial not null,
+    defensive_prowess smallserial not null,
+    ball_winning smallserial not null,
+    kicking_power smallserial not null,
+    speed smallserial not null,
+    explosive_power smallserial not null,
+    body_control smallserial not null,
+    physical_contact smallserial not null,
+    jump smallserial not null,
+    stamina smallserial not null,
+    goalkeeping smallserial not null,
+    catching smallserial not null,
+    clearing smallserial not null,
+    reflexes smallserial not null,
+    coverage smallserial not null,
+    form smallserial not null,
+    injury_resistance smallserial not null,
+    weak_foot_usage smallserial not null,
+    weak_foot_accuracy smallserial not null,
+    overall_rating smallserial not null,
+    playing_style varchar(30) not null,
+    player_skills varchar(512) not null,
+    com_playing_styles varchar(512) not null,
+    player_id int not null,
+    constraint fk_pdb_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action);
 
-	create index indpdbtoplayer on scout_pro_development.pesDbInfo(playerId);
+	create index ix_pes_db_info_player_id on scout_pro_development.pes_db_info(player_id);
 
-create table if not exists scout_pro_development.psmlInfo(
+create table if not exists scout_pro_development.psml_info(
 	id serial primary key,
-    teamName varchar(50) not null default 'Free Agent',
-    teamValue numeric(15,2) null default 00.00,
-    lastMeasured timestamp not null,
-    playerId int not null,
-    constraint ps_player foreign key(playerId) references scout_pro_development.player(id) on delete no action on update no action);
+    psml_team varchar(50) not null default 'Free Agent',
+    psml_value numeric(15,2) null default 00.00,
+    player_id int not null,
+    constraint fk_psml_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action);
 
- 	create index indpstoplayer on scout_pro_development.psmlInfo(playerId);
+ 	create index ix_psml_info_player_id on scout_pro_development.psml_info(player_id);
+
+create table if not exists scout_pro_development.psml_transfer(
+    id serial primary key,
+    from_team varchar(50) not null,
+    to_team varchar(50) not null,
+    date_of_transfer date not null,
+    psml_info_id int not null,
+    constraint fk_psmltr_psml_info_id foreign key(psml_info_id) references scout_pro_development.psml_info(id) on delete no action on update no action);
+
+    create index ix_psml_transfer_psml_info_id on scout_pro_development.psml_transfer(psml_info_id);
+
+create table if not exists scout_pro_development.app_user(
+    id serial primary key,
+    username varchar(50) not null unique,
+    pass varchar(50) not null);
+
+    create index ix_app_user_username on scout_pro_development.app_user(username);
+
+create table if not exists scout_pro_development.user_player(
+    user_id serial,
+    player_id serial,
+    primary key(user_id, player_id),
+    constraint fk_up_app_user_id foreign key(user_id) references scout_pro_development.app_user(id) on delete no action on update no action,
+    constraint fk_up_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action);
+
+create table if not exists scout_pro_development.app_role(
+    id serial primary key,
+    role_name varchar(10) not null);
+
+create table if not exists scout_pro_development.user_role(
+    user_id serial,
+    role_id serial,
+    primary key(user_id, role_id),
+    constraint fk_ur_app_user_id foreign key(user_id) references scout_pro_development.app_user(id) on delete no action on update no action,
+    constraint fk_ur_app_role_id foreign key(role_id) references scout_pro_development.app_role(id) on delete no action on update no action);
+
+create table if not exists scout_pro_development.news(
+    id serial primary key,
+    content text,
+    inserted_date timestamp,
+    player_id int not null,
+    constraint fk_news_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action);
+
+    create index ix_news_player_id on scout_pro_development.news(player_id);
+
+create table if not exists scout_pro_development.scrape_reg_expression(
+    id serial primary key,
+    field_name varchar(50) not null unique,
+    regex varchar(128) not null);
+
+    create index ix_scrape_reg_expression_field_name on scout_pro_development.scrape_reg_expression(field_name);
+
+create user scout_pro_dev with encrypted password 'scout_pro_dev_user';
+grant select, insert, update, delete on all tables in schema scout_pro_development to scout_pro_dev;
