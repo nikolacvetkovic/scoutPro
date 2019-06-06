@@ -7,7 +7,6 @@ create schema if not exists scout_pro_development;
 create table if not exists scout_pro_development.player (
 	id serial primary key,
 	player_name varchar(256) not null,
-    my_player boolean not null,
     transfermarkt_url varchar(256) null unique,
     who_scored_url varchar(256) null,
     pes_db_url varchar(256) null,
@@ -86,9 +85,9 @@ create table if not exists scout_pro_development.statistics_by_competition(
 create table if not exists scout_pro_development.statistics_by_position(
 	id serial primary key,
     position varchar(3) not null,
-    app smallserial not null,
-    goal smallserial not null,
-    assist smallserial not null,
+    apps smallserial not null,
+    goals smallserial not null,
+    assists smallserial not null,
     rating numeric(5,2) not null,
 	who_scored_info_id int not null,
     constraint fk_stpos_who_scored_info_id foreign key(who_scored_info_id) references scout_pro_development.who_scored_info(id) on delete no action on update no action);
@@ -103,8 +102,8 @@ create table if not exists scout_pro_development.who_scored_game(
     team2 varchar(50) not null,
     result varchar(5) not null,
     man_of_the_match boolean not null,
-    goal smallserial not null,
-    assist smallserial not null,
+    goals smallserial not null,
+    assists smallserial not null,
     yellow_card boolean not null,
     red_card boolean not null,
     minutes_played smallserial not null,
@@ -188,6 +187,7 @@ create table if not exists scout_pro_development.app_user(
 create table if not exists scout_pro_development.user_player(
     user_id serial,
     player_id serial,
+    my_player boolean not null,
     primary key(user_id, player_id),
     constraint fk_up_app_user_id foreign key(user_id) references scout_pro_development.app_user(id) on delete no action on update no action,
     constraint fk_up_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action);
