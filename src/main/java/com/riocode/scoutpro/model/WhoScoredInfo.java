@@ -1,164 +1,62 @@
 package com.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import com.riocode.scoutpro.jpa.converter.ListStringConverter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
  * @author Nikola Cvetkovic
  */
 
+@NoArgsConstructor
+@Data
 @Entity
-@Table(name = "whoscoredinfo", catalog = "scout_pro_development", schema = "")
+@Table(name = "who_scored_info")
 @NamedQueries({
     @NamedQuery(name = "WhoScoredInfo.findAll", query = "SELECT w FROM WhoScoredInfo w")
-    , @NamedQuery(name = "WhoScoredInfo.findById", query = "SELECT w FROM WhoScoredInfo w WHERE w.id = :id")
-    , @NamedQuery(name = "WhoScoredInfo.findBySeason", query = "SELECT w FROM WhoScoredInfo w WHERE w.season = :season")})
+    , @NamedQuery(name = "WhoScoredInfo.findById", query = "SELECT w FROM WhoScoredInfo w WHERE w.id = :id")})
 public class WhoScoredInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "season")
-    private String season;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "lastMeasured")
-    private LocalDateTime lastMeasured;
+    private Long id;
+    @Size(max = 512)
+    @Convert(converter = ListStringConverter.class)
+    @Column(name = "strengths")
+    private List<String> strengths;
+    @Size(max = 512)
+    @Convert(converter = ListStringConverter.class)
+    @Column(name = "weaknesses")
+    private List<String> weaknesses;
+    @Size(max = 512)
+    @Convert(converter = ListStringConverter.class)
+    @Column(name = "style_of_play")
+    private Set<String> stylesOfPlay;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo", orphanRemoval = true)
-    private List<PositionPlayedStats> positionPlayedStatsList = new ArrayList<>();
+    private Set<StatisticsByPosition> statisticsByPositions = new HashSet<>();
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo", orphanRemoval = true)
-    @OrderBy("dateOfGame")
-    private List<Game> gameList = new ArrayList<>();
+    private Set<StatisticsByCompetition> statisticsByCompetitions = new HashSet<>();
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo", orphanRemoval = true)
-    private List<CoreStats> coreStatsList = new ArrayList<>();
+    private Set<WhoScoredGame> whoScoredGames = new HashSet<>();
     @JsonBackReference
-    @JoinColumn(name = "playerId", referencedColumnName = "id")
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Player player;
-    @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "whoscoredinfo")
-    private Characteristic characteristic;
-
-    public WhoScoredInfo() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getSeason() {
-        return season;
-    }
-
-    public void setSeason(String season) {
-        this.season = season;
-    }
-
-    public LocalDateTime getLastMeasured() {
-        return lastMeasured;
-    }
-
-    public void setLastMeasured(LocalDateTime lastMeasured) {
-        this.lastMeasured = lastMeasured;
-    }
-
-    public List<PositionPlayedStats> getPositionPlayedStatsList() {
-        return positionPlayedStatsList;
-    }
-
-    public void setPositionPlayedStatsList(List<PositionPlayedStats> positionPlayedStatsList) {
-        this.positionPlayedStatsList = positionPlayedStatsList;
-    }
-
-    public List<Game> getGameList() {
-        return gameList;
-    }
-
-    public void setGameList(List<Game> gameList) {
-        this.gameList = gameList;
-    }
-    
-    public List<CoreStats> getCoreStatsList() {
-        return coreStatsList;
-    }
-
-    public void setCoreStatsList(List<CoreStats> coreStatsList) {
-        this.coreStatsList = coreStatsList;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public Characteristic getCharacteristic() {
-        return characteristic;
-    }
-
-    public void setCharacteristic(Characteristic characteristic) {
-        this.characteristic = characteristic;
-    }
-
-    @Override
-    public int hashCode() {
-        return 3;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (this == object) return true;
-        if (!(object instanceof WhoScoredInfo)) {
-            return false;
-        }
-        WhoScoredInfo c = (WhoScoredInfo) object;        
-        return this.id != null && Objects.equals(this.id, c.id);
-    }
-
-    @Override
-    public String toString() {
-        return "com.riocode.scoutpro.model.Whoscoredinfo[ id=" + this.id + " ]";
-    }
-
 }

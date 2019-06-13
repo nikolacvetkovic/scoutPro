@@ -1,46 +1,35 @@
 package com.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.riocode.scoutpro.enums.*;
 import com.riocode.scoutpro.jpa.converter.ListStringConverter;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.Set;
 
 /**
  *
  * @author Nikola Cvetkovic
  */
 
+@NoArgsConstructor
+@Data
 @Entity
-@Table(name = "pesdbinfo", catalog = "scout_pro_development", schema = "")
+@Table(name = "pes_db_info")
 @NamedQueries({
     @NamedQuery(name = "PesDbInfo.findAll", query = "SELECT p FROM PesDbInfo p")
     , @NamedQuery(name = "PesDbInfo.findById", query = "SELECT p FROM PesDbInfo p WHERE p.id = :id")
-    , @NamedQuery(name = "PesDbInfo.findBySeason", query = "SELECT p FROM PesDbInfo p WHERE p.season = :season")
     , @NamedQuery(name = "PesDbInfo.findByTeamName", query = "SELECT p FROM PesDbInfo p WHERE p.teamName = :teamName")
     , @NamedQuery(name = "PesDbInfo.findByFoot", query = "SELECT p FROM PesDbInfo p WHERE p.foot = :foot")
     , @NamedQuery(name = "PesDbInfo.findByWeekCondition", query = "SELECT p FROM PesDbInfo p WHERE p.weekCondition = :weekCondition")
-    , @NamedQuery(name = "PesDbInfo.findByPrimaryPosition", query = "SELECT p FROM PesDbInfo p WHERE p.primaryPosition = :primaryPosition")
-    , @NamedQuery(name = "PesDbInfo.findByLastChange", query = "SELECT p FROM PesDbInfo p WHERE p.lastMeasured = :lastMeasured")})
+    , @NamedQuery(name = "PesDbInfo.findByPrimaryPosition", query = "SELECT p FROM PesDbInfo p WHERE p.primaryPosition = :primaryPosition")})
 public class PesDbInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,58 +41,47 @@ public class PesDbInfo implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 5)
-    @Column(name = "season")
-    private String season;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 256)
-    @Column(name = "pesDbName")
-    private String pesDbName;
+    @Column(name = "player_name")
+    private String playerName;
     @Basic(optional = false)
     @NotNull()
     @Size(min = 1, max = 50)
-    @Column(name = "teamName")
+    @Column(name = "team_name")
     private String teamName;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 5)
     @Column(name = "foot")
-    private String foot;
+    private Foot foot;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "weekCondition")
-    private String weekCondition;
+    @Column(name = "week_condition")
+    private Character weekCondition;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
-    @Column(name = "primaryPosition")
-    private String primaryPosition;
-    @Basic(optional = false)
-    @NotNull
-    @Min(1)
-    @Max(13)
-    @Column(name = "positionNumberValue")
-    private int positionNumberValue;
+    @Column(name = "primary_position")
+    private PesDbPosition primaryPosition;
     @Size(max = 50)
     @Convert(converter = ListStringConverter.class)
-    @Column(name = "otherStrongPositions")
-    private List<String> otherStrongPositions;
+    @Column(name = "other_strong_positions")
+    private Set<PesDbPosition> otherStrongPositions;
     @Size(max = 50)
     @Convert(converter = ListStringConverter.class)
-    @Column(name = "otherWeakPositions")
-    private List<String> otherWeakPositions;
+    @Column(name = "other_weak_positions")
+    private Set<PesDbPosition> otherWeakPositions;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "attackingProwess")
+    @Column(name = "attacking_prowess")
     private int attackingProwess;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "ballControl")
+    @Column(name = "ball_control")
     private int ballControl;
     @Basic(optional = false)
     @NotNull
@@ -115,13 +93,13 @@ public class PesDbInfo implements Serializable {
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "lowPass")
+    @Column(name = "low_pass")
     private int lowPass;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "loftedPass")
+    @Column(name = "lofted_pass")
     private int loftedPass;
     @Basic(optional = false)
     @NotNull
@@ -133,7 +111,7 @@ public class PesDbInfo implements Serializable {
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "placeKicking")
+    @Column(name = "place_kicking")
     private int placeKicking;
     @Basic(optional = false)
     @NotNull
@@ -151,19 +129,19 @@ public class PesDbInfo implements Serializable {
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "defensiveProwess")
+    @Column(name = "defensive_prowess")
     private int defensiveProwess;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "ballWinning")
+    @Column(name = "ball_winning")
     private int ballWinning;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "kickingPower")
+    @Column(name = "kicking_power")
     private int kickingPower;
     @Basic(optional = false)
     @NotNull
@@ -175,19 +153,19 @@ public class PesDbInfo implements Serializable {
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "explosivePower")
+    @Column(name = "explosive_power")
     private int explosivePower;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "bodyControl")
+    @Column(name = "body_control")
     private int bodyControl;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "physicalContact")
+    @Column(name = "physical_contact")
     private int physicalContact;
     @Basic(optional = false)
     @NotNull
@@ -240,421 +218,40 @@ public class PesDbInfo implements Serializable {
     @NotNull
     @Min(1)
     @Max(3)
-    @Column(name = "injuryResistance")
+    @Column(name = "injury_resistance")
     private int injuryResistance;
     @Basic(optional = false)
     @Min(1)
     @Max(4)
-    @Column(name = "weakFootUsage")
+    @Column(name = "weak_foot_usage")
     private int weakFootUsage;
     @Basic(optional = false)
     @NotNull
     @Min(1)
     @Max(4)
-    @Column(name = "weakFootAccuracy")
+    @Column(name = "weak_foot_accuracy")
     private int weakFootAccuracy;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "overallRating")
+    @Column(name = "overall_rating")
     private int overallRating;
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "playingStyle")
-    private String playingStyle;
-    @Lob
-    @Size(max = 65535)
-    @Convert(converter = ListStringConverter.class)
-    @Column(name = "playerSkills")
-    private List<String> playerSkills;
+    @Column(name = "playing_style")
+    @Enumerated(EnumType.STRING)
+    private PlayingStyle playingStyle;
     @Lob
     @Size(max = 65535)
     @Convert(converter = ListStringConverter.class)
-    @Column(name = "comPlayingStyles")
-    private List<String> comPlayingStyles;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "lastMeasured")
-    private LocalDateTime lastMeasured;
+    @Column(name = "player_skills")
+    private Set<PlayerSkill> playerSkills;
+    @Lob
+    @Size(max = 65535)
+    @Convert(converter = ListStringConverter.class)
+    @Column(name = "com_playing_styles")
+    private Set<COMPlayingStyle> comPlayingStyles;
     @JsonBackReference    
-    @JoinColumn(name = "playerId", referencedColumnName = "id")
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Player player;
-
-    public PesDbInfo() {
-    }
-
-    public PesDbInfo(String season, String teamName, String foot, String weekCondition, String primaryPosition, LocalDateTime lastMeasured) {
-        this.season = season;
-        this.teamName = teamName;
-        this.foot = foot;
-        this.weekCondition = weekCondition;
-        this.primaryPosition = primaryPosition;
-        this.lastMeasured = lastMeasured;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public Player getPlayer() {
-        return player;
-    }
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-    
-    public String getSeason() {
-        return season;
-    }
-
-    public void setSeason(String season) {
-        this.season = season;
-    }
-    
-    public String getPesDbName() {
-        return pesDbName;
-    }
-
-    public void setPesDbName(String pesDbName) {
-        this.pesDbName = pesDbName;
-    }
-
-    public String getTeamName() {
-        return teamName;
-    }
-
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-
-    public String getFoot() {
-        return foot;
-    }
-
-    public void setFoot(String foot) {
-        this.foot = foot;
-    }
-
-    public String getWeekCondition() {
-        return weekCondition;
-    }
-
-    public void setWeekCondition(String weekCondition) {
-        this.weekCondition = weekCondition;
-    }
-
-    public String getPrimaryPosition() {
-        return primaryPosition;
-    }
-
-    public void setPrimaryPosition(String primaryPosition) {
-        this.primaryPosition = primaryPosition;
-    }
-    
-    public int getPositionNumberValue() {
-        return positionNumberValue;
-    }
-
-    public void setPositionNumberValue(int positionNumberValue) {
-        this.positionNumberValue = positionNumberValue;
-    }
-
-    public List<String> getOtherStrongPositions() {
-        return otherStrongPositions;
-    }
-
-    public void setOtherStrongPositions(List<String> otherStrongPositions) {
-        this.otherStrongPositions = otherStrongPositions;
-    }
-    
-    public List<String> getOtherWeakPositions() {
-        return otherWeakPositions;
-    }
-
-    public void setOtherWeakPositions(List<String> otherWeakPositions) {
-        this.otherWeakPositions = otherWeakPositions;
-    }
-
-    public int getAttackingProwess() {
-        return attackingProwess;
-    }
-
-    public void setAttackingProwess(int attackingProwess) {
-        this.attackingProwess = attackingProwess;
-    }
-
-    public int getBallControl() {
-        return ballControl;
-    }
-
-    public void setBallControl(int ballControl) {
-        this.ballControl = ballControl;
-    }
-
-    public int getDribbling() {
-        return dribbling;
-    }
-
-    public void setDribbling(int dribbling) {
-        this.dribbling = dribbling;
-    }
-
-    public int getLowPass() {
-        return lowPass;
-    }
-
-    public void setLowPass(int lowPass) {
-        this.lowPass = lowPass;
-    }
-
-    public int getLoftedPass() {
-        return loftedPass;
-    }
-
-    public void setLoftedPass(int loftedPass) {
-        this.loftedPass = loftedPass;
-    }
-
-    public int getFinishing() {
-        return finishing;
-    }
-
-    public void setFinishing(int finishing) {
-        this.finishing = finishing;
-    }
-
-    public int getPlaceKicking() {
-        return placeKicking;
-    }
-
-    public void setPlaceKicking(int placeKicking) {
-        this.placeKicking = placeKicking;
-    }
-
-    public int getSwerve() {
-        return swerve;
-    }
-
-    public void setSwerve(int swerve) {
-        this.swerve = swerve;
-    }
-
-    public int getHeader() {
-        return header;
-    }
-
-    public void setHeader(int header) {
-        this.header = header;
-    }
-
-    public int getDefensiveProwess() {
-        return defensiveProwess;
-    }
-
-    public void setDefensiveProwess(int defensiveProwess) {
-        this.defensiveProwess = defensiveProwess;
-    }
-
-    public int getBallWinning() {
-        return ballWinning;
-    }
-
-    public void setBallWinning(int ballWinning) {
-        this.ballWinning = ballWinning;
-    }
-
-    public int getKickingPower() {
-        return kickingPower;
-    }
-
-    public void setKickingPower(int kickingPower) {
-        this.kickingPower = kickingPower;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public int getExplosivePower() {
-        return explosivePower;
-    }
-
-    public void setExplosivePower(int explosivePower) {
-        this.explosivePower = explosivePower;
-    }
-
-    public int getBodyControl() {
-        return bodyControl;
-    }
-
-    public void setBodyControl(int bodyControl) {
-        this.bodyControl = bodyControl;
-    }
-
-    public int getPhysicalContact() {
-        return physicalContact;
-    }
-
-    public void setPhysicalContact(int physicalContact) {
-        this.physicalContact = physicalContact;
-    }
-
-    public int getJump() {
-        return jump;
-    }
-
-    public void setJump(int jump) {
-        this.jump = jump;
-    }
-
-    public int getStamina() {
-        return stamina;
-    }
-
-    public void setStamina(int stamina) {
-        this.stamina = stamina;
-    }
-
-    public int getGoalkeeping() {
-        return goalkeeping;
-    }
-
-    public void setGoalkeeping(int goalkeeping) {
-        this.goalkeeping = goalkeeping;
-    }
-
-    public int getCatching() {
-        return catching;
-    }
-
-    public void setCatching(int catching) {
-        this.catching = catching;
-    }
-
-    public int getClearing() {
-        return clearing;
-    }
-
-    public void setClearing(int clearing) {
-        this.clearing = clearing;
-    }
-
-    public int getReflexes() {
-        return reflexes;
-    }
-
-    public void setReflexes(int reflexes) {
-        this.reflexes = reflexes;
-    }
-
-    public int getCoverage() {
-        return coverage;
-    }
-
-    public void setCoverage(int coverage) {
-        this.coverage = coverage;
-    }
-
-    public int getForm() {
-        return form;
-    }
-
-    public void setForm(int form) {
-        this.form = form;
-    }
-
-    public int getInjuryResistance() {
-        return injuryResistance;
-    }
-
-    public void setInjuryResistance(int injuryResistance) {
-        this.injuryResistance = injuryResistance;
-    }
-
-    public int getWeakFootUsage() {
-        return weakFootUsage;
-    }
-
-    public void setWeakFootUsage(int weakFootUsage) {
-        this.weakFootUsage = weakFootUsage;
-    }
-
-    public int getWeakFootAccuracy() {
-        return weakFootAccuracy;
-    }
-
-    public void setWeakFootAccuracy(int weakFootAccuracy) {
-        this.weakFootAccuracy = weakFootAccuracy;
-    }
-
-    public int getOverallRating() {
-        return overallRating;
-    }
-
-    public void setOverallRating(int overallRating) {
-        this.overallRating = overallRating;
-    }
-
-    public String getPlayingStyle() {
-        return playingStyle;
-    }
-
-    public void setPlayingStyle(String playingStyle) {
-        this.playingStyle = playingStyle;
-    }
-
-    public List<String> getPlayerSkills() {
-        return playerSkills;
-    }
-
-    public void setPlayerSkills(List<String> playerSkills) {
-        this.playerSkills = playerSkills;
-    }
-
-    public List<String> getComPlayingStyles() {
-        return comPlayingStyles;
-    }
-
-    public void setComPlayingStyles(List<String> comPlayingStyles) {
-        this.comPlayingStyles = comPlayingStyles;
-    }
-
-    public LocalDateTime getLastMeasured() {
-        return lastMeasured;
-    }
-
-    public void setLastMeasured(LocalDateTime lastMeasured) {
-        this.lastMeasured = lastMeasured;
-    }
-    
-    @Override
-    public int hashCode() {
-        return 4;
-    }
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (this == object) return true;
-        if (!(object instanceof PesDbInfo)) {
-            return false;
-        }
-        PesDbInfo c = (PesDbInfo) object;        
-        return this.id != null && Objects.equals(this.id, c.id);
-    }
-    
-    @Override
-    public String toString() {
-        return "com.riocode.scoutpro.model.Pesdbinfo[ id=" + this.id + " ]";
-    }    
-
 }

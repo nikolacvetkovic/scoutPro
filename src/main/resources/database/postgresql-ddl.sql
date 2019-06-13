@@ -17,7 +17,7 @@ create table if not exists scout_pro_development.player (
     psml_last_measured timestamp not null);
 
 create table if not exists scout_pro_development.transfermarkt_info(
-	id serial primary key,
+	id int primary key,
     date_of_birth varchar(15) not null,
     age smallserial not null,
     nationality varchar(50) not null,
@@ -25,8 +25,7 @@ create table if not exists scout_pro_development.transfermarkt_info(
     club_team varchar(50) not null,
     contract_until varchar(12) not null,
     position varchar(40) not null,
-    player_id int not null,
-    constraint fk_tm_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action);
+    constraint fk_tm_player_id foreign key(id) references scout_pro_development.player(id) on delete no action on update no action);
 
     create index ix_transfermarkt_info_player_id on scout_pro_development.transfermarkt_info(player_id);
 
@@ -159,11 +158,10 @@ create table if not exists scout_pro_development.pes_db_info(
 	create index ix_pes_db_info_player_id on scout_pro_development.pes_db_info(player_id);
 
 create table if not exists scout_pro_development.psml_info(
-	id serial primary key,
+	id int primary key,
     psml_team varchar(50) not null default 'Free Agent',
     psml_value numeric(15,2) null default 00.00,
-    player_id int not null,
-    constraint fk_psml_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action);
+    constraint fk_psml_player_id foreign key(id) references scout_pro_development.player(id) on delete no action on update no action);
 
  	create index ix_psml_info_player_id on scout_pro_development.psml_info(player_id);
 

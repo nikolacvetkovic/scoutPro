@@ -1,11 +1,9 @@
-package com.riocode.scoutpro.exception.handler;
+package com.riocode.scoutpro.controller;
 
 import com.riocode.scoutpro.error.AppError;
 import com.riocode.scoutpro.exception.DuplicatePlayerException;
 import com.riocode.scoutpro.exception.ParseException;
 import com.riocode.scoutpro.exception.PlayerNotFoundException;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
@@ -19,6 +17,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 /**
  *

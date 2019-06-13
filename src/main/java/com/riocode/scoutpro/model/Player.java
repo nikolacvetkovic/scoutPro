@@ -2,198 +2,100 @@ package com.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
  * @author Nikola Cvetkovic
  */
 
+@NoArgsConstructor
+@Data
 @Entity
-@Table(name = "player", catalog = "scout_pro_development", schema = "")
+@Table(name = "player")
 @NamedQueries({
     @NamedQuery(name = "Player.findAll", query = "SELECT p FROM Player p")
     , @NamedQuery(name = "Player.findById", query = "SELECT p FROM Player p WHERE p.id = :id")})
 public class Player implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "myPlayer")
-    private boolean myPlayer;
+    @Column(name = "player_name")
+    private String playerName;
+
     @Pattern(regexp = "^(http(s)?://www\\.transfermarkt\\.com/.+/profil/spieler/)\\d+$", message = "Not valid Transfermarkt url")
     @Size(max = 256)
-    @Column(name = "transfermarktUrl")
+    @Column(name = "transfermarkt_url")
     private String transfermarktUrl;
-    @Pattern(regexp = "^(http(s)?://www\\.whoscored\\.com/Players/\\d+/Show/).+$", message = "Not valid Whoscored url")
+    @Pattern(regexp = "^(http(s)?://www\\.whoscored\\.com/Players/\\d+/Show/).+$", message = "Not valid WhoScored url")
     @Size(max = 256)
-    @Column(name = "whoScoredUrl")
+    @Column(name = "who_scored_url")
     private String whoScoredUrl;
     @Pattern(regexp = "^(http://pesdb\\.net/pes20[1-9][0-9]/\\?id=)\\d+$", message = "Not valid PesDb url")
     @Size(max = 256)
-    @Column(name = "pesDbUrl")
+    @Column(name = "pes_db_url")
     private String pesDbUrl;
     @Pattern(regexp = "^(http://psml\\.rs/(index\\.php)?\\?action=shwply&playerID=)\\d+$", message = "Not valid Psml url")
     @Size(max = 256)
-    @Column(name = "psmlUrl")
+    @Column(name = "psml_url")
     private String psmlUrl;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
-    @Basic(optional = false)
-    @Column(name = "lastMeasured")
-    private LocalDateTime lastMeasured;
+
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
-    @OrderBy("lastMeasured")
-    private List<PsmlInfo> psmlInfoList = new ArrayList<>();
+    private Set<MarketValue> marketValues = new HashSet<>();
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
-    @OrderBy("lastMeasured")
-    private List<PesDbInfo> pesDbInfoList = new ArrayList<>();
+    private Set<Transfer> transfers = new HashSet<>();
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
-    @OrderBy("lastMeasured")
-    private List<WhoScoredInfo> whoScoredInfoList = new ArrayList<>();
+    private Set<WhoScoredInfo> whoScoredInfos = new HashSet<>();
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    private Set<PesDbInfo> pesDbInfos = new HashSet<>();
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    private PsmlInfo psmlInfo;
     @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "player")
     private TransfermarktInfo transfermarktInfo;
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    private Set<News> news = new HashSet<>();
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", orphanRemoval = true)
+    private Set<AppUserPlayer> users = new HashSet<>();
 
-    public Player() {
-    }
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    
-    public List<PsmlInfo> getPsmlInfoList() {
-        return this.psmlInfoList;
-    }
-
-    public void setPsmlInfoList(List<PsmlInfo> psmlInfoList) {
-        this.psmlInfoList = psmlInfoList;
-    }
-    
-    public List<PesDbInfo> getPesDbInfoList() {
-        return this.pesDbInfoList;
-    }
-
-    public void setPesDbInfoList(List<PesDbInfo> pesDbInfoList) {
-        this.pesDbInfoList = pesDbInfoList;
-    }
-    
-    public List<WhoScoredInfo> getWhoscoredInfoList() {
-        return this.whoScoredInfoList;
-    }
-
-    public void setWhoscoredInfoList(List<WhoScoredInfo> whoScoredInfoList) {
-        this.whoScoredInfoList = whoScoredInfoList;
-    }
-
-    public TransfermarktInfo getTransfermarktInfo() {
-        return this.transfermarktInfo;
-    }
-
-    public void setTransfermarktInfo(TransfermarktInfo transfermarktInfo) {
-        this.transfermarktInfo = transfermarktInfo;
-    }
-    
-    public boolean isMyPlayer(){
-        return this.myPlayer;
-    }
-    
-    public void setMyPlayer(boolean myPlayer){
-        this.myPlayer = myPlayer;
-    }
-    
-    public String getTransfermarktUrl() {
-        return transfermarktUrl;
-    }
-
-    public void setTransfermarktUrl(String transfermarktUrl) {
-        this.transfermarktUrl = transfermarktUrl;
-    }
-
-    public String getWhoScoredUrl() {
-        return whoScoredUrl;
-    }
-
-    public void setWhoScoredUrl(String whoScoredUrl) {
-        this.whoScoredUrl = whoScoredUrl;
-    }
-
-    public String getPesDbUrl() {
-        return pesDbUrl;
-    }
-
-    public void setPesDbUrl(String pesDbUrl) {
-        this.pesDbUrl = pesDbUrl;
-    }
-
-    public String getPsmlUrl() {
-        return psmlUrl;
-    }
-
-    public void setPsmlUrl(String psmlUrl) {
-        this.psmlUrl = psmlUrl;
-    }
-
-    public LocalDateTime getLastMeasured() {
-        return lastMeasured;
-    }
-
-    public void setLastMeasured(LocalDateTime lastMeasured) {
-        this.lastMeasured = lastMeasured;
-    }    
-    
-    @Override
-    public int hashCode() {
-        return 1;
-    }
-    
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (this == object) return true;
-        if (!(object instanceof Player)) {
-            return false;
-        }
-        Player c = (Player) object;        
-        return this.id != null && Objects.equals(this.id, c.id);
-    }
-
-    @Override
-    public String toString() {
-        return "com.riocode.scoutpro.model.Player[ id=" + this.id + " ]";
-    }
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
+    @Basic(optional = false)
+    @Column(name = "transfermarkt_last_measured")
+    private LocalDateTime transfermakrktLastMeasured;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
+    @Basic(optional = false)
+    @Column(name = "who_scored_last_measured")
+    private LocalDateTime whoScoredLastMeasured;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
+    @Basic(optional = false)
+    @Column(name = "pes_db_last_measured")
+    private LocalDateTime pesDbLastMeasured;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
+    @Basic(optional = false)
+    @Column(name = "psml_last_measured")
+    private LocalDateTime psmlLastMeasured;
 }

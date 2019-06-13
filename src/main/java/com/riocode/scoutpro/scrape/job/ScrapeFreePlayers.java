@@ -1,8 +1,8 @@
-package com.riocode.scoutpro.scraper.job;
+package com.riocode.scoutpro.scrape.job;
 
 
 import com.riocode.scoutpro.model.Player;
-import com.riocode.scoutpro.scraper.helper.ScrapeHelper;
+import com.riocode.scoutpro.scrape.helper.ScrapeHelper;
 import com.riocode.scoutpro.service.PlayerService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,7 +11,6 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -28,7 +27,7 @@ public class ScrapeFreePlayers {
     private static final String WS_BASE_URL = "https://www.whoscored.com";
     private static final int overallimit = 80;
 
-    @Autowired
+    //@Autowired
     private PlayerService playerService;
 
 

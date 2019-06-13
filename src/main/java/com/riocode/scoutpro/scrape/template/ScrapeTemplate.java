@@ -1,4 +1,4 @@
-package com.riocode.scoutpro.scraper.template;
+package com.riocode.scoutpro.scrape.template;
 
 import com.riocode.scoutpro.model.Player;
 import org.jsoup.nodes.Document;

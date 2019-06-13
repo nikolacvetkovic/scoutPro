@@ -1,7 +1,6 @@
 package com.riocode.scoutpro.controller;
 
 import com.riocode.scoutpro.service.PlayerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class SiteController {
     
-    @Autowired
+    //@Autowired
     private PlayerService playerService;
     
     @RequestMapping(value = "/", method = RequestMethod.GET)

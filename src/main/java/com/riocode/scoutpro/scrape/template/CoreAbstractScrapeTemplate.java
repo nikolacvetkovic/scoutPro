@@ -1,11 +1,12 @@
-package com.riocode.scoutpro.scraper.template;
+package com.riocode.scoutpro.scrape.template;
 
 import com.riocode.scoutpro.exception.GetDocumentConnectionException;
 import com.riocode.scoutpro.exception.ParseException;
 import com.riocode.scoutpro.model.Player;
-import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 
 /**
  *

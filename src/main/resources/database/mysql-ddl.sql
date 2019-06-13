@@ -21,7 +21,7 @@ create table if not exists scout_pro_development.player (
     collate = utf8_unicode_ci;
 
 create table if not exists scout_pro_development.transfermarkt_info(
-	id int auto_increment not null,
+	id int not null,
     date_of_birth varchar(15) not null,
     age tinyint not null,
     nationality varchar(50) not null,
@@ -29,10 +29,8 @@ create table if not exists scout_pro_development.transfermarkt_info(
     club_team varchar(50) not null,
     contract_until varchar(12) not null,
     position varchar(40) not null,
-    player_id int not null,
     primary key(id),
-    index ix_transfermarkt_info_player_id(player_id ASC),
-    constraint fk_tm_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action)
+    constraint fk_tm_player_id foreign key(id) references scout_pro_development.player(id) on delete no action on update no action)
     engine = InnoDB
     collate = utf8_unicode_ci;
 
@@ -179,13 +177,11 @@ create table if not exists scout_pro_development.pes_db_info(
     collate = utf8_unicode_ci;
 
 create table if not exists scout_pro_development.psml_info(
-	id int auto_increment not null,
+	id int not null,
     psml_team varchar(50) not null default 'Free Agent',
     psml_value decimal(15,2) null default 00.00,
-    player_id int not null,
     primary key(id),
-    index ix_psml_info_player_id(player_id),
-    constraint fk_psml_player_id foreign key(player_id) references scout_pro_development.player(id) on delete no action on update no action)
+    constraint fk_psml_player_id foreign key(id) references scout_pro_development.player(id) on delete no action on update no action)
     engine = InnoDB
     collate = utf8_unicode_ci;
 

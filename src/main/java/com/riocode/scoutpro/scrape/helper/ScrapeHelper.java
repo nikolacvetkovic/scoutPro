@@ -1,4 +1,4 @@
-package com.riocode.scoutpro.scraper.helper;
+package com.riocode.scoutpro.scrape.helper;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

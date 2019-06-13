@@ -2,10 +2,6 @@ package com.riocode.scoutpro.controller;
 
 import com.riocode.scoutpro.model.Player;
 import com.riocode.scoutpro.service.PlayerService;
-import java.io.IOException;
-import java.util.List;
-import javax.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  *
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class PlayerController {
     
-    @Autowired
+    //@Autowired
     private PlayerService playerService;
     
     // Get All Players
