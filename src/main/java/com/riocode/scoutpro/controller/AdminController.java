@@ -1,5 +1,7 @@
 package com.riocode.scoutpro.controller;
 
+import com.riocode.scoutpro.scrape.service.ScrapeRegExpressionService;
+import com.riocode.scoutpro.service.AppUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+    private final AppUserService userService;
+    private final ScrapeRegExpressionService scrapeRegExpService;
+
+    public AdminController(AppUserService userService, ScrapeRegExpressionService scrapeRegExpService) {
+        this.userService = userService;
+        this.scrapeRegExpService = scrapeRegExpService;
+    }
 
 
     @GetMapping("/dashboard")

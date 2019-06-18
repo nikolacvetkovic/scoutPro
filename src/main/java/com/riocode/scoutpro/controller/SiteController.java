@@ -24,6 +24,11 @@ public class SiteController {
         return "dashboard";
     }
 
+    @GetMapping("/compare")
+    public String compare(){
+        return "compare";
+    }
+
     @GetMapping("/transfersandnews")
     public String showTransfersAndNews(){
 
