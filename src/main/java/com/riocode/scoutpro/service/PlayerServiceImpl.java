@@ -1,8 +1,11 @@
-package com.riocode.scoutpro.service.impl;
+package com.riocode.scoutpro.service;
 
+import com.riocode.scoutpro.model.Player;
+import com.riocode.scoutpro.repository.PlayerRepository;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  *
@@ -11,7 +14,38 @@ import javax.transaction.Transactional;
 
 @Component
 @Transactional
-public class PlayerServiceImpl /*implements PlayerService*/{
+public class PlayerServiceImpl implements PlayerService {
+
+    private final PlayerRepository playerRepository;
+
+    public PlayerServiceImpl(PlayerRepository playerRepository) {
+        this.playerRepository = playerRepository;
+    }
+
+    @Override
+    public Player create(Player player) {
+        return null;
+    }
+
+    @Override
+    public Player getById(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<Player> getByName(String name) {
+        return null;
+    }
+
+    @Override
+    public Player update(Player player) {
+        return null;
+    }
+
+    @Override
+    public void delete(int playerId) {
+
+    }
 
 //    @Autowired
 //    private PlayerDao playerDao;

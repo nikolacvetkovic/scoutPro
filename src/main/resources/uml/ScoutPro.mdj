@@ -27829,7 +27829,7 @@
 											"top": 1219,
 											"width": 377.5712890625,
 											"height": 13,
-											"text": "+update(whoScoredInfo: WhoScoredInfo): WhoScoredInfo",
+											"text": "+update(wsInfo: WhoScoredInfo): WhoScoredInfo",
 											"horizontalAlignment": 0
 										}
 									],
@@ -30782,7 +30782,7 @@
 											"top": 925,
 											"width": 298.6064453125,
 											"height": 13,
-											"text": "+update(transfermarktInfoId: String): String",
+											"text": "+update(tmInfoId: String): String",
 											"horizontalAlignment": 0
 										}
 									],
@@ -31270,7 +31270,7 @@
 											"top": 1229,
 											"width": 274.57421875,
 											"height": 13,
-											"text": "+update(whoScoredInfoId: String): String",
+											"text": "+update(wsInfoId: String): String",
 											"horizontalAlignment": 0
 										}
 									],
@@ -32700,7 +32700,7 @@
 											"top": 1006,
 											"width": 313.4345703125,
 											"height": 13,
-											"text": "-marketValueService: MarketValueService",
+											"text": "-transferService: TransferService",
 											"horizontalAlignment": 0
 										}
 									],
@@ -33188,7 +33188,7 @@
 											"top": 1110,
 											"width": 255.1630859375,
 											"height": 13,
-											"text": "-marketValueService",
+											"text": "-marketValueService: MarketValueService",
 											"horizontalAlignment": 0
 										}
 									],
@@ -37068,7 +37068,7 @@
 											"top": 412,
 											"width": 269.140625,
 											"height": 13,
-											"text": "UserRepository"
+											"text": "AppUserRepository"
 										},
 										{
 											"_type": "LabelView",
@@ -37628,7 +37628,7 @@
 											"top": 254,
 											"width": 316.8115234375,
 											"height": 13,
-											"text": "-userRepository: UserRepository",
+											"text": "-userRepository: AppUserRepository",
 											"horizontalAlignment": 0
 										}
 									],
@@ -40056,7 +40056,7 @@
 																	"_parent": {
 																		"$ref": "AAAAAAFqP+801Lnn1WA="
 																	},
-																	"name": "transfermarktInfoId",
+																	"name": "tmInfoId",
 																	"type": "String"
 																},
 																{
@@ -40109,7 +40109,7 @@
 																	"_parent": {
 																		"$ref": "AAAAAAFqQTOfA/tMkCI="
 																	},
-																	"name": "whoScoredInfoId",
+																	"name": "wsInfoId",
 																	"type": "String"
 																},
 																{
@@ -40246,10 +40246,10 @@
 															"_parent": {
 																"$ref": "AAAAAAFqQWHwz1gIih0="
 															},
-															"name": "marketValueService",
+															"name": "transferService",
 															"visibility": "private",
 															"type": {
-																"$ref": "AAAAAAFqP7K63/RiOKY="
+																"$ref": "AAAAAAFqP3z1fON55SQ="
 															}
 														}
 													],
@@ -40301,7 +40301,9 @@
 															},
 															"name": "marketValueService",
 															"visibility": "private",
-															"type": ""
+															"type": {
+																"$ref": "AAAAAAFqP7K63/RiOKY="
+															}
 														}
 													],
 													"operations": [
@@ -44836,7 +44838,7 @@
 													"_parent": {
 														"$ref": "AAAAAAFqMEpaUF4Eyxs="
 													},
-													"name": "UserRepository",
+													"name": "AppUserRepository",
 													"ownedElements": [
 														{
 															"_type": "UMLGeneralization",
@@ -47067,7 +47069,7 @@
 																	"_parent": {
 																		"$ref": "AAAAAAFqP7wpeBXvE2g="
 																	},
-																	"name": "whoScoredInfo",
+																	"name": "wsInfo",
 																	"type": {
 																		"$ref": "AAAAAAFf0X/bmn+Hzhc="
 																	}

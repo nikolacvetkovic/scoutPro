@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 /**
  *
  * @author Nikola Cvetkovic
+ * @deprecated
  */
 
 @Component

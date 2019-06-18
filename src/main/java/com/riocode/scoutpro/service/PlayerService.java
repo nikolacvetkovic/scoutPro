@@ -1,6 +1,7 @@
 package com.riocode.scoutpro.service;
 
 import com.riocode.scoutpro.model.Player;
+
 import java.util.List;
 
 /**
@@ -10,19 +11,8 @@ import java.util.List;
 
 public interface PlayerService {
     Player create(Player player);
-    Player update(Player player);
-    
-    Player updateTransfermarktInfo(int playerId);
-    Player updateExistingWhoScoredInfo(int playerId);
-    Player updateExistingPesDbInfo(int playerId);
-    Player updateExistingPsmlInfo(int playerId);
-    
-    List<Player> getAll();
-    List<Player> getAllComplete();
-    Player getById(int playerId);
-    Player getCompleteById(int playerId);
+    Player getById(Long id);
     List<Player> getByName(String name);
-    Player getByTransfermarktUrl(String transfermarktUrl);
-    
+    Player update(Player player);
     void delete(int playerId);
 }
