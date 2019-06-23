@@ -12,10 +12,10 @@ create table if not exists scout_pro_development.player (
     who_scored_url varchar(256) null,
     pes_db_url varchar(256) null,
     psml_url varchar(256) null,
-    transfermarkt_last_measured timestamp not null,
-    who_scored_last_measured timestamp not null,
-    pes_db_last_measured timestamp not null,
-    psml_last_measured timestamp not null,
+    transfermarkt_last_measured timestamp null,
+    who_scored_last_measured timestamp null,
+    pes_db_last_measured timestamp null,
+    psml_last_measured timestamp null,
     primary key(id))
     engine = InnoDB
     collate = utf8_unicode_ci;
@@ -235,7 +235,7 @@ create table if not exists scout_pro_development.user_role(
 create table if not exists scout_pro_development.news(
     id int auto_increment not null,
     content text,
-    inserted_date timestamp,
+    inserted_date timestamp null,
     player_id int not null,
     primary key(id),
     index ix_news_player_id (player_id ASC),
