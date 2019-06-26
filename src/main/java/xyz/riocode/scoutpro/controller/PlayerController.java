@@ -40,8 +40,8 @@ public class PlayerController {
         return "";
     }
 
-    @GetMapping("/{playerId}")
-    public String getPlayerByName(@PathVariable Long playerId, ModelMap modelMap){
+    @GetMapping("/{playerName}/name")
+    public String getPlayerByName(@PathVariable Long playerName, ModelMap modelMap){
         return "";
     }
 
