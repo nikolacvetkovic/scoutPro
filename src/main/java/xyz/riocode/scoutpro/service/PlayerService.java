@@ -14,5 +14,5 @@ public interface PlayerService {
     Player getById(Long id);
     List<Player> getByName(String name);
     Player update(Player player);
-    void delete(int playerId);
+    void delete(Long playerId);
 }
