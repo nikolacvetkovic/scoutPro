@@ -32,8 +32,6 @@ public class TransfermarktInfo implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
-    //@GenericGenerator(name = "myGen", strategy = "foreign", parameters = @Parameter(name = "property",value = "player"))
-    //@GeneratedValue(generator = "myGen")
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
@@ -72,7 +70,6 @@ public class TransfermarktInfo implements Serializable {
     private String position;
     @JsonBackReference
     @OneToOne(optional = false)
-    //@JoinColumn(name = "id", referencedColumnName = "id")
     @MapsId
     private Player player;
 

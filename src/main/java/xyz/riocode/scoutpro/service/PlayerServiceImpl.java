@@ -1,6 +1,8 @@
 package xyz.riocode.scoutpro.service;
 
 import org.springframework.stereotype.Component;
+import xyz.riocode.scoutpro.converter.PlayerConverter;
+import xyz.riocode.scoutpro.exception.PlayerNotFoundException;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.repository.PlayerRepository;
 
@@ -18,7 +20,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     private final PlayerRepository playerRepository;
 
-    public PlayerServiceImpl(PlayerRepository playerRepository) {
+    public PlayerServiceImpl(PlayerRepository playerRepository, PlayerConverter playerConverter) {
         this.playerRepository = playerRepository;
     }
 
@@ -29,7 +31,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player getById(Long id) {
-        return null;
+        return playerRepository.findById(id).orElseThrow(PlayerNotFoundException::new);
     }
 
     @Override
@@ -39,12 +41,14 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player update(Player player) {
-        return null;
+        playerRepository.findById(player.getId()).orElseThrow(PlayerNotFoundException::new);
+
+        return playerRepository.save(player);
     }
 
     @Override
-    public void delete(int playerId) {
-
+    public void delete(Long playerId) {
+        playerRepository.deleteById(playerId);
     }
 
 //    @Autowired
@@ -71,7 +75,7 @@ public class PlayerServiceImpl implements PlayerService {
 //        p.getTransfermarktInfo().getTransferList().size();
 //        p.getTransfermarktInfo().getMarketValueList().size();
 //        p.getWhoscoredInfoList().size();
-//        for(WhoScoredInfo ws : p.getWhoscoredInfoList()){
+//        for(Characteristic ws : p.getWhoscoredInfoList()){
 //            ws.getCoreStatsList().size();
 //            ws.getPositionPlayedStatsList().size();
 //            ws.getGameList().size();
@@ -89,7 +93,7 @@ public class PlayerServiceImpl implements PlayerService {
 //            player.getTransfermarktInfo().getTransferList().size();
 //            player.getTransfermarktInfo().getMarketValueList().size();
 //            player.getWhoscoredInfoList().size();
-//            for(WhoScoredInfo ws : player.getWhoscoredInfoList()){
+//            for(Characteristic ws : player.getWhoscoredInfoList()){
 //                ws.getCoreStatsList().size();
 //                ws.getPositionPlayedStatsList().size();
 //                ws.getGameList().size();
@@ -107,14 +111,6 @@ public class PlayerServiceImpl implements PlayerService {
 //        List<Player> p = playerDao.getByName(name);
 //        if(p == null) throw  new PlayerNotFoundException("playerName", name);
 //        return p;
-//    }
-//
-//    @Override
-//    public Player getByTransfermarktUrl(String transfermarktUrl) {
-//        List<Player> l = playerDao.getByTransfermarktUrl(transfermarktUrl);
-//        if(l.isEmpty()) throw  new PlayerNotFoundException("transfermarktUrl", transfermarktUrl);
-//
-//        return l.get(0);
 //    }
 //
 //    @Override
@@ -140,16 +136,6 @@ public class PlayerServiceImpl implements PlayerService {
 //    }
 //
 //    @Override
-//    public Player update(Player player){
-//        Player p = playerDao.getById(player.getId());
-        //ovde dodati proveru da li podaci postoje u bazi
-//        if(p == null) throw new PlayerNotFoundException("playerId", player.getId());
-//        player.setLastMeasured(LocalDateTime.now());
-        
-//        return playerDao.update(player);
-//    }
-//
-//    @Override
 //    public Player updateTransfermarktInfo(int playerId) {
 //        Player p = playerDao.getById(playerId);
 //        if(p == null) throw  new PlayerNotFoundException("playerId", playerId);
@@ -167,7 +153,7 @@ public class PlayerServiceImpl implements PlayerService {
 //    public Player updateExistingWhoScoredInfo(int playerId) {
 //        Player p = playerDao.getById(playerId);
 //        if(p == null) throw new PlayerNotFoundException("playerId", playerId);
-//        WhoScoredInfo ws = p.getWhoscoredInfoList().get(p.getWhoscoredInfoList().size()-1);
+//        Characteristic ws = p.getWhoscoredInfoList().get(p.getWhoscoredInfoList().size()-1);
 //        ws.getCoreStatsList().size();
 //        ws.getCoreStatsList().clear();
 //        ws.getPositionPlayedStatsList().size();
@@ -197,21 +183,6 @@ public class PlayerServiceImpl implements PlayerService {
 //        PsmlScrapeTemplateImpl psmlCrawlTemplate = new PsmlScrapeTemplateImpl(psml);
 //        psmlCrawlTemplate.start();
 //        return p;
-//    }
-//
-//    @Override
-//    public void delete(int id) {
-//        Player player = playerDao.getById(id);
-//        if(player == null) throw new PlayerNotFoundException("playerId", id);
-//        playerDao.delete(player);
-//    }
-//
-//    private void resolveAsyncExceptions(Throwable ex){
-//        if(ex.getCause() != null && ex.getCause() instanceof PlayerNotFoundException) throw (RuntimeException)ex.getCause();
-//        if(ex.getCause() !=null && ex.getCause() instanceof DuplicatePlayerException) throw (RuntimeException)ex.getCause();
-//        if(ex.getCause() !=null && ex.getCause() instanceof ParseException) throw (RuntimeException)ex.getCause();
-//        if(ex.getCause() !=null && ex.getCause() instanceof TransactionSystemException) throw (RuntimeException)ex.getCause();
-//        if(ex.getCause() !=null && ex.getCause() instanceof ConstraintViolationException) throw new TransactionSystemException("Constraint Validation Failed", ex.getCause());
 //    }
     
 }

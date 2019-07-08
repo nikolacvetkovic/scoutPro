@@ -23,9 +23,9 @@ import java.util.Set;
 @Entity
 @Table(name = "who_scored_info")
 @NamedQueries({
-    @NamedQuery(name = "WhoScoredInfo.findAll", query = "SELECT w FROM WhoScoredInfo w")
-    , @NamedQuery(name = "WhoScoredInfo.findById", query = "SELECT w FROM WhoScoredInfo w WHERE w.id = :id")})
-public class WhoScoredInfo implements Serializable {
+    @NamedQuery(name = "Characteristic.findAll", query = "SELECT w FROM Characteristic w")
+    , @NamedQuery(name = "Characteristic.findById", query = "SELECT w FROM Characteristic w WHERE w.id = :id")})
+public class Characteristic implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,14 +47,14 @@ public class WhoScoredInfo implements Serializable {
     @Column(name = "style_of_play")
     private Set<String> stylesOfPlay;
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo", orphanRemoval = true)
-    private Set<StatisticsByPosition> statisticsByPositions = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "characteristic", orphanRemoval = true)
+    private Set<PositionStatistic> positionStatistics = new HashSet<>();
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo", orphanRemoval = true)
-    private Set<StatisticsByCompetition> statisticsByCompetitions = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "characteristic", orphanRemoval = true)
+    private Set<CompetitionStatistic> competitionStatistics = new HashSet<>();
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "whoScoredInfo", orphanRemoval = true)
-    private Set<WhoScoredGame> whoScoredGames = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "characteristic", orphanRemoval = true)
+    private Set<GameStatistic> gameStatistics = new HashSet<>();
     @JsonBackReference
     @JoinColumn(name = "player_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

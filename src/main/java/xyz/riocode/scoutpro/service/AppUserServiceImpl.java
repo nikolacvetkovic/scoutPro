@@ -6,7 +6,10 @@ import xyz.riocode.scoutpro.exception.DuplicateAppUserUsernameException;
 import xyz.riocode.scoutpro.model.AppUser;
 import xyz.riocode.scoutpro.repository.AppUserRepository;
 
+import javax.transaction.Transactional;
+
 @Component
+@Transactional
 public class AppUserServiceImpl implements AppUserService {
 
     private final AppUserRepository appUserRepository;
@@ -23,6 +26,11 @@ public class AppUserServiceImpl implements AppUserService {
                 });
 
         return appUserRepository.save(appUser);
+    }
+
+    @Override
+    public AppUser getByUsername(String username) {
+        return appUserRepository.findByUsername(username).orElseThrow(AppUserNotFoundException::new);
     }
 
     @Override

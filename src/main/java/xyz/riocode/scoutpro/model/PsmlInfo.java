@@ -44,6 +44,6 @@ public class PsmlInfo implements Serializable {
     private Set<PsmlTransfer> psmlTransfers;
     @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId("id")
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
     private Player player;
 }

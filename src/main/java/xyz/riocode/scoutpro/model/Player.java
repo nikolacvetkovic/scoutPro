@@ -64,17 +64,27 @@ public class Player implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private Set<Transfer> transfers = new HashSet<>();
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
-    private Set<WhoScoredInfo> whoScoredInfos = new HashSet<>();
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "player")
+    private TransfermarktInfo transfermarktInfo;
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    private Characteristic characteristic;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
-    private Set<PesDbInfo> pesDbInfos = new HashSet<>();
+    private Set<CompetitionStatistic> competitionStatistics = new HashSet<>();
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    private Set<PositionStatistic> positionStatistics = new HashSet<>();
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    private Set<GameStatistic> gameStatistics = new HashSet<>();
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    private PesDbInfo pesDbInfo;
     @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private PsmlInfo psmlInfo;
-    @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "player")
-    private TransfermarktInfo transfermarktInfo;
+
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private Set<News> news = new HashSet<>();

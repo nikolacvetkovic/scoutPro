@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @Data
 @Entity
 @Table(name = "statistics_by_position")
-public class StatisticsByPosition implements Serializable {
+public class PositionStatistic implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +50,6 @@ public class StatisticsByPosition implements Serializable {
     private BigDecimal rating;
     @ManyToOne(optional = false)
     @NotNull
-    @JoinColumn(name = "who_scored_info_id", referencedColumnName = "id")
-    private WhoScoredInfo whoScoredInfo;
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
+    private Player player;
 }

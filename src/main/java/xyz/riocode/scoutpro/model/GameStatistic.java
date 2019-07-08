@@ -1,5 +1,6 @@
 package xyz.riocode.scoutpro.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,12 +11,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "statistics_by_competition")
-public class StatisticsByCompetition implements Serializable {
+@Table(name = "who_scored_game")
+public class GameStatistic implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,65 +26,56 @@ public class StatisticsByCompetition implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 50)
     @Column(name = "competition")
     private String competition;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
-    @Column(name = "started_apps")
-    private int startedApps;
+    @Column(name = "date_of_game")
+    private LocalDate dateOfGame;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
-    @Column(name = "sub_apps")
-    private int subApps;
+    @Size(min = 1, max = 50)
+    @Column(name = "team1")
+    private String team1;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 4)
-    @Column(name = "mins")
-    private int mins;
+    @Size(min = 1, max = 50)
+    @Column(name = "team2")
+    private String team2;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
+    @Size(min = 1, max = 5)
+    @Column(name = "result")
+    private String result;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "man_of_the_match")
+    private boolean manOfTheMatch;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2)
     @Column(name = "goals")
     private int goals;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
+    @Size(min = 1, max = 2)
     @Column(name = "assists")
     private int assists;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2)
-    @Column(name = "yellow_cards")
-    private int yellowCards;
+    @Column(name = "yellow_card")
+    private boolean yellowCard;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2)
-    @Column(name = "red_cards")
-    private int redCards;
-    @Basic(optional = false)
-    @NotNull
-    @DecimalMin("0.0")
-    @Column(name = "shots_per_game")
-    private BigDecimal shotsPerGame;
-    @Basic(optional = false)
-    @NotNull
-    @DecimalMin("0.00")
-    @DecimalMax("100.00")
-    @Column(name = "pass_success")
-    private BigDecimal passSuccess;
-    @Basic(optional = false)
-    @NotNull
-    @DecimalMin("0.00")
-    @Column(name = "aerials_won")
-    private BigDecimal aerialsWon;
+    @Column(name = "red_card")
+    private boolean redCard;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
-    @Column(name = "man_of_the_match")
-    private int manOfTheMatch;
+    @Column(name = "minutes_played")
+    private int minutesPlayed;
     @Basic(optional = false)
     @NotNull
     @DecimalMin("0.00")
@@ -90,6 +83,7 @@ public class StatisticsByCompetition implements Serializable {
     @Column(name = "rating")
     private BigDecimal rating;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "who_scored_info_id", referencedColumnName = "id")
-    private WhoScoredInfo whoScoredInfo;
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
+    private Player player;
+
 }

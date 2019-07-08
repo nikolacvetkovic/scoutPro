@@ -252,6 +252,6 @@ public class PesDbInfo implements Serializable {
     private Set<COMPlayingStyle> comPlayingStyles;
     @JsonBackReference    
     @JoinColumn(name = "player_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Player player;
 }
