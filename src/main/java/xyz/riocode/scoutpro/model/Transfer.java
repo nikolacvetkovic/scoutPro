@@ -2,8 +2,9 @@ package xyz.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,12 +17,13 @@ import java.time.LocalDate;
  * @author Nikola Cvetkovic
  */
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "transfer")
-@NamedQueries({
-    @NamedQuery(name = "Transfer.findAll", query = "SELECT t FROM Transfer t")
-    , @NamedQuery(name = "Transfer.findById", query = "SELECT t FROM Transfer t WHERE t.id = :id")})
+//@NamedQueries({
+//    @NamedQuery(name = "Transfer.findAll", query = "SELECT t FROM Transfer t")
+//    , @NamedQuery(name = "Transfer.findById", query = "SELECT t FROM Transfer t WHERE t.id = :id")})
 public class Transfer implements Serializable {
 
     private static final long serialVersionUID = 1L;

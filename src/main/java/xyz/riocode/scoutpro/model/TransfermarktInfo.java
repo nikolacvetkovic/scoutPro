@@ -1,8 +1,9 @@
 package xyz.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,25 +16,24 @@ import java.io.Serializable;
  */
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "transfermarkt_info")
-@NamedQueries({
-    @NamedQuery(name = "TransfermarktInfo.findAll", query = "SELECT t FROM TransfermarktInfo t")
-    , @NamedQuery(name = "TransfermarktInfo.findById", query = "SELECT t FROM TransfermarktInfo t WHERE t.id = :id")
-    , @NamedQuery(name = "TransfermarktInfo.findByAge", query = "SELECT t FROM TransfermarktInfo t WHERE t.age = :age")
-    , @NamedQuery(name = "TransfermarktInfo.findByNationality", query = "SELECT t FROM TransfermarktInfo t WHERE t.nationality = :nationality")
-    , @NamedQuery(name = "TransfermarktInfo.findByNationalTeam", query = "SELECT t FROM TransfermarktInfo t WHERE t.nationalTeam = :nationalTeam")
-    , @NamedQuery(name = "TransfermarktInfo.findByClubTeam", query = "SELECT t FROM TransfermarktInfo t WHERE t.clubTeam = :clubTeam")
-    , @NamedQuery(name = "TransfermarktInfo.findByContractUntil", query = "SELECT t FROM TransfermarktInfo t WHERE t.contractUntil = :contractUntil")
-    , @NamedQuery(name = "TransfermarktInfo.findByPosition", query = "SELECT t FROM TransfermarktInfo t WHERE t.position = :position")})
+//@NamedQueries({
+//    @NamedQuery(name = "TransfermarktInfo.findAll", query = "SELECT t FROM TransfermarktInfo t")
+//    , @NamedQuery(name = "TransfermarktInfo.findById", query = "SELECT t FROM TransfermarktInfo t WHERE t.id = :id")
+//    , @NamedQuery(name = "TransfermarktInfo.findByAge", query = "SELECT t FROM TransfermarktInfo t WHERE t.age = :age")
+//    , @NamedQuery(name = "TransfermarktInfo.findByNationality", query = "SELECT t FROM TransfermarktInfo t WHERE t.nationality = :nationality")
+//    , @NamedQuery(name = "TransfermarktInfo.findByNationalTeam", query = "SELECT t FROM TransfermarktInfo t WHERE t.nationalTeam = :nationalTeam")
+//    , @NamedQuery(name = "TransfermarktInfo.findByClubTeam", query = "SELECT t FROM TransfermarktInfo t WHERE t.clubTeam = :clubTeam")
+//    , @NamedQuery(name = "TransfermarktInfo.findByContractUntil", query = "SELECT t FROM TransfermarktInfo t WHERE t.contractUntil = :contractUntil")
+//    , @NamedQuery(name = "TransfermarktInfo.findByPosition", query = "SELECT t FROM TransfermarktInfo t WHERE t.position = :position")})
 public class TransfermarktInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @Id
-    @Basic(optional = false)
-    @Column(name = "id")
     private Long id;
     @Basic(optional = false)
     @NotNull
@@ -69,17 +69,9 @@ public class TransfermarktInfo implements Serializable {
     @Column(name = "position")
     private String position;
     @JsonBackReference
-    @OneToOne(optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
+    @JoinColumn(name = "id")
     private Player player;
 
-    public TransfermarktInfo(String dateOfBirth, int age, String nationality, String nationalTeam, String clubTeam, String contractUntil, String position) {
-        this.dateOfBirth = dateOfBirth;
-        this.age = age;
-        this.nationality = nationality;
-        this.nationalTeam = nationalTeam;
-        this.clubTeam = clubTeam;
-        this.contractUntil = contractUntil;
-        this.position = position;
-    }
 }

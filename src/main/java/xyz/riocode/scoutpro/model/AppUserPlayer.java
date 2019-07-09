@@ -1,14 +1,16 @@
 package xyz.riocode.scoutpro.model;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "user_player")
+@Table(name = "app_user_player")
 public class AppUserPlayer {
 
     @EmbeddedId
@@ -16,6 +18,7 @@ public class AppUserPlayer {
 
     @ManyToOne
     @MapsId("userId")
+    @JoinColumn(name = "app_user_id")
     private AppUser appUser;
 
     @ManyToOne

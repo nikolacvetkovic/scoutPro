@@ -1,7 +1,8 @@
 package xyz.riocode.scoutpro.model;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -9,7 +10,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "app_role")
 public class AppRole implements Serializable {

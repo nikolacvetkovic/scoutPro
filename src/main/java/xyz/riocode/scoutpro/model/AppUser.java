@@ -1,7 +1,8 @@
 package xyz.riocode.scoutpro.model;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -10,7 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "app_user")
 public class AppUser implements Serializable {
@@ -31,11 +33,20 @@ public class AppUser implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser", orphanRemoval = true)
     private Set<AppUserPlayer> players = new HashSet<>();
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable( name = "user_role",
-                joinColumns = @JoinColumn(name = "user_id"),
-                inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable( name = "app_user_role",
+                joinColumns = @JoinColumn(name = "app_user_id"),
+                inverseJoinColumns = @JoinColumn(name = "app_role_id"))
     private Set<AppRole> roles = new HashSet<>();
 
 
-
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", players=" + players +
+                ", roles=" + roles +
+                '}';
+    }
 }

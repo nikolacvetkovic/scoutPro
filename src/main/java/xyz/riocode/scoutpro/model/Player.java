@@ -2,8 +2,9 @@ package xyz.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,12 +21,13 @@ import java.util.Set;
  */
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "player")
-@NamedQueries({
-    @NamedQuery(name = "Player.findAll", query = "SELECT p FROM Player p")
-    , @NamedQuery(name = "Player.findById", query = "SELECT p FROM Player p WHERE p.id = :id")})
+//@NamedQueries({
+//    @NamedQuery(name = "Player.findAll", query = "SELECT p FROM Player p")
+//    , @NamedQuery(name = "Player.findById", query = "SELECT p FROM Player p WHERE p.id = :id")})
 public class Player implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -63,8 +65,9 @@ public class Player implements Serializable {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private Set<Transfer> transfers = new HashSet<>();
+
     @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "player")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private TransfermarktInfo transfermarktInfo;
     @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
@@ -94,18 +97,26 @@ public class Player implements Serializable {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     @Basic(optional = false)
-    @Column(name = "transfermarkt_last_measured")
-    private LocalDateTime transfermakrktLastMeasured;
+    @Column(name = "transfer_last_check")
+    private LocalDateTime transferLastCheck;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     @Basic(optional = false)
-    @Column(name = "who_scored_last_measured")
-    private LocalDateTime whoScoredLastMeasured;
+    @Column(name = "market_value_last_check")
+    private LocalDateTime marketValueLastCheck;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     @Basic(optional = false)
-    @Column(name = "pes_db_last_measured")
-    private LocalDateTime pesDbLastMeasured;
+    @Column(name = "statistic_last_check")
+    private LocalDateTime statisticLastCheck;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     @Basic(optional = false)
-    @Column(name = "psml_last_measured")
-    private LocalDateTime psmlLastMeasured;
+    @Column(name = "pes_db_last_check")
+    private LocalDateTime pesDbLastCheck;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
+    @Basic(optional = false)
+    @Column(name = "psml_last_check")
+    private LocalDateTime psmlLastCheck;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
+    @Basic(optional = false)
+    @Column(name = "news_last_check")
+    private LocalDateTime newsLastCheck;
 }

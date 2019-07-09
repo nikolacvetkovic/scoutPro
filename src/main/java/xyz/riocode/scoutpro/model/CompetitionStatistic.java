@@ -1,7 +1,8 @@
 package xyz.riocode.scoutpro.model;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
@@ -12,9 +13,10 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "statistics_by_competition")
+@Table(name = "competition_statistic")
 public class CompetitionStatistic implements Serializable {
 
     @Id

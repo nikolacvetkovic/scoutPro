@@ -1,18 +1,20 @@
 package xyz.riocode.scoutpro.model;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Embeddable
 public class AppUserPlayerId implements Serializable {
 
-    @Column(name = "user_id")
+    @Column(name = "app_user_id")
     private Long userId;
     @Column(name = "player_id")
     private Long playerId;

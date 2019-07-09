@@ -1,8 +1,9 @@
 package xyz.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import xyz.riocode.scoutpro.enums.*;
 import xyz.riocode.scoutpro.jpa.converter.ListStringConverter;
 
@@ -20,25 +21,23 @@ import java.util.Set;
  */
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "pes_db_info")
-@NamedQueries({
-    @NamedQuery(name = "PesDbInfo.findAll", query = "SELECT p FROM PesDbInfo p")
-    , @NamedQuery(name = "PesDbInfo.findById", query = "SELECT p FROM PesDbInfo p WHERE p.id = :id")
-    , @NamedQuery(name = "PesDbInfo.findByTeamName", query = "SELECT p FROM PesDbInfo p WHERE p.teamName = :teamName")
-    , @NamedQuery(name = "PesDbInfo.findByFoot", query = "SELECT p FROM PesDbInfo p WHERE p.foot = :foot")
-    , @NamedQuery(name = "PesDbInfo.findByWeekCondition", query = "SELECT p FROM PesDbInfo p WHERE p.weekCondition = :weekCondition")
-    , @NamedQuery(name = "PesDbInfo.findByPrimaryPosition", query = "SELECT p FROM PesDbInfo p WHERE p.primaryPosition = :primaryPosition")})
+//@NamedQueries({
+//    @NamedQuery(name = "PesDbInfo.findAll", query = "SELECT p FROM PesDbInfo p")
+//    , @NamedQuery(name = "PesDbInfo.findById", query = "SELECT p FROM PesDbInfo p WHERE p.id = :id")
+//    , @NamedQuery(name = "PesDbInfo.findByTeamName", query = "SELECT p FROM PesDbInfo p WHERE p.teamName = :teamName")
+//    , @NamedQuery(name = "PesDbInfo.findByFoot", query = "SELECT p FROM PesDbInfo p WHERE p.foot = :foot")
+//    , @NamedQuery(name = "PesDbInfo.findByWeekCondition", query = "SELECT p FROM PesDbInfo p WHERE p.weekCondition = :weekCondition")
+//    , @NamedQuery(name = "PesDbInfo.findByPrimaryPosition", query = "SELECT p FROM PesDbInfo p WHERE p.primaryPosition = :primaryPosition")})
 public class PesDbInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256)
@@ -51,8 +50,8 @@ public class PesDbInfo implements Serializable {
     private String teamName;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 5)
     @Column(name = "foot")
+    @Enumerated(EnumType.STRING)
     private Foot foot;
     @Basic(optional = false)
     @NotNull
@@ -60,8 +59,8 @@ public class PesDbInfo implements Serializable {
     private Character weekCondition;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
     @Column(name = "primary_position")
+    @Enumerated(EnumType.STRING)
     private PesDbPosition primaryPosition;
     @Size(max = 50)
     @Convert(converter = ListStringConverter.class)
@@ -240,18 +239,17 @@ public class PesDbInfo implements Serializable {
     @Column(name = "playing_style")
     @Enumerated(EnumType.STRING)
     private PlayingStyle playingStyle;
-    @Lob
     @Size(max = 65535)
     @Convert(converter = ListStringConverter.class)
     @Column(name = "player_skills")
     private Set<PlayerSkill> playerSkills;
-    @Lob
     @Size(max = 65535)
     @Convert(converter = ListStringConverter.class)
     @Column(name = "com_playing_styles")
     private Set<COMPlayingStyle> comPlayingStyles;
-    @JsonBackReference    
-    @JoinColumn(name = "player_id", referencedColumnName = "id")
+    @JsonBackReference
     @OneToOne(optional = false)
+    @MapsId
+    @JoinColumn(name = "id")
     private Player player;
 }

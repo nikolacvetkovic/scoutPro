@@ -1,8 +1,9 @@
 package xyz.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
@@ -14,9 +15,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "who_scored_game")
+@Table(name = "game_statistic")
 public class GameStatistic implements Serializable {
 
     @Id

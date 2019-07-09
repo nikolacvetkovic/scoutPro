@@ -1,8 +1,9 @@
 package xyz.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,12 +17,13 @@ import java.time.LocalDate;
  */
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "market_value")
-@NamedQueries({
-    @NamedQuery(name = "MarketValue.findAll", query = "SELECT m FROM MarketValue m")
-    , @NamedQuery(name = "MarketValue.findById", query = "SELECT m FROM MarketValue m WHERE m.id = :id")})
+//@NamedQueries({
+//    @NamedQuery(name = "MarketValue.findAll", query = "SELECT m FROM MarketValue m")
+//    , @NamedQuery(name = "MarketValue.findById", query = "SELECT m FROM MarketValue m WHERE m.id = :id")})
 public class MarketValue implements Serializable {
 
     private static final long serialVersionUID = 1L;

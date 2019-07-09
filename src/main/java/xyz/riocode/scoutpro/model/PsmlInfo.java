@@ -2,8 +2,9 @@ package xyz.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,19 +19,18 @@ import java.util.Set;
  */
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "psml_info")
-@NamedQueries({
-    @NamedQuery(name = "PsmlInfo.findAll", query = "SELECT p FROM PsmlInfo p")
-    , @NamedQuery(name = "PsmlInfo.findById", query = "SELECT p FROM PsmlInfo p WHERE p.id = :id")})
+//@NamedQueries({
+//    @NamedQuery(name = "PsmlInfo.findAll", query = "SELECT p FROM PsmlInfo p")
+//    , @NamedQuery(name = "PsmlInfo.findById", query = "SELECT p FROM PsmlInfo p WHERE p.id = :id")})
 public class PsmlInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Basic(optional = false)
-    @Column(name = "id")
     private Long id;
     @Basic(optional = false)
     @NotNull
@@ -44,6 +44,7 @@ public class PsmlInfo implements Serializable {
     private Set<PsmlTransfer> psmlTransfers;
     @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "player_id", referencedColumnName = "id")
+    @MapsId
+    @JoinColumn(name = "id")
     private Player player;
 }

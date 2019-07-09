@@ -1,15 +1,17 @@
 package xyz.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "news")
 public class News implements Serializable {
@@ -19,9 +21,8 @@ public class News implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Lob
     @Basic(optional = false)
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "text")
     private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     @Basic(optional = false)
