@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xyz.riocode.scoutpro.enums.*;
-import xyz.riocode.scoutpro.jpa.converter.ListStringConverter;
+import xyz.riocode.scoutpro.jpa.converter.SetStringConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -63,11 +63,11 @@ public class PesDbInfo implements Serializable {
     @Enumerated(EnumType.STRING)
     private PesDbPosition primaryPosition;
     @Size(max = 50)
-    @Convert(converter = ListStringConverter.class)
+    @Convert(converter = SetStringConverter.class)
     @Column(name = "other_strong_positions")
     private Set<PesDbPosition> otherStrongPositions;
     @Size(max = 50)
-    @Convert(converter = ListStringConverter.class)
+    @Convert(converter = SetStringConverter.class)
     @Column(name = "other_weak_positions")
     private Set<PesDbPosition> otherWeakPositions;
     @Basic(optional = false)
@@ -158,8 +158,8 @@ public class PesDbInfo implements Serializable {
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "body_control")
-    private int bodyControl;
+    @Column(name = "unwavering_balance")
+    private int unwaveringBalance;
     @Basic(optional = false)
     @NotNull
     @Min(40)
@@ -176,20 +176,14 @@ public class PesDbInfo implements Serializable {
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "stamina")
-    private int stamina;
-    @Basic(optional = false)
-    @NotNull
-    @Min(40)
-    @Max(99)
     @Column(name = "goalkeeping")
     private int goalkeeping;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "catching")
-    private int catching;
+    @Column(name = "gk_catch")
+    private int gkCatch;
     @Basic(optional = false)
     @NotNull
     @Min(40)
@@ -209,16 +203,11 @@ public class PesDbInfo implements Serializable {
     @Column(name = "coverage")
     private int coverage;
     @Basic(optional = false)
-    @Min(1)
-    @Max(8)
-    @Column(name = "form")
-    private int form;
-    @Basic(optional = false)
     @NotNull
-    @Min(1)
-    @Max(3)
-    @Column(name = "injury_resistance")
-    private int injuryResistance;
+    @Min(40)
+    @Max(99)
+    @Column(name = "stamina")
+    private int stamina;
     @Basic(optional = false)
     @Min(1)
     @Max(4)
@@ -231,6 +220,17 @@ public class PesDbInfo implements Serializable {
     @Column(name = "weak_foot_accuracy")
     private int weakFootAccuracy;
     @Basic(optional = false)
+    @Min(1)
+    @Max(8)
+    @Column(name = "form")
+    private int form;
+    @Basic(optional = false)
+    @NotNull
+    @Min(1)
+    @Max(3)
+    @Column(name = "injury_resistance")
+    private int injuryResistance;
+    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
@@ -240,13 +240,15 @@ public class PesDbInfo implements Serializable {
     @Enumerated(EnumType.STRING)
     private PlayingStyle playingStyle;
     @Size(max = 65535)
-    @Convert(converter = ListStringConverter.class)
+    //@Convert(converter = SetStringConverter.class)
     @Column(name = "player_skills")
-    private Set<PlayerSkill> playerSkills;
+    @Enumerated(EnumType.STRING)
+    private PlayerSkill playerSkills;
     @Size(max = 65535)
-    @Convert(converter = ListStringConverter.class)
+    //@Convert(converter = SetStringConverter.class)
     @Column(name = "com_playing_styles")
-    private Set<COMPlayingStyle> comPlayingStyles;
+    @Enumerated(EnumType.STRING)
+    private COMPlayingStyle comPlayingStyles;
     @JsonBackReference
     @OneToOne(optional = false)
     @MapsId

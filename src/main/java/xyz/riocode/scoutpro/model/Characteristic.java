@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import xyz.riocode.scoutpro.jpa.converter.ListStringConverter;
+import xyz.riocode.scoutpro.jpa.converter.SetStringConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -32,15 +31,15 @@ public class Characteristic implements Serializable {
     @Id
     private Long id;
     @Size(max = 512)
-    @Convert(converter = ListStringConverter.class)
+    @Convert(converter = SetStringConverter.class)
     @Column(name = "strengths")
-    private List<String> strengths;
+    private Set<String> strengths;
     @Size(max = 512)
-    @Convert(converter = ListStringConverter.class)
+    @Convert(converter = SetStringConverter.class)
     @Column(name = "weaknesses")
-    private List<String> weaknesses;
+    private Set<String> weaknesses;
     @Size(max = 512)
-    @Convert(converter = ListStringConverter.class)
+    @Convert(converter = SetStringConverter.class)
     @Column(name = "style_of_play")
     private Set<String> stylesOfPlay;
     @JsonBackReference
