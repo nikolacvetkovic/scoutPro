@@ -31,37 +31,30 @@ public class CompetitionStatistic implements Serializable {
     private String competition;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
     @Column(name = "started_apps")
     private int startedApps;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
     @Column(name = "sub_apps")
     private int subApps;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 4)
     @Column(name = "mins")
     private int mins;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
     @Column(name = "goals")
     private int goals;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
     @Column(name = "assists")
     private int assists;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2)
     @Column(name = "yellow_cards")
     private int yellowCards;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2)
     @Column(name = "red_cards")
     private int redCards;
     @Basic(optional = false)
@@ -82,7 +75,6 @@ public class CompetitionStatistic implements Serializable {
     private BigDecimal aerialsWon;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
     @Column(name = "man_of_the_match")
     private int manOfTheMatch;
     @Basic(optional = false)

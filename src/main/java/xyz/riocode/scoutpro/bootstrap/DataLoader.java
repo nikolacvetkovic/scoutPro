@@ -5,17 +5,15 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import xyz.riocode.scoutpro.enums.Foot;
-import xyz.riocode.scoutpro.enums.PesDbPosition;
-import xyz.riocode.scoutpro.enums.PlayingStyle;
 import xyz.riocode.scoutpro.model.*;
-import xyz.riocode.scoutpro.repository.AppUserRepository;
-import xyz.riocode.scoutpro.repository.PlayerRepository;
-import xyz.riocode.scoutpro.repository.TransfermarktInfoRepository;
+import xyz.riocode.scoutpro.repository.*;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,14 +23,21 @@ public class DataLoader implements CommandLineRunner {
     private final PlayerRepository playerRepository;
     private final AppUserRepository appUserRepository;
     private final TransfermarktInfoRepository transfermarktInfoRepository;
+    private final PesDbInfoRepository pesDbInfoRepository;
+    private final PsmlInfoRepository psmlInfoRepository;
+    private final CharacteristicRepository characteristicRepository;
     private static final Logger LOGGER = LogManager.getLogger(DataLoader.class.getName());
 
-    public DataLoader(PlayerRepository playerRepository, AppUserRepository appUserRepository, TransfermarktInfoRepository transfermarktInfoRepository) {
+    public DataLoader(PlayerRepository playerRepository, AppUserRepository appUserRepository, TransfermarktInfoRepository transfermarktInfoRepository, PesDbInfoRepository pesDbInfoRepository, PsmlInfoRepository psmlInfoRepository, CharacteristicRepository characteristicRepository) {
         this.playerRepository = playerRepository;
         this.appUserRepository = appUserRepository;
         this.transfermarktInfoRepository = transfermarktInfoRepository;
+        this.pesDbInfoRepository = pesDbInfoRepository;
+        this.psmlInfoRepository = psmlInfoRepository;
+        this.characteristicRepository = characteristicRepository;
     }
 
+    @Transactional
     @Override
     public void run(String... args) throws Exception {
         LOGGER.info("<<< Data loading started >>>");
@@ -53,7 +58,7 @@ public class DataLoader implements CommandLineRunner {
 
         LOGGER.info("<<< Transfers created and saved >>>");
 
-        //savedPlayer = saveTransfermarktInfo(savedPlayer);
+        savedPlayer = saveTransfermarktInfo(savedPlayer);
 
         LOGGER.info("<<< Transfermarkt created and saved >>>");
 
@@ -77,19 +82,23 @@ public class DataLoader implements CommandLineRunner {
 
         LOGGER.info("<<< Characteristic saved, Player updated >>>");
 
+        savedPlayer = savePsmlInfo(savedPlayer);
+
+        LOGGER.info("<<< PsmlInfo and PsmlTransfers saved, Player updated >>>");
+
         LOGGER.info("<<< Data loading finished >>>");
     }
 
-    @Transactional
+
     private AppUser saveUser(){
         AppUser user = new AppUser();
         user.setUsername("cvele");
         user.setPassword("asdasd");
 
-        return appUserRepository.save(user);
+        return appUserRepository.saveAndFlush(user);
     }
 
-    @Transactional
+
     private Player savePlayer(AppUser appUser){
         Player player = new Player();
         player.setPlayerName("Harry Maguire");
@@ -98,7 +107,7 @@ public class DataLoader implements CommandLineRunner {
         player.setPesDbUrl("http://pesdb.net/pes2019/?id=109329");
         player.setPsmlUrl("http://psml.rs/?action=shwply&playerID=109329");
 
-        player = playerRepository.save(player);
+        //playerRepository.save(player);
 
         AppUserPlayerId appUserPlayerId = new AppUserPlayerId();
         AppUserPlayer appUserPlayer = new AppUserPlayer();
@@ -109,12 +118,13 @@ public class DataLoader implements CommandLineRunner {
         appUser.getPlayers().add(appUserPlayer);
         player.getUsers().add(appUserPlayer);
 
-        AppUser updatedUser = appUserRepository.save(appUser);
+        //AppUser updatedUser = appUserRepository.save(appUser);
 
-        return updatedUser.getPlayers().stream().findFirst().get().getPlayer();
+        //return updatedUser.getPlayers().stream().findFirst().get().getPlayer();
+        return playerRepository.save(player);
     }
 
-    @Transactional
+
     private Player saveMarketValues(Player player){
         Set<MarketValue> marketValues = new HashSet<>();
         MarketValue mv1 = new MarketValue();
@@ -134,10 +144,10 @@ public class DataLoader implements CommandLineRunner {
         player.setMarketValues(marketValues);
         player.setMarketValueLastCheck(LocalDateTime.now());
 
-        return playerRepository.save(player);
+        return playerRepository.saveAndFlush(player);
     }
 
-    @Transactional
+    //@Transactional
     private Player saveTransers(Player player){
         Set<Transfer> transfers = new HashSet<>();
         Transfer tr1 = new Transfer();
@@ -161,10 +171,10 @@ public class DataLoader implements CommandLineRunner {
         player.setTransfers(transfers);
         player.setTransferLastCheck(LocalDateTime.now());
 
-        return playerRepository.save(player);
+        return playerRepository.saveAndFlush(player);
     }
 
-    @Transactional
+//    @Transactional
     private Player saveTransfermarktInfo(Player player){
         Player foundPlayer = playerRepository.findById(player.getId()).get();
 
@@ -178,19 +188,28 @@ public class DataLoader implements CommandLineRunner {
         transfermarktInfo.setPosition("Centre-Back");
         transfermarktInfo.setPlayer(foundPlayer);
 
-        foundPlayer.setTransfermarktInfo(transfermarktInfo);
+//        foundPlayer.setTransfermarktInfo(transfermarktInfo);
 
-        return playerRepository.save(foundPlayer);
+        transfermarktInfo = transfermarktInfoRepository.saveAndFlush(transfermarktInfo);
+
+        return transfermarktInfo.getPlayer();
+        //return playerRepository.saveAndFlush(foundPlayer);
     }
 
-    @Transactional
+//    @Transactional
     private Player savePesDbInfo(Player player){
         PesDbInfo pesDbInfo = new PesDbInfo();
         pesDbInfo.setPlayerName("H. MAGUIRE");
         pesDbInfo.setTeamName("EAST MIDLANDS");
         pesDbInfo.setFoot(Foot.RIGHT);
         pesDbInfo.setWeekCondition('C');
-        pesDbInfo.setPrimaryPosition(PesDbPosition.CENTRAL_DEFENDER);
+        pesDbInfo.setPrimaryPosition("CB");
+        Set<String> otherStrongPositions = new HashSet<>();
+        otherStrongPositions.add("CMF");
+        pesDbInfo.setOtherStrongPositions(otherStrongPositions);
+        Set<String> otherWeakPositions = new HashSet<>();
+        otherWeakPositions.add("RB");
+        pesDbInfo.setOtherWeakPositions(otherWeakPositions);
         pesDbInfo.setAttackingProwess(64);
         pesDbInfo.setBallControl(78);
         pesDbInfo.setDribbling(73);
@@ -219,21 +238,23 @@ public class DataLoader implements CommandLineRunner {
         pesDbInfo.setForm(6);
         pesDbInfo.setInjuryResistance(3);
         pesDbInfo.setOverallRating(83);
-        pesDbInfo.setPlayingStyle(PlayingStyle.BUILD_UP);
-//        Set<PlayerSkill> playerSkills = new HashSet<>();
-//        playerSkills.add(PlayerSkill.HEADING);
-//        playerSkills.add(PlayerSkill.WEIGHTED_PASS);
-//        playerSkills.add(PlayerSkill.MAN_MARKING);
-//        playerSkills.add(PlayerSkill.FIGHTING_SPIRIT);
-//        pesDbInfo.setPlayerSkills(playerSkills);
+        pesDbInfo.setPlayingStyle("Build Up");
+        Set<String> playerSkills = new HashSet<>();
+        playerSkills.add("Heading");
+        playerSkills.add("Weighted Pass");
+        playerSkills.add("Man Marking");
+        playerSkills.add("Fighting Spirit");
+        pesDbInfo.setPlayerSkills(playerSkills);
+        pesDbInfo.setComPlayingStyles(Collections.emptySet());
         pesDbInfo.setPlayer(player);
-        pesDbInfo.setId(player.getId());
-        player.setPesDbInfo(pesDbInfo);
+//        player.setPesDbInfo(pesDbInfo);
 
-        return playerRepository.save(player);
+        pesDbInfo = pesDbInfoRepository.saveAndFlush(pesDbInfo);
+
+        return pesDbInfo.getPlayer();
     }
 
-    @Transactional
+//    @Transactional
     private Player saveCompetitionStatistics(Player player){
         Set<CompetitionStatistic> competitionStatistics = new HashSet<>();
         CompetitionStatistic cs1 = new CompetitionStatistic();
@@ -271,11 +292,12 @@ public class DataLoader implements CommandLineRunner {
         competitionStatistics.add(cs2);
 
         player.setCompetitionStatistics(competitionStatistics);
+        player.setStatisticLastCheck(LocalDateTime.now());
 
-        return playerRepository.save(player);
+        return playerRepository.saveAndFlush(player);
     }
 
-    @Transactional
+//    @Transactional
     private Player savePositionStatistics(Player player){
         Set<PositionStatistic> positionStatistics = new HashSet<>();
         PositionStatistic ps1 = new PositionStatistic();
@@ -297,11 +319,12 @@ public class DataLoader implements CommandLineRunner {
         positionStatistics.add(ps2);
 
         player.setPositionStatistics(positionStatistics);
+        player.setStatisticLastCheck(LocalDateTime.now());
 
-        return playerRepository.save(player);
+        return playerRepository.saveAndFlush(player);
     }
 
-    @Transactional
+//    @Transactional
     private Player saveGameStatistics(Player player){
         Set<GameStatistic> gameStatistics = new HashSet<>();
         GameStatistic gs1 = new GameStatistic();
@@ -337,21 +360,46 @@ public class DataLoader implements CommandLineRunner {
         gameStatistics.add(gs2);
 
         player.setGameStatistics(gameStatistics);
+        player.setStatisticLastCheck(LocalDateTime.now());
 
-        return playerRepository.save(player);
+        return playerRepository.saveAndFlush(player);
     }
 
-    @Transactional
+//    @Transactional
     private Player saveCharacteristic(Player player){
         Characteristic c = new Characteristic();
-        c.getStrengths().add("Concentration");
-        c.getStylesOfPlay().add("Indirect set-piece threat");
-        c.getStylesOfPlay().add("Likes to dribble");
-        c.getStylesOfPlay().add("Likes to play long balls");
-        c.getStylesOfPlay().add("Plays the ball off the ground often");
+        Set<String> strengths = new HashSet<>();
+        strengths.add("Concentration");
+        c.setStrengths(strengths);
+        Set<String> stylesOfPlay = new HashSet<>();
+        stylesOfPlay.add("Indirect set-piece threat");
+        stylesOfPlay.add("Likes to dribble");
+        stylesOfPlay.add("Likes to play long balls");
+        stylesOfPlay.add("Plays the ball off the ground often");
+        c.setStylesOfPlay(stylesOfPlay);
+        c.setWeaknesses(Collections.EMPTY_SET);
         c.setPlayer(player);
-        player.setCharacteristic(c);
+//        player.setCharacteristic(c);
 
-        return playerRepository.save(player);
+        c = characteristicRepository.saveAndFlush(c);
+
+        return c.getPlayer();
+    }
+
+    private Player savePsmlInfo(Player player){
+        PsmlInfo psmlInfo = new PsmlInfo();
+        psmlInfo.setPsmlTeam("Atomic Ants");
+        psmlInfo.setPsmlValue(BigDecimal.valueOf(15000000));
+        PsmlTransfer psmlTransfer = new PsmlTransfer();
+        psmlTransfer.setDateOfTransfer(LocalDateTime.now());
+        psmlTransfer.setFromTeam("Free Agent");
+        psmlTransfer.setToTeam("Atomic Ants");
+        psmlTransfer.setPsmlInfo(psmlInfo);
+        psmlInfo.setPsmlTransfers(new HashSet<>(Arrays.asList(psmlTransfer)));
+        psmlInfo.setPlayer(player);
+        player.setPsmlInfo(psmlInfo);
+
+        return psmlInfoRepository.saveAndFlush(psmlInfo).getPlayer();
+
     }
 }

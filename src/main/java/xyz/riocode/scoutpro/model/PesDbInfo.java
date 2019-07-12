@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import xyz.riocode.scoutpro.enums.*;
-import xyz.riocode.scoutpro.jpa.converter.SetStringConverter;
+import xyz.riocode.scoutpro.enums.Foot;
+import xyz.riocode.scoutpro.jpa.converter.SetStringStringConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -60,16 +60,13 @@ public class PesDbInfo implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "primary_position")
-    @Enumerated(EnumType.STRING)
-    private PesDbPosition primaryPosition;
-    @Size(max = 50)
-    @Convert(converter = SetStringConverter.class)
+    private String primaryPosition;
+    @Convert(converter = SetStringStringConverter.class)
     @Column(name = "other_strong_positions")
-    private Set<PesDbPosition> otherStrongPositions;
-    @Size(max = 50)
-    @Convert(converter = SetStringConverter.class)
+    private Set<String> otherStrongPositions;
+    @Convert(converter = SetStringStringConverter.class)
     @Column(name = "other_weak_positions")
-    private Set<PesDbPosition> otherWeakPositions;
+    private Set<String> otherWeakPositions;
     @Basic(optional = false)
     @NotNull
     @Min(40)
@@ -237,18 +234,13 @@ public class PesDbInfo implements Serializable {
     @Column(name = "overall_rating")
     private int overallRating;
     @Column(name = "playing_style")
-    @Enumerated(EnumType.STRING)
-    private PlayingStyle playingStyle;
-    @Size(max = 65535)
-    //@Convert(converter = SetStringConverter.class)
+    private String playingStyle;
+    @Convert(converter = SetStringStringConverter.class)
     @Column(name = "player_skills")
-    @Enumerated(EnumType.STRING)
-    private PlayerSkill playerSkills;
-    @Size(max = 65535)
-    //@Convert(converter = SetStringConverter.class)
+    private Set<String> playerSkills;
+    @Convert(converter = SetStringStringConverter.class)
     @Column(name = "com_playing_styles")
-    @Enumerated(EnumType.STRING)
-    private COMPlayingStyle comPlayingStyles;
+    private Set<String> comPlayingStyles;
     @JsonBackReference
     @OneToOne(optional = false)
     @MapsId

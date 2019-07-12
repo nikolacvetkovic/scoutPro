@@ -31,17 +31,14 @@ public class PositionStatistic implements Serializable {
     private String position;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
     @Column(name = "apps")
     private int apps;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
     @Column(name = "goals")
     private int goals;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
     @Column(name = "assists")
     private int assists;
     @Basic(optional = false)

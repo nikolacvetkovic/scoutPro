@@ -57,12 +57,10 @@ public class GameStatistic implements Serializable {
     private boolean manOfTheMatch;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2)
     @Column(name = "goals")
     private int goals;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2)
     @Column(name = "assists")
     private int assists;
     @Basic(optional = false)
@@ -75,7 +73,6 @@ public class GameStatistic implements Serializable {
     private boolean redCard;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
     @Column(name = "minutes_played")
     private int minutesPlayed;
     @Basic(optional = false)
