@@ -50,39 +50,39 @@ public class DataLoader implements CommandLineRunner {
 
         LOGGER.info("<<< Player <<" + savedPlayer.getPlayerName() + ">> saved >>>");
 
-        savedPlayer = saveMarketValues(savedPlayer);
+        saveMarketValues(savedPlayer);
 
         LOGGER.info("<<< Market Values created and saved >>>");
 
-        savedPlayer = saveTransers(savedPlayer);
+        saveTransers(savedPlayer);
 
         LOGGER.info("<<< Transfers created and saved >>>");
 
-        savedPlayer = saveTransfermarktInfo(savedPlayer);
+        saveTransfermarktInfo(savedPlayer);
 
         LOGGER.info("<<< Transfermarkt created and saved >>>");
 
-        savedPlayer = savePesDbInfo(savedPlayer);
+        savePesDbInfo(savedPlayer);
 
         LOGGER.info("<<< PesDbInfo saved, Player updated >>>");
         
-        savedPlayer = saveCompetitionStatistics(savedPlayer);
+        saveCompetitionStatistics(savedPlayer);
 
         LOGGER.info("<<< Competition Statistics saved, Player updated >>>");
 
-        savedPlayer = savePositionStatistics(savedPlayer);
+        savePositionStatistics(savedPlayer);
 
         LOGGER.info("<<< Position Statistics saved, Player updated >>>");
 
-        savedPlayer = saveGameStatistics(savedPlayer);
+        saveGameStatistics(savedPlayer);
 
         LOGGER.info("<<< Game Statistics saved, Player updated >>>");
 
-        savedPlayer = saveCharacteristic(savedPlayer);
+        saveCharacteristic(savedPlayer);
 
         LOGGER.info("<<< Characteristic saved, Player updated >>>");
 
-        savedPlayer = savePsmlInfo(savedPlayer);
+        savePsmlInfo(savedPlayer);
 
         LOGGER.info("<<< PsmlInfo and PsmlTransfers saved, Player updated >>>");
 
@@ -107,8 +107,6 @@ public class DataLoader implements CommandLineRunner {
         player.setPesDbUrl("http://pesdb.net/pes2019/?id=109329");
         player.setPsmlUrl("http://psml.rs/?action=shwply&playerID=109329");
 
-        //playerRepository.save(player);
-
         AppUserPlayerId appUserPlayerId = new AppUserPlayerId();
         AppUserPlayer appUserPlayer = new AppUserPlayer();
         appUserPlayer.setMyPlayer(true);
@@ -118,14 +116,10 @@ public class DataLoader implements CommandLineRunner {
         appUser.getPlayers().add(appUserPlayer);
         player.getUsers().add(appUserPlayer);
 
-        //AppUser updatedUser = appUserRepository.save(appUser);
-
-        //return updatedUser.getPlayers().stream().findFirst().get().getPlayer();
         return playerRepository.save(player);
     }
 
-
-    private Player saveMarketValues(Player player){
+    private void saveMarketValues(Player player){
         Set<MarketValue> marketValues = new HashSet<>();
         MarketValue mv1 = new MarketValue();
         mv1.setClubTeam("Leicester City");
@@ -144,11 +138,10 @@ public class DataLoader implements CommandLineRunner {
         player.setMarketValues(marketValues);
         player.setMarketValueLastCheck(LocalDateTime.now());
 
-        return playerRepository.saveAndFlush(player);
+        playerRepository.save(player);
     }
 
-    //@Transactional
-    private Player saveTransers(Player player){
+    private void saveTransers(Player player){
         Set<Transfer> transfers = new HashSet<>();
         Transfer tr1 = new Transfer();
         tr1.setFromTeam("Wigan");
@@ -171,11 +164,10 @@ public class DataLoader implements CommandLineRunner {
         player.setTransfers(transfers);
         player.setTransferLastCheck(LocalDateTime.now());
 
-        return playerRepository.saveAndFlush(player);
+        playerRepository.save(player);
     }
 
-//    @Transactional
-    private Player saveTransfermarktInfo(Player player){
+    private void saveTransfermarktInfo(Player player){
         Player foundPlayer = playerRepository.findById(player.getId()).get();
 
         TransfermarktInfo transfermarktInfo = new TransfermarktInfo();
@@ -188,16 +180,10 @@ public class DataLoader implements CommandLineRunner {
         transfermarktInfo.setPosition("Centre-Back");
         transfermarktInfo.setPlayer(foundPlayer);
 
-//        foundPlayer.setTransfermarktInfo(transfermarktInfo);
-
-        transfermarktInfo = transfermarktInfoRepository.saveAndFlush(transfermarktInfo);
-
-        return transfermarktInfo.getPlayer();
-        //return playerRepository.saveAndFlush(foundPlayer);
+        transfermarktInfoRepository.save(transfermarktInfo);
     }
 
-//    @Transactional
-    private Player savePesDbInfo(Player player){
+    private void savePesDbInfo(Player player){
         PesDbInfo pesDbInfo = new PesDbInfo();
         pesDbInfo.setPlayerName("H. MAGUIRE");
         pesDbInfo.setTeamName("EAST MIDLANDS");
@@ -246,16 +232,13 @@ public class DataLoader implements CommandLineRunner {
         playerSkills.add("Fighting Spirit");
         pesDbInfo.setPlayerSkills(playerSkills);
         pesDbInfo.setComPlayingStyles(Collections.emptySet());
+        pesDbInfo.setLastCheck(LocalDateTime.now());
         pesDbInfo.setPlayer(player);
-//        player.setPesDbInfo(pesDbInfo);
 
-        pesDbInfo = pesDbInfoRepository.saveAndFlush(pesDbInfo);
-
-        return pesDbInfo.getPlayer();
+        pesDbInfoRepository.save(pesDbInfo);
     }
 
-//    @Transactional
-    private Player saveCompetitionStatistics(Player player){
+    private void saveCompetitionStatistics(Player player){
         Set<CompetitionStatistic> competitionStatistics = new HashSet<>();
         CompetitionStatistic cs1 = new CompetitionStatistic();
         cs1.setCompetition("FIFA World Cup");
@@ -294,11 +277,10 @@ public class DataLoader implements CommandLineRunner {
         player.setCompetitionStatistics(competitionStatistics);
         player.setStatisticLastCheck(LocalDateTime.now());
 
-        return playerRepository.saveAndFlush(player);
+        playerRepository.save(player);
     }
 
-//    @Transactional
-    private Player savePositionStatistics(Player player){
+    private void savePositionStatistics(Player player){
         Set<PositionStatistic> positionStatistics = new HashSet<>();
         PositionStatistic ps1 = new PositionStatistic();
         ps1.setPosition("DC");
@@ -321,10 +303,9 @@ public class DataLoader implements CommandLineRunner {
         player.setPositionStatistics(positionStatistics);
         player.setStatisticLastCheck(LocalDateTime.now());
 
-        return playerRepository.saveAndFlush(player);
+        playerRepository.save(player);
     }
 
-//    @Transactional
     private Player saveGameStatistics(Player player){
         Set<GameStatistic> gameStatistics = new HashSet<>();
         GameStatistic gs1 = new GameStatistic();
@@ -362,11 +343,10 @@ public class DataLoader implements CommandLineRunner {
         player.setGameStatistics(gameStatistics);
         player.setStatisticLastCheck(LocalDateTime.now());
 
-        return playerRepository.saveAndFlush(player);
+        return playerRepository.save(player);
     }
 
-//    @Transactional
-    private Player saveCharacteristic(Player player){
+    private void saveCharacteristic(Player player){
         Characteristic c = new Characteristic();
         Set<String> strengths = new HashSet<>();
         strengths.add("Concentration");
@@ -379,14 +359,11 @@ public class DataLoader implements CommandLineRunner {
         c.setStylesOfPlay(stylesOfPlay);
         c.setWeaknesses(Collections.EMPTY_SET);
         c.setPlayer(player);
-//        player.setCharacteristic(c);
 
-        c = characteristicRepository.saveAndFlush(c);
-
-        return c.getPlayer();
+        characteristicRepository.save(c);
     }
 
-    private Player savePsmlInfo(Player player){
+    private void savePsmlInfo(Player player){
         PsmlInfo psmlInfo = new PsmlInfo();
         psmlInfo.setPsmlTeam("Atomic Ants");
         psmlInfo.setPsmlValue(BigDecimal.valueOf(15000000));
@@ -396,10 +373,11 @@ public class DataLoader implements CommandLineRunner {
         psmlTransfer.setToTeam("Atomic Ants");
         psmlTransfer.setPsmlInfo(psmlInfo);
         psmlInfo.setPsmlTransfers(new HashSet<>(Arrays.asList(psmlTransfer)));
+        psmlInfo.setLastCheck(LocalDateTime.now());
         psmlInfo.setPlayer(player);
+
         player.setPsmlInfo(psmlInfo);
 
-        return psmlInfoRepository.saveAndFlush(psmlInfo).getPlayer();
-
+        psmlInfoRepository.save(psmlInfo);
     }
 }
