@@ -10,6 +10,12 @@
         <Root level="info">
             <AppenderRef ref="Console" />
         </Root>
+        <Logger name="org.hibernate.SQL" level="debug" additivity="false">
+            <AppenderRef ref="Console" />
+        </Logger>
+<!--        <Logger name="org.hibernate.type.descriptor.sql" level="trace" additivity="false">-->
+<!--            <AppenderRef ref="Console" />-->
+<!--        </Logger>-->
 <!--        <Logger level="info" name="org.spring" additivity="false">
             <AppenderRef ref="Console" />
         </Logger>-->
