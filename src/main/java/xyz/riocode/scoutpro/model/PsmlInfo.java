@@ -1,6 +1,7 @@
 package xyz.riocode.scoutpro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -42,6 +44,10 @@ public class PsmlInfo implements Serializable {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "psmlInfo", fetch = FetchType.LAZY)
     private Set<PsmlTransfer> psmlTransfers;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
+    @Basic(optional = false)
+    @Column(name = "last_check")
+    private LocalDateTime lastCheck;
     @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId

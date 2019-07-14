@@ -107,16 +107,4 @@ public class Player implements Serializable {
     @Basic(optional = false)
     @Column(name = "statistic_last_check")
     private LocalDateTime statisticLastCheck;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
-    @Basic(optional = false)
-    @Column(name = "pes_db_last_check")
-    private LocalDateTime pesDbLastCheck;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
-    @Basic(optional = false)
-    @Column(name = "psml_last_check")
-    private LocalDateTime psmlLastCheck;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
-    @Basic(optional = false)
-    @Column(name = "news_last_check")
-    private LocalDateTime newsLastCheck;
 }
