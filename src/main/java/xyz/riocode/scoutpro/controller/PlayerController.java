@@ -1,16 +1,25 @@
 package xyz.riocode.scoutpro.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.service.PlayerService;
+
+import java.util.Set;
 
 /**
  *
  * @author Nikola Cvetkovic
  */
 
-@RestController
+@Controller
 @RequestMapping("/player")
 public class PlayerController {
     
@@ -21,22 +30,37 @@ public class PlayerController {
     }
 
     @GetMapping("/new")
-    public String getPlayerForm(ModelMap modelMap){
+    public String showPlayerForm(ModelMap modelMap){
         return "playerForm";
     }
 
     @PostMapping("/new")
-    public String saveOrUpdate(Player player, ModelMap modelMap){
+    public String save(Player player, ModelMap modelMap){
         return "playerForm";
     }
 
-    @GetMapping("/{pageNumber}/page")
-    public String getPlayers(@PathVariable int pageNumber){
+    @GetMapping(value = "/{pageNumber}/page", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Set<Player>> getPlayers(@PathVariable int pageNumber){
+        return new ResponseEntity<>(playerService.getByUserPaging("cvele", pageNumber), HttpStatus.OK);
+    }
+
+    @GetMapping("/{playerId}/edit")
+    public String showPlayerFormForEdit(@PathVariable Long playerId, ModelMap modelMap){
+        return "playerForm";
+    }
+
+    @PostMapping("/edit")
+    public String update(Player player, ModelMap modelMap){
         return "";
     }
 
-    @GetMapping("/{playerId}")
-    public String getPlayerById(@PathVariable Long playerId, ModelMap modelMap){
+    @GetMapping(value = "/{playerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Player> getPlayerById(@PathVariable Long playerId, ModelMap modelMap){
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/{playerId}/show")
+    public String show(@PathVariable Long playerId, ModelMap modelMap){
         return "";
     }
 
