@@ -3,13 +3,11 @@ package xyz.riocode.scoutpro.scrape.job;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Component;
-import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
 import xyz.riocode.scoutpro.service.PlayerService;
 
@@ -32,44 +30,44 @@ public class ScrapeFreePlayers {
 
 
     public void start() throws IOException {
-        int page = 1;
-        while(true) {
-            Document document = Jsoup.connect(PESDB_BASE_URL + "/?page="+(++page)).get();
-            Map<String, String> playersData = scrapeTableByOverall(document);
-            int counter = 1;
-            if (playersData.isEmpty())
-                System.exit(0);
-            for (Map.Entry<String, String> e : playersData.entrySet()) {
-                System.out.println(e.getKey() + " - " + (counter++));
-                try {
-                Thread.sleep(25000);
-                Document psmlSearchResult = document = getDocumentByWebDriver(PSML_SEARCH_BASE_URL + PESDB_BASE_URL + e.getValue());
-                Element psmlPlayer = ScrapeHelper.getElement(psmlSearchResult, "table.style2 tr:nth-of-type(2)");
-                if (ScrapeHelper.getElement(psmlPlayer, "td:nth-of-type(1) a") == null) continue;
-                if (ScrapeHelper.getElement(psmlPlayer, "td:nth-of-type(8) a") != null) continue;
-                String psmlQueryUrl = ScrapeHelper.getAttributeValue(psmlPlayer, "td:nth-of-type(1) a", "href");
-                String transfermarktUrl = ScrapeHelper.getAttributeValue(psmlPlayer, "td:nth-of-type(3) a", "href");
-                Document tmPlayerPage = Jsoup.connect(transfermarktUrl).get();
-                String playerName = ScrapeHelper.getElementData(tmPlayerPage, "h1[itemprop=name]", false);
-                Document wsSearchResult = Jsoup.connect(WS_SEARCH_BASE_URL + playerName.replaceAll(" ", "+")).get();
-                String wsQueryUrl = ScrapeHelper.getAttributeValue(wsSearchResult, "div.search-result tr:nth-of-type(2) td:nth-of-type(1) a", "href");
-                if (wsQueryUrl == null) continue;
-                if (!(isWSNameContainsPesDbName(ScrapeHelper.getElementData(wsSearchResult, "div.search-result tr:nth-of-type(2) td:nth-of-type(1) a", true), e.getKey())))
-                    continue;
-                Thread.sleep(15000);
-                Player player = new Player();
-                player.setTransfermarktUrl(transfermarktUrl);
-                player.setWhoScoredUrl(WS_BASE_URL + wsQueryUrl);
-                player.setPesDbUrl(PESDB_BASE_URL + e.getValue());
-                player.setPsmlUrl(PSML_BASE_URL + psmlQueryUrl);
-
-                    playerService.create(player);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    continue;
-                }
-            }
-        }
+//        int page = 1;
+//        while(true) {
+//            Document document = Jsoup.connect(PESDB_BASE_URL + "/?page="+(++page)).get();
+//            Map<String, String> playersData = scrapeTableByOverall(document);
+//            int counter = 1;
+//            if (playersData.isEmpty())
+//                System.exit(0);
+//            for (Map.Entry<String, String> e : playersData.entrySet()) {
+//                System.out.println(e.getKey() + " - " + (counter++));
+//                try {
+//                Thread.sleep(25000);
+//                Document psmlSearchResult = document = getDocumentByWebDriver(PSML_SEARCH_BASE_URL + PESDB_BASE_URL + e.getValue());
+//                Element psmlPlayer = ScrapeHelper.getElement(psmlSearchResult, "table.style2 tr:nth-of-type(2)");
+//                if (ScrapeHelper.getElement(psmlPlayer, "td:nth-of-type(1) a") == null) continue;
+//                if (ScrapeHelper.getElement(psmlPlayer, "td:nth-of-type(8) a") != null) continue;
+//                String psmlQueryUrl = ScrapeHelper.getAttributeValue(psmlPlayer, "td:nth-of-type(1) a", "href");
+//                String transfermarktUrl = ScrapeHelper.getAttributeValue(psmlPlayer, "td:nth-of-type(3) a", "href");
+//                Document tmPlayerPage = Jsoup.connect(transfermarktUrl).get();
+//                String playerName = ScrapeHelper.getElementData(tmPlayerPage, "h1[itemprop=name]", false);
+//                Document wsSearchResult = Jsoup.connect(WS_SEARCH_BASE_URL + playerName.replaceAll(" ", "+")).get();
+//                String wsQueryUrl = ScrapeHelper.getAttributeValue(wsSearchResult, "div.search-result tr:nth-of-type(2) td:nth-of-type(1) a", "href");
+//                if (wsQueryUrl == null) continue;
+//                if (!(isWSNameContainsPesDbName(ScrapeHelper.getElementData(wsSearchResult, "div.search-result tr:nth-of-type(2) td:nth-of-type(1) a", true), e.getKey())))
+//                    continue;
+//                Thread.sleep(15000);
+//                Player player = new Player();
+//                player.setTransfermarktUrl(transfermarktUrl);
+//                player.setWhoScoredUrl(WS_BASE_URL + wsQueryUrl);
+//                player.setPesDbUrl(PESDB_BASE_URL + e.getValue());
+//                player.setPsmlUrl(PSML_BASE_URL + psmlQueryUrl);
+//
+//                    playerService.create(player);
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                    continue;
+//                }
+//            }
+//        }
 
     }
 
