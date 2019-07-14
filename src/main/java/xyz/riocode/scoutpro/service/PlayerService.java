@@ -2,7 +2,7 @@ package xyz.riocode.scoutpro.service;
 
 import xyz.riocode.scoutpro.model.Player;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -10,9 +10,10 @@ import java.util.List;
  */
 
 public interface PlayerService {
-    Player create(Player player);
-    Player getById(Long id);
-    List<Player> getByName(String name);
-    Player update(Player player);
-    void delete(Long playerId);
+    Player create(Player player, String username);
+    Player getByIdAndUser(Long id, String username);
+    Set<Player> getByNameAndUser(String name, String username);
+    Set<Player> getByUserPaging(String username, int page);
+    Player update(Player player, String username);
+    void delete(Long playerId, String username);
 }

@@ -15,9 +15,6 @@ create table if not exists scout_pro_development.player (
     transfer_last_check timestamp null,
     market_value_last_check timestamp null,
 	statistic_last_check timestamp null,
-    pes_db_last_check timestamp null,
-    psml_last_check timestamp null,
-	news_last_check timestamp null,
     primary key(id))
     engine = InnoDB
     collate = utf8_unicode_ci;
@@ -64,9 +61,9 @@ create table if not exists scout_pro_development.transfer(
 
 create table if not exists scout_pro_development.characteristic(
 	id bigint auto_increment not null,
-    strengths varchar(512) not null,
-    weaknesses varchar(512) not null,
-    style_of_play varchar(512) not null,
+    strengths varchar(512) null,
+    weaknesses varchar(512) null,
+    style_of_play varchar(512) null,
     primary key(id),
     constraint fk_characteristic_player_id foreign key(id) references scout_pro_development.player(id) on delete no action on update no action)
     engine = InnoDB
@@ -166,9 +163,10 @@ create table if not exists scout_pro_development.pes_db_info(
     form int not null,
     injury_resistance int not null,
     overall_rating int not null,
-    playing_style varchar(30) not null,
-    player_skills varchar(512) not null,
-    com_playing_styles varchar(512) not null,
+    playing_style varchar(30) null,
+    player_skills varchar(512) null,
+    com_playing_styles varchar(512) null,
+    last_check timestamp null,
     primary key(id),
     constraint fk_pes_db_info_player_id foreign key(id) references scout_pro_development.player(id) on delete no action on update no action)
 	engine = InnoDB
@@ -178,6 +176,7 @@ create table if not exists scout_pro_development.psml_info(
 	id bigint not null,
     psml_team varchar(50) not null default 'Free Agent',
     psml_value decimal(15,2) null default 00.00,
+    last_check timestamp null,
     primary key(id),
     constraint fk_psml_player_id foreign key(id) references scout_pro_development.player(id) on delete no action on update no action)
     engine = InnoDB

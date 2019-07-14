@@ -1,19 +1,20 @@
 package xyz.riocode.scoutpro.service;
 
-import org.springframework.stereotype.Component;
-import xyz.riocode.scoutpro.exception.PlayerNotFoundException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.repository.PlayerRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
  * @author Nikola Cvetkovic
  */
 
-@Component
+@Service
 @Transactional
 public class PlayerServiceImpl implements PlayerService {
 
@@ -24,31 +25,35 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Player create(Player player) {
+    public Player create(Player player, String username) {
         return null;
     }
 
     @Override
-    public Player getById(Long id) {
-        return playerRepository.findById(id).orElseThrow(PlayerNotFoundException::new);
-    }
-
-    @Override
-    public List<Player> getByName(String name) {
+    public Player getByIdAndUser(Long id, String username) {
         return null;
     }
 
     @Override
-    public Player update(Player player) {
-        playerRepository.findById(player.getId()).orElseThrow(PlayerNotFoundException::new);
-
-        return playerRepository.save(player);
+    public Set<Player> getByNameAndUser(String name, String username) {
+        return null;
     }
 
     @Override
-    public void delete(Long playerId) {
-        playerRepository.deleteById(playerId);
+    public Set<Player> getByUserPaging(String username, int page) {
+        return new HashSet<>(playerRepository.findByUsername(username, PageRequest.of(page, 25)));
     }
+
+    @Override
+    public Player update(Player player, String username) {
+        return null;
+    }
+
+    @Override
+    public void delete(Long playerId, String username) {
+
+    }
+
 
 //    @Autowired
 //    private PlayerDao playerDao;
