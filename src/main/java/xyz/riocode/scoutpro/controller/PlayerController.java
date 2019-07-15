@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import xyz.riocode.scoutpro.converter.PlayerConverter;
+import xyz.riocode.scoutpro.dto.PlayerDTO;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.service.PlayerService;
 
@@ -55,8 +57,9 @@ public class PlayerController {
     }
 
     @GetMapping(value = "/{playerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Player> getPlayerById(@PathVariable Long playerId, ModelMap modelMap){
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<PlayerDTO> getPlayerById(@PathVariable Long playerId, ModelMap modelMap){
+        PlayerConverter playerConverter = new PlayerConverter();
+        return new ResponseEntity<>(playerConverter.playerToPlayerDTO(playerService.getByIdAndUser(playerId, "cvele"), "cvele"), HttpStatus.OK);
     }
 
     @GetMapping("/{playerId}/show")

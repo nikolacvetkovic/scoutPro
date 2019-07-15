@@ -2,6 +2,8 @@ package xyz.riocode.scoutpro.service;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import xyz.riocode.scoutpro.exception.PlayerNotFoundException;
+import xyz.riocode.scoutpro.model.AppUserPlayer;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.repository.PlayerRepository;
 
@@ -31,7 +33,9 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player getByIdAndUser(Long id, String username) {
-        return null;
+        Player playerFound = playerRepository.findPlayerByIdAndUsername(id, username);
+        if(playerFound == null) throw new PlayerNotFoundException("playerId", id);
+        return playerFound;
     }
 
     @Override
@@ -41,12 +45,18 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Set<Player> getByUserPaging(String username, int page) {
-        return new HashSet<>(playerRepository.findByUsername(username, PageRequest.of(page, 25)));
+        return new HashSet<>(playerRepository.findPlayersByUsername(username, PageRequest.of(page, 25)));
     }
 
     @Override
     public Player update(Player player, String username) {
-        return null;
+        Player foundPlayer = playerRepository.findPlayerByIdAndUsername(player.getId(), username);
+        if (foundPlayer == null) throw new PlayerNotFoundException("playerId", player.getId());
+
+        AppUserPlayer foundAppUserPlayer = foundPlayer.getUsers().stream().findFirst().get();
+        foundAppUserPlayer.setMyPlayer(player.getUsers().stream().findFirst().get().isMyPlayer());
+
+        return playerRepository.save(foundPlayer);
     }
 
     @Override
