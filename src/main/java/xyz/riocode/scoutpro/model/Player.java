@@ -107,4 +107,9 @@ public class Player implements Serializable {
     @Basic(optional = false)
     @Column(name = "statistic_last_check")
     private LocalDateTime statisticLastCheck;
+
+    public void removeUser(AppUserPlayer appUserPlayer){
+        this.users.remove(appUserPlayer);
+        appUserPlayer.setPlayer(null);
+    }
 }

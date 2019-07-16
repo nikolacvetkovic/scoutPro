@@ -49,4 +49,9 @@ public class AppUser implements Serializable {
                 ", roles=" + roles +
                 '}';
     }
+
+    public void removePlayer(AppUserPlayer appUserPlayer){
+        this.players.remove(appUserPlayer);
+        appUserPlayer.setAppUser(null);
+    }
 }
