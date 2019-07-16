@@ -3,6 +3,7 @@ package xyz.riocode.scoutpro.service;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import xyz.riocode.scoutpro.exception.PlayerNotFoundException;
+import xyz.riocode.scoutpro.model.AppUser;
 import xyz.riocode.scoutpro.model.AppUserPlayer;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.repository.PlayerRepository;
@@ -39,8 +40,8 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Set<Player> getByNameAndUser(String name, String username) {
-        return null;
+    public Set<Player> getByNameAndUser(String playerName, String username) {
+        return new HashSet<>(playerRepository.findByPlayerNameAndUsername(playerName, username));
     }
 
     @Override
@@ -61,7 +62,16 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void delete(Long playerId, String username) {
+        Player foundPlayer = playerRepository.findPlayerByIdAndUsername(playerId, username);
+        if (foundPlayer == null) throw new PlayerNotFoundException("playerId", playerId);
 
+        AppUserPlayer appUserPlayer = foundPlayer.getUsers().stream().findFirst().get();
+        AppUser appUser = appUserPlayer.getAppUser();
+
+        foundPlayer.removeUser(appUserPlayer);
+        appUser.removePlayer(appUserPlayer);
+
+        playerRepository.save(foundPlayer);
     }
 
 
