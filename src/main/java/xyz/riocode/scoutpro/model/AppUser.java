@@ -30,6 +30,9 @@ public class AppUser implements Serializable {
     @Size(min = 4, max = 50)
     @Column(name = "pass")
     private String password;
+    @Basic(optional = false)
+    @Column(name = "enabled")
+    private boolean enabled;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser", orphanRemoval = true)
     private Set<AppUserPlayer> players = new HashSet<>();
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

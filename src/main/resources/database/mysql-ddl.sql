@@ -198,6 +198,7 @@ create table if not exists scout_pro_development.app_user(
     id bigint auto_increment not null,
     username varchar(50) not null unique,
     pass varchar(50) not null,
+    enabled boolean not null,
     primary key(id),
     index ix_app_user_username(username ASC))
     engine = InnoDB
