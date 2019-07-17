@@ -34,8 +34,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player getByIdAndUser(Long id, String username) {
-        Player playerFound = playerRepository.findPlayerByIdAndUsername(id, username);
-        if(playerFound == null) throw new PlayerNotFoundException("playerId", id);
+        Player playerFound = playerRepository.findPlayerByIdAndUsername(id, username).orElseThrow(PlayerNotFoundException::new);
         return playerFound;
     }
 
@@ -51,8 +50,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player update(Player player, String username) {
-        Player foundPlayer = playerRepository.findPlayerByIdAndUsername(player.getId(), username);
-        if (foundPlayer == null) throw new PlayerNotFoundException("playerId", player.getId());
+        Player foundPlayer = playerRepository.findPlayerByIdAndUsername(player.getId(), username).orElseThrow(PlayerNotFoundException::new);
 
         AppUserPlayer foundAppUserPlayer = foundPlayer.getUsers().stream().findFirst().get();
         foundAppUserPlayer.setMyPlayer(player.getUsers().stream().findFirst().get().isMyPlayer());
@@ -62,8 +60,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void delete(Long playerId, String username) {
-        Player foundPlayer = playerRepository.findPlayerByIdAndUsername(playerId, username);
-        if (foundPlayer == null) throw new PlayerNotFoundException("playerId", playerId);
+        Player foundPlayer = playerRepository.findPlayerByIdAndUsername(playerId, username).orElseThrow(PlayerNotFoundException::new);
 
         AppUserPlayer appUserPlayer = foundPlayer.getUsers().stream().findFirst().get();
         AppUser appUser = appUserPlayer.getAppUser();

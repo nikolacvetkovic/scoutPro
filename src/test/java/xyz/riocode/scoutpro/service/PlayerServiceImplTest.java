@@ -54,7 +54,7 @@ class PlayerServiceImplTest {
 
     @Test
     void testGetByIdAndUserOk(){
-        when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(player);
+        when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(Optional.of(player));
 
         Player foundPlayer = playerService.getByIdAndUser(PLAYER_ID, USERNAME);
 
@@ -65,7 +65,7 @@ class PlayerServiceImplTest {
 
     @Test
     void testGetByIdAndUserNotFound(){
-        when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(null);
+        when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(Optional.empty());
 
         assertThrows(PlayerNotFoundException.class, () -> playerService.getByIdAndUser(PLAYER_ID, USERNAME));
     }
@@ -121,7 +121,7 @@ class PlayerServiceImplTest {
         playerForUpdate.getUsers().add(appUserPlayer);
         appUser.getPlayers().add(appUserPlayer);
 
-        when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(player);
+        when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(Optional.of(player));
         ArgumentCaptor<Player> argumentCaptor = ArgumentCaptor.forClass(Player.class);
 
         playerService.update(playerForUpdate, USERNAME);
@@ -137,7 +137,7 @@ class PlayerServiceImplTest {
 
     @Test
     void testUpdateNotFound(){
-        when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(null);
+        when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(Optional.empty());
 
         assertThrows(PlayerNotFoundException.class, () -> playerService.update(player, USERNAME));
     }
@@ -145,7 +145,7 @@ class PlayerServiceImplTest {
     @Test
     void testDeleteOk(){
 
-        when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(player);
+        when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(Optional.of(player));
         ArgumentCaptor<Player> argumentCaptor = ArgumentCaptor.forClass(Player.class);
 
         playerService.delete(PLAYER_ID, USERNAME);
@@ -160,7 +160,7 @@ class PlayerServiceImplTest {
 
     @Test
     void testDeleteNotFound(){
-        when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(null);
+        when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(Optional.empty());
 
         assertThrows(PlayerNotFoundException.class, () -> playerService.delete(PLAYER_ID, USERNAME));
     }
