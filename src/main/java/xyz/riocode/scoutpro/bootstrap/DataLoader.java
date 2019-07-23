@@ -4,15 +4,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import xyz.riocode.scoutpro.enums.Foot;
 import xyz.riocode.scoutpro.model.*;
 import xyz.riocode.scoutpro.repository.*;
+import xyz.riocode.scoutpro.scrape.template.impl.PesDbScrapeTemplateImpl;
+import xyz.riocode.scoutpro.scrape.template.impl.PsmlScrapeTemplateImpl;
+import xyz.riocode.scoutpro.scrape.template.impl.TMAllScrapeTemplateImpl;
+import xyz.riocode.scoutpro.scrape.template.impl.WSAllScrapeTemplateImpl;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,35 +52,37 @@ public class DataLoader implements CommandLineRunner {
 
         LOGGER.info("<<< Player <<" + savedPlayer.getPlayerName() + ">> saved >>>");
 
-        saveMarketValues(savedPlayer);
+        //saveMarketValues(savedPlayer);
 
         LOGGER.info("<<< Market Values created and saved >>>");
 
-        saveTransers(savedPlayer);
 
-        LOGGER.info("<<< Transfers created and saved >>>");
 
-        saveTransfermarktInfo(savedPlayer);
+        saveAllTransfermarktInfo(savedPlayer);
 
         LOGGER.info("<<< Transfermarkt created and saved >>>");
+
+        //saveTransfers(savedPlayer);
+
+        LOGGER.info("<<< Transfers created and saved >>>");
 
         savePesDbInfo(savedPlayer);
 
         LOGGER.info("<<< PesDbInfo saved, Player updated >>>");
-        
-        saveCompetitionStatistics(savedPlayer);
+
+        saveAllStatisticsAndCharacteristics(savedPlayer);
 
         LOGGER.info("<<< Competition Statistics saved, Player updated >>>");
 
-        savePositionStatistics(savedPlayer);
+        //savePositionStatistics(savedPlayer);
 
         LOGGER.info("<<< Position Statistics saved, Player updated >>>");
 
-        saveGameStatistics(savedPlayer);
+        //saveGameStatistics(savedPlayer);
 
         LOGGER.info("<<< Game Statistics saved, Player updated >>>");
 
-        saveCharacteristic(savedPlayer);
+        //saveCharacteristic(savedPlayer);
 
         LOGGER.info("<<< Characteristic saved, Player updated >>>");
 
@@ -102,10 +106,10 @@ public class DataLoader implements CommandLineRunner {
     private Player savePlayer(AppUser appUser){
         Player player = new Player();
         player.setPlayerName("Harry Maguire");
-        player.setTransfermarktUrl("https://www.transfermarkt.com/harry-maguire/profil/spieler/177907");
-        player.setWhoScoredUrl("https://www.whoscored.com/Players/99487/Show/Harry-Maguire");
-        player.setPesDbUrl("http://pesdb.net/pes2019/?id=109329");
-        player.setPsmlUrl("http://psml.rs/?action=shwply&playerID=109329");
+        player.setTransfermarktUrl("https://www.transfermarkt.com/frenkie-de-jong/profil/spieler/326330");
+        player.setWhoScoredUrl("https://www.whoscored.com/Players/279423/Show/Frenkie-de-Jong");
+        player.setPesDbUrl("http://pesdb.net/pes2019/?id=108662");
+        player.setPsmlUrl("http://psml.rs/?action=shwply&playerID=108662");
 
         AppUserPlayerId appUserPlayerId = new AppUserPlayerId();
         AppUserPlayer appUserPlayer = new AppUserPlayer();
@@ -141,142 +145,152 @@ public class DataLoader implements CommandLineRunner {
         playerRepository.save(player);
     }
 
-    private void saveTransers(Player player){
-        Set<Transfer> transfers = new HashSet<>();
-        Transfer tr1 = new Transfer();
-        tr1.setFromTeam("Wigan");
-        tr1.setToTeam("Hull City");
-        tr1.setDateOfTransfer(LocalDate.of(2015, 5, 31));
-        tr1.setMarketValue("2000000");
-        tr1.setTransferFee("End of Loan");
-        tr1.setPlayer(player);
-        transfers.add(tr1);
-
-        Transfer tr2 = new Transfer();
-        tr2.setFromTeam("Hull City");
-        tr2.setToTeam("Leicester City");
-        tr2.setDateOfTransfer(LocalDate.of(2017, 7, 1));
-        tr2.setMarketValue("8000000");
-        tr2.setTransferFee("13700000");
-        tr2.setPlayer(player);
-        transfers.add(tr2);
-
-        player.setTransfers(transfers);
-        player.setTransferLastCheck(LocalDateTime.now());
+    private void saveTransfers(Player player){
+//        Set<Transfer> transfers = new HashSet<>();
+//        Transfer tr1 = new Transfer();
+//        tr1.setFromTeam("Wigan");
+//        tr1.setToTeam("Hull City");
+//        tr1.setDateOfTransfer(LocalDate.of(2015, 5, 31));
+//        tr1.setMarketValue("2000000");
+//        tr1.setTransferFee("End of Loan");
+//        tr1.setPlayer(player);
+//        transfers.add(tr1);
+//
+//        Transfer tr2 = new Transfer();
+//        tr2.setFromTeam("Hull City");
+//        tr2.setToTeam("Leicester City");
+//        tr2.setDateOfTransfer(LocalDate.of(2017, 7, 1));
+//        tr2.setMarketValue("8000000");
+//        tr2.setTransferFee("13700000");
+//        tr2.setPlayer(player);
+//        transfers.add(tr2);
+//
+//        player.setTransfers(transfers);
+//        player.setTransferLastCheck(LocalDateTime.now());
 
         playerRepository.save(player);
     }
 
-    private void saveTransfermarktInfo(Player player){
-        Player foundPlayer = playerRepository.findById(player.getId()).get();
+    private void saveAllTransfermarktInfo(Player player){
+//        Player foundPlayer = playerRepository.findById(player.getId()).get();
+//
+//        TransfermarktInfo transfermarktInfo = new TransfermarktInfo();
+//        transfermarktInfo.setAge(26);
+//        transfermarktInfo.setClubTeam("Leicester City");
+//        transfermarktInfo.setContractUntil("30.06.2023");
+//        transfermarktInfo.setDateOfBirth("Mar 5, 1993");
+//        transfermarktInfo.setNationality("England");
+//        transfermarktInfo.setNationalTeam("England");
+//        transfermarktInfo.setPosition("Centre-Back");
+//        transfermarktInfo.setPlayer(foundPlayer);
 
-        TransfermarktInfo transfermarktInfo = new TransfermarktInfo();
-        transfermarktInfo.setAge(26);
-        transfermarktInfo.setClubTeam("Leicester City");
-        transfermarktInfo.setContractUntil("30.06.2023");
-        transfermarktInfo.setDateOfBirth("Mar 5, 1993");
-        transfermarktInfo.setNationality("England");
-        transfermarktInfo.setNationalTeam("England");
-        transfermarktInfo.setPosition("Centre-Back");
-        transfermarktInfo.setPlayer(foundPlayer);
+        TMAllScrapeTemplateImpl tmAllScrapeTemplate = new TMAllScrapeTemplateImpl();
+        tmAllScrapeTemplate.scrape(player);
 
-        transfermarktInfoRepository.save(transfermarktInfo);
+        transfermarktInfoRepository.save(player.getTransfermarktInfo());
+        playerRepository.save(player);
     }
 
     private void savePesDbInfo(Player player){
-        PesDbInfo pesDbInfo = new PesDbInfo();
-        pesDbInfo.setPlayerName("H. MAGUIRE");
-        pesDbInfo.setTeamName("EAST MIDLANDS");
-        pesDbInfo.setFoot(Foot.RIGHT);
-        pesDbInfo.setWeekCondition('C');
-        pesDbInfo.setPrimaryPosition("CB");
-        Set<String> otherStrongPositions = new HashSet<>();
-        otherStrongPositions.add("CMF");
-        pesDbInfo.setOtherStrongPositions(otherStrongPositions);
-        Set<String> otherWeakPositions = new HashSet<>();
-        otherWeakPositions.add("RB");
-        pesDbInfo.setOtherWeakPositions(otherWeakPositions);
-        pesDbInfo.setAttackingProwess(64);
-        pesDbInfo.setBallControl(78);
-        pesDbInfo.setDribbling(73);
-        pesDbInfo.setLowPass(79);
-        pesDbInfo.setLoftedPass(74);
-        pesDbInfo.setFinishing(60);
-        pesDbInfo.setPlaceKicking(61);
-        pesDbInfo.setSwerve(62);
-        pesDbInfo.setHeader(89);
-        pesDbInfo.setDefensiveProwess(86);
-        pesDbInfo.setBallWinning(89);
-        pesDbInfo.setKickingPower(73);
-        pesDbInfo.setSpeed(66);
-        pesDbInfo.setExplosivePower(65);
-        pesDbInfo.setUnwaveringBalance(68);
-        pesDbInfo.setPhysicalContact(93);
-        pesDbInfo.setJump(79);
-        pesDbInfo.setGoalkeeping(40);
-        pesDbInfo.setGkCatch(40);
-        pesDbInfo.setClearing(40);
-        pesDbInfo.setReflexes(40);
-        pesDbInfo.setCoverage(40);
-        pesDbInfo.setStamina(82);
-        pesDbInfo.setWeakFootUsage(2);
-        pesDbInfo.setWeakFootAccuracy(2);
-        pesDbInfo.setForm(6);
-        pesDbInfo.setInjuryResistance(3);
-        pesDbInfo.setOverallRating(83);
-        pesDbInfo.setPlayingStyle("Build Up");
-        Set<String> playerSkills = new HashSet<>();
-        playerSkills.add("Heading");
-        playerSkills.add("Weighted Pass");
-        playerSkills.add("Man Marking");
-        playerSkills.add("Fighting Spirit");
-        pesDbInfo.setPlayerSkills(playerSkills);
-        pesDbInfo.setComPlayingStyles(Collections.emptySet());
-        pesDbInfo.setLastCheck(LocalDateTime.now());
-        pesDbInfo.setPlayer(player);
+//        PesDbInfo pesDbInfo = new PesDbInfo();
+//        pesDbInfo.setPlayerName("H. MAGUIRE");
+//        pesDbInfo.setTeamName("EAST MIDLANDS");
+//        pesDbInfo.setFoot(Foot.RIGHT);
+//        pesDbInfo.setWeekCondition('C');
+//        pesDbInfo.setPrimaryPosition("CB");
+//        Set<String> otherStrongPositions = new HashSet<>();
+//        otherStrongPositions.add("CMF");
+//        pesDbInfo.setOtherStrongPositions(otherStrongPositions);
+//        Set<String> otherWeakPositions = new HashSet<>();
+//        otherWeakPositions.add("RB");
+//        pesDbInfo.setOtherWeakPositions(otherWeakPositions);
+//        pesDbInfo.setAttackingProwess(64);
+//        pesDbInfo.setBallControl(78);
+//        pesDbInfo.setDribbling(73);
+//        pesDbInfo.setLowPass(79);
+//        pesDbInfo.setLoftedPass(74);
+//        pesDbInfo.setFinishing(60);
+//        pesDbInfo.setPlaceKicking(61);
+//        pesDbInfo.setSwerve(62);
+//        pesDbInfo.setHeader(89);
+//        pesDbInfo.setDefensiveProwess(86);
+//        pesDbInfo.setBallWinning(89);
+//        pesDbInfo.setKickingPower(73);
+//        pesDbInfo.setSpeed(66);
+//        pesDbInfo.setExplosivePower(65);
+//        pesDbInfo.setUnwaveringBalance(68);
+//        pesDbInfo.setPhysicalContact(93);
+//        pesDbInfo.setJump(79);
+//        pesDbInfo.setGoalkeeping(40);
+//        pesDbInfo.setGkCatch(40);
+//        pesDbInfo.setClearing(40);
+//        pesDbInfo.setReflexes(40);
+//        pesDbInfo.setCoverage(40);
+//        pesDbInfo.setStamina(82);
+//        pesDbInfo.setWeakFootUsage(2);
+//        pesDbInfo.setWeakFootAccuracy(2);
+//        pesDbInfo.setForm(6);
+//        pesDbInfo.setInjuryResistance(3);
+//        pesDbInfo.setOverallRating(83);
+//        pesDbInfo.setPlayingStyle("Build Up");
+//        Set<String> playerSkills = new HashSet<>();
+//        playerSkills.add("Heading");
+//        playerSkills.add("Weighted Pass");
+//        playerSkills.add("Man Marking");
+//        playerSkills.add("Fighting Spirit");
+//        pesDbInfo.setPlayerSkills(playerSkills);
+//        pesDbInfo.setComPlayingStyles(Collections.emptySet());
+//        pesDbInfo.setLastCheck(LocalDateTime.now());
+//        pesDbInfo.setPlayer(player);
 
-        pesDbInfoRepository.save(pesDbInfo);
+        PesDbScrapeTemplateImpl pesDbScrapeTemplate = new PesDbScrapeTemplateImpl();
+        pesDbScrapeTemplate.scrape(player);
+
+        pesDbInfoRepository.save(player.getPesDbInfo());
     }
 
-    private void saveCompetitionStatistics(Player player){
-        Set<CompetitionStatistic> competitionStatistics = new HashSet<>();
-        CompetitionStatistic cs1 = new CompetitionStatistic();
-        cs1.setCompetition("FIFA World Cup");
-        cs1.setStartedApps(6);
-        cs1.setSubApps(1);
-        cs1.setMins(645);
-        cs1.setGoals(1);
-        cs1.setAssists(1);
-        cs1.setYellowCards(2);
-        cs1.setRedCards(0);
-        cs1.setShotsPerGame(BigDecimal.valueOf(1.6));
-        cs1.setPassSuccess(BigDecimal.valueOf(88.8));
-        cs1.setAerialsWon(BigDecimal.valueOf(5.9));
-        cs1.setManOfTheMatch(1);
-        cs1.setRating(BigDecimal.valueOf(7.22));
-        cs1.setPlayer(player);
-        competitionStatistics.add(cs1);
+    private void saveAllStatisticsAndCharacteristics(Player player){
+//        Set<CompetitionStatistic> competitionStatistics = new HashSet<>();
+//        CompetitionStatistic cs1 = new CompetitionStatistic();
+//        cs1.setCompetition("FIFA World Cup");
+//        cs1.setStartedApps(6);
+//        cs1.setSubApps(1);
+//        cs1.setMins(645);
+//        cs1.setGoals(1);
+//        cs1.setAssists(1);
+//        cs1.setYellowCards(2);
+//        cs1.setRedCards(0);
+//        cs1.setShotsPerGame(BigDecimal.valueOf(1.6));
+//        cs1.setPassSuccess(BigDecimal.valueOf(88.8));
+//        cs1.setAerialsWon(BigDecimal.valueOf(5.9));
+//        cs1.setManOfTheMatch(1);
+//        cs1.setRating(BigDecimal.valueOf(7.22));
+//        cs1.setPlayer(player);
+//        competitionStatistics.add(cs1);
+//
+//        CompetitionStatistic cs2 = new CompetitionStatistic();
+//        cs2.setCompetition("Premier League");
+//        cs2.setStartedApps(31);
+//        cs2.setSubApps(0);
+//        cs2.setMins(2599);
+//        cs2.setGoals(3);
+//        cs2.setAssists(0);
+//        cs2.setYellowCards(6);
+//        cs2.setRedCards(1);
+//        cs2.setShotsPerGame(BigDecimal.valueOf(1.0));
+//        cs2.setPassSuccess(BigDecimal.valueOf(85.6));
+//        cs2.setAerialsWon(BigDecimal.valueOf(3.8));
+//        cs2.setManOfTheMatch(2);
+//        cs2.setRating(BigDecimal.valueOf(7.01));
+//        cs2.setPlayer(player);
+//        competitionStatistics.add(cs2);
+//
+//        player.setCompetitionStatistics(competitionStatistics);
+//        player.setStatisticLastCheck(LocalDateTime.now());
+        WSAllScrapeTemplateImpl wsAllScrapeTemplate = new WSAllScrapeTemplateImpl();
+        wsAllScrapeTemplate.scrape(player);
 
-        CompetitionStatistic cs2 = new CompetitionStatistic();
-        cs2.setCompetition("Premier League");
-        cs2.setStartedApps(31);
-        cs2.setSubApps(0);
-        cs2.setMins(2599);
-        cs2.setGoals(3);
-        cs2.setAssists(0);
-        cs2.setYellowCards(6);
-        cs2.setRedCards(1);
-        cs2.setShotsPerGame(BigDecimal.valueOf(1.0));
-        cs2.setPassSuccess(BigDecimal.valueOf(85.6));
-        cs2.setAerialsWon(BigDecimal.valueOf(3.8));
-        cs2.setManOfTheMatch(2);
-        cs2.setRating(BigDecimal.valueOf(7.01));
-        cs2.setPlayer(player);
-        competitionStatistics.add(cs2);
-
-        player.setCompetitionStatistics(competitionStatistics);
-        player.setStatisticLastCheck(LocalDateTime.now());
-
+        characteristicRepository.save(player.getCharacteristic());
         playerRepository.save(player);
     }
 
@@ -364,20 +378,21 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void savePsmlInfo(Player player){
-        PsmlInfo psmlInfo = new PsmlInfo();
-        psmlInfo.setPsmlTeam("Atomic Ants");
-        psmlInfo.setPsmlValue(BigDecimal.valueOf(15000000));
-        PsmlTransfer psmlTransfer = new PsmlTransfer();
-        psmlTransfer.setDateOfTransfer(LocalDateTime.now());
-        psmlTransfer.setFromTeam("Free Agent");
-        psmlTransfer.setToTeam("Atomic Ants");
-        psmlTransfer.setPsmlInfo(psmlInfo);
-        psmlInfo.setPsmlTransfers(new HashSet<>(Arrays.asList(psmlTransfer)));
-        psmlInfo.setLastCheck(LocalDateTime.now());
-        psmlInfo.setPlayer(player);
+//        PsmlInfo psmlInfo = new PsmlInfo();
+//        psmlInfo.setPsmlTeam("Atomic Ants");
+//        psmlInfo.setPsmlValue(BigDecimal.valueOf(15000000));
+//        PsmlTransfer psmlTransfer = new PsmlTransfer();
+//        psmlTransfer.setDateOfTransfer(LocalDateTime.now());
+//        psmlTransfer.setFromTeam("Free Agent");
+//        psmlTransfer.setToTeam("Atomic Ants");
+//        psmlTransfer.setPsmlInfo(psmlInfo);
+//        psmlInfo.setPsmlTransfers(new HashSet<>(Arrays.asList(psmlTransfer)));
+//        psmlInfo.setLastCheck(LocalDateTime.now());
+//        psmlInfo.setPlayer(player);
 
-        player.setPsmlInfo(psmlInfo);
+        PsmlScrapeTemplateImpl psmlInfo = new PsmlScrapeTemplateImpl();
+        psmlInfo.scrape(player);
 
-        psmlInfoRepository.save(psmlInfo);
+        psmlInfoRepository.save(player.getPsmlInfo());
     }
 }
