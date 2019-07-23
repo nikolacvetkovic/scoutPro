@@ -1,19 +1,10 @@
 package xyz.riocode.scoutpro.scrape.job;
 
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Component;
-import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
 import xyz.riocode.scoutpro.service.PlayerService;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class ScrapeFreePlayers {
@@ -71,49 +62,49 @@ public class ScrapeFreePlayers {
 
     }
 
-    private static Map<String, String> scrapeTableByOverall(Document doc){
-        Elements players = ScrapeHelper.getElements(doc, "table.players tr:not(:first-child)");
-        Map<String, String> namesAndIds = players.stream()
-                            .filter(e -> Integer.parseInt(ScrapeHelper.getElementData(e, "td:nth-of-type(9)", false)) >= overallimit)
-                            .collect(Collectors.toMap(e -> ScrapeHelper.getElementData(e, "td:nth-of-type(2) a", false), e -> ScrapeHelper.getAttributeValue(e, "td:nth-of-type(2) a", "href").replaceAll("\\.", "")));
-
-        return namesAndIds;
-    }
-
-
-    private static Document getDocumentByWebDriver(String url){
-        WebDriver driver = null;
-        String html = null;
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless");
-        try {
-            driver = new ChromeDriver(chromeOptions);
-            driver.get(url);
-            Thread.sleep(5000);
-            driver.switchTo().frame("content");
-            html = driver.getPageSource();
-        } catch (InterruptedException e){
-
-        } finally {
-            if(driver != null)
-                driver.quit();
-        }
-        return Jsoup.parse(html);
-
-    }
-
-    private static boolean isWSNameContainsPesDbName(String wsName, String pesDbName){
-        String pesDbNameShort = extractPesDbName(pesDbName);
-        return wsName.toUpperCase().contains(pesDbNameShort);
-    }
-
-    private static String extractPesDbName(String name){
-        String pesDbNameShort = name.toUpperCase();
-        if(pesDbNameShort.contains(".") && (pesDbNameShort.indexOf(".") != (pesDbNameShort.length()-1))) {
-            pesDbNameShort = pesDbNameShort.split("\\.")[1].trim();
-        } else if(pesDbNameShort.contains(".") && (pesDbNameShort.indexOf(".") == (pesDbNameShort.length()-1))){
-            pesDbNameShort = pesDbNameShort.split("\\.")[0].trim();
-        }
-            return pesDbNameShort;
-    }
+//    private static Map<String, String> scrapeTableByOverall(Document doc){
+//        Elements players = ScrapeHelper.getElements(doc, "table.players tr:not(:first-child)");
+//        Map<String, String> namesAndIds = players.stream()
+//                            .filter(e -> Integer.parseInt(ScrapeHelper.getElementData(e, "td:nth-of-type(9)", false)) >= overallimit)
+//                            .collect(Collectors.toMap(e -> ScrapeHelper.getElementData(e, "td:nth-of-type(2) a", false), e -> ScrapeHelper.getAttributeValue(e, "td:nth-of-type(2) a", "href").replaceAll("\\.", "")));
+//
+//        return namesAndIds;
+//    }
+//
+//
+//    private static Document getDocumentByWebDriver(String url){
+//        WebDriver driver = null;
+//        String html = null;
+//        ChromeOptions chromeOptions = new ChromeOptions();
+//        chromeOptions.addArguments("--headless");
+//        try {
+//            driver = new ChromeDriver(chromeOptions);
+//            driver.get(url);
+//            Thread.sleep(5000);
+//            driver.switchTo().frame("content");
+//            html = driver.getPageSource();
+//        } catch (InterruptedException e){
+//
+//        } finally {
+//            if(driver != null)
+//                driver.quit();
+//        }
+//        return Jsoup.parse(html);
+//
+//    }
+//
+//    private static boolean isWSNameContainsPesDbName(String wsName, String pesDbName){
+//        String pesDbNameShort = extractPesDbName(pesDbName);
+//        return wsName.toUpperCase().contains(pesDbNameShort);
+//    }
+//
+//    private static String extractPesDbName(String name){
+//        String pesDbNameShort = name.toUpperCase();
+//        if(pesDbNameShort.contains(".") && (pesDbNameShort.indexOf(".") != (pesDbNameShort.length()-1))) {
+//            pesDbNameShort = pesDbNameShort.split("\\.")[1].trim();
+//        } else if(pesDbNameShort.contains(".") && (pesDbNameShort.indexOf(".") == (pesDbNameShort.length()-1))){
+//            pesDbNameShort = pesDbNameShort.split("\\.")[0].trim();
+//        }
+//            return pesDbNameShort;
+//    }
 }
