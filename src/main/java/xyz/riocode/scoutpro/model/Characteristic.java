@@ -9,6 +9,7 @@ import xyz.riocode.scoutpro.jpa.converter.SetStringStringConverter;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -33,15 +34,15 @@ public class Characteristic implements Serializable {
     @Size(max = 512)
     @Convert(converter = SetStringStringConverter.class)
     @Column(name = "strengths")
-    private Set<String> strengths;
+    private Set<String> strengths = new HashSet<>();
     @Size(max = 512)
     @Convert(converter = SetStringStringConverter.class)
     @Column(name = "weaknesses")
-    private Set<String> weaknesses;
+    private Set<String> weaknesses = new HashSet<>();
     @Size(max = 512)
     @Convert(converter = SetStringStringConverter.class)
     @Column(name = "style_of_play")
-    private Set<String> stylesOfPlay;
+    private Set<String> stylesOfPlay = new HashSet<>();
     @JsonBackReference
     @OneToOne(optional = false)
     @MapsId
