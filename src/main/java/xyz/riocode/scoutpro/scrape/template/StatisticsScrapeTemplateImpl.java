@@ -1,4 +1,4 @@
-package xyz.riocode.scoutpro.scrape.template.impl;
+package xyz.riocode.scoutpro.scrape.template;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.Jsoup;
@@ -13,7 +13,6 @@ import xyz.riocode.scoutpro.model.GameStatistic;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.model.PositionStatistic;
 import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
-import xyz.riocode.scoutpro.scrape.template.WebDriverAbstractScrapeTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

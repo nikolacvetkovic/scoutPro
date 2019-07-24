@@ -1,5 +1,6 @@
-package xyz.riocode.scoutpro.scrape.template.impl;
+package xyz.riocode.scoutpro.scrape.template;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.WebDriver;
@@ -7,7 +8,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.model.PsmlInfo;
 import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
-import xyz.riocode.scoutpro.scrape.template.WebDriverAbstractScrapeTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -33,16 +33,12 @@ public class PsmlScrapeTemplateImpl extends WebDriverAbstractScrapeTemplate {
 
     private void scrapeCoreData(Document doc, PsmlInfo psmlInfo){
         String teamName = ScrapeHelper.getElementData(doc, "table.innerTable tbody tr:nth-of-type(2) td:nth-of-type(2) p:nth-of-type(2) a");
-        if(teamName == null){
-            teamName = ScrapeHelper.getElementDataOwn(doc, "table.innerTable tbody tr:nth-of-type(2) td:nth-of-type(2) p:nth-of-type(2)");
-        }
-        psmlInfo.setPsmlTeam(teamName);
+        psmlInfo.setPsmlTeam(teamName != null?teamName:"Free");
         String teamValue = ScrapeHelper.getElementDataOwn(doc, "table.innerTable tbody tr:nth-of-type(2) td:nth-of-type(3) p:nth-of-type(1)");
-        if(!teamValue.contains(",")){
-            teamValue = ScrapeHelper.getElementData(doc, "table.innerTable tbody tr:nth-of-type(2) td:nth-of-type(3) p:nth-of-type(1) span");
+        if(teamValue != null){
+            teamValue = teamValue.replaceAll("[^0-9,]", "").replace(",", "");
         }
-        teamValue = teamValue.replaceAll("[^0-9,]", "").replace(",", "");
-        psmlInfo.setPsmlValue(new BigDecimal(teamValue));
+        psmlInfo.setPsmlValue(NumberUtils.isCreatable(teamValue)?new BigDecimal(teamValue):BigDecimal.ZERO);
         psmlInfo.setLastCheck(LocalDateTime.now());
     }
 

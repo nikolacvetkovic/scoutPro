@@ -1,4 +1,4 @@
-package xyz.riocode.scoutpro.scrape.template.impl;
+package xyz.riocode.scoutpro.scrape.template;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -6,7 +6,6 @@ import org.jsoup.select.Elements;
 import xyz.riocode.scoutpro.model.Characteristic;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
-import xyz.riocode.scoutpro.scrape.template.WebDriverAbstractScrapeTemplate;
 
 public class CharacteristicsScrapeTemplateImpl extends WebDriverAbstractScrapeTemplate {
 

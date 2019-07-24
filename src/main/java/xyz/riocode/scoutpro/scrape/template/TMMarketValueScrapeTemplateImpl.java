@@ -1,4 +1,4 @@
-package xyz.riocode.scoutpro.scrape.template.impl;
+package xyz.riocode.scoutpro.scrape.template;
 
 import com.google.gson.*;
 import org.apache.commons.text.StringEscapeUtils;
@@ -7,7 +7,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import xyz.riocode.scoutpro.model.MarketValue;
 import xyz.riocode.scoutpro.model.Player;
-import xyz.riocode.scoutpro.scrape.template.SimpleAbstractScrapeTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

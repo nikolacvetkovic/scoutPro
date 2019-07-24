@@ -1,8 +1,7 @@
-package xyz.riocode.scoutpro.scrape.template.impl;
+package xyz.riocode.scoutpro.scrape.template;
 
 import org.jsoup.nodes.Document;
 import xyz.riocode.scoutpro.model.Player;
-import xyz.riocode.scoutpro.scrape.template.WebDriverAbstractScrapeTemplate;
 
 public class WSAllScrapeTemplateImpl extends WebDriverAbstractScrapeTemplate {
 

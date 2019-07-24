@@ -1,4 +1,4 @@
-package xyz.riocode.scoutpro.scrape.template.impl;
+package xyz.riocode.scoutpro.scrape.template;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -7,7 +7,6 @@ import xyz.riocode.scoutpro.enums.Foot;
 import xyz.riocode.scoutpro.model.PesDbInfo;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
-import xyz.riocode.scoutpro.scrape.template.SimpleAbstractScrapeTemplate;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
