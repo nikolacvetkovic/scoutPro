@@ -1,14 +1,16 @@
 package xyz.riocode.scoutpro.scrape.model;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import xyz.riocode.scoutpro.scrape.enums.ScrapeField;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = "scrape_reg_expression")
 public class ScrapeRegExpression implements Serializable {
