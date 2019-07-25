@@ -15,11 +15,12 @@ import java.util.concurrent.ExecutionException;
 public class ScrapeAsyncWrapper {
 
     public CompletableFuture<Player> tmAllScrape(Player player){
+
         Document page = ScrapeHelper.getPage(player.getTransfermarktUrl());
 
-        CompletableFuture<Player> tmCore = tmCoreScrape(player);
-        CompletableFuture<Player> tmMarketValues = tmMarketValueScrape(player);
-        CompletableFuture<Player> tmTransfers = tmTransferScrape(player);
+        CompletableFuture<Player> tmCore = tmCoreScrape(player, page);
+        CompletableFuture<Player> tmMarketValues = tmMarketValueScrape(player, page);
+        CompletableFuture<Player> tmTransfers = tmTransferScrape(player, page);
 
         CompletableFuture.allOf(tmCore, tmMarketValues, tmTransfers).join();
         Player p = null;
@@ -31,6 +32,7 @@ public class ScrapeAsyncWrapper {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
         return CompletableFuture.completedFuture(p);
     }
 
@@ -40,9 +42,21 @@ public class ScrapeAsyncWrapper {
         return CompletableFuture.completedFuture(player);
     }
 
+    private CompletableFuture<Player> tmCoreScrape(Player player, Document page){
+        TMCoreScrapeTemplateImpl tmCoreScrapeTemplate = new TMCoreScrapeTemplateImpl();
+        tmCoreScrapeTemplate.scrape(player, page);
+        return CompletableFuture.completedFuture(player);
+    }
+
     public CompletableFuture<Player> tmMarketValueScrape(Player player){
         TMMarketValueScrapeTemplateImpl tmMarketValueScrapeTemplate = new TMMarketValueScrapeTemplateImpl();
         tmMarketValueScrapeTemplate.scrape(player);
+        return CompletableFuture.completedFuture(player);
+    }
+
+    private CompletableFuture<Player> tmMarketValueScrape(Player player, Document page){
+        TMMarketValueScrapeTemplateImpl tmMarketValueScrapeTemplate = new TMMarketValueScrapeTemplateImpl();
+        tmMarketValueScrapeTemplate.scrape(player, page);
         return CompletableFuture.completedFuture(player);
     }
 
@@ -52,10 +66,17 @@ public class ScrapeAsyncWrapper {
         return CompletableFuture.completedFuture(player);
     }
 
-    public CompletableFuture<Player> wsAllScrape(Player player){
+    public CompletableFuture<Player> tmTransferScrape(Player player, Document page){
+        TMTransferScrapeTemplateImpl tmTransferScrapeTemplate = new TMTransferScrapeTemplateImpl();
+        tmTransferScrapeTemplate.scrape(player, page);
+        return CompletableFuture.completedFuture(player);
+    }
 
-        CompletableFuture<Player> statistics = statisticsScrape(player);
-        CompletableFuture<Player> characteristics = characteristicsScrape(player);
+    public CompletableFuture<Player> wsAllScrape(Player player){
+        Document page = ScrapeHelper.getPageWithWebDriver(player.getWhoScoredUrl());
+
+        CompletableFuture<Player> statistics = statisticsScrape(player, page);
+        CompletableFuture<Player> characteristics = characteristicsScrape(player, page);
 
         CompletableFuture.allOf(statistics, characteristics).join();
         Player p = null;
@@ -76,9 +97,21 @@ public class ScrapeAsyncWrapper {
         return CompletableFuture.completedFuture(player);
     }
 
+    private CompletableFuture<Player> statisticsScrape(Player player, Document page){
+        StatisticsScrapeTemplateImpl statisticsScrapeTemplate = new StatisticsScrapeTemplateImpl();
+        statisticsScrapeTemplate.scrape(player, page);
+        return CompletableFuture.completedFuture(player);
+    }
+
     public CompletableFuture<Player> characteristicsScrape(Player player){
         CharacteristicsScrapeTemplateImpl characteristicsScrapeTemplate = new CharacteristicsScrapeTemplateImpl();
         characteristicsScrapeTemplate.scrape(player);
+        return CompletableFuture.completedFuture(player);
+    }
+
+    private CompletableFuture<Player> characteristicsScrape(Player player, Document page){
+        CharacteristicsScrapeTemplateImpl characteristicsScrapeTemplate = new CharacteristicsScrapeTemplateImpl();
+        characteristicsScrapeTemplate.scrape(player, page);
         return CompletableFuture.completedFuture(player);
     }
 
