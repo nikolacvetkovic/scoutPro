@@ -17,4 +17,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
 
     @Query("SELECT p FROM Player p JOIN FETCH p.users up JOIN FETCH up.appUser u WHERE p.playerName = :playerName AND u.username = :username")
     List<Player> findByPlayerNameAndUsername(String playerName, String username);
+
+    Player findByTransfermarktUrl(String transfermarktUrl);
 }

@@ -2,6 +2,7 @@ package xyz.riocode.scoutpro.service;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import xyz.riocode.scoutpro.exception.DuplicatePlayerException;
 import xyz.riocode.scoutpro.exception.PlayerNotFoundException;
 import xyz.riocode.scoutpro.model.AppUser;
 import xyz.riocode.scoutpro.model.AppUserPlayer;
@@ -14,11 +15,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-
-/**
- *
- * @author Nikola Cvetkovic
- */
 
 @Service
 @Transactional
@@ -34,6 +30,8 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player create(Player player, String username) {
+        Player foundPlayer = playerRepository.findByTransfermarktUrl(player.getTransfermarktUrl());
+        if(foundPlayer != null) throw new DuplicatePlayerException();
 
         CompletableFuture<Player> tmAll = scrapeAsyncWrapper.tmAllScrape(player);
         CompletableFuture<Player> pesDb = scrapeAsyncWrapper.pesDbScrape(player);
@@ -51,7 +49,7 @@ public class PlayerServiceImpl implements PlayerService {
             e.printStackTrace();
         }
 
-        return p;
+        return playerRepository.save(p);
     }
 
     @Override
