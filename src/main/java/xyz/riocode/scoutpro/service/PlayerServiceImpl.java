@@ -7,10 +7,13 @@ import xyz.riocode.scoutpro.model.AppUser;
 import xyz.riocode.scoutpro.model.AppUserPlayer;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.repository.PlayerRepository;
+import xyz.riocode.scoutpro.scrape.template.async.ScrapeAsyncWrapper;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  *
@@ -22,14 +25,33 @@ import java.util.Set;
 public class PlayerServiceImpl implements PlayerService {
 
     private final PlayerRepository playerRepository;
+    private final ScrapeAsyncWrapper scrapeAsyncWrapper;
 
-    public PlayerServiceImpl(PlayerRepository playerRepository) {
+    public PlayerServiceImpl(PlayerRepository playerRepository, ScrapeAsyncWrapper scrapeAsyncWrapper) {
         this.playerRepository = playerRepository;
+        this.scrapeAsyncWrapper = scrapeAsyncWrapper;
     }
 
     @Override
     public Player create(Player player, String username) {
-        return null;
+
+        CompletableFuture<Player> tmAll = scrapeAsyncWrapper.tmAllScrape(player);
+        CompletableFuture<Player> pesDb = scrapeAsyncWrapper.pesDbScrape(player);
+        CompletableFuture<Player> wsAll = scrapeAsyncWrapper.wsAllScrape(player);
+        CompletableFuture<Player> psml = scrapeAsyncWrapper.psmlScrape(player);
+
+        CompletableFuture.allOf(tmAll, pesDb, wsAll, psml).join();
+        Player p = null;
+
+        try {
+            p = tmAll.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return p;
     }
 
     @Override
@@ -165,7 +187,7 @@ public class PlayerServiceImpl implements PlayerService {
 //        p.getTransfermarktInfo().getMarketValueList().size();
 //        p.getTransfermarktInfo().getMarketValueList().clear();
 //        p.getPsmlInfoList().size();
-//        TransfermarktScrapeTemplateImpl tmCrawlTemplate = new TransfermarktScrapeTemplateImpl(p.getTransfermarktInfo());
+//        TMAllScrapeTemplateImpl tmCrawlTemplate = new TMAllScrapeTemplateImpl(p.getTransfermarktInfo());
 //        tmCrawlTemplate.start();
 //        return p;
 //    }
@@ -181,7 +203,7 @@ public class PlayerServiceImpl implements PlayerService {
 //        ws.getPositionPlayedStatsList().clear();
 //        ws.getGameList().size();
 //        ws.getGameList().clear();
-//        WhoScoredScrapeTemplateImpl wsCrawlTemplate = new WhoScoredScrapeTemplateImpl(ws);
+//        CharacteristicsScrapeTemplateImpl wsCrawlTemplate = new CharacteristicsScrapeTemplateImpl(ws);
 //        wsCrawlTemplate.start();
 //        return p;
 //    }
