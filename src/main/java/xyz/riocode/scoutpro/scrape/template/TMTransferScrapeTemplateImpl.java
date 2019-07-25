@@ -9,6 +9,7 @@ import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class TMTransferScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
 
@@ -28,9 +29,8 @@ public class TMTransferScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
         Elements elements = ScrapeHelper.getElements(doc, "div.responsive-table tr.zeile-transfer");
         for(Element e : elements){
             Transfer transfer = new Transfer();
-            //todo implement better solution
             String dateString = ScrapeHelper.getElementData(e, "td:nth-of-type(2)");
-            LocalDate dateOfTransfer = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("MMM d, yyyy"));
+            LocalDate dateOfTransfer = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("MMM d, yyyy").withLocale(Locale.US));
             transfer.setDateOfTransfer(dateOfTransfer);
             String fromTeam = ScrapeHelper.getElementData(e, "td:nth-of-type(6)");
             transfer.setFromTeam(fromTeam);

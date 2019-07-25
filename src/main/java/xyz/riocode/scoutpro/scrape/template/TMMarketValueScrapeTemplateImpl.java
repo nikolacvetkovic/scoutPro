@@ -10,8 +10,8 @@ import xyz.riocode.scoutpro.model.Player;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class TMMarketValueScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
     @Override
@@ -58,7 +58,7 @@ public class TMMarketValueScrapeTemplateImpl extends SimpleAbstractScrapeTemplat
             String worth = o.get("y").getAsString().trim();
             mv.setWorth(new BigDecimal(worth));
             String date = o.get("datum_mw").getAsString().trim();
-            mv.setDatePoint(LocalDate.parse(date, DateTimeFormatter.ofPattern("MMM d, yyyy")));
+            mv.setDatePoint(LocalDate.parse(date, DateTimeFormatter.ofPattern("MMM d, yyyy").withLocale(Locale.US)));
             String clubTeam = o.get("verein").getAsString().trim();
             mv.setClubTeam(clubTeam);
             mv.setPlayer(player);
@@ -67,20 +67,4 @@ public class TMMarketValueScrapeTemplateImpl extends SimpleAbstractScrapeTemplat
 
         return player;
     }
-
-    //todo implement better solution
-    private LocalDate extractDate(String d){
-        String dt = d.replace(",", "");
-        String[] dta = dt.split(" ");
-        String month = dta[0];
-        LocalDate date = null;
-        for(Month mc : Month.values()){
-            if(mc.toString().toLowerCase().contains(month.toLowerCase())){
-                date = LocalDate.of(Integer.parseInt(dta[2]), mc, Integer.parseInt(dta[1]));
-                break;
-            }
-        }
-        return date;
-    }
-
 }
