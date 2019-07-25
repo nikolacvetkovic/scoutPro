@@ -8,6 +8,7 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import xyz.riocode.scoutpro.model.CompetitionStatistic;
 import xyz.riocode.scoutpro.model.GameStatistic;
 import xyz.riocode.scoutpro.model.Player;
@@ -167,8 +168,10 @@ public class StatisticsScrapeTemplateImpl extends WebDriverAbstractScrapeTemplat
     protected Document getPage(String url) {//#qcCmpUi .qc-cmp-button
         WebDriver driver = null;
         String html = null;
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless");
         try {
-            driver = new ChromeDriver();
+            driver = new ChromeDriver(chromeOptions);
             driver.get(url);
             Thread.sleep(5000);
             driver.findElement(By.cssSelector("#qcCmpUi .qc-cmp-button")).click();

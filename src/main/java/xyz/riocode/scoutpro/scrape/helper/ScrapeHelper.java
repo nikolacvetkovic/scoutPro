@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import xyz.riocode.scoutpro.exception.GetDocumentConnectionException;
 
 import java.io.IOException;
@@ -47,8 +48,10 @@ public class ScrapeHelper {
     public static Document getPageWithWebDriver(String url){
         WebDriver driver = null;
         String html = null;
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless");
         try {
-            driver = new ChromeDriver();
+            driver = new ChromeDriver(chromeOptions);
             driver.get(url);
             Thread.sleep(5000);
             html = driver.getPageSource();

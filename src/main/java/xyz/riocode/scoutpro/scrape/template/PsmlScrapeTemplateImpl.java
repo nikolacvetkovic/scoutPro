@@ -5,6 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.model.PsmlInfo;
 import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
@@ -46,8 +47,10 @@ public class PsmlScrapeTemplateImpl extends WebDriverAbstractScrapeTemplate {
     protected Document getPage(String url){
         WebDriver driver = null;
         String html = null;
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless");
         try {
-            driver = new ChromeDriver();
+            driver = new ChromeDriver(chromeOptions);
             driver.get(url);
             Thread.sleep(5000);
             driver.switchTo().frame("content");
