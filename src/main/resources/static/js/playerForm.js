@@ -8,7 +8,7 @@ $(window).on('load', function() {
     	if($('#myPlayer').is(':checked')){
     		myPlayerValue = true;
     	}
-    	$.post('/player', {
+    	$.post('/player/new', {
     		transfermarktUrl: transfermarktUrlValue,
     		whoScoredUrl: whoScoredUrlValue,
     		pesDbUrl: pesDbUrlValue,

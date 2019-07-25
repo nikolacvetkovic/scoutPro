@@ -26,9 +26,11 @@ import java.util.Set;
 public class PlayerController {
     
     private final PlayerService playerService;
+    private final PlayerConverter playerConverter;
 
-    public PlayerController(PlayerService playerService) {
+    public PlayerController(PlayerService playerService, PlayerConverter playerConverter) {
         this.playerService = playerService;
+        this.playerConverter = playerConverter;
     }
 
     @GetMapping("/new")
@@ -37,7 +39,8 @@ public class PlayerController {
     }
 
     @PostMapping("/new")
-    public String save(Player player, ModelMap modelMap){
+    public String save(PlayerDTO player, ModelMap modelMap){
+        playerService.create(playerConverter.playerDTOToPlayer(player, "cvele"), "cvele");
         return "playerForm";
     }
 
