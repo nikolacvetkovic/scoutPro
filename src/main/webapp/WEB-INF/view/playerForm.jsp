@@ -47,5 +47,5 @@
 			</div>
 			<div class="col-lg-3"></div>
 		</div>
-        <script src="/js/addplayer.js" type="text/javascript"></script>
+        <script src="/js/playerForm.js" type="text/javascript"></script>
 <%@include file="partials/footer.jsp" %>
