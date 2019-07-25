@@ -21,25 +21,27 @@ public class TMCoreScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
             transfermarktInfo.setPlayer(player);
             player.setTransfermarktInfo(transfermarktInfo);
         }
-        scrapeCoreData(page, transfermarktInfo);
+        scrapeCoreData(page, player);
         return player;
     }
 
-    private void scrapeCoreData(Document doc, TransfermarktInfo transfermarktInfo){
+    private void scrapeCoreData(Document doc, Player player){
+        String playerName = ScrapeHelper.getElementData(doc, "h1[itemprop=name]");
+        player.setPlayerName(playerName);
         String clubTeam = ScrapeHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Current club)) td a:nth-of-type(2)");
-        transfermarktInfo.setClubTeam(clubTeam);
+        player.getTransfermarktInfo().setClubTeam(clubTeam);
         String contractUntil = ScrapeHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Contract until)) td");
-        transfermarktInfo.setContractUntil(contractUntil);
+        player.getTransfermarktInfo().setContractUntil(contractUntil);
         String nationality = ScrapeHelper.getElementData(doc, "span[itemprop=nationality]");
-        transfermarktInfo.setNationality(nationality);
+        player.getTransfermarktInfo().setNationality(nationality);
         String position = ScrapeHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Position)) td");
-        transfermarktInfo.setPosition(position);
+        player.getTransfermarktInfo().setPosition(position);
         String birthDate = ScrapeHelper.getElementData(doc, "span[itemprop=birthDate]");
         birthDate = birthDate.substring(0, birthDate.indexOf("("));
-        transfermarktInfo.setDateOfBirth(birthDate);
+        player.getTransfermarktInfo().setDateOfBirth(birthDate);
         int age = Integer.parseInt(ScrapeHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Age)) td"));
-        transfermarktInfo.setAge(age);
+        player.getTransfermarktInfo().setAge(age);
         String nationalTeam = ScrapeHelper.getElementData(doc, "div.dataContent div.dataDaten:nth-of-type(3) p:nth-of-type(1) span.dataValue");
-        transfermarktInfo.setNationalTeam(nationalTeam);
+        player.getTransfermarktInfo().setNationalTeam(nationalTeam);
     }
 }
