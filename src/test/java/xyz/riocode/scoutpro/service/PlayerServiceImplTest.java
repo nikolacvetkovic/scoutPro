@@ -8,13 +8,14 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import xyz.riocode.scoutpro.exception.DuplicatePlayerException;
 import xyz.riocode.scoutpro.exception.PlayerNotFoundException;
-import xyz.riocode.scoutpro.model.AppUser;
-import xyz.riocode.scoutpro.model.AppUserPlayer;
-import xyz.riocode.scoutpro.model.Player;
+import xyz.riocode.scoutpro.model.*;
 import xyz.riocode.scoutpro.repository.PlayerRepository;
+import xyz.riocode.scoutpro.scrape.template.async.ScrapeAsyncWrapper;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -26,10 +27,13 @@ class PlayerServiceImplTest {
 
     private static final Long PLAYER_ID = 1L;
     private static final String PLAYER_NAME = "Messi";
-    private static String USERNAME = "cvele";
+    private static final String USERNAME = "cvele";
+    private static final String TM_URL = "https://www.transfermarkt.com/kylian-mbappe/profil/spieler/342229";
 
     @Mock
     PlayerRepository playerRepository;
+    @Mock
+    ScrapeAsyncWrapper scrapeAsyncWrapper;
 
     @InjectMocks
     PlayerServiceImpl playerService;
@@ -42,6 +46,7 @@ class PlayerServiceImplTest {
         player = new Player();
         player.setId(PLAYER_ID);
         player.setPlayerName(PLAYER_NAME);
+        player.setTransfermarktUrl(TM_URL);
         appUser = new AppUser();
         appUser.setUsername(USERNAME);
         AppUserPlayer appUserPlayer = new AppUserPlayer();
@@ -163,6 +168,45 @@ class PlayerServiceImplTest {
         when(playerRepository.findPlayerByIdAndUsername(anyLong(), anyString())).thenReturn(Optional.empty());
 
         assertThrows(PlayerNotFoundException.class, () -> playerService.delete(PLAYER_ID, USERNAME));
+    }
+
+    @Test
+    void testCreateOk(){
+        TransfermarktInfo transfermarktInfo = new TransfermarktInfo();
+        transfermarktInfo.setAge(25);
+        transfermarktInfo.setClubTeam("Arsenal");
+        transfermarktInfo.setPlayer(player);
+        player.setTransfermarktInfo(transfermarktInfo);
+        Transfer transfer = new Transfer();
+        transfer.setFromTeam("Partizan");
+        transfer.setToTeam("Arsenal");
+        transfer.setMarketValue("25000000");
+        transfer.setPlayer(player);
+        player.getTransfers().add(transfer);
+
+        when(playerRepository.findByTransfermarktUrl(anyString())).thenReturn(null);
+        when(scrapeAsyncWrapper.tmAllScrape(any(Player.class))).thenReturn(CompletableFuture.completedFuture(player));
+        when(scrapeAsyncWrapper.pesDbScrape(any(Player.class))).thenReturn(CompletableFuture.completedFuture(player));
+        when(scrapeAsyncWrapper.wsAllScrape(any(Player.class))).thenReturn(CompletableFuture.completedFuture(player));
+        when(scrapeAsyncWrapper.psmlScrape(any(Player.class))).thenReturn(CompletableFuture.completedFuture(player));
+
+        playerService.create(player, USERNAME);
+
+        ArgumentCaptor<Player> argumentCaptor = ArgumentCaptor.forClass(Player.class);
+
+        verify(playerRepository).save(argumentCaptor.capture());
+        Player savedPlayer = argumentCaptor.getValue();
+        assertNotNull(savedPlayer);
+        assertEquals(PLAYER_ID, savedPlayer.getId());
+        assertEquals(1, savedPlayer.getTransfers().size());
+
+    }
+
+    @Test
+    void testCreateDuplicate(){
+        when(playerRepository.findByTransfermarktUrl(anyString())).thenReturn(player);
+
+        assertThrows(DuplicatePlayerException.class, () -> playerService.create(player, USERNAME));
     }
 
 }
