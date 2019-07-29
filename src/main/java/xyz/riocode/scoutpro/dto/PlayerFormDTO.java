@@ -1,17 +1,19 @@
 package xyz.riocode.scoutpro.dto;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-public class PlayerDTO {
+public class PlayerFormDTO {
 
-    private Long id;
+    private String id;
     private boolean myPlayer;
     @Pattern(regexp = "^(http(s)?://www\\.transfermarkt\\.com/.+/profil/spieler/)\\d+$", message = "Not valid Transfermarkt url")
     @Size(max = 256)
@@ -29,5 +31,4 @@ public class PlayerDTO {
     @Size(max = 256)
     @Column(name = "psml_url")
     private String psmlUrl;
-
 }
