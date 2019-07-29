@@ -1,6 +1,5 @@
 package xyz.riocode.scoutpro.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,10 +9,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-/**
- *
- * @author Nikola Cvetkovic
- */
 
 @NoArgsConstructor
 @Getter
@@ -69,7 +64,7 @@ public class TransfermarktInfo implements Serializable {
     @Size(min = 1, max = 40)
     @Column(name = "position")
     private String position;
-    @JsonBackReference
+
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "id")

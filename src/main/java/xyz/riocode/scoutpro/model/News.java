@@ -1,6 +1,5 @@
 package xyz.riocode.scoutpro.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,7 +23,7 @@ public class News implements Serializable {
     @Basic(optional = false)
     @Column(name = "content", columnDefinition = "text")
     private String content;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+
     @Basic(optional = false)
     @Column(name = "inserted_date")
     private LocalDateTime insertedDate;

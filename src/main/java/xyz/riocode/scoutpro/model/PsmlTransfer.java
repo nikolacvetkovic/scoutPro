@@ -1,12 +1,12 @@
 package xyz.riocode.scoutpro.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -27,7 +27,10 @@ public class PsmlTransfer implements Serializable {
     @Basic(optional = false)
     @Column(name = "to_team")
     private String toTeam;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    @Basic(optional = false)
+    @Column(name = "transfer_fee")
+    private BigDecimal transferFee;
+
     @Basic(optional = false)
     @Column(name = "date_of_transfer")
     private LocalDateTime dateOfTransfer;

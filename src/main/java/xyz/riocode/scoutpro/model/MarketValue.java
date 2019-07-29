@@ -1,6 +1,5 @@
 package xyz.riocode.scoutpro.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,10 +10,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-/**
- *
- * @author Nikola Cvetkovic
- */
 
 @NoArgsConstructor
 @Getter
@@ -45,7 +40,7 @@ public class MarketValue implements Serializable {
     @NotNull
     @Column(name = "club_team")
     private String clubTeam;
-    @JsonBackReference
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "player_id", referencedColumnName = "id")
     private Player player;

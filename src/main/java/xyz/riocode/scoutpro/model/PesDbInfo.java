@@ -1,7 +1,5 @@
 package xyz.riocode.scoutpro.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -243,11 +241,11 @@ public class PesDbInfo implements Serializable {
     @Convert(converter = SetStringStringConverter.class)
     @Column(name = "com_playing_styles")
     private Set<String> comPlayingStyles;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
+
     @Basic(optional = false)
     @Column(name = "last_check")
     private LocalDateTime lastCheck;
-    @JsonBackReference
+
     @OneToOne(optional = false)
     @MapsId
     @JoinColumn(name = "id")

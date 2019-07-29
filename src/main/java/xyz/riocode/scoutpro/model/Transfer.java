@@ -1,7 +1,5 @@
 package xyz.riocode.scoutpro.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,10 +10,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-/**
- *
- * @author Nikola Cvetkovic
- */
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -43,7 +38,7 @@ public class Transfer implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "to_team")
     private String toTeam;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "date_of_transfer")
@@ -58,16 +53,9 @@ public class Transfer implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "transfer_fee")
     private String transferFee;
-    @JsonBackReference
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "player_id", referencedColumnName = "id")
     private Player player;
 
-    public Transfer(String fromTeam, String toTeam, LocalDate dateOfTransfer, String marketValue, String transferFee) {
-        this.fromTeam = fromTeam;
-        this.toTeam = toTeam;
-        this.dateOfTransfer = dateOfTransfer;
-        this.marketValue = marketValue;
-        this.transferFee = transferFee;
-    }
 }

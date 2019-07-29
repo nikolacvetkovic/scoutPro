@@ -186,6 +186,7 @@ create table if not exists scout_pro_development.psml_transfer(
     id bigint auto_increment not null,
     from_team varchar(50) not null,
     to_team varchar(50) not null,
+    transfer_fee decimal(15,2) default 00.00,
     date_of_transfer datetime not null,
     psml_info_id bigint not null,
     primary key(id),

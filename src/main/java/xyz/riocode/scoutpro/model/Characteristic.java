@@ -1,6 +1,5 @@
 package xyz.riocode.scoutpro.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,10 +11,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- *
- * @author Nikola Cvetkovic
- */
 
 @NoArgsConstructor
 @Getter
@@ -43,7 +38,7 @@ public class Characteristic implements Serializable {
     @Convert(converter = SetStringStringConverter.class)
     @Column(name = "style_of_play")
     private Set<String> stylesOfPlay = new HashSet<>();
-    @JsonBackReference
+
     @OneToOne(optional = false)
     @MapsId
     @JoinColumn(name = "id")
