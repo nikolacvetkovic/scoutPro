@@ -17,9 +17,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "player")
-//@NamedQueries({
-//    @NamedQuery(name = "Player.findAll", query = "SELECT p FROM Player p")
-//    , @NamedQuery(name = "Player.findById", query = "SELECT p FROM Player p WHERE p.id = :id")})
 public class Player implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +40,7 @@ public class Player implements Serializable {
     @Column(name = "psml_url")
     private String psmlUrl;
 
+    @OrderBy("datePoint DESC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private Set<MarketValue> marketValues = new HashSet<>();
 
@@ -55,12 +53,15 @@ public class Player implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private Characteristic characteristic;
 
+    @OrderBy("id DESC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private Set<CompetitionStatistic> competitionStatistics = new HashSet<>();
 
+    @OrderBy("id DESC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private Set<PositionStatistic> positionStatistics = new HashSet<>();
 
+    @OrderBy("dateOfGame")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private Set<GameStatistic> gameStatistics = new HashSet<>();
 

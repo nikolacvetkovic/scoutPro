@@ -18,9 +18,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "psml_info")
-//@NamedQueries({
-//    @NamedQuery(name = "PsmlInfo.findAll", query = "SELECT p FROM PsmlInfo p")
-//    , @NamedQuery(name = "PsmlInfo.findById", query = "SELECT p FROM PsmlInfo p WHERE p.id = :id")})
 public class PsmlInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,6 +32,7 @@ public class PsmlInfo implements Serializable {
     @Column(name = "psml_value")
     private BigDecimal psmlValue;
 
+    @OrderBy("dateOfTransfer DESC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "psmlInfo", fetch = FetchType.LAZY)
     private Set<PsmlTransfer> psmlTransfers;
 
