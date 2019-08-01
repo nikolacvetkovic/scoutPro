@@ -46,11 +46,7 @@ public class AppUser implements Serializable {
     public String toString() {
         return "AppUser{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", players=" + players +
-                ", roles=" + roles +
-                '}';
+                ", username= " + username + "}";
     }
 
     public void removePlayer(AppUserPlayer appUserPlayer){
