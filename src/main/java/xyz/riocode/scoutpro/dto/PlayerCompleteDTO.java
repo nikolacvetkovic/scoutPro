@@ -9,19 +9,33 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PlayerDashboardDTO {
+public class PlayerCompleteDTO {
 
     private String id;
-    private String playerName;
     private boolean myPlayer;
 
-    private String tmValue;
-
+    //tm
+    private String playerName;
+    private String dateOfBirth;
     private String age;
+    private String nationality;
     private String nationalTeam;
     private String clubTeam;
     private String contractUntil;
+    private String tmPosition;
 
+    private Set<TransferDTO> transferDTOS;
+    private Set<MarketValueDTO> marketValueDTOS;
+
+    //ws
+    private Set<String> strengths;
+    private Set<String> weaknesses;
+    private Set<String> stylesOfPlay;
+    private Set<CompetitionStatisticDTO> competitionStatisticDTOS;
+    private Set<PositionStatisticDTO> positionStatisticDTOS;
+    private Set<GameStatisticDTO> gameStatisticDTOS;
+
+    //pesdb
     private String pesDbPlayerName;
     private String pesDbTeamName;
     private String foot;
@@ -57,24 +71,14 @@ public class PlayerDashboardDTO {
     private int form;
     private int injuryResistance;
     private int overall;
+    private String playingStyle;
+    private Set<String> playerSkills;
+    private Set<String> comPlayingStyles;
     private String pesDbLastCheck;
 
+    //psml
     private String psmlTeam;
     private String psmlValue;
-    private String psmlLastTransferDate;
-    private String psmlLastTransferFromTeam;
-    private String psmlLastTransferToTeam;
-    private String psmlLastTransferFee;
+    private Set<PsmlTransferDTO> psmlTransferDTOS;
     private String psmlLastCheck;
-
-    private int totalStartedApps;
-    private int totalMins;
-    private int totalGoals;
-    private int totalAssists;
-    private String averageShotsPerGame;
-    private String averagePassSuccess;
-    private String averageAerialsWon;
-    private int totalManOfTheMatch;
-    private String averageRating;
-    private String statisticsLastCheck;
 }
