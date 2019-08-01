@@ -33,11 +33,10 @@ public class PlayerConverter{
     public Player playerFormDTOToPlayer(PlayerFormDTO playerDTO, String username){
         Player player = new Player();
         player.setId(Long.valueOf(playerDTO.getId()));
+        AppUserPlayerId appUserPlayerId = new AppUserPlayerId();
         AppUserPlayer appUserPlayer = new AppUserPlayer();
+        appUserPlayer.setAppUserPlayerId(appUserPlayerId);
         appUserPlayer.setMyPlayer(playerDTO.isMyPlayer());
-        AppUser appUser = new AppUser();
-        appUser.setUsername(username);
-        appUserPlayer.setAppUser(appUser);
         player.getUsers().add(appUserPlayer);
         player.setTransfermarktUrl(playerDTO.getTransfermarktUrl());
         player.setWhoScoredUrl(playerDTO.getWhoScoredUrl());
@@ -50,7 +49,7 @@ public class PlayerConverter{
     public Set<PlayerDashboardDTO> playerToPlayerDashboardDTO(Set<Player> players, String username){
         Set<PlayerDashboardDTO> playerDashboardDTOS = new HashSet<>();
         for (Player player : players) {
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.US);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").withLocale(Locale.US);
             PlayerDashboardDTO playerDashboardDTO = new PlayerDashboardDTO();
             playerDashboardDTO.setId(player.getId().toString());
             playerDashboardDTO.setPlayerName(player.getPlayerName());
