@@ -9,7 +9,17 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
-    @Query("SELECT p FROM Player p JOIN FETCH p.users up JOIN FETCH up.appUser u WHERE u.username = :username")
+    @Query("SELECT p FROM Player p " +
+                " LEFT JOIN FETCH p.characteristic " +
+                " JOIN FETCH p.pesDbInfo " +
+                " JOIN FETCH p.transfermarktInfo " +
+                " JOIN FETCH p.psmlInfo psml " +
+                " LEFT JOIN FETCH psml.psmlTransfers " +
+                " LEFT JOIN FETCH p.marketValues " +
+                " LEFT JOIN FETCH p.competitionStatistics " +
+                " JOIN FETCH p.users up " +
+                " JOIN FETCH up.appUser u " +
+            " WHERE u.username = :username")
     List<Player> findPlayersByUsername(String username, Pageable pageable);
 
     @Query("SELECT p FROM Player p JOIN FETCH p.users up JOIN FETCH up.appUser u WHERE p.id = :id AND u.username = :username")
