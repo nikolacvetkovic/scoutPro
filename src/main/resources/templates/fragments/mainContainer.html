@@ -16,16 +16,16 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="navbar-nav ml-auto mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                    <a class="nav-link" th:href="@{/dashboard}" href="#">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/addplayer">Add Player</a>
+                    <a class="nav-link" th:href="@{/player/new}" href="#">Add Player</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Compare players</a>
+                    <a class="nav-link" th:href="@{/player/compare}" href="#">Compare players</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Something</a>
+                    <a class="nav-link" th:href="@{/player/transfersandnews}" href="#">Transfers and News</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto mr-auto ">
