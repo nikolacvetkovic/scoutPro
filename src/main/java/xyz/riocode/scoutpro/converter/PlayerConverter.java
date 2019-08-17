@@ -60,6 +60,7 @@ public class PlayerConverter{
                     .get());
 
             playerDashboardDTO.setTmValue(player.getMarketValues().stream().findFirst().get().getWorth().toString());
+            playerDashboardDTO.setAge(String.valueOf(player.getTransfermarktInfo().getAge()));
             playerDashboardDTO.setNationalTeam(player.getTransfermarktInfo().getNationalTeam());
             playerDashboardDTO.setClubTeam(player.getTransfermarktInfo().getClubTeam());
             playerDashboardDTO.setContractUntil(player.getTransfermarktInfo().getContractUntil());
