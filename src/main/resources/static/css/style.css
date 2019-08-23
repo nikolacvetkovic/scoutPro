@@ -83,3 +83,6 @@ span.lastMeasured {
 .fa-arrow-circle-up {
     color: green;
 }
+#ws th{
+    font-size: 12px;
+}
