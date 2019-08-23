@@ -23,177 +23,140 @@ function setWindowAndFont(){
 }
 
 function getAllPlayers(){
-    $.get('/player/complete', function(data){
-        var script = document.createElement('script');
-        script.setAttribute('id', 'jsonData');
-        script.appendChild(document.createTextNode(JSON.stringify(data)));
-        document.body.appendChild(script);
+    $.get('/player/0/page', function(data){
+//        var script = document.createElement('script');
+//        script.setAttribute('id', 'jsonData');
+//        script.appendChild(document.createTextNode(JSON.stringify(data)));
+//        document.body.appendChild(script);
         fillTableWithPlayers(data);
     });
 }
 
 function fillTableWithPlayers(data){
     $('#tab-body').empty();
-    data.forEach(function(player){
+    data.forEach(function(player, index){
+            var keys = Object.keys(player);
             var tr = document.createElement('tr');
             if(player.myPlayer) $(tr).addClass('table-success');
-            $('#tab-body').append($(tr).append($('<td>').css('display', 'none').attr('id-value', player.id).append(player.id))
-                                        .append($('<td>').append(player.transfermarktInfo.playerName + ' ').append($('<a>').attr('href', '/player/complete/'+player.id).attr('target', '_blank').append($('<i>').addClass('fa fa-external-link').attr('aria-hidden', true))))
-                                        .append($('<td>').css('width', '10%').append(player.transfermarktInfo.age))
-                                        .append($('<td>').css('width', '14%').append(player.pesDbInfoList[player.pesDbInfoList.length-1].primaryPosition).attr('position-value', player.pesDbInfoList[player.pesDbInfoList.length-1].positionNumberValue))
-                                        .append($('<td>').css('width', '13%').append(player.pesDbInfoList[player.pesDbInfoList.length-1].overallRating))
-                                        .append($('<td>').append(formatPlayerValue(player.psmlInfoList[player.psmlInfoList.length-1].teamValue) + ' ').css('text-align', 'right').css('padding-right', '3.5%').append($(' <i>').addClass(getArrowBasedOnRelation(player.psmlInfoList[player.psmlInfoList.length-1].teamValue, player.transfermarktInfo.currentValue))))
-                                        .append($('<td>').append(formatPlayerValue(player.transfermarktInfo.currentValue)).css('text-align', 'right').css('padding-right', '4.5%')));
+            $('#tab-body').append($(tr).append($('<td>').attr('id', 'id-value').append('').hide())
+                                      .append($('<td>').attr('id', 'playerName').append(''))
+                                      .append($('<td>').attr('id', 'age').css('width', '10%').append(''))
+                                      .append($('<td>').attr('id', 'position').css('width', '14%').append(''))
+                                      .append($('<td>').attr('id', 'overall').css('width', '13%').append(''))
+                                      .append($('<td>').attr('id', 'psmlValue').css('text-align', 'right').css('padding-right', '3.5%').append(''))
+                                      .append($('<td>').attr('id', 'tmValue').css('text-align', 'right').css('padding-right', '4.5%').append('')));
+            keys.forEach(function(key){
+                switch(key){
+                    case 'id': $('#id-value').append(player.id); break;
+                    case 'playerName': $('#playerName').attr('id', key+'-'+player.id).append(player.playerName + ' ').append($('<a>').attr('href', '/player/'+ player.id +'/show').attr('target', '_blank').append($('<i>').addClass('fas fa-external-link-alt').css('color', 'black'))); break;
+                    case 'age': $('#age').attr('id', key+'-'+player.id).append(player.age); break;
+                    case 'position': $('#position').attr('id', key+'-'+player.id).append(player.position); break;
+                    case 'overall': $('#overall').attr('id', key+'-'+player.id).append(player.overall); break;
+                    case 'psmlValue': $('#psmlValue').attr('id', key+'-'+player.id).append(formatPlayerValue(player.psmlValue) + ' ').append($(' <i>').addClass(getArrowBasedOnRelation(player.psmlValue, player.tmValue))); break;
+                    case 'tmValue': $('#tmValue').attr('id', key+'-'+player.id).append(formatPlayerValue(player.tmValue)); break;
+                    case 'otherStrongPositions': {
+                        $(tr).append($('<td>').attr('id', key+'-'+player.id).hide());
+                        player.otherStrongPositions.forEach(function(position, index){
+                            $('#'+key+'-'+player.id).append($('<span> ').css('padding-right', '10px').append(position));
+                        });
+                    } break;
+                    case 'otherWeakPositions': {
+                        $(tr).append($('<td>').attr('id', key+'-'+player.id).hide());
+                        player.otherWeakPositions.forEach(function(position, index){
+                            $('#'+key+'-'+player.id).append($('<span> ').css('padding-right', '10px').append(position));
+                        });
+                    } break;
+                    default: $(tr).append($('<td>').attr('id', key+'-'+player.id).append(player[key]).hide());
+                }
+            });
     });
 }
 
 function setListenersOnRows(){
     $('#left tbody').on('click', 'tr', function(){
-        var jsonData = JSON.parse(document.querySelector('#jsonData').textContent);
-        var selectedPlayerId = parseInt($(this).find('td:nth-of-type(1)').get(0).textContent);
-
-        var selectedPlayer = null;
-        jsonData.forEach(function(player){
-            if(selectedPlayerId === player.id)
-                selectedPlayer = player;
-        });
-        fillTransfermarkInfo(selectedPlayer);
-        fillPsmlInfo(selectedPlayer);
-        fillWhoScoredInfo(selectedPlayer);
-        fillPesDbInfo(selectedPlayer);
-        setBackgroundColorOnUserPlayers(jsonData, this);
-        setUrlsOnBadges(selectedPlayer);
+        fillTransfermarkInfo(this);
+        fillPsmlInfo(this);
+        fillPesDbInfo(this);
+        fillWhoScoredInfo(this);
+//        setBackgroundColorOnUserPlayers(jsonData, this);
+//        setUrlsOnBadges(selectedPlayer);
     });    
 }
 
-function fillTransfermarkInfo(selectedPlayer){
+function fillTransfermarkInfo(selectedPlayerTr){
     $('#tm tr td:nth-of-type(2)').empty();
-    var transfermarktInfo = selectedPlayer.transfermarktInfo;
-    $('#nationalTeam').append(transfermarktInfo.nationalTeam);
-    $('#clubTeam').append(transfermarktInfo.clubTeam);
-    $('#contractUntil').append(transfermarktInfo.contractUntil);
-    $('#currentValue').append(formatPlayerValue(transfermarktInfo.currentValue));
-    $('#lastChangedCurrentValue').append(transfermarktInfo.lastChangedCurrentValue);
-    $('#tm #lastMeasured').empty();
-    $('#tm #lastMeasured').append('(' + transfermarktInfo.lastMeasured + ')');
+    $('#nationalTeam').append($(selectedPlayerTr).find('td[id*=nationalTeam]').text());
+    $('#clubTeam').append($(selectedPlayerTr).find('td[id*=clubTeam]').text());
+    $('#contractUntil').append($(selectedPlayerTr).find('td[id*=contractUntil]').text());
+    $('#tmValue').append($(selectedPlayerTr).find('td[id*=tmValue]').text());
+//    $('#tm #lastMeasured').empty();
+//    $('#tm #lastMeasured').append('(' + transfermarktInfo.lastMeasured + ')');
 }
 
-function fillPsmlInfo(selectedPlayer){
+function fillPsmlInfo(selectedPlayerTr){
     $('#psml tr td:nth-of-type(2)').empty();
-    var psmlInfo = selectedPlayer.psmlInfoList[selectedPlayer.psmlInfoList.length-1];
-    $('#psml #clubTeam').append(psmlInfo.teamName);
-    $('#psmlValue').append(formatPlayerValue(psmlInfo.teamValue));
+    $('#psml #clubTeam').append($(selectedPlayerTr).find('td[id*=psmlTeam]').text());
+    $('#psmlValue').append($(selectedPlayerTr).find('td[id*=psmlValue]').text());
     $('#psml #lastMeasured').empty();
-    $('#psml #lastMeasured').append('(' + psmlInfo.lastMeasured + ')');
+    $('#psml #lastMeasured').append('(' + $(selectedPlayerTr).find('td[id*=psmlLastCheck]').text() + ')');
 }
 
-function fillPesDbInfo(selectedPlayer){
+function fillPesDbInfo(selectedPlayerTr){
     $('#pesDb tr td:nth-of-type(2)').empty();
-    var pesDbInfo = selectedPlayer.pesDbInfoList[selectedPlayer.pesDbInfoList.length-1];
-    $('#pesDbName').append(pesDbInfo.pesDbName);
-    $('#teamName').append(pesDbInfo.teamName);
-    $('#foot').append(pesDbInfo.foot);
-    $('#weekCondition').append(pesDbInfo.weekCondition);
-    $('#primaryPosition').append(pesDbInfo.primaryPosition);
-    var otherStrongPositions = [];
-    pesDbInfo.otherStrongPositions.forEach(function(position, i){
-        otherStrongPositions = otherStrongPositions.concat('<span>'+position+'</span>');
-        if(!(i === pesDbInfo.otherStrongPositions.length-1))
-            otherStrongPositions = otherStrongPositions.concat(', ');
-    });
-    $('#otherStrongPositions').append(otherStrongPositions);
-    var otherWeakPositions = [];
-    pesDbInfo.otherWeakPositions.forEach(function(position, i){
-        otherWeakPositions = otherWeakPositions.concat('<span>'+position+'</span>');
-        if(!(i === pesDbInfo.otherWeakPositions.length-1))
-            otherWeakPositions = otherWeakPositions.concat(', ');
-    });    
-    $('#otherWeakPositions').append(otherWeakPositions);
-    $('#attackingProwess').append(pesDbInfo.attackingProwess);
-    $('#ballControl').append(pesDbInfo.ballControl);
-    $('#dribbling').append(pesDbInfo.dribbling);
-    $('#lowPass').append(pesDbInfo.lowPass);
-    $('#loftedPass').append(pesDbInfo.loftedPass);
-    $('#finishing').append(pesDbInfo.finishing);
-    $('#placeKicking').append(pesDbInfo.placeKicking);
-    $('#swerve').append(pesDbInfo.swerve);
-    $('#header').append(pesDbInfo.header);
-    $('#defensiveProwess').append(pesDbInfo.defensiveProwess);
-    $('#ballWinning').append(pesDbInfo.ballWinning);
-    $('#kickingPower').append(pesDbInfo.kickingPower);
-    $('#speed').append(pesDbInfo.speed);
-    $('#explosivePower').append(pesDbInfo.explosivePower);
-    $('#bodyControl').append(pesDbInfo.bodyControl);
-    $('#physicalContact').append(pesDbInfo.physicalContact);
-    $('#jump').append(pesDbInfo.jump);
-    $('#stamina').append(pesDbInfo.stamina);
-    $('#goalkeeping').append(pesDbInfo.goalkeeping);
-    $('#catching').append(pesDbInfo.catching);
-    $('#clearing').append(pesDbInfo.clearing);
-    $('#reflexes').append(pesDbInfo.reflexes);
-    $('#coverage').append(pesDbInfo.coverage);
-    $('#form').append(pesDbInfo.form);
-    $('#injuryResistance').append(pesDbInfo.injuryResistance);
-    $('#weakFootUsage').append(pesDbInfo.weakFootUsage);
-    $('#weakFootAccuracy').append(pesDbInfo.weakFootAccuracy);
-    $('#overallRating').append(pesDbInfo.overallRating);
-    $('#pesDb #lastMeasured').empty();
-    $('#pesDb #lastMeasured').append('(' + pesDbInfo.lastMeasured + ')');
+    $('#pesDbPlayerName').append($(selectedPlayerTr).find('td[id*=pesDbPlayerName]').text());
+    $('#pesDbTeamName').append($(selectedPlayerTr).find('td[id*=pesDbTeamName]').text());
+    $('#foot').append($(selectedPlayerTr).find('td[id*=foot]').text());
+    $('#weekCondition').append($(selectedPlayerTr).find('td[id*=weekCondition]').text());
+    $('#primaryPosition').append($(selectedPlayerTr).find('td[id*=position]').text());
+    $('#otherStrongPositions').append($(selectedPlayerTr).find('td[id*=otherStrongPositions]').html());
+    $('#otherWeakPositions').append($(selectedPlayerTr).find('td[id*=otherWeakPositions]').html());
+    $('#attackingProwess').append($(selectedPlayerTr).find('td[id*=attackingProwess]').text());
+    $('#ballControl').append($(selectedPlayerTr).find('td[id*=ballControl]').text());
+    $('#dribbling').append($(selectedPlayerTr).find('td[id*=dribbling]').text());
+    $('#lowPass').append($(selectedPlayerTr).find('td[id*=lowPass]').text());
+    $('#loftedPass').append($(selectedPlayerTr).find('td[id*=loftedPass]').text());
+    $('#finishing').append($(selectedPlayerTr).find('td[id*=finishing]').text());
+    $('#placeKicking').append($(selectedPlayerTr).find('td[id*=placeKicking]').text());
+    $('#swerve').append($(selectedPlayerTr).find('td[id*=swerve]').text());
+    $('#header').append($(selectedPlayerTr).find('td[id*=header]').text());
+    $('#defensiveProwess').append($(selectedPlayerTr).find('td[id*=defensiveProwess]').text());
+    $('#ballWinning').append($(selectedPlayerTr).find('td[id*=ballWinning]').text());
+    $('#kickingPower').append($(selectedPlayerTr).find('td[id*=kickingPower]').text());
+    $('#speed').append($(selectedPlayerTr).find('td[id*=speed]').text());
+    $('#explosivePower').append($(selectedPlayerTr).find('td[id*=explosivePower]').text());
+    $('#unwaveringBalance').append($(selectedPlayerTr).find('td[id*=unwaveringBalance]').text());
+    $('#physicalContact').append($(selectedPlayerTr).find('td[id*=physicalContact]').text());
+    $('#jump').append($(selectedPlayerTr).find('td[id*=jump]').text());
+    $('#goalkeeping').append($(selectedPlayerTr).find('td[id*=goalkeeping]').text());
+    $('#gkCatch').append($(selectedPlayerTr).find('td[id*=gkCatch]').text());
+    $('#clearing').append($(selectedPlayerTr).find('td[id*=clearing]').text());
+    $('#reflexes').append($(selectedPlayerTr).find('td[id*=reflexes]').text());
+    $('#coverage').append($(selectedPlayerTr).find('td[id*=coverage]').text());
+    $('#stamina').append($(selectedPlayerTr).find('td[id*=stamina]').text());
+    $('#weakFootUsage').append($(selectedPlayerTr).find('td[id*=weakFootUsage]').text());
+    $('#weakFootAccuracy').append($(selectedPlayerTr).find('td[id*=weakFootAccuracy]').text());
+    $('#form').append($(selectedPlayerTr).find('td[id*=form]').text());
+    $('#injuryResistance').append($(selectedPlayerTr).find('td[id*=injuryResistance]').text());
+    $('#overall').append($(selectedPlayerTr).find('td[id*=overall]').text());
+    $('#pesDbLastCheck').empty();
+    $('#pesDbLastCheck').append('(' + $(selectedPlayerTr).find('td[id*=pesDbLastCheck]').text() + ')');
     setColorOnRatings();
     setColorOnPositions();
 }
 
-function fillWhoScoredInfo(selectedPlayer){
-    $('#ws table tbody').empty();
-    var whoscoredInfo = selectedPlayer.whoScoredInfoList[selectedPlayer.whoScoredInfoList.length-1];
-    whoscoredInfo.coreStatsList.forEach(function(coreStats, i){
-        var tr = document.createElement('tr');
-        var competition = document.createElement('td');
-        competition.appendChild(document.createTextNode(coreStats.competition));
-        tr.appendChild(competition);
-        var apps = document.createElement('td');
-        if(i === selectedPlayer.whoScoredInfoList[selectedPlayer.whoScoredInfoList.length-1].coreStatsList.length-1){
-            apps.appendChild(document.createTextNode(coreStats.startedApps));
-        } else {
-            apps.appendChild(document.createTextNode(coreStats.startedApps + '(' + coreStats.subApps + ')'));
-        }
-        tr.appendChild(apps);
-        var mins = document.createElement('td');
-        mins.appendChild(document.createTextNode(coreStats.mins));
-        tr.appendChild(mins);
-        var goals = document.createElement('td');
-        goals.appendChild(document.createTextNode(coreStats.goals));
-        tr.appendChild(goals);
-        var assists = document.createElement('td');
-        assists.appendChild(document.createTextNode(coreStats.assists));
-        tr.appendChild(assists);
-        var yel = document.createElement('td');
-        yel.appendChild(document.createTextNode(coreStats.yellowCards));
-        tr.appendChild(yel);
-        var red = document.createElement('td');
-        red.appendChild(document.createTextNode(coreStats.redCards));
-        tr.appendChild(red);
-        var spg = document.createElement('td');
-        spg.appendChild(document.createTextNode(coreStats.shotsPerGame));
-        tr.appendChild(spg);
-        var ps = document.createElement('td');
-        ps.appendChild(document.createTextNode(coreStats.passSuccess));
-        tr.appendChild(ps);
-        var aerials = document.createElement('td');
-        aerials.appendChild(document.createTextNode(coreStats.aerialsWon));
-        tr.appendChild(aerials);
-        var motm = document.createElement('td');
-        motm.appendChild(document.createTextNode(coreStats.manOfTheMatch));
-        tr.appendChild(motm);
-        var rating = document.createElement('td');
-        rating.appendChild(document.createTextNode(coreStats.rating));
-        tr.appendChild(rating);
-        $('#ws tbody tr').css('font-weight', 'normal');
-        $('#ws tbody:last-child').css('font-weight', 'bold');
-        $('#ws table tbody').append(tr);
-        $('#ws #lastMeasured').empty();
-        $('#ws #lastMeasured').append('(' + whoscoredInfo.lastMeasured + ')');
-    });
+function fillWhoScoredInfo(selectedPlayerTr){
+    $('#ws tr td').empty();
+    $('#totalStartedApps').append($(selectedPlayerTr).find('td[id*=totalStartedApps]').text());
+    $('#totalMins').append($(selectedPlayerTr).find('td[id*=totalMins]').text());
+    $('#totalGoals').append($(selectedPlayerTr).find('td[id*=totalGoals]').text());
+    $('#totalAssists').append($(selectedPlayerTr).find('td[id*=totalAssists]').text());
+    $('#averageShotsPerGame').append($(selectedPlayerTr).find('td[id*=averageShotsPerGame]').text());
+    $('#averagePassSuccess').append($(selectedPlayerTr).find('td[id*=averagePassSuccess]').text());
+    $('#averageAerialsWon').append($(selectedPlayerTr).find('td[id*=averageAerialsWon]').text());
+    $('#totalManOfTheMatch').append($(selectedPlayerTr).find('td[id*=totalManOfTheMatch]').text());
+    $('#averageRating').append($(selectedPlayerTr).find('td[id*=averageRating]').text());
+    $('#statisticsLastCheck').empty();
+    $('#statisticsLastCheck').append('(' + $(selectedPlayerTr).find('td[id*=statisticsLastCheck]').text() + ')');
 }
 
 function setColorOnRatings(){
@@ -216,11 +179,11 @@ function setColorOnRatings(){
 
 function setColorOnPositions(){
     $('#primaryPosition').css('color', getColorBasedOnPosition($('#primaryPosition').html()));
-    $('#otherStrongPositions span').get().forEach(function(span){
-        $(span).css('color', getColorBasedOnPosition($(span).html()));
+    $('#otherStrongPositions').get().forEach(function(span){
+        $(span).css('color', getColorBasedOnPosition($(span).text()));
     });
     $('#otherWeakPositions span').get().forEach(function(span){
-        $(span).css('color', getColorBasedOnPosition($(span).html()));
+        $(span).css('color', getColorBasedOnPosition($(span).text()));
     });
 }
 
@@ -351,11 +314,11 @@ function updateDataScriptPsml(currentPlayer, updatedPlayer){
 
 function getArrowBasedOnRelation(psmlValue, tmValue){
     if(psmlValue === tmValue){
-        return 'fa fa-minus-square';
+        return 'fas fa-minus-square';
     } else if(psmlValue > tmValue){
-        return 'fa fa-arrow-circle-down';
+        return 'fas fa-arrow-circle-down';
     } else {
-        return 'fa fa-arrow-circle-up';
+        return 'fas fa-arrow-circle-up';
     }
 }
 
@@ -383,7 +346,7 @@ function getColorBasedOnPosition(position){
 }
 
 function formatPlayerValue(value){
-    return '€ ' + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+    return '€ ' + Number.parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
 }
 
 function setLoadingSpinner(site){
