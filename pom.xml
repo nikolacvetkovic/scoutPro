@@ -19,13 +19,11 @@
   <properties>
     <start-class>xyz.riocode.scoutpro.ScoutProApp</start-class>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <java.version>1.8</java.version>
-    <jquery.version>3.2.1</jquery.version>
-    <bootstrap.version>4.0.0-beta.2</bootstrap.version>
-    <popper.version>1.12.3</popper.version>
-    <font-awesome.version>4.7.0</font-awesome.version>
+    <java.version>1.9</java.version>
+    <jquery.version>3.3.1</jquery.version>
+    <bootstrap.version>4.3.1</bootstrap.version>
+    <popper.version>1.14.7</popper.version>
+    <font-awesome.version>5.7.2</font-awesome.version>
     <postgres-driver.version>42.2.5</postgres-driver.version>
     <mockito.version>2.27.0</mockito.version>
   </properties>
@@ -107,15 +105,6 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
       </dependency>
-                       <!--JSP compiling-->      
-<!--      <dependency>-->
-<!--            <groupId>org.apache.tomcat.embed</groupId>-->
-<!--            <artifactId>tomcat-embed-jasper</artifactId>-->
-<!--      </dependency>-->
-<!--      <dependency>-->
-<!--            <groupId>javax.servlet</groupId>-->
-<!--            <artifactId>jstl</artifactId>-->
-<!--      </dependency>-->
                       <!--WebJars-->
       <dependency>
             <groupId>org.webjars</groupId>

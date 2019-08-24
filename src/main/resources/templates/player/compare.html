@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header(~{::title})}">
+    <title>ScoutPro | Compare players</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="https://kit.fontawesome.com/9b0a4a2ea0.js"></script>
+    <link rel="stylesheet" href="../static/css/style.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" type="text/javascript"></script>
+</head>
 <body>
-
-<div th:fragment="main(content)">
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(61, 201, 179, 1); height: 78px;">
+    <nav th:remove="all" class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(61, 201, 179, 1); height: 78px;">
 
         <a class="navbar-brand" href="/">
-            <img th:src="@{/logo.png}" src="../../static/logo.png" width="50px" height="50px" class="d-inline-block">
+            <img src="../../static/logo.png" width="50px" height="50px" class="d-inline-block">
             <span class="align-middle ml-1" style="font-size: 35px">ScoutPro</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle">
@@ -16,16 +21,16 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="navbar-nav ml-auto mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/dashboard}" href="#">Dashboard</a>
+                    <a class="nav-link" href="./dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/player/new}" href="#">Add Player</a>
+                    <a class="nav-link" href="./playerForm.html">Add Player</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/player/compare}" href="#">Compare players</a>
+                    <a class="nav-link" href="#">Compare players</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/player/transfersandnews}" href="#">Transfers and News</a>
+                    <a class="nav-link" href="./transfersAndNews.html">Transfers and News</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto mr-auto ">
@@ -38,18 +43,8 @@
             </form>
         </div>
     </nav>
-    <div class="container-fluid">
-        <div class="alert alert-success mt-2 my-2 py-2" style="display: none;">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
 
-        <div th:replace="${content}"></div>
-
-    </div>
-</div>
-
+    <div th:replace="~{fragments/mainContainer :: main(_)}"></div>
 
 </body>
 </html>

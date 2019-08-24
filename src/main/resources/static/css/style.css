@@ -6,7 +6,7 @@ html, body {
     background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    background: #FF0000;
+    background: transparent;
 }
 .container-fluid {
     max-height: 100%;
@@ -82,4 +82,7 @@ span.lastMeasured {
 }
 .fa-arrow-circle-up {
     color: green;
+}
+#ws th{
+    font-size: 12px;
 }
