@@ -38,11 +38,17 @@ public class PlayerController {
     }
 
     @PostMapping("/new")
-    public String save(@Valid PlayerFormDTO player, BindingResult bindingResult){
+    public String saveNewPlayerAndAddToUser(@Valid PlayerFormDTO player, BindingResult bindingResult){
         if(bindingResult.hasErrors()) return "playerForm";
-        playerService.create(playerConverter.playerFormDTOToPlayer(player, "cvele"), "cvele");
+        playerService.createAndAddToUser(playerConverter.playerFormDTOToPlayer(player, "cvele"), "cvele");
         return "redirect:/dashboard";
     }
+
+//    @GetMapping("/{playerId}/add")
+//    public ResponseEntity addExistingPlayerToUser(@PathVariable Long playerId){
+//        playerService.addToUser(playerId, "cvele");
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
 
     @GetMapping(value = "/{pageNumber}/page", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Set<PlayerDashboardDTO>> getPlayers(@PathVariable int pageNumber){
