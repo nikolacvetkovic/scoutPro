@@ -1,7 +1,6 @@
 package xyz.riocode.scoutpro.controller;
 
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.ThreadContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +58,6 @@ public class PlayerController {
     @GetMapping(value = "/player/{pageNumber}/page", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Set<PlayerDashboardDTO>> getPlayers(@PathVariable int pageNumber){
         log.info("Get players by page number: {}", pageNumber);
-        System.out.println("TrackingId: " + ThreadContext.getImmutableStack().asList().stream().findFirst().get());
         return new ResponseEntity<>(playerConverter.playerToPlayerDashboardDTO(playerService.getByUserPaging("cvele", pageNumber), "cvele"), HttpStatus.OK);
     }
 
