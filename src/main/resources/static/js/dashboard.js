@@ -95,10 +95,10 @@ function fillTransfermarkInfo(selectedPlayerTr){
 
 function fillPsmlInfo(selectedPlayerTr){
     $('#psml tr td:nth-of-type(2)').empty();
-    $('#psml #clubTeam').append($(selectedPlayerTr).find('td[id*=psmlTeam]').text());
+    $('#psmlTeam').append($(selectedPlayerTr).find('td[id*=psmlTeam]').text());
     $('#psmlValue').append($(selectedPlayerTr).find('td[id*=psmlValue]').text());
-    $('#psml #lastMeasured').empty();
-    $('#psml #lastMeasured').append('(' + $(selectedPlayerTr).find('td[id*=psmlLastCheck]').text() + ')');
+    $('#psmlLastCheck').empty();
+    $('#psmlLastCheck').append('(' + $(selectedPlayerTr).find('td[id*=psmlLastCheck]').text() + ')');
 }
 
 function fillPesDbInfo(selectedPlayerTr){
