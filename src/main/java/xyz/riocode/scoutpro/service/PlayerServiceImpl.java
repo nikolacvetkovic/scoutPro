@@ -7,6 +7,7 @@ import xyz.riocode.scoutpro.exception.PlayerNotFoundException;
 import xyz.riocode.scoutpro.model.AppUser;
 import xyz.riocode.scoutpro.model.AppUserPlayer;
 import xyz.riocode.scoutpro.model.Player;
+import xyz.riocode.scoutpro.repository.AppUserRepository;
 import xyz.riocode.scoutpro.repository.PlayerRepository;
 import xyz.riocode.scoutpro.scrape.template.async.ScrapeAsyncWrapper;
 
@@ -21,17 +22,22 @@ import java.util.concurrent.ExecutionException;
 public class PlayerServiceImpl implements PlayerService {
 
     private final PlayerRepository playerRepository;
+    private final AppUserRepository appUserRepository;
     private final ScrapeAsyncWrapper scrapeAsyncWrapper;
 
-    public PlayerServiceImpl(PlayerRepository playerRepository, ScrapeAsyncWrapper scrapeAsyncWrapper) {
+    public PlayerServiceImpl(PlayerRepository playerRepository, AppUserRepository appUserRepository, ScrapeAsyncWrapper scrapeAsyncWrapper) {
         this.playerRepository = playerRepository;
+        this.appUserRepository = appUserRepository;
         this.scrapeAsyncWrapper = scrapeAsyncWrapper;
     }
 
     @Override
-    public Player create(Player player, String username) {
+    public Player createAndAddToUser(Player player, String username) {
         Player foundPlayer = playerRepository.findByTransfermarktUrl(player.getTransfermarktUrl());
         if(foundPlayer != null) throw new DuplicatePlayerException();
+
+        AppUser appUser = appUserRepository.findByUsername(username).get();
+        player.getUsers().stream().findFirst().get().setAppUser(appUser);
 
         CompletableFuture<Player> tmAll = scrapeAsyncWrapper.tmAllScrape(player);
         CompletableFuture<Player> pesDb = scrapeAsyncWrapper.pesDbScrape(player);
@@ -51,6 +57,22 @@ public class PlayerServiceImpl implements PlayerService {
 
         return playerRepository.save(p);
     }
+
+//    @Override
+//    public Player addToUser(Long id, String username) {
+//        Player foundPlayer = playerRepository.findById(id).orElseThrow(PlayerNotFoundException::new);
+//        AppUser foundUser = appUserRepository.findByUsername(username).orElseThrow(AppUserNotFoundException::new);
+//
+//        AppUserPlayerId appUserPlayerId = new AppUserPlayerId();
+//        AppUserPlayer appUserPlayer = new AppUserPlayer();
+//        appUserPlayer.setAppUserPlayerId(appUserPlayerId);
+//        appUserPlayer.setPlayer(foundPlayer);
+//        appUserPlayer.setAppUser(foundUser);
+//        foundPlayer.getUsers().add(appUserPlayer);
+//        foundUser.getPlayers().add(appUserPlayer);
+//
+//        return playerRepository.save(foundPlayer);
+//    }
 
     @Override
     public Player getByIdAndUser(Long id, String username) {

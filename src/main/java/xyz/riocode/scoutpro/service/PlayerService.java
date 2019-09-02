@@ -4,13 +4,10 @@ import xyz.riocode.scoutpro.model.Player;
 
 import java.util.Set;
 
-/**
- *
- * @author Nikola Cvetkovic
- */
 
 public interface PlayerService {
-    Player create(Player player, String username);
+    Player createAndAddToUser(Player player, String username);
+    //Player addToUser(List<Long> id, String username);
     Player getByIdAndUser(Long id, String username);
     Set<Player> getByNameAndUser(String playerName, String username);
     Set<Player> getByUserPaging(String username, int page);
