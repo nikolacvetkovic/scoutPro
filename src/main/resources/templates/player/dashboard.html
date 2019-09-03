@@ -10,7 +10,6 @@
 <body>
 
     <nav th:remove="all" class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(61, 201, 179, 1); height: 78px;">
-
         <a class="navbar-brand" href="/">
             <img src="../../static/logo.png" width="50px" height="50px" class="d-inline-block">
             <span class="align-middle ml-1" style="font-size: 35px">ScoutPro</span>
@@ -57,7 +56,6 @@
                     </button>
                 </div>
             <div id="left" style="overflow: scroll;overflow-x: hidden; padding-left: 0; padding-right: 0;">
-
                 <table class="table table-hover table-scroll" style="margin-bottom: 0">
                     <thead>
                     <tr>
@@ -114,29 +112,29 @@
                     <div class="row" style="width: 99%;">
                         <div id="tm" class="col-lg-6" style="border-right-style: solid; border-width: 2px; margin-bottom: 10px;">
                             <h6>Transfermarkt Info <span id="lastMeasured" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
-                            <hr style="width: 70%; border-bottom: 2px solid black;">
+                            <hr style="width: 70%;">
                             <div class="row">
                                 <div class="col-sm-12 col-lg-12">
                                     <table class="table table-hover">
                                         <tbody>
                                         <tr>
-                                            <td style="width: 50%">National team</td>
+                                            <td>National team</td>
                                             <td id="nationalTeam"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 50%">Club team</td>
+                                            <td>Club team</td>
                                             <td id="clubTeam"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 50%">Contract until</td>
+                                            <td>Contract until</td>
                                             <td id="contractUntil"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 50%">Current value</td>
+                                            <td>Current value</td>
                                             <td id="tmValue"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 50%">Last changed</td>
+                                            <td>Value last changed</td>
                                             <td id="lastChangedCurrentValue"></td>
                                         </tr>
                                         </tbody>
@@ -146,17 +144,17 @@
                         </div>
                         <div id="psml" class="col-lg-6">
                             <h6>Psml Info <span id="psmlLastCheck" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
-                            <hr style="width: 70%; border-bottom: 2px solid black;">
+                            <hr style="width: 70%;">
                             <div class="row">
                                 <div class="col-sm-12 col-lg-12">
                                     <table class="table table-hover">
                                         <tbody>
                                         <tr>
-                                            <td style="width: 50%">Club team</td>
+                                            <td>Club team</td>
                                             <td id="psmlTeam"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 50%">Psml value</td>
+                                            <td>Psml value</td>
                                             <td id="psmlValue"></td>
                                         </tr>
                                         </tbody>
@@ -168,29 +166,29 @@
                     <div class="row" style="border-style: solid none; border-width: 2px;">
                         <div id="pesDb" class="col-lg-12" style="margin-top: 10px; margin-bottom: 10px;">
                             <h6>PesDb Info <span id="pesDbLastCheck" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
-                            <hr style="width: 38%; border-bottom: 2px solid black;">
+                            <hr style="width: 38%;">
                             <div class="row" style="">
                                 <div class="col-sm-4 col-lg-4" style="padding: 0">
                                     <table class="table">
                                         <tbody>
                                         <tr>
-                                            <td style="width: 50%">Name:</td>
+                                            <td>Name:</td>
                                             <td id="pesDbPlayerName"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 50%" >Team:</td>
+                                            <td>Team:</td>
                                             <td id="pesDbTeamName"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 50%">Foot:</td>
+                                            <td>Foot:</td>
                                             <td id="foot"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 50%">Condition:</td>
+                                            <td>Condition:</td>
                                             <td id="weekCondition"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 50%">Primary position:</td>
+                                            <td>Primary position:</td>
                                             <td id="primaryPosition"></td>
                                         </tr>
                                         <tr>
@@ -198,11 +196,11 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 50%">Strong</td>
+                                            <td>Strong</td>
                                             <td id="otherStrongPositions"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 50%">Weak</td>
+                                            <td>Weak</td>
                                             <td id="otherWeakPositions"></td>
                                         </tr>
                                         </tbody>
@@ -212,63 +210,63 @@
                                     <table class="table">
                                         <tbody>
                                         <tr>
-                                            <td style="width: 70%;">Attacking Prowess:</td>
+                                            <td>Attacking Prowess:</td>
                                             <td id="attackingProwess"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Ball Control:</td>
+                                            <td>Ball Control:</td>
                                             <td id="ballControl"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Dribbling:</td>
+                                            <td>Dribbling:</td>
                                             <td id="dribbling"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Low Pass:</td>
+                                            <td>Low Pass:</td>
                                             <td id="lowPass"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Lofted Pass:</td>
+                                            <td>Lofted Pass:</td>
                                             <td id="loftedPass"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Finishing:</td>
+                                            <td>Finishing:</td>
                                             <td id="finishing"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Place Kicking:</td>
+                                            <td>Place Kicking:</td>
                                             <td id="placeKicking"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Swerve:</td>
+                                            <td>Swerve:</td>
                                             <td id="swerve"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Header:</td>
+                                            <td>Header:</td>
                                             <td id="header"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Defensive Prowess:</td>
+                                            <td>Defensive Prowess:</td>
                                             <td id="defensiveProwess"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Ball Winning:</td>
+                                            <td>Ball Winning:</td>
                                             <td id="ballWinning"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Kicking Power:</td>
+                                            <td>Kicking Power:</td>
                                             <td id="kickingPower"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Speed:</td>
+                                            <td>Speed:</td>
                                             <td id="speed"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Explosive Power:</td>
+                                            <td>Explosive Power:</td>
                                             <td id="explosivePower"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Body Control:</td>
+                                            <td>Body Control:</td>
                                             <td id="unwaveringBalance"></td>
                                         </tr>
                                         </tbody>
@@ -278,63 +276,63 @@
                                     <table class="table">
                                         <tbody>
                                         <tr>
-                                            <td style="width: 70%;">Physical Contact:</td>
+                                            <td>Physical Contact:</td>
                                             <td id="physicalContact"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Jump:</td>
+                                            <td>Jump:</td>
                                             <td id="jump"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Stamina:</td>
+                                            <td>Stamina:</td>
                                             <td id="goalkeeping"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Goalkeeping:</td>
+                                            <td>Goalkeeping:</td>
                                             <td id="gkCatch"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Catching:</td>
+                                            <td>Catching:</td>
                                             <td id="clearing"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Clearing:</td>
+                                            <td>Clearing:</td>
                                             <td id="reflexes"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Reflexes:</td>
+                                            <td>Reflexes:</td>
                                             <td id="coverage"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Coverage:</td>
+                                            <td>Coverage:</td>
                                             <td id="stamina"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Weak Foot Usage:</td>
+                                            <td>Weak Foot Usage:</td>
                                             <td id="weakFootUsage"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Weak Foot Accuracy:</td>
+                                            <td>Weak Foot Accuracy:</td>
                                             <td id="weakFootAccuracy"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Form:</td>
+                                            <td>Form:</td>
                                             <td id="form"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Injury Resistance:</td>
+                                            <td>Injury Resistance:</td>
                                             <td id="injuryResistance"></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">&nbsp;</td>
+                                            <td>&nbsp;</td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">&nbsp;</td>
+                                            <td>&nbsp;</td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%;">Overall Rating:</td>
+                                            <td>Overall Rating:</td>
                                             <td id="overall"></td>
                                         </tr>
                                         </tbody>
@@ -346,7 +344,7 @@
                     <div class="row">
                         <div id="ws" class="col-lg-12" style="margin-top: 10px; margin-bottom: 10px;">
                             <h6>Whoscored Info <span id="statisticsLastCheck" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
-                            <hr style="width: 43%; border-bottom: 2px solid green;">
+                            <hr style="width: 43%;">
                             <div class="row">
                                 <div class="col-sm-12 col-lg-12">
                                     <table class="table table-hover">

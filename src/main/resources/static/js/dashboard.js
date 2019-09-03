@@ -183,7 +183,7 @@ function setColorOnPositions(){
         $(span).css('color', getColorBasedOnPosition($(span).text()));
     });
     $('#otherWeakPositions span').get().forEach(function(span){
-        $(span).css('color', getColorBasedOnPosition($(span).text()));
+        $(span).css('color', getColorBasedOnPosition($(span).text(), true));
     });
 }
 
@@ -322,25 +322,25 @@ function getArrowBasedOnRelation(psmlValue, tmValue){
     }
 }
 
-function getColorBasedOnPosition(position){
+function getColorBasedOnPosition(position, isWeak){
     switch(position){
         case 'GK':
-            return 'rgb(150, 138, 1)';
+            return isWeak?'rgba(150, 138, 1, 0.6)':'rgba(150, 138, 1, 1)';
             break;
         case 'CB':
         case 'LB':
         case 'RB':
-            return 'rgb(18, 37, 237)';
+            return isWeak?'rgba(18, 37, 237, 0.6)':'rgba(18, 37, 237, 1)';
         break;
         case 'DMF':
         case 'CMF':
         case 'LMF':
         case 'RMF':
         case 'AMF':
-            return 'rgb(31, 193, 58)';
+            return isWeak?'rgba(31, 193, 58, 0.6)':'rgba(31, 193, 58, 1)';
         break;
         default:
-            return 'rgb(242, 0, 0)';
+            return isWeak?'rgba(242, 0, 0, 0.6)':'rgba(242, 0, 0, 1)';
         break;
     }
 }

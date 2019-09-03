@@ -41,6 +41,7 @@ h6 {
 hr {
     margin-top: 0px;
     margin-bottom: 15px;
+    border-bottom: 2px solid green;
 }
 #right-side .row {
     width: 98%;
@@ -85,4 +86,11 @@ span.lastMeasured {
 }
 #ws th{
     font-size: 12px;
+}
+
+#pesDb tr td:nth-of-type(1){
+    width: 70%;
+}
+#tm tr td:nth-of-type(1), #psml tr td:nth-of-type(1){
+    width: 50%;
 }
