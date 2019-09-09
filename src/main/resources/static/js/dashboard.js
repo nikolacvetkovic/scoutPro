@@ -3,10 +3,13 @@ $(window).on('load', function() {
     $(window).resize(function(){
         setWindowAndFont();
     });
-    getAllPlayers();
+    getPlayersAndFillTable(0);
     setListenersOnRows();
-    setListenersOnBadges();
-    setSortByPositionAscOnBadge();
+    setSortByAgeOnBadge();
+    setSortByPositionOnBadge();
+    setSortByOverallOnBadge();
+    setSortByPsmlValueOnBadge();
+    setSortByTMValueOnBadge();
     setFilterByAffiliation();
 });
 
@@ -16,59 +19,52 @@ function setWindowAndFont(){
     } else {
         document.body.style.fontSize = '13px';
     }
-    $('#left').css('height', window.innerHeight - 155);
+    $('#left').css('height', window.innerHeight - 148);
     $('#left table tbody').css('height', $('#left').height()-34);
-    $('#right').css('height', window.innerHeight - 155);
+    $('#right').css('height', window.innerHeight - 145);
     $('#right table tbody').css('height', $('#right').height()-34);
 }
 
-function getAllPlayers(){
-    $.get('/player/0/page', function(data){
-//        var script = document.createElement('script');
-//        script.setAttribute('id', 'jsonData');
-//        script.appendChild(document.createTextNode(JSON.stringify(data)));
-//        document.body.appendChild(script);
-        fillTableWithPlayers(data);
-    });
-}
-
-function fillTableWithPlayers(data){
-    $('#tab-body').empty();
-    data.forEach(function(player, index){
-            var keys = Object.keys(player);
-            var tr = document.createElement('tr');
-            if(player.myPlayer) $(tr).addClass('table-success');
-            $('#tab-body').append($(tr).append($('<td>').attr('id', 'id-value').append('').hide())
-                                      .append($('<td>').attr('id', 'playerName').append(''))
-                                      .append($('<td>').attr('id', 'age').css('width', '10%').append(''))
-                                      .append($('<td>').attr('id', 'position').css('width', '14%').append(''))
-                                      .append($('<td>').attr('id', 'overall').css('width', '13%').append(''))
-                                      .append($('<td>').attr('id', 'psmlValue').css('text-align', 'right').css('padding-right', '3.5%').append(''))
-                                      .append($('<td>').attr('id', 'tmValue').css('text-align', 'right').css('padding-right', '4.5%').append('')));
-            keys.forEach(function(key){
-                switch(key){
-                    case 'id': $('#id-value').append(player.id); break;
-                    case 'playerName': $('#playerName').attr('id', key+'-'+player.id).append(player.playerName + ' ').append($('<a>').attr('href', '/player/'+ player.id +'/show').attr('target', '_blank').append($('<i>').addClass('fas fa-external-link-alt').css('color', 'black'))); break;
-                    case 'age': $('#age').attr('id', key+'-'+player.id).append(player.age); break;
-                    case 'position': $('#position').attr('id', key+'-'+player.id).append(player.position); break;
-                    case 'overall': $('#overall').attr('id', key+'-'+player.id).append(player.overall); break;
-                    case 'psmlValue': $('#psmlValue').attr('id', key+'-'+player.id).append(formatPlayerValue(player.psmlValue) + ' ').append($(' <i>').addClass(getArrowBasedOnRelation(player.psmlValue, player.tmValue))); break;
-                    case 'tmValue': $('#tmValue').attr('id', key+'-'+player.id).append(formatPlayerValue(player.tmValue)); break;
-                    case 'otherStrongPositions': {
-                        $(tr).append($('<td>').attr('id', key+'-'+player.id).hide());
-                        player.otherStrongPositions.forEach(function(position, index){
-                            $('#'+key+'-'+player.id).append($('<span> ').css('padding-right', '10px').append(position));
-                        });
-                    } break;
-                    case 'otherWeakPositions': {
-                        $(tr).append($('<td>').attr('id', key+'-'+player.id).hide());
-                        player.otherWeakPositions.forEach(function(position, index){
-                            $('#'+key+'-'+player.id).append($('<span> ').css('padding-right', '10px').append(position));
-                        });
-                    } break;
-                    default: $(tr).append($('<td>').attr('id', key+'-'+player.id).append(player[key]).hide());
-                }
-            });
+function getPlayersAndFillTable(page){
+    $.get('/player/'+ page +'/page', function(data){
+        $('#tab-body').empty();
+        data.forEach(function(player, index){
+                var keys = Object.keys(player);
+                var tr = document.createElement('tr');
+                if(player.myPlayer) $(tr).addClass('table-success');
+                $('#tab-body').append($(tr).append($('<td>').attr('id', 'id-value').append('').hide())
+                                          .append($('<td>').attr('id', 'playerName').append(''))
+                                          .append($('<td>').attr('id', 'age').css('width', '10%').append(''))
+                                          .append($('<td>').attr('id', 'position').css('width', '11%').append(''))
+                                          .append($('<td>').attr('id', 'overall').css('width', '10%').append(''))
+                                          .append($('<td>').attr('id', 'psmlValue').css('text-align', 'right').css('padding-right', '3.5%').css('width', '20%').append(''))
+                                          .append($('<td>').attr('id', 'tmCurrentValue').css('text-align', 'right').css('padding-right', '4.5%').css('width', '20%').append(''))
+                                          .append($('<td>').attr('id', 'arrow').css('width', '5%').append($(' <i>').addClass(getArrowBasedOnRelation(player.psmlValue, player.tmCurrentValue)))));
+                keys.forEach(function(key){
+                    switch(key){
+                        case 'id': $('#id-value').append(player.id); break;
+                        case 'playerName': $('#playerName').attr('id', key+'-'+player.id).append(player.playerName + ' ').append($('<a>').attr('href', '/player/'+ player.id +'/show').attr('target', '_blank').append($('<i>').addClass('fas fa-external-link-alt').css('color', 'black'))); break;
+                        case 'age': $('#age').attr('id', key+'-'+player.id).append(player.age); break;
+                        case 'position': $('#position').attr('id', key+'-'+player.id).append(player.position); break;
+                        case 'overall': $('#overall').attr('id', key+'-'+player.id).append(player.overall); break;
+                        case 'psmlValue': $('#psmlValue').attr('id', key+'-'+player.id).append(formatPlayerValue(player.psmlValue)); break;
+                        case 'tmCurrentValue': $('#tmCurrentValue').attr('id', key+'-'+player.id).append(formatPlayerValue(player.tmCurrentValue) + ' '); break;
+                        case 'otherStrongPositions': {
+                            $(tr).append($('<td>').attr('id', key+'-'+player.id).hide());
+                            player.otherStrongPositions.forEach(function(position, index){
+                                $('#'+key+'-'+player.id).append($('<span> ').css('padding-right', '10px').append(position));
+                            });
+                        } break;
+                        case 'otherWeakPositions': {
+                            $(tr).append($('<td>').attr('id', key+'-'+player.id).hide());
+                            player.otherWeakPositions.forEach(function(position, index){
+                                $('#'+key+'-'+player.id).append($('<span> ').css('padding-right', '10px').append(position));
+                            });
+                        } break;
+                        default: $(tr).append($('<td>').attr('id', key+'-'+player.id).append(player[key]).hide());
+                    }
+                });
+        });
     });
 }
 
@@ -78,8 +74,7 @@ function setListenersOnRows(){
         fillPsmlInfo(this);
         fillPesDbInfo(this);
         fillWhoScoredInfo(this);
-//        setBackgroundColorOnUserPlayers(jsonData, this);
-//        setUrlsOnBadges(selectedPlayer);
+        setBackgroundColorOnSelectedPlayer(this);
     });    
 }
 
@@ -88,15 +83,20 @@ function fillTransfermarkInfo(selectedPlayerTr){
     $('#nationalTeam').append($(selectedPlayerTr).find('td[id*=nationalTeam]').text());
     $('#clubTeam').append($(selectedPlayerTr).find('td[id*=clubTeam]').text());
     $('#contractUntil').append($(selectedPlayerTr).find('td[id*=contractUntil]').text());
-    $('#tmValue').append($(selectedPlayerTr).find('td[id*=tmValue]').text());
-//    $('#tm #lastMeasured').empty();
-//    $('#tm #lastMeasured').append('(' + transfermarktInfo.lastMeasured + ')');
+    $('#tmCurrentValue').append($(selectedPlayerTr).find('td[id*=tmCurrentValue]').text());
+    $('#tmValueLastChanged').append($(selectedPlayerTr).find('td[id*=tmValueLastChanged]').text());
+    $('#tmValueLastCheck').empty();
+    $('#tmValueLastCheck').append('(' + $(selectedPlayerTr).find('td[id*=tmValueLastCheck]').text() + ')');
 }
 
 function fillPsmlInfo(selectedPlayerTr){
     $('#psml tr td:nth-of-type(2)').empty();
     $('#psmlTeam').append($(selectedPlayerTr).find('td[id*=psmlTeam]').text());
     $('#psmlValue').append($(selectedPlayerTr).find('td[id*=psmlValue]').text());
+    $('#psmlLastTransferFromTeam').append($(selectedPlayerTr).find('td[id*=psmlLastTransferFromTeam]').text());
+    $('#psmlLastTransferToTeam').append($(selectedPlayerTr).find('td[id*=psmlLastTransferToTeam]').text());
+    $('#psmlLastTransferFee').append(formatPlayerValue($(selectedPlayerTr).find('td[id*=psmlLastTransferFee]').text()));
+    $('#psmlLastTransferDate').append($(selectedPlayerTr).find('td[id*=psmlLastTransferDate]').text());
     $('#psmlLastCheck').empty();
     $('#psmlLastCheck').append('(' + $(selectedPlayerTr).find('td[id*=psmlLastCheck]').text() + ')');
 }
@@ -187,27 +187,12 @@ function setColorOnPositions(){
     });
 }
 
-function setBackgroundColorOnUserPlayers(jsonData, selectedRow){
-    var rows = document.querySelectorAll('#left tbody tr');
-    rows.forEach(function(row){
-        row.removeAttribute('selected');
-        row.className = '';
-        row.style.fontWeight = 'normal';
-        var rowId = parseInt(row.querySelector('td:nth-of-type(1)').textContent);
-        for(var i = 0; i < jsonData.length; i++){
-            if(jsonData[i].id === rowId && jsonData[i].myPlayer){
-                row.className = 'table-success';
-                break;
-            }
-        }
-    });
-    $(selectedRow).removeClass('table-success');
-    $(selectedRow).css('font-weight', 'bold');
-    $(selectedRow).attr('selected', 'true');
-    $(selectedRow).addClass('table-danger');
+function setBackgroundColorOnSelectedPlayer(selectedPlayer){
+    $('#left tbody tr').removeClass('table-danger').attr('selected', 'false').css('font-weight', 'normal');
+    $(selectedPlayer).addClass('table-danger').attr('selected', 'true').css('font-weight', 'bold');
 }
 
-function setUrlsOnBadges(selectedPlayer){
+function setUrlsOnMeasureBadges(selectedPlayer){
     $('#tm h6 span.badge').attr('data-url', '/player/transfermarkt/' + selectedPlayer.id);
     $('#psml h6 span.badge').attr('data-url', '/player/psml/' + selectedPlayer.id);
     $('#pesDb h6 span.badge').attr('data-url', '/player/pesdb/' + selectedPlayer.id);
@@ -264,18 +249,49 @@ function setListenersOnBadges(){
     });
 }
 
-function setSortByPositionAscOnBadge(){
-    $('#position span.badge:has(i.fa-sort-asc)').on('click', function(){
-        var playerList = $('#tab-body tr').get();
-        playerList.sort(function(a, b){
-            var aPositionNumberValue = parseInt(a.querySelector('td:nth-of-type(4)').getAttribute('position-value'));
-            var bPositionNumberValue = parseInt(b.querySelector('td:nth-of-type(4)').getAttribute('position-value'));
-            return aPositionNumberValue - bPositionNumberValue;
-        });
-        $('#tab-body').empty();
-        for (var i = 0; i < playerList.length; i++) {
-            $('#tab-body').append(playerList[i]);        
-        }
+function setSortByPositionOnBadge(){
+    $('#position-badge-asc').on('click', function(){
+        sortPlayerTableByPosition('asc');
+    });
+
+    $('#position-badge-desc').on('click', function(){
+        sortPlayerTableByPosition('desc');
+    });
+}
+
+function setSortByAgeOnBadge(){
+    $('#age-badge-asc').on('click', function(){
+        sortPlayerTableByNumber('age', 'asc');
+    });
+    $('#age-badge-desc').on('click', function(){
+        sortPlayerTableByNumber('age', 'desc');
+    });
+}
+
+function setSortByOverallOnBadge(){
+    $('#overall-badge-asc').on('click', function(){
+        sortPlayerTableByNumber('overall', 'asc');
+    });
+    $('#overall-badge-desc').on('click', function(){
+        sortPlayerTableByNumber('overall', 'desc');
+    });
+}
+
+function setSortByPsmlValueOnBadge(){
+    $('#psmlValue-badge-asc').on('click', function(){
+        sortPlayerTableByValue('psmlValue', 'asc');
+    });
+    $('#psmlValue-badge-desc').on('click', function(){
+        sortPlayerTableByValue('psmlValue', 'desc');
+    });
+}
+
+function setSortByTMValueOnBadge(){
+    $('#tmCurrentValue-badge-asc').on('click', function(){
+        sortPlayerTableByValue('tmCurrentValue', 'asc');
+    });
+    $('#tmCurrentValue-badge-desc').on('click', function(){
+        sortPlayerTableByValue('tmCurrentValue', 'desc');
     });
 }
 
@@ -313,9 +329,12 @@ function updateDataScriptPsml(currentPlayer, updatedPlayer){
 }
 
 function getArrowBasedOnRelation(psmlValue, tmValue){
-    if(psmlValue === tmValue){
+    var psmlValueNumber = Number.parseFloat(psmlValue);
+    var tmValueNumber = Number.parseFloat(tmValue);
+    if(psmlValueNumber === 0.00 || tmValueNumber === 0.00) return '';
+    if(psmlValueNumber === tmValueNumber){
         return 'fas fa-minus-square';
-    } else if(psmlValue > tmValue){
+    } else if(psmlValueNumber > tmValueNumber){
         return 'fas fa-arrow-circle-down';
     } else {
         return 'fas fa-arrow-circle-up';
@@ -410,18 +429,112 @@ function removeLoadingSpinner(){
 }
 
 function showAllPlayers(){
-    var jsonData = JSON.parse(document.querySelector('#jsonData').textContent);
-    fillTableWithPlayers(jsonData);
+    $('#tab-body tr').css('display', '');
 }
 
 function showMyPlayers(){
-    var jsonData = JSON.parse(document.querySelector('#jsonData').textContent);
-    var myPlayers = jsonData.filter(player => player.myPlayer);
-    fillTableWithPlayers(myPlayers);
+    var playerList = $('#tab-body tr').get();
+    playerList.forEach(function(player){
+        if($(player).find('td[id*=myPlayer]').text()){
+            $(player).css('display', '');
+        } else {
+            $(player).css('display', 'none');
+        }
+    });
 }
 
 function showFreePlayers(){
-    var jsonData = JSON.parse(document.querySelector('#jsonData').textContent);
-    var freePlayers = jsonData.filter(player => player.psmlInfoList[player.psmlInfoList.length-1].teamName === 'FA');
-    fillTableWithPlayers(freePlayers);
+    var playerList = $('#tab-body tr').get();
+    playerList.forEach(function(player){
+        if($(player).find('td[id*=psmlTeam]').text() === 'Free'){
+            $(player).css('display', '');
+        } else {
+            $(player).css('display', 'none');
+        }
+    });
+}
+
+function sortPlayerTableByNumber(orderBy, order){
+    var playerList = $('#tab-body tr').get();
+    playerList.sort(function(a, b){
+        var a = parseInt($(a).find('td[id*='+orderBy+']').text());
+        var b = parseInt($(b).find('td[id*='+orderBy+']').text());
+        if(order === 'asc'){
+            return a - b;
+        } else if(order === 'desc'){
+            return b - a;
+        }
+    });
+    $('#tab-body').empty();
+    $('#tab-body').append(playerList);
+}
+
+function sortPlayerTableByPosition(order){
+    var playerList = $('#tab-body tr').get();
+    playerList.sort(function(a, b){
+        var aPositionNumber = parseInt(getPositionNumber($(a).find('td[id*=position]').text()));
+        var bPositionNumber = parseInt(getPositionNumber($(b).find('td[id*=position]').text()));
+        if(order === 'asc'){
+            return aPositionNumber - bPositionNumber;
+        } else if(order === 'desc'){
+            return bPositionNumber - aPositionNumber;
+        }
+    });
+    $('#tab-body').empty();
+    $('#tab-body').append(playerList);
+}
+
+function sortPlayerTableByValue(orderBy, order){
+    var playerList = $('#tab-body tr').get();
+        playerList.sort(function(a, b){
+            var x = parseInt($(a).find('td[id*='+orderBy+']').text().replace(/[^0-9]/g, ''));
+            var y = parseInt($(b).find('td[id*='+orderBy+']').text().replace(/[^0-9]/g, ''));
+            if(order === 'asc'){
+                if(x === y){
+                    if(orderBy === 'psmlValue'){
+                        var c = parseInt($(a).find('td[id*=tmCurrentValue]').text().replace(/[^0-9]/g, ''));
+                        var d = parseInt($(b).find('td[id*=tmCurrentValue]').text().replace(/[^0-9]/g, ''));
+                        return c - d;
+                    } else if(orderBy === 'tmCurrentValue'){
+                    var c = parseInt($(a).find('td[id*=psmlValue]').text().replace(/[^0-9]/g, ''));
+                    var d = parseInt($(b).find('td[id*=psmlValue]').text().replace(/[^0-9]/g, ''));
+                    return c - d;
+                    }
+                }
+                return x - y;
+            } else if(order === 'desc'){
+                if(x === y){
+                    if(orderBy === 'psmlValue'){
+                        var c = parseInt($(a).find('td[id*=tmCurrentValue]').text().replace(/[^0-9]/g, ''));
+                        var d = parseInt($(b).find('td[id*=tmCurrentValue]').text().replace(/[^0-9]/g, ''));
+                        return d - c;
+                    } else if(orderBy === 'tmCurrentValue'){
+                        var c = parseInt($(a).find('td[id*=psmlValue]').text().replace(/[^0-9]/g, ''));
+                        var d = parseInt($(b).find('td[id*=psmlValue]').text().replace(/[^0-9]/g, ''));
+                        return d - c;
+                    }
+                }
+                return y - x;
+            }
+        });
+        $('#tab-body').empty();
+        $('#tab-body').append(playerList);
+}
+
+function getPositionNumber(position){
+    switch(position){
+        case 'GK': return 1; break;
+        case 'CB': return 2; break;
+        case 'LB': return 3; break;
+        case 'RB': return 4; break;
+        case 'DMF': return 5; break;
+        case 'CMF': return 6; break;
+        case 'LMF': return 7; break;
+        case 'RMF': return 8; break;
+        case 'AMF': return 9; break;
+        case 'LWF': return 10; break;
+        case 'RWF': return 11; break;
+        case 'SS': return 12; break;
+        case 'CF': return 13; break;
+    }
 }
