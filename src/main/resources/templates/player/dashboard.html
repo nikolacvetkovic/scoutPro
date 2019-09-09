@@ -46,7 +46,7 @@
 
     <div th:replace="~{fragments/mainContainer :: main(~{::div#dashboard})}">
         <div id="dashboard" class="row">
-            <div class="col-lg-6 my-2" >
+            <div class="col-lg-6 my-2" style="margin-bottom: 0!important;">
                 <div class="text-center">
                     <button id="allPlayersButton" class="btn" style="background-color: rgba(61, 201, 179, 1); border-color: rgba(61, 201, 179, 1); color:rgba(255, 255, 255, 0.8);">All Players
                     </button>
@@ -55,64 +55,73 @@
                     <button id="freePlayersButton" class="btn" style="background-color: rgba(61, 201, 179, 1); border-color: rgba(61, 201, 179, 1); color: rgba(255, 255, 255, 0.8);">Free Players
                     </button>
                 </div>
-            <div id="left" style="overflow: scroll;overflow-x: hidden; padding-left: 0; padding-right: 0;">
-                <table class="table table-hover table-scroll" style="margin-bottom: 0">
-                    <thead>
-                    <tr>
-                        <th class="">Name</th>
-                        <th class="" style="width: 10%">
-                            Age
-                            <span class="badge badge-primary">
-                                    <i class="fas fa-sort-down"></i>
-                            </span><span class="badge badge-primary">
-                                <i class="fas fa-sort-up"></i>
-                            </span>
-                        </th>
-                        <th style="width: 14%">
-                            Position
-                            <span class="badge badge-primary">
-                                    <i class="fas fa-sort-down"></i>
-                                </span><span class="badge badge-primary">
+                <div id="left" style="overflow: scroll;overflow-x: hidden; padding-left: 0; padding-right: 0;">
+                    <table class="table table-hover table-scroll" style="margin-bottom: 0">
+                        <thead>
+                        <tr>
+                            <th class="" style="width: 25%">
+                                Name
+                                <span class="badge badge-primary">
+                                        <i class="fas fa-sort-up"></i>
+                                    </span><span class="badge badge-primary">
+                                        <i class="fas fa-sort-down"></i>
+                                    </span>
+                            </th>
+                            <th class="" style="width: 10%">
+                                Age
+                                <span id="age-badge-asc" class="badge badge-primary">
                                     <i class="fas fa-sort-up"></i>
+                                </span><span id="age-badge-desc" class="badge badge-primary">
+                                        <i class="fas fa-sort-down"></i>
                                 </span>
-                        </th>
-                        <th class="" style="width: 13%">
-                            Overall
-                            <span class="badge badge-primary">
-                                    <i class="fas fa-sort-down"></i>
-                                </span><span class="badge badge-primary">
-                                    <i class="fas fa-sort-up"></i>
-                                </span>
-                        </th>
-                        <th class="">
-                            Psml Value
-                            <span class="badge badge-primary">
-                                    <i class="fas fa-sort-down"></i>
-                                </span><span class="badge badge-primary">
-                                    <i class="fas fa-sort-up"></i>
-                                </span>
-                        </th>
-                        <th class="">
-                            TM Value
-                            <span class="badge badge-primary">
-                                    <i class="fas fa-sort-down"></i>
-                                </span><span class="badge badge-primary">
-                                    <i class="fas fa-sort-up"></i>
-                                </span>
-                        </th>
-                    </tr>
-                    </thead>
-
-                    <tbody id="tab-body"></tbody>
-                </table>
-            </div>
+                            </th>
+                            <th style="width: 13%">
+                                Position
+                                <span id="position-badge-asc" class="badge badge-primary">
+                                        <i class="fas fa-sort-up"></i>
+                                    </span><span id="position-badge-desc" class="badge badge-primary">
+                                        <i class="fas fa-sort-down"></i>
+                                    </span>
+                            </th>
+                            <th class="" style="width: 12%">
+                                Overall
+                                <span id="overall-badge-asc" class="badge badge-primary">
+                                        <i class="fas fa-sort-up"></i>
+                                    </span><span id="overall-badge-desc" class="badge badge-primary">
+                                        <i class="fas fa-sort-down"></i>
+                                    </span>
+                            </th>
+                            <th class="" style="width: 20%">
+                                Psml Value
+                                <span id="psmlValue-badge-asc" class="badge badge-primary">
+                                        <i class="fas fa-sort-up"></i>
+                                    </span><span id="psmlValue-badge-desc" class="badge badge-primary">
+                                        <i class="fas fa-sort-down"></i>
+                                    </span>
+                            </th>
+                            <th class="" style="width: 20%">
+                                TM Value
+                                <span id="tmCurrentValue-badge-asc" class="badge badge-primary">
+                                        <i class="fas fa-sort-up"></i>
+                                    </span><span id="tmCurrentValue-badge-desc" class="badge badge-primary">
+                                        <i class="fas fa-sort-down"></i>
+                                    </span>
+                            </th>
+                            <th class="" style="width: 5%">
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="tab-body"></tbody>
+                    </table>
+                </div>
+                <div id="pages" class="text-center"><span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span></div>
             </div>
             <div id="right-side" class="col-lg-6 my-2">
                 <div id="right" style="overflow: scroll;overflow-x: hidden;">
                     <div class="row" style="width: 99%;">
-                        <div id="tm" class="col-lg-6" style="border-right-style: solid; border-width: 2px; margin-bottom: 10px;">
-                            <h6>Transfermarkt Info <span id="lastMeasured" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
-                            <hr style="width: 70%;">
+                        <div id="tm" class="col-lg-6" style="border-right-style: solid; border-width: 2px;">
+                            <h6>Transfermarkt Info <span id="tmValueLastCheck" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
+                            <hr style="width: 83%;">
                             <div class="row">
                                 <div class="col-sm-12 col-lg-12">
                                     <table class="table table-hover">
@@ -131,20 +140,20 @@
                                         </tr>
                                         <tr>
                                             <td>Current value</td>
-                                            <td id="tmValue"></td>
+                                            <td id="tmCurrentValue"></td>
                                         </tr>
                                         <tr>
                                             <td>Value last changed</td>
-                                            <td id="lastChangedCurrentValue"></td>
+                                            <td id="tmValueLastChanged"></td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        <div id="psml" class="col-lg-6">
+                        <div id="psml" class="col-lg-6" style="margin-bottom: 10px;">
                             <h6>Psml Info <span id="psmlLastCheck" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
-                            <hr style="width: 70%;">
+                            <hr style="width: 83%;">
                             <div class="row">
                                 <div class="col-sm-12 col-lg-12">
                                     <table class="table table-hover">
@@ -156,6 +165,22 @@
                                         <tr>
                                             <td>Psml value</td>
                                             <td id="psmlValue"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Last transfer from</td>
+                                            <td id="psmlLastTransferFromTeam"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Last transfer to</td>
+                                            <td id="psmlLastTransferToTeam"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Last transfer fee</td>
+                                            <td id="psmlLastTransferFee"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Last transfer date</td>
+                                            <td id="psmlLastTransferDate"></td>
                                         </tr>
                                         </tbody>
                                     </table>
