@@ -16,12 +16,12 @@ public class AppUserPlayer {
     @EmbeddedId
     private AppUserPlayerId appUserPlayerId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
     @JoinColumn(name = "app_user_id")
     private AppUser appUser;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("playerId")
     private Player player;
 
