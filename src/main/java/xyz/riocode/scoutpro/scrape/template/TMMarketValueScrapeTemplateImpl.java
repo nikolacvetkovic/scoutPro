@@ -10,6 +10,7 @@ import xyz.riocode.scoutpro.model.Player;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -64,6 +65,8 @@ public class TMMarketValueScrapeTemplateImpl extends SimpleAbstractScrapeTemplat
             mv.setPlayer(player);
             player.getMarketValues().add(mv);
         }
+
+        player.setMarketValueLastCheck(LocalDateTime.now());
 
         return player;
     }

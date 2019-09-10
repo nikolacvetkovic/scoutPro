@@ -17,6 +17,7 @@ import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class StatisticsScrapeTemplateImpl extends WebDriverAbstractScrapeTemplate {
@@ -29,13 +30,13 @@ public class StatisticsScrapeTemplateImpl extends WebDriverAbstractScrapeTemplat
 
     @Override
     public Player scrape(Player player, Document page) {
-        scrapeCompetitionStatistisc(page, player);
+        scrapeCompetitionStatistics(page, player);
         scrapePositionStatistics(page, player);
         scrapeGameStatistics(page, player);
         return player;
     }
 
-    private void scrapeCompetitionStatistisc(Document doc, Player player){
+    private void scrapeCompetitionStatistics(Document doc, Player player){
         Elements table = ScrapeHelper.getElements(doc, "div#statistics-table-summary tbody#player-table-statistics-body tr");
         for (int i = 0; i < table.size(); i++) {
             CompetitionStatistic competitionStatistic = null;
@@ -47,6 +48,7 @@ public class StatisticsScrapeTemplateImpl extends WebDriverAbstractScrapeTemplat
             competitionStatistic.setPlayer(player);
             player.getCompetitionStatistics().add(competitionStatistic);
         }
+        player.setStatisticLastCheck(LocalDateTime.now());
     }
 
     private void scrapePositionStatistics(Document doc, Player player){

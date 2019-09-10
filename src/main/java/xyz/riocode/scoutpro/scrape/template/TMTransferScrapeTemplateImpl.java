@@ -8,6 +8,7 @@ import xyz.riocode.scoutpro.model.Transfer;
 import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -43,6 +44,7 @@ public class TMTransferScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
             transfer.setPlayer(player);
             player.getTransfers().add(transfer);
         }
+        player.setTransferLastCheck(LocalDateTime.now());
         return player;
     }
 
