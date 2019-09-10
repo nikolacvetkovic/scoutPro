@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import xyz.riocode.scoutpro.converter.PlayerConverter;
 import xyz.riocode.scoutpro.dto.PlayerDashboardDTO;
 import xyz.riocode.scoutpro.dto.PlayerFormDTO;
@@ -42,25 +43,6 @@ public class PlayerController {
         return "player/playerForm";
     }
 
-    @PostMapping("/player/new")
-    public String saveNewPlayerAndAddToUser(@Valid PlayerFormDTO player, BindingResult bindingResult){
-        if(bindingResult.hasErrors()) return "playerForm";
-        playerService.createAndAddToUser(playerConverter.playerFormDTOToPlayer(player, "cvele"), "cvele");
-        return "redirect:/dashboard";
-    }
-
-//    @GetMapping("/{playerId}/add")
-//    public ResponseEntity addExistingPlayerToUser(@PathVariable Long playerId){
-//        playerService.addToUser(playerId, "cvele");
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
-
-    @GetMapping(value = "/player/{pageNumber}/page", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Set<PlayerDashboardDTO>> getPlayers(@PathVariable int pageNumber){
-        log.info("Get players by page number: {}", pageNumber);
-        return new ResponseEntity<>(playerConverter.playerToPlayerDashboardDTO(playerService.getByUserPaging("cvele", pageNumber), "cvele"), HttpStatus.OK);
-    }
-
     @GetMapping("/player/{playerId}/edit")
     public String showPlayerFormForEdit(@PathVariable Long playerId, ModelMap modelMap){
         PlayerFormDTO foundPlayer = playerConverter.playerToPlayerFormDTO(playerService.getByIdAndUser(playerId, "cvele"), "cvele");
@@ -68,11 +50,23 @@ public class PlayerController {
         return "player/playerForm";
     }
 
-    @PostMapping("/player/edit")
-    public String update(@Valid PlayerFormDTO playerFormDTO, BindingResult bindingResult){
+    @PostMapping("/player")
+    public String saveNewPlayerAndAddToUser(@Valid PlayerFormDTO player, BindingResult bindingResult){
         if(bindingResult.hasErrors()) return "playerForm";
-        playerService.update(playerConverter.playerFormDTOToPlayer(playerFormDTO, "cvele"), "cvele");
+        playerService.createOrUpdate(playerConverter.playerFormDTOToPlayer(player), "cvele");
         return "redirect:/dashboard";
+    }
+
+    @PostMapping("/player/{playerId}/add")
+    public ResponseEntity addExistingPlayerToUser(@PathVariable Long playerId, @RequestParam Boolean isUserPlayer){
+        playerService.addExistingPlayerToUser(playerId, isUserPlayer, "cvele");
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/player/{pageNumber}/page", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Set<PlayerDashboardDTO>> getPlayers(@PathVariable int pageNumber){
+        log.info("Get players by page number: {}", pageNumber);
+        return new ResponseEntity<>(playerConverter.playerToPlayerDashboardDTO(playerService.getByUserPaging("cvele", pageNumber), "cvele"), HttpStatus.OK);
     }
 
     @GetMapping(value = "/player/{playerId}", produces = MediaType.APPLICATION_JSON_VALUE)

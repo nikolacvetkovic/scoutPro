@@ -6,11 +6,10 @@ import java.util.Set;
 
 
 public interface PlayerService {
-    Player createAndAddToUser(Player player, String username);
-    //Player addToUser(List<Long> id, String username);
+    Player createOrUpdate(Player player, String username);
+    Player addExistingPlayerToUser(Long id, boolean isUserPlayer, String username);
     Player getByIdAndUser(Long id, String username);
     Set<Player> getByNameAndUser(String playerName, String username);
     Set<Player> getByUserPaging(String username, int page);
-    Player update(Player player, String username);
     void delete(Long playerId, String username);
 }
