@@ -15,7 +15,9 @@ public class PlayerDashboardDTO {
     private String playerName;
     private boolean myPlayer;
 
-    private String tmValue;
+    private String tmCurrentValue;
+    private String tmValueLastChanged;
+    private String tmValueLastCheck;
 
     private String age;
     private String nationalTeam;
