@@ -17,6 +17,7 @@ public class PlayerConverter{
     public PlayerFormDTO playerToPlayerFormDTO(Player player, String username) {
         PlayerFormDTO playerFormDTO = new PlayerFormDTO();
         playerFormDTO.setId(player.getId().toString());
+        playerFormDTO.setPlayerName(player.getPlayerName());
         playerFormDTO.setMyPlayer(player.getUsers().stream()
                 .filter(appUserPlayer -> appUserPlayer.getAppUser().getUsername().equals(username))
                 .map(AppUserPlayer::isMyPlayer)
@@ -30,13 +31,14 @@ public class PlayerConverter{
         return playerFormDTO;
     }
 
-    public Player playerFormDTOToPlayer(PlayerFormDTO playerDTO, String username){
+    public Player playerFormDTOToPlayer(PlayerFormDTO playerDTO){
         Player player = new Player();
-        player.setId(Long.valueOf(playerDTO.getId()));
+        if(playerDTO.getId() != null && playerDTO.getId().length() != 0) player.setId(Long.valueOf(playerDTO.getId()));
         AppUserPlayerId appUserPlayerId = new AppUserPlayerId();
         AppUserPlayer appUserPlayer = new AppUserPlayer();
         appUserPlayer.setAppUserPlayerId(appUserPlayerId);
         appUserPlayer.setMyPlayer(playerDTO.isMyPlayer());
+        appUserPlayer.setPlayer(player);
         player.getUsers().add(appUserPlayer);
         player.setTransfermarktUrl(playerDTO.getTransfermarktUrl());
         player.setWhoScoredUrl(playerDTO.getWhoScoredUrl());
@@ -50,6 +52,7 @@ public class PlayerConverter{
         Set<PlayerDashboardDTO> playerDashboardDTOS = new HashSet<>();
         for (Player player : players) {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").withLocale(Locale.US);
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.US);
             PlayerDashboardDTO playerDashboardDTO = new PlayerDashboardDTO();
             playerDashboardDTO.setId(player.getId().toString());
             playerDashboardDTO.setPlayerName(player.getPlayerName());
@@ -59,7 +62,9 @@ public class PlayerConverter{
                     .findFirst()
                     .get());
 
-            playerDashboardDTO.setTmValue(player.getMarketValues().stream().findFirst().get().getWorth().toString());
+            playerDashboardDTO.setTmCurrentValue(player.getMarketValues().stream().findFirst().get().getWorth().toString());
+            playerDashboardDTO.setTmValueLastChanged(player.getMarketValues().stream().findFirst().get().getDatePoint().format(dateFormatter));
+            playerDashboardDTO.setTmValueLastCheck(player.getMarketValueLastCheck().format(dateTimeFormatter));
             playerDashboardDTO.setAge(String.valueOf(player.getTransfermarktInfo().getAge()));
             playerDashboardDTO.setNationalTeam(player.getTransfermarktInfo().getNationalTeam());
             playerDashboardDTO.setClubTeam(player.getTransfermarktInfo().getClubTeam());
