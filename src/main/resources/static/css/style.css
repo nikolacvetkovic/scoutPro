@@ -66,18 +66,10 @@ span.lastMeasured {
 #right-side .table {
     margin-bottom: 3px;
 }
-
-#addplayer form {
-    margin-top: 100px;
-    height: 330px;
-    color: rgb(255, 255, 255);
-}
-
 .fa-external-link {
     font-size: 12px;
     color: #000;
 }
-
 .fa-arrow-circle-down {
     color: red;
 }
@@ -87,7 +79,6 @@ span.lastMeasured {
 #ws th{
     font-size: 12px;
 }
-
 #pesDb tr td:nth-of-type(1){
     width: 70%;
 }

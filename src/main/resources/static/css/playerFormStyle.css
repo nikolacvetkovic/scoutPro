@@ -1,0 +1,67 @@
+.container-fluid {
+    max-height: 100%;
+}
+#addplayer form {
+    margin-top: 60px;
+    height: 400px;
+    color: rgb(255, 255, 255);
+}
+label.col-form-label, #playerName{
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+}
+
+#playerName{
+    font-size: 1.1em;
+    font-style: italic;
+    text-decoration-line: underline;
+}
+input[type=checkbox] {
+    visibility: hidden;
+}
+.checkboxOne {
+    width: 110px;
+    height: 30px;
+    background: rgb(255, 255, 255);
+    margin: 5px 5px;
+
+    border-radius: 50px;
+    position: relative;
+}
+.checkboxOne:before{
+    content: 'Yes';
+    position: absolute;
+    top: 3px;
+    left: 13px;
+    height: 2px;
+    color: #26ca28;
+    font-size: 16px;
+}
+.checkboxOne:after {
+    content: 'No';
+    position: absolute;
+    top: 3px;
+    left: 74px;
+    height: 2px;
+    color: rgb(230, 0, 0);
+    font-size: 16px;
+}
+.checkboxOne label {
+    display: block;
+    width: 45px;
+    height: 20px;
+    border-radius: 50px;
+
+    transition: all .5s ease;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    z-index: 1;
+    left: 7px;
+    background: rgb(230, 0, 0);
+}
+.checkboxOne input[type=checkbox]:checked + label {
+    left: 55px;
+    background: #26ca28;
+}
+
