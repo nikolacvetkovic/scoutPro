@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 public class PlayerFormDTO {
 
     private String id;
+    private String playerName;
     private boolean myPlayer;
     @Pattern(regexp = "^(http(s)?://www\\.transfermarkt\\.com/.+/profil/spieler/)\\d+$", message = "Not valid Transfermarkt url")
     @Size(max = 256)
