@@ -76,7 +76,9 @@ public class PlayerController {
 
     @GetMapping("/player/{playerId}/show")
     public String show(@PathVariable Long playerId, ModelMap modelMap){
-        return "";
+        PlayerFormDTO foundPlayer = playerConverter.playerToPlayerFormDTO(playerService.getByIdAndUser(playerId, "cvele"), "cvele");
+        modelMap.addAttribute("player", foundPlayer);
+        return "player/showPlayer";
     }
 
     @GetMapping("/player/{playerName}/name")
