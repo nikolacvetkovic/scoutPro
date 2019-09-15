@@ -10,11 +10,204 @@
 <body>
 
     <div th:replace="~{fragments/mainContainer :: main(~{::div#showPlayer})}">
-        <div id="showPlayer" class="row">
-            <div class="col-lg-3"></div>
-            <div class="col-lg-3"></div>
-            <div class="col-lg-3"></div>
-            <div class="col-lg-3"></div>
+        <div id="showPlayer">
+            <div class="row">
+                <div class="col-lg-3">
+                    <span>Frank De Jong</span>
+                </div>
+                <div class="col-lg-3">
+                    <span>22</span>
+                </div>
+                <div class="col-lg-3">
+                    <span>CMF</span>
+                </div>
+                <div class="col-lg-3">
+                    <span>85</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-5">
+                    <div id="pesDb" class="col-lg-12" style="margin-top: 10px; margin-bottom: 10px;">
+                        <h6>PesDb Info <span id="pesDbLastCheck" style="font-size: 12px;"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
+                        <hr style="width: 38%;">
+                        <div class="row" style="">
+                            <div class="col-sm-4 col-lg-4" style="padding: 0">
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td>Name:</td>
+                                        <td id="pesDbPlayerName"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Team:</td>
+                                        <td id="pesDbTeamName"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Foot:</td>
+                                        <td id="foot"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Condition:</td>
+                                        <td id="weekCondition"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Primary position:</td>
+                                        <td id="primaryPosition"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Other position:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Strong</td>
+                                        <td id="otherStrongPositions"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Weak</td>
+                                        <td id="otherWeakPositions"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-4 col-lg-4">
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td>Attacking Prowess:</td>
+                                        <td id="attackingProwess"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ball Control:</td>
+                                        <td id="ballControl"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dribbling:</td>
+                                        <td id="dribbling"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Low Pass:</td>
+                                        <td id="lowPass"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lofted Pass:</td>
+                                        <td id="loftedPass"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Finishing:</td>
+                                        <td id="finishing"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Place Kicking:</td>
+                                        <td id="placeKicking"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Swerve:</td>
+                                        <td id="swerve"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Header:</td>
+                                        <td id="header"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Defensive Prowess:</td>
+                                        <td id="defensiveProwess"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ball Winning:</td>
+                                        <td id="ballWinning"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kicking Power:</td>
+                                        <td id="kickingPower"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Speed:</td>
+                                        <td id="speed"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Explosive Power:</td>
+                                        <td id="explosivePower"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Body Control:</td>
+                                        <td id="unwaveringBalance"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-4 col-lg-4">
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td>Physical Contact:</td>
+                                        <td id="physicalContact"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jump:</td>
+                                        <td id="jump"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Stamina:</td>
+                                        <td id="goalkeeping"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Goalkeeping:</td>
+                                        <td id="gkCatch"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Catching:</td>
+                                        <td id="clearing"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Clearing:</td>
+                                        <td id="reflexes"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Reflexes:</td>
+                                        <td id="coverage"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Coverage:</td>
+                                        <td id="stamina"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Weak Foot Usage:</td>
+                                        <td id="weakFootUsage"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Weak Foot Accuracy:</td>
+                                        <td id="weakFootAccuracy"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Form:</td>
+                                        <td id="form"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Injury Resistance:</td>
+                                        <td id="injuryResistance"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Overall Rating:</td>
+                                        <td id="overall"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
