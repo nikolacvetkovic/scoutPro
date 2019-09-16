@@ -25,6 +25,23 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     @Query("SELECT p FROM Player p JOIN FETCH p.users up JOIN FETCH up.appUser u WHERE p.id = :id AND u.username = :username")
     Optional<Player> findPlayerByIdAndUsername(Long id, String username);
 
+    @Query("SELECT p FROM Player p " +
+            " JOIN FETCH p.characteristic " +
+            " JOIN FETCH p.pesDbInfo " +
+            " JOIN FETCH p.transfermarktInfo "+
+            " JOIN FETCH p.psmlInfo psml "+
+            " LEFT JOIN FETCH psml.psmlTransfers " +
+            " LEFT JOIN FETCH p.transfers " +
+            " LEFT JOIN FETCH p.marketValues " +
+            " LEFT JOIN FETCH p.competitionStatistics " +
+            " LEFT JOIN FETCH p.positionStatistics " +
+            " LEFT JOIN FETCH p.gameStatistics " +
+            " JOIN FETCH p.users up " +
+            " JOIN FETCH up.appUser u " +
+            " WHERE p.id = :id" +
+            " AND u.username = :username ")
+    Optional<Player> findPlayerByIdAndUsernameComplete(Long id, String username);
+
     @Query("SELECT p FROM Player p JOIN FETCH p.users up JOIN FETCH up.appUser u WHERE p.playerName = :playerName AND u.username = :username")
     List<Player> findByPlayerNameAndUsername(String playerName, String username);
 

@@ -9,6 +9,7 @@ public interface PlayerService {
     Player createOrUpdate(Player player, String username);
     Player addExistingPlayerToUser(Long id, boolean isUserPlayer, String username);
     Player getByIdAndUser(Long id, String username);
+    Player getByIdAndUserComplete(Long id, String username);
     Set<Player> getByNameAndUser(String playerName, String username);
     Set<Player> getByUserPaging(String username, int page);
     void delete(Long playerId, String username);

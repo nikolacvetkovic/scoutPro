@@ -68,6 +68,11 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    public Player getByIdAndUserComplete(Long id, String username) {
+        return playerRepository.findPlayerByIdAndUsernameComplete(id, username).orElseThrow(PlayerNotFoundException::new);
+    }
+
+    @Override
     public Set<Player> getByNameAndUser(String playerName, String username) {
         return new HashSet<>(playerRepository.findByPlayerNameAndUsername(playerName, username));
     }
