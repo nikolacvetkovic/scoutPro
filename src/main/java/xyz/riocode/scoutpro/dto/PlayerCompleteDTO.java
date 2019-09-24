@@ -26,7 +26,9 @@ public class PlayerCompleteDTO {
     private String tmPosition;
 
     private List<TransferDTO> transferDTOS;
+    private String transferLastCheck;
     private List<MarketValueDTO> marketValueDTOS;
+    private String marketValueLastCheck;
 
     //ws
     private Set<String> strengths;
@@ -35,6 +37,7 @@ public class PlayerCompleteDTO {
     private List<CompetitionStatisticDTO> competitionStatisticDTOS;
     private List<PositionStatisticDTO> positionStatisticDTOS;
     private List<GameStatisticDTO> gameStatisticDTOS;
+    private String statisticLastCheck;
 
     //pesdb
     private String pesDbPlayerName;

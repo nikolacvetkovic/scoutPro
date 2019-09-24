@@ -177,11 +177,14 @@ public class PlayerConverter{
         playerCompleteDTO.setTmPosition(player.getTransfermarktInfo().getPosition());
 
         playerCompleteDTO.setTransferDTOS(transferConverter.transfersToTransferDTOs(player.getTransfers()));
+        playerCompleteDTO.setTransferLastCheck(player.getTransferLastCheck().format(dateTimeFormatter));
         playerCompleteDTO.setMarketValueDTOS(marketValueConverter.marketValuesToMarketValueDTOs(player.getMarketValues()));
+        playerCompleteDTO.setMarketValueLastCheck(player.getMarketValueLastCheck().format(dateTimeFormatter));
 
         playerCompleteDTO.setCompetitionStatisticDTOS(competitionStatisticConverter.competitionStatisticsToCompetitionStatisticDTOs(player.getCompetitionStatistics()));
         playerCompleteDTO.setPositionStatisticDTOS(positionStatisticConverter.positionStatisticsToPositionStatisticDTOs(player.getPositionStatistics()));
         playerCompleteDTO.setGameStatisticDTOS(gameStatisticConverter.gameStatisticsToGameStatisticDTOs(player.getGameStatistics()));
+        playerCompleteDTO.setStatisticLastCheck(player.getStatisticLastCheck().format(dateTimeFormatter));
         playerCompleteDTO.setStrengths(player.getCharacteristic().getStrengths());
         playerCompleteDTO.setWeaknesses(player.getCharacteristic().getWeaknesses());
         playerCompleteDTO.setStylesOfPlay(player.getCharacteristic().getStylesOfPlay());
