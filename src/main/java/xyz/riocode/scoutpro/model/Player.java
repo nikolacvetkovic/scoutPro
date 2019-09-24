@@ -44,6 +44,7 @@ public class Player implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private Set<MarketValue> marketValues = new HashSet<>();
 
+    @OrderBy("dateOfTransfer DESC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private Set<Transfer> transfers = new HashSet<>();
 
