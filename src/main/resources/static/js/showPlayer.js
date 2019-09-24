@@ -3,6 +3,7 @@ $(window).on('load', function() {
     setColorOnPositions();
     setCharacteristics();
     setCharts();
+    setGameStats();
 });
 
 function setColorOnRatings(){
@@ -76,12 +77,12 @@ function setCharts(){
                        }]
         },
         options: {
-            title:{
-                display: true,
-                text: 'Market Values',
-                fontSize: 16,
-                fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
-            },
+//            title:{
+//                display: true,
+//                text: 'Market Values',
+//                fontSize: 16,
+//                fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
+//            },
             scales:{
                 yAxes:[{
                     gridLines:{
@@ -115,6 +116,61 @@ function setCharts(){
             }
         }
     });
+}
+
+function setGameStats(){
+    var motms = $('#gameStats td[data-attribute=motm]').get();
+    motms.forEach(function(td){
+        if($(td).text()==='true'){
+            $(td).html('<i class="fas fa-star"></i>');
+        } else {
+            $(td).html('');
+        }
+    });
+
+    var goals = $('#gameStats td[data-attribute=goals]').get();
+    goals.forEach(function(td){
+    	var g = Number.parseInt($(td).text());
+    	var html = '';
+    	for(var i=0; i<g; i++){
+    		html+='<i class="far fa-futbol"></i>';
+    	}
+    	$(td).html(html);
+    });
+
+    var assists = $('#gameStats td[data-attribute=assists]').get();
+    assists.forEach(function(td){
+        var a = Number.parseInt($(td).text());
+        var html = '';
+        for(var i=0; i<a; i++){
+            html+='<i class="fab fa-adn"></i>';
+        }
+        $(td).html(html);
+    });
+
+    var yellowCards = $('#gameStats td[data-attribute=yellow]').get();
+    yellowCards.forEach(function(td){
+    	if($(td).text()==='true'){
+    	    $(td).html('<i class="fas fa-square"></i>');
+    	} else {
+    	    $(td).html('');
+    	}
+    });
+
+    var redCards = $('#gameStats td[data-attribute=red]').get();
+    redCards.forEach(function(td){
+        if($(td).text()==='true'){
+            $(td).html('<i class="fas fa-square"></i>');
+        } else {
+            $(td).html('');
+        }
+    });
+
+    var minutesPlayed = $('#gameStats td[data-attribute=minutesPlayed]').get();
+    minutesPlayed.forEach(function(m){
+        $(m).html($(m).text()+'"');
+    });
+
 }
 
 function formatPlayerValue(value){

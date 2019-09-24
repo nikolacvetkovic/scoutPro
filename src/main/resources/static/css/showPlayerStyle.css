@@ -45,14 +45,17 @@ span.badge {
     font-weight: 500;
     text-align: left;
 }
-#corePlayerData tr td:nth-of-type(2), #psmlData td:nth-of-type(2){
+#gameStats tr td:nth-of-type(3){
+    text-align: left;
+}
+#corePlayerData tr td:nth-of-type(2), #psmlData td:nth-of-type(2), #gameStats tr td:nth-of-type(5){
     text-align: right;
 }
 h6.separator{
     background-color: lightgray;
     margin-bottom: 10px;
 }
-#first-col #psmlTransfers tr td, #first-col #psmlTransfers tr th, #first-col #characteristics tr td{
+#first-col #psmlTransfers tr td, #first-col #psmlTransfers tr th, #first-col #characteristics tr td, #characteristics div.row div div:nth-of-type(1), #pesDb div.row:nth-of-type(2){
     text-align: center;
 }
 #psmlTransfers tbody tr td:nth-of-type(1), #characteristics tbody tr td:nth-of-type(1){
@@ -61,9 +64,22 @@ h6.separator{
 #psmlTransfers thead tr th, #positionStats thead th{
     font-weight: 500;
 }
-#characteristics div.row div div:nth-of-type(1), #pesDb div.row:nth-of-type(2){
-    text-align: center;
-}
 #characteristics, #playingStyle div:not(:first-child), #playerSkills div:not(:first-child), #comPlayingStyles div:not(:first-child), #competitionStats, #gameStats{
     font-size: 12px;
+}
+#gameStats td[data-attribute=yellow]{
+    color: yellow;
+}
+#gameStats td[data-attribute=red]{
+    color: red;
+}
+#gameStats td[data-attribute=motm]{
+    color: gold;
+}
+#gameStats tr td:last-child{
+    font-weight: bold;
+    color: rgb(168, 119, 50);
+}
+#playerCoreData button{
+    width: 40%;
 }
