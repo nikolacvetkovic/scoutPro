@@ -4,13 +4,14 @@ import org.springframework.stereotype.Component;
 import xyz.riocode.scoutpro.dto.CompetitionStatisticDTO;
 import xyz.riocode.scoutpro.model.CompetitionStatistic;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 public class CompetitionStatisticConverter {
 
-    public Set<CompetitionStatisticDTO> competitionStatisticsToCompetitionStatisticDTOs(Set<CompetitionStatistic> competitionStatistics){
+    public List<CompetitionStatisticDTO> competitionStatisticsToCompetitionStatisticDTOs(Set<CompetitionStatistic> competitionStatistics){
         return competitionStatistics.stream().map(competitionStatistic -> {
             CompetitionStatisticDTO competitionStatisticDTO = new CompetitionStatisticDTO();
             competitionStatisticDTO.setCompetition(competitionStatistic.getCompetition());
@@ -26,7 +27,7 @@ public class CompetitionStatisticConverter {
             competitionStatisticDTO.setManOfTheMatch(competitionStatistic.getManOfTheMatch());
             competitionStatisticDTO.setRating(competitionStatistic.getRating().toString());
             return competitionStatisticDTO;
-        }).collect(Collectors.toSet());
+        }).collect(Collectors.toList());
     }
 
 }

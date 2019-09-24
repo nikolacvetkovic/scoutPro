@@ -221,6 +221,9 @@ public class PlayerConverter{
         playerCompleteDTO.setForm(player.getPesDbInfo().getForm());
         playerCompleteDTO.setInjuryResistance(player.getPesDbInfo().getInjuryResistance());
         playerCompleteDTO.setOverall(player.getPesDbInfo().getOverallRating());
+        playerCompleteDTO.setPlayingStyle(player.getPesDbInfo().getPlayingStyle());
+        playerCompleteDTO.setPlayerSkills(player.getPesDbInfo().getPlayerSkills());
+        playerCompleteDTO.setComPlayingStyles(player.getPesDbInfo().getComPlayingStyles());
         playerCompleteDTO.setPesDbLastCheck(player.getPesDbInfo().getLastCheck().format(dateTimeFormatter));
 
         playerCompleteDTO.setPsmlTeam(player.getPsmlInfo().getPsmlTeam());

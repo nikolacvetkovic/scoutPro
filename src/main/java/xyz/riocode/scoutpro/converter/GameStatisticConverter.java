@@ -5,6 +5,7 @@ import xyz.riocode.scoutpro.dto.GameStatisticDTO;
 import xyz.riocode.scoutpro.model.GameStatistic;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 @Component
 public class GameStatisticConverter {
 
-    public Set<GameStatisticDTO> gameStatisticsToGameStatisticDTOs(Set<GameStatistic> gameStatistics) {
+    public List<GameStatisticDTO> gameStatisticsToGameStatisticDTOs(Set<GameStatistic> gameStatistics) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.US);
         return gameStatistics.stream().map(gameStatistic -> {
             GameStatisticDTO gameStatisticDTO = new GameStatisticDTO();
@@ -29,6 +30,6 @@ public class GameStatisticConverter {
             gameStatisticDTO.setManOfTheMatch(gameStatistic.isManOfTheMatch());
             gameStatisticDTO.setRating(gameStatistic.getRating().toString());
             return gameStatisticDTO;
-        }).collect(Collectors.toSet());
+        }).collect(Collectors.toList());
     }
 }

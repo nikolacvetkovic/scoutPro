@@ -5,6 +5,7 @@ import xyz.riocode.scoutpro.dto.TransferDTO;
 import xyz.riocode.scoutpro.model.Transfer;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 @Component
 public class TransferConverter {
 
-    public Set<TransferDTO> transfersToTransferDTOs(Set<Transfer> transfers){
+    public List<TransferDTO> transfersToTransferDTOs(Set<Transfer> transfers){
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.US);
         return transfers.stream().map(t -> {
             TransferDTO transferDTO = new TransferDTO();
@@ -22,7 +23,7 @@ public class TransferConverter {
             transferDTO.setMarketValue(t.getMarketValue());
             transferDTO.setTransferFee(t.getTransferFee());
             return transferDTO;
-        }).collect(Collectors.toSet());
+        }).collect(Collectors.toList());
     }
 
 }

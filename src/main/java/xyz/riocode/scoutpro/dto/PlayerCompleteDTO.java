@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -24,16 +25,16 @@ public class PlayerCompleteDTO {
     private String contractUntil;
     private String tmPosition;
 
-    private Set<TransferDTO> transferDTOS;
-    private Set<MarketValueDTO> marketValueDTOS;
+    private List<TransferDTO> transferDTOS;
+    private List<MarketValueDTO> marketValueDTOS;
 
     //ws
     private Set<String> strengths;
     private Set<String> weaknesses;
     private Set<String> stylesOfPlay;
-    private Set<CompetitionStatisticDTO> competitionStatisticDTOS;
-    private Set<PositionStatisticDTO> positionStatisticDTOS;
-    private Set<GameStatisticDTO> gameStatisticDTOS;
+    private List<CompetitionStatisticDTO> competitionStatisticDTOS;
+    private List<PositionStatisticDTO> positionStatisticDTOS;
+    private List<GameStatisticDTO> gameStatisticDTOS;
 
     //pesdb
     private String pesDbPlayerName;
@@ -79,6 +80,6 @@ public class PlayerCompleteDTO {
     //psml
     private String psmlTeam;
     private String psmlValue;
-    private Set<PsmlTransferDTO> psmlTransferDTOS;
+    private List<PsmlTransferDTO> psmlTransferDTOS;
     private String psmlLastCheck;
 }

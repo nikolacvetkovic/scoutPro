@@ -4,13 +4,14 @@ import org.springframework.stereotype.Component;
 import xyz.riocode.scoutpro.dto.PositionStatisticDTO;
 import xyz.riocode.scoutpro.model.PositionStatistic;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 public class PositionStatisticConverter {
 
-    public Set<PositionStatisticDTO> positionStatisticsToPositionStatisticDTOs(Set<PositionStatistic> positionStatistics){
+    public List<PositionStatisticDTO> positionStatisticsToPositionStatisticDTOs(Set<PositionStatistic> positionStatistics){
         return positionStatistics.stream().map(positionStatistic -> {
             PositionStatisticDTO positionStatisticDTO = new PositionStatisticDTO();
             positionStatisticDTO.setPosition(positionStatistic.getPosition());
@@ -19,6 +20,6 @@ public class PositionStatisticConverter {
             positionStatisticDTO.setAssists(positionStatistic.getAssists());
             positionStatisticDTO.setRating(positionStatistic.getRating().toString());
             return positionStatisticDTO;
-        }).collect(Collectors.toSet());
+        }).collect(Collectors.toList());
     }
 }
