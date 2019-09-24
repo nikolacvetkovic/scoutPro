@@ -1,18 +1,20 @@
-#playerCoreData {
-    font-size: 40px;
-}
-#playerCoreData td{
-    padding-left: 30px;
+body{
+    font-size: 13px;
 }
 h6 {
     text-align: center;
     margin-bottom: 0;
-    margin-top: 8px;
 }
 hr {
     margin-top: 0px;
     margin-bottom: 15px;
     border-bottom: 2px solid green;
+}
+#playerCoreData {
+    font-size: 40px;
+}
+#playerCoreData td{
+    padding-left: 30px;
 }
 table.table{
     margin-bottom: 0;
@@ -20,7 +22,7 @@ table.table{
 #pesDb tr td:nth-of-type(1){
     width: 70%;
 }
-#pesDb table tr td, #tm tr td{
+#pesDb table tr td, #first-col tr td, #first-col tr th, #transfers tr th, #transfers tr td, #competitionStats th, #competitionStats td, #gameStats td{
     padding: 0;
 }
 #overall {
@@ -29,22 +31,39 @@ table.table{
 .table td, .table th {
     margin-left: 0;
     margin-right: 0;
-    padding: 5px;
     text-align: center;
 }
 span.badge {
     cursor: pointer;
 }
-#tmWrapper{
+.wrapper{
+    padding: 10px 15px;
     border-bottom: solid green 2px;
-    padding: 20px;
     border-right: solid green 2px;
-    background-color: paleturquoise;
 }
-#tm table tr td:nth-of-type(1){
+#corePlayerData tr td:nth-of-type(1), #psmlData td:nth-of-type(1){
     font-weight: 500;
     text-align: left;
 }
-#tm table tr td:nth-of-type(2){
+#corePlayerData tr td:nth-of-type(2), #psmlData td:nth-of-type(2){
     text-align: right;
+}
+h6.separator{
+    background-color: lightgray;
+    margin-bottom: 10px;
+}
+#first-col #psmlTransfers tr td, #first-col #psmlTransfers tr th, #first-col #characteristics tr td{
+    text-align: center;
+}
+#psmlTransfers tbody tr td:nth-of-type(1), #characteristics tbody tr td:nth-of-type(1){
+    font-weight: normal;
+}
+#psmlTransfers thead tr th, #positionStats thead th{
+    font-weight: 500;
+}
+#characteristics div.row div div:nth-of-type(1), #pesDb div.row:nth-of-type(2){
+    text-align: center;
+}
+#characteristics, #playingStyle div:not(:first-child), #playerSkills div:not(:first-child), #comPlayingStyles div:not(:first-child), #competitionStats, #gameStats{
+    font-size: 12px;
 }
