@@ -61,7 +61,7 @@ h6.separator{
 #psmlTransfers tbody tr td:nth-of-type(1), #characteristics tbody tr td:nth-of-type(1){
     font-weight: normal;
 }
-#psmlTransfers thead tr th, #positionStats thead th{
+#psmlTransfers thead tr th, #positionStats thead th, #transfers th, #competitionStats th{
     font-weight: 500;
 }
 #characteristics, #playingStyle div:not(:first-child), #playerSkills div:not(:first-child), #comPlayingStyles div:not(:first-child), #competitionStats, #gameStats{
@@ -82,4 +82,7 @@ h6.separator{
 }
 #playerCoreData button{
     width: 40%;
+}
+#competitionStats tr:last-child{
+    font-weight: bold;
 }
