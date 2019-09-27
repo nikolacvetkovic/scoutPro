@@ -71,8 +71,8 @@ public class PesDbInfo implements Serializable {
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "attacking_prowess")
-    private int attackingProwess;
+    @Column(name = "offensive_awareness")
+    private int offensiveAwareness;
     @Basic(optional = false)
     @NotNull
     @Min(40)
@@ -85,6 +85,12 @@ public class PesDbInfo implements Serializable {
     @Max(99)
     @Column(name = "dribbling")
     private int dribbling;
+    @Basic(optional = false)
+    @NotNull
+    @Min(40)
+    @Max(99)
+    @Column(name = "tight_possession")
+    private int tightPossession;
     @Basic(optional = false)
     @NotNull
     @Min(40)
@@ -107,38 +113,20 @@ public class PesDbInfo implements Serializable {
     @NotNull
     @Min(40)
     @Max(99)
+    @Column(name = "heading")
+    private int heading;
+    @Basic(optional = false)
+    @NotNull
+    @Min(40)
+    @Max(99)
     @Column(name = "place_kicking")
     private int placeKicking;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "swerve")
-    private int swerve;
-    @Basic(optional = false)
-    @NotNull
-    @Min(40)
-    @Max(99)
-    @Column(name = "header")
-    private int header;
-    @Basic(optional = false)
-    @NotNull
-    @Min(40)
-    @Max(99)
-    @Column(name = "defensive_prowess")
-    private int defensiveProwess;
-    @Basic(optional = false)
-    @NotNull
-    @Min(40)
-    @Max(99)
-    @Column(name = "ball_winning")
-    private int ballWinning;
-    @Basic(optional = false)
-    @NotNull
-    @Min(40)
-    @Max(99)
-    @Column(name = "kicking_power")
-    private int kickingPower;
+    @Column(name = "curl")
+    private int curl;
     @Basic(optional = false)
     @NotNull
     @Min(40)
@@ -149,20 +137,14 @@ public class PesDbInfo implements Serializable {
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "explosive_power")
-    private int explosivePower;
+    @Column(name = "acceleration")
+    private int acceleration;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "unwavering_balance")
-    private int unwaveringBalance;
-    @Basic(optional = false)
-    @NotNull
-    @Min(40)
-    @Max(99)
-    @Column(name = "physical_contact")
-    private int physicalContact;
+    @Column(name = "kicking_power")
+    private int kickingPower;
     @Basic(optional = false)
     @NotNull
     @Min(40)
@@ -173,38 +155,68 @@ public class PesDbInfo implements Serializable {
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "goalkeeping")
-    private int goalkeeping;
+    @Column(name = "physical_contact")
+    private int physicalContact;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
-    @Column(name = "gk_catch")
-    private int gkCatch;
-    @Basic(optional = false)
-    @NotNull
-    @Min(40)
-    @Max(99)
-    @Column(name = "clearing")
-    private int clearing;
-    @Basic(optional = false)
-    @NotNull
-    @Min(40)
-    @Max(99)
-    @Column(name = "reflexes")
-    private int reflexes;
-    @Basic(optional = false)
-    @NotNull
-    @Min(40)
-    @Max(99)
-    @Column(name = "coverage")
-    private int coverage;
+    @Column(name = "balance")
+    private int balance;
     @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "stamina")
     private int stamina;
+    @Basic(optional = false)
+    @NotNull
+    @Min(40)
+    @Max(99)
+    @Column(name = "defensive_awareness")
+    private int defensiveAwareness;
+    @Basic(optional = false)
+    @NotNull
+    @Min(40)
+    @Max(99)
+    @Column(name = "ball_winning")
+    private int ballWinning;
+    @Basic(optional = false)
+    @NotNull
+    @Min(40)
+    @Max(99)
+    @Column(name = "aggression")
+    private int aggression;
+    @Basic(optional = false)
+    @NotNull
+    @Min(40)
+    @Max(99)
+    @Column(name = "gk_awareness")
+    private int gkAwareness;
+    @Basic(optional = false)
+    @NotNull
+    @Min(40)
+    @Max(99)
+    @Column(name = "gk_catching")
+    private int gkCatching;
+    @Basic(optional = false)
+    @NotNull
+    @Min(40)
+    @Max(99)
+    @Column(name = "gk_clearing")
+    private int gkClearing;
+    @Basic(optional = false)
+    @NotNull
+    @Min(40)
+    @Max(99)
+    @Column(name = "gk_reflexes")
+    private int gkReflexes;
+    @Basic(optional = false)
+    @NotNull
+    @Min(40)
+    @Max(99)
+    @Column(name = "gk_reach")
+    private int gkReach;
     @Basic(optional = false)
     @Min(1)
     @Max(4)

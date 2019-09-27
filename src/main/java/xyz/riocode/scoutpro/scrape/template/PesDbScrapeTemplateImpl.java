@@ -44,62 +44,66 @@ public class PesDbScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
     }
 
     private void scrapeRatings(Document doc, PesDbInfo pesDbInfo){
-        pesDbInfo.setAttackingProwess(
+        pesDbInfo.setOffensiveAwareness(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(1) td")));
         pesDbInfo.setBallControl(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(2) td")));
         pesDbInfo.setDribbling(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(3) td")));
-        pesDbInfo.setLowPass(
+        pesDbInfo.setTightPossession(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(4) td")));
-        pesDbInfo.setLoftedPass(
+        pesDbInfo.setLowPass(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(5) td")));
-        pesDbInfo.setFinishing(
+        pesDbInfo.setLoftedPass(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(6) td")));
-        pesDbInfo.setPlaceKicking(
+        pesDbInfo.setFinishing(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(7) td")));
-        pesDbInfo.setSwerve(
+        pesDbInfo.setHeading(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(8) td")));
-        pesDbInfo.setHeader(
+        pesDbInfo.setPlaceKicking(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(9) td")));
-        pesDbInfo.setDefensiveProwess(
+        pesDbInfo.setCurl(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(10) td")));
-        pesDbInfo.setBallWinning(
-                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(11) td")));
-        pesDbInfo.setKickingPower(
-                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(12) td")));
         pesDbInfo.setSpeed(
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(11) td")));
+        pesDbInfo.setAcceleration(
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(12) td")));
+        pesDbInfo.setKickingPower(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(13) td")));
-        pesDbInfo.setExplosivePower(
-                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(14) td")));
-        pesDbInfo.setUnwaveringBalance(
-                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(15) td")));
-        pesDbInfo.setPhysicalContact(
-                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(1) td")));
         pesDbInfo.setJump(
-                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(2) td")));
-        pesDbInfo.setGoalkeeping(
-                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(3) td")));
-        pesDbInfo.setGkCatch(
-                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(4) td")));
-        pesDbInfo.setClearing(
-                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(5) td")));
-        pesDbInfo.setReflexes(
-                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(6) td")));
-        pesDbInfo.setCoverage(
-                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(7) td")));
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(14) td")));
+        pesDbInfo.setPhysicalContact(
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(15) td")));
+        pesDbInfo.setBalance(
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(16) td")));
         pesDbInfo.setStamina(
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(1) td")));
+        pesDbInfo.setDefensiveAwareness(
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(2) td")));
+        pesDbInfo.setBallWinning(
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(3) td")));
+        pesDbInfo.setAggression(
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(4) td")));
+        pesDbInfo.setGkAwareness(
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(5) td")));
+        pesDbInfo.setGkCatching(
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(6) td")));
+        pesDbInfo.setGkClearing(
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(7) td")));
+        pesDbInfo.setGkReflexes(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(8) td")));
-        pesDbInfo.setWeakFootUsage(
+        pesDbInfo.setGkReach(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(9) td")));
-        pesDbInfo.setWeakFootAccuracy(
+        pesDbInfo.setWeakFootUsage(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(10) td")));
-        pesDbInfo.setForm(
+        pesDbInfo.setWeakFootAccuracy(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(11) td")));
-        pesDbInfo.setInjuryResistance(
+        pesDbInfo.setForm(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(12) td")));
+        pesDbInfo.setInjuryResistance(
+                Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(13) td")));
         pesDbInfo.setOverallRating(
-                Integer.parseInt(ScrapeHelper.getElementDataOwn(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(14) td")));
+                Integer.parseInt(ScrapeHelper.getElementDataOwn(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(15) td")));
     }
 
     private void scrapeAdditionalData(Document doc, PesDbInfo pesDbInfo){
