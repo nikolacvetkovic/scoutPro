@@ -14,7 +14,7 @@
             <div id="playerCoreData" class="row">
                 <div th:text="${player.playerName}+ '  (' +${player.age}+ ')'" class="col-lg-3"><span ></span></div>
                 <div id="mainPosition" th:text="${player.position}" class="col-lg-1"></div>
-                <div id="mainOverall" th:text="${player.overall}" class="col-lg-1"></div>
+                <div id="mainOverall" th:text="${player.overallRating}" class="col-lg-1"></div>
                 <div class="col-lg-5"></div>
                 <div class="col-lg-2" style="text-align: right;">
                     <button class="btn btn-info">Edit</button>
@@ -252,8 +252,8 @@
                                 <table class="table">
                                     <tbody>
                                     <tr>
-                                        <td>Attacking Prowess:</td>
-                                        <td id="attackingProwess" th:text="${player.attackingProwess}"></td>
+                                        <td>Offensive Awareness:</td>
+                                        <td id="offensiveAwareness" th:text="${player.offensiveAwareness}"></td>
                                     </tr>
                                     <tr>
                                         <td>Ball Control:</td>
@@ -262,6 +262,10 @@
                                     <tr>
                                         <td>Dribbling:</td>
                                         <td id="dribbling" th:text="${player.dribbling}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tight Possession:</td>
+                                        <td id="tightPossession" th:text="${player.tightPossession}"></td>
                                     </tr>
                                     <tr>
                                         <td>Low Pass:</td>
@@ -276,40 +280,40 @@
                                         <td id="finishing" th:text="${player.finishing}"></td>
                                     </tr>
                                     <tr>
+                                        <td>Heading:</td>
+                                        <td id="heading" th:text="${player.heading}"></td>
+                                    </tr>
+                                    <tr>
                                         <td>Place Kicking:</td>
                                         <td id="placeKicking" th:text="${player.placeKicking}"></td>
                                     </tr>
                                     <tr>
-                                        <td>Swerve:</td>
-                                        <td id="swerve" th:text="${player.swerve}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Header:</td>
-                                        <td id="header" th:text="${player.header}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Defensive Prowess:</td>
-                                        <td id="defensiveProwess" th:text="${player.defensiveProwess}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ball Winning:</td>
-                                        <td id="ballWinning" th:text="${player.ballWinning}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Kicking Power:</td>
-                                        <td id="kickingPower" th:text="${player.kickingPower}"></td>
+                                        <td>Curl:</td>
+                                        <td id="curl" th:text="${player.curl}"></td>
                                     </tr>
                                     <tr>
                                         <td>Speed:</td>
                                         <td id="speed" th:text="${player.speed}"></td>
                                     </tr>
                                     <tr>
-                                        <td>Explosive Power:</td>
-                                        <td id="explosivePower" th:text="${player.explosivePower}"></td>
+                                        <td>Acceleration:</td>
+                                        <td id="acceleration" th:text="${player.acceleration}"></td>
                                     </tr>
                                     <tr>
-                                        <td>Body Control:</td>
-                                        <td id="unwaveringBalance" th:text="${player.unwaveringBalance}"></td>
+                                        <td>Kicking Power:</td>
+                                        <td id="kickingPower" th:text="${player.kickingPower}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jump:</td>
+                                        <td id="jump" th:text="${player.jump}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Physical Contact:</td>
+                                        <td id="physicalContact" th:text="${player.physicalContact}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Balance:</td>
+                                        <td id="balance" th:text="${player.balance}"></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -318,36 +322,40 @@
                                 <table class="table">
                                     <tbody>
                                     <tr>
-                                        <td>Physical Contact:</td>
-                                        <td id="physicalContact" th:text="${player.physicalContact}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jump:</td>
-                                        <td id="jump" th:text="${player.jump}"></td>
-                                    </tr>
-                                    <tr>
                                         <td>Stamina:</td>
-                                        <td id="goalkeeping" th:text="${player.goalkeeping}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Goalkeeping:</td>
-                                        <td id="gkCatch" th:text="${player.gkCatch}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Catching:</td>
-                                        <td id="clearing" th:text="${player.clearing}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Clearing:</td>
-                                        <td id="reflexes" th:text="${player.reflexes}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Reflexes:</td>
-                                        <td id="coverage" th:text="${player.coverage}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Coverage:</td>
                                         <td id="stamina" th:text="${player.stamina}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Defensive Awareness:</td>
+                                        <td id="defensiveAwareness" th:text="${player.defensiveAwareness}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ball Winning:</td>
+                                        <td id="ballWinning" th:text="${player.ballWinning}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Aggression:</td>
+                                        <td id="aggression" th:text="${player.aggression}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>GK Awareness:</td>
+                                        <td id="gkAwareness" th:text="${player.gkAwareness}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>GK Catching:</td>
+                                        <td id="gkCatching" th:text="${player.gkCatching}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>GK Clearing:</td>
+                                        <td id="gkClearing" th:text="${player.gkClearing}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>GK Reflexes:</td>
+                                        <td id="gkReflexes" th:text="${player.gkReflexes}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>GK Reach:</td>
+                                        <td id="gkReach" th:text="${player.gkReach}"></td>
                                     </tr>
                                     <tr>
                                         <td>Weak Foot Usage:</td>
@@ -375,7 +383,7 @@
                                     </tr>
                                     <tr>
                                         <td>Overall Rating:</td>
-                                        <td id="overall" th:text="${player.overall}"></td>
+                                        <td id="overallRating" th:text="${player.overallRating}"></td>
                                     </tr>
                                     </tbody>
                                 </table>

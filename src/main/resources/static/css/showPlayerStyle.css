@@ -25,7 +25,7 @@ table.table{
 #pesDb table tr td, #first-col tr td, #first-col tr th, #transfers tr th, #transfers tr td, #competitionStats th, #competitionStats td, #gameStats td{
     padding: 0;
 }
-#overall {
+#overallRating {
     font-weight: bold;
 }
 .table td, .table th {

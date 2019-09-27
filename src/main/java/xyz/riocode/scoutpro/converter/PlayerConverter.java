@@ -125,6 +125,7 @@ public class PlayerConverter{
             playerDashboardDTO.setWeakFootAccuracy(player.getPesDbInfo().getWeakFootAccuracy());
             playerDashboardDTO.setForm(player.getPesDbInfo().getForm());
             playerDashboardDTO.setInjuryResistance(player.getPesDbInfo().getInjuryResistance());
+            playerDashboardDTO.setOverallRating(player.getPesDbInfo().getOverallRating());
             playerDashboardDTO.setPlayingStyle(player.getPesDbInfo().getPlayingStyle());
             playerDashboardDTO.setPlayerSkills(player.getPesDbInfo().getPlayerSkills());
             playerDashboardDTO.setComPlayingStyles(player.getPesDbInfo().getComPlayingStyles());
@@ -229,6 +230,7 @@ public class PlayerConverter{
         playerCompleteDTO.setWeakFootAccuracy(player.getPesDbInfo().getWeakFootAccuracy());
         playerCompleteDTO.setForm(player.getPesDbInfo().getForm());
         playerCompleteDTO.setInjuryResistance(player.getPesDbInfo().getInjuryResistance());
+        playerCompleteDTO.setOverallRating(player.getPesDbInfo().getOverallRating());
         playerCompleteDTO.setPlayingStyle(player.getPesDbInfo().getPlayingStyle());
         playerCompleteDTO.setPlayerSkills(player.getPesDbInfo().getPlayerSkills());
         playerCompleteDTO.setComPlayingStyles(player.getPesDbInfo().getComPlayingStyles());
