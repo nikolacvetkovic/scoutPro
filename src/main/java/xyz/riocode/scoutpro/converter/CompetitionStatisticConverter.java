@@ -34,7 +34,7 @@ public class CompetitionStatisticConverter {
             }
             competitionStatisticDTOS.add(competitionStatisticDTO);
         }
-        competitionStatisticDTOS.add(last);
+        if (last != null) competitionStatisticDTOS.add(last);
         return competitionStatisticDTOS;
     }
 }
