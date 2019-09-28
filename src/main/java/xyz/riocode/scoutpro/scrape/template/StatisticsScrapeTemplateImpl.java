@@ -38,15 +38,17 @@ public class StatisticsScrapeTemplateImpl extends WebDriverAbstractScrapeTemplat
 
     private void scrapeCompetitionStatistics(Document doc, Player player){
         Elements table = ScrapeHelper.getElements(doc, "div#statistics-table-summary tbody#player-table-statistics-body tr");
-        for (int i = 0; i < table.size(); i++) {
-            CompetitionStatistic competitionStatistic = null;
-            if ((i+1) != table.size()){
-                competitionStatistic = extractCoreStats(table.get(i));
-            } else {
-                competitionStatistic = extractCoreStatsAverage(table.get(i));
+        if(!(table.size() == 1 && ScrapeHelper.getElementData(table.get(0), "td").contains("There are no results to display"))) {
+            for (int i = 0; i < table.size(); i++) {
+                CompetitionStatistic competitionStatistic = null;
+                if ((i + 1) != table.size()) {
+                    competitionStatistic = extractCoreStats(table.get(i));
+                } else {
+                    competitionStatistic = extractCoreStatsAverage(table.get(i));
+                }
+                competitionStatistic.setPlayer(player);
+                player.getCompetitionStatistics().add(competitionStatistic);
             }
-            competitionStatistic.setPlayer(player);
-            player.getCompetitionStatistics().add(competitionStatistic);
         }
         player.setStatisticLastCheck(LocalDateTime.now());
     }
