@@ -30,7 +30,7 @@ public class TMCoreScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
         player.setPlayerName(playerName);
         String clubTeam = ScrapeHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Current club)) td a:nth-of-type(2)");
         player.getTransfermarktInfo().setClubTeam(clubTeam);
-        String contractUntil = ScrapeHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Contract until)) td");
+        String contractUntil = ScrapeHelper.getElementData(doc, "table.auflistung tr:has(th:contains(Contract expires)) td");
         player.getTransfermarktInfo().setContractUntil(contractUntil);
         String nationality = ScrapeHelper.getElementData(doc, "span[itemprop=nationality]");
         player.getTransfermarktInfo().setNationality(nationality);
