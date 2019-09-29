@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -34,7 +34,7 @@ public class PsmlInfo implements Serializable {
 
     @OrderBy("dateOfTransfer DESC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "psmlInfo", fetch = FetchType.LAZY)
-    private Set<PsmlTransfer> psmlTransfers;
+    private List<PsmlTransfer> psmlTransfers;
 
     @Basic(optional = false)
     @Column(name = "last_check")
