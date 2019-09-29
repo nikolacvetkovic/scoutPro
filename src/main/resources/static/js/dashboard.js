@@ -36,7 +36,7 @@ function getPlayersAndFillTable(page){
                                           .append($('<td>').attr('id', 'playerName').append(''))
                                           .append($('<td>').attr('id', 'age').css('width', '10%').append(''))
                                           .append($('<td>').attr('id', 'position').css('width', '11%').append(''))
-                                          .append($('<td>').attr('id', 'overall').css('width', '10%').append(''))
+                                          .append($('<td>').attr('id', 'overallRating').css('width', '10%').append(''))
                                           .append($('<td>').attr('id', 'psmlValue').css('text-align', 'right').css('padding-right', '3.5%').css('width', '20%').append(''))
                                           .append($('<td>').attr('id', 'tmCurrentValue').css('text-align', 'right').css('padding-right', '4.5%').css('width', '20%').append(''))
                                           .append($('<td>').attr('id', 'arrow').css('width', '5%').append($(' <i>').addClass(getArrowBasedOnRelation(player.psmlValue, player.tmCurrentValue)))));
@@ -46,7 +46,7 @@ function getPlayersAndFillTable(page){
                         case 'playerName': $('#playerName').attr('id', key+'-'+player.id).append(player.playerName + ' ').append($('<a>').attr('href', '/player/'+ player.id +'/show').attr('target', '_blank').append($('<i>').addClass('fas fa-external-link-alt').css('color', 'black'))); break;
                         case 'age': $('#age').attr('id', key+'-'+player.id).append(player.age); break;
                         case 'position': $('#position').attr('id', key+'-'+player.id).append(player.position); break;
-                        case 'overall': $('#overall').attr('id', key+'-'+player.id).append(player.overallRating); break;
+                        case 'overallRating': $('#overallRating').attr('id', key+'-'+player.id).append(player.overallRating); break;
                         case 'psmlValue': $('#psmlValue').attr('id', key+'-'+player.id).append(formatPlayerValue(player.psmlValue)); break;
                         case 'tmCurrentValue': $('#tmCurrentValue').attr('id', key+'-'+player.id).append(formatPlayerValue(player.tmCurrentValue) + ' '); break;
                         case 'otherStrongPositions': {
