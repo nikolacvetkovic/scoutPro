@@ -90,6 +90,10 @@ public class Player implements Serializable {
     @Column(name = "statistic_last_check")
     private LocalDateTime statisticLastCheck;
 
+    @Basic(optional = false)
+    @Column(name = "inserted")
+    private LocalDateTime inserted;
+
     public void removeUser(AppUserPlayer appUserPlayer){
         this.users.remove(appUserPlayer);
         appUserPlayer.setPlayer(null);
