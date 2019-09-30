@@ -12,14 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import xyz.riocode.scoutpro.converter.PlayerConverter;
+import xyz.riocode.scoutpro.dto.DashboardDTO;
 import xyz.riocode.scoutpro.dto.PlayerCompleteDTO;
-import xyz.riocode.scoutpro.dto.PlayerDashboardDTO;
 import xyz.riocode.scoutpro.dto.PlayerFormDTO;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.service.PlayerService;
 
 import javax.validation.Valid;
-import java.util.Set;
 
 @Log4j2
 @Controller
@@ -65,9 +64,9 @@ public class PlayerController {
     }
 
     @GetMapping(value = "/player/{pageNumber}/page", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Set<PlayerDashboardDTO>> getPlayers(@PathVariable int pageNumber){
+    public ResponseEntity<DashboardDTO> getPlayers(@PathVariable int pageNumber){
         log.info("Get players by page number: {}", pageNumber);
-        return new ResponseEntity<>(playerConverter.playerToPlayerDashboardDTO(playerService.getByUserPaging("cvele", pageNumber), "cvele"), HttpStatus.OK);
+        return new ResponseEntity<>(playerConverter.playersToDashboardDTO(playerService.getByUserPaging("cvele", pageNumber), "cvele"), HttpStatus.OK);
     }
 
     @GetMapping(value = "/player/{playerId}", produces = MediaType.APPLICATION_JSON_VALUE)

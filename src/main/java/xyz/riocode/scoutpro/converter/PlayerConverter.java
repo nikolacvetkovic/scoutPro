@@ -1,16 +1,18 @@
 package xyz.riocode.scoutpro.converter;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import xyz.riocode.scoutpro.dto.DashboardDTO;
 import xyz.riocode.scoutpro.dto.PlayerCompleteDTO;
 import xyz.riocode.scoutpro.dto.PlayerDashboardDTO;
 import xyz.riocode.scoutpro.dto.PlayerFormDTO;
 import xyz.riocode.scoutpro.model.*;
 
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.Set;
 
 @Component
 public class PlayerConverter{
@@ -67,11 +69,12 @@ public class PlayerConverter{
         return player;
     }
 
-    public Set<PlayerDashboardDTO> playerToPlayerDashboardDTO(Set<Player> players, String username){
-        Set<PlayerDashboardDTO> playerDashboardDTOS = new HashSet<>();
+    public DashboardDTO playersToDashboardDTO(Page<Player> playersPage, String username){
+        DashboardDTO dashboardDTO = new DashboardDTO();
+        List<PlayerDashboardDTO> playerDashboardDTOS = new ArrayList<>();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").withLocale(Locale.US);
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.US);
-        for (Player player : players) {
+        for (Player player : playersPage.getContent()) {
             PlayerDashboardDTO playerDashboardDTO = new PlayerDashboardDTO();
             playerDashboardDTO.setId(player.getId().toString());
             playerDashboardDTO.setPlayerName(player.getPlayerName());
@@ -143,22 +146,29 @@ public class PlayerConverter{
             }
             playerDashboardDTO.setPsmlLastCheck(player.getPsmlInfo().getLastCheck().format(dateTimeFormatter));
 
-            CompetitionStatistic competitionStatistic = player.getCompetitionStatistics().stream().findFirst().get();
-            playerDashboardDTO.setTotalStartedApps(competitionStatistic.getStartedApps());
-            playerDashboardDTO.setTotalMins(competitionStatistic.getMins());
-            playerDashboardDTO.setTotalAssists(competitionStatistic.getAssists());
-            playerDashboardDTO.setTotalGoals(competitionStatistic.getGoals());
-            playerDashboardDTO.setTotalAssists(competitionStatistic.getAssists());
-            playerDashboardDTO.setAverageShotsPerGame(competitionStatistic.getShotsPerGame().toString());
-            playerDashboardDTO.setAveragePassSuccess(competitionStatistic.getPassSuccess().toString());
-            playerDashboardDTO.setAverageAerialsWon(competitionStatistic.getAerialsWon().toString());
-            playerDashboardDTO.setTotalManOfTheMatch(competitionStatistic.getManOfTheMatch());
-            playerDashboardDTO.setAverageRating(competitionStatistic.getRating().toString());
-            playerDashboardDTO.setStatisticsLastCheck(player.getStatisticLastCheck().format(dateTimeFormatter));
+            Optional<CompetitionStatistic> competitionStatisticOptional = player.getCompetitionStatistics().stream().findFirst();
+            if(competitionStatisticOptional.isPresent()) {
+                CompetitionStatistic competitionStatistic = competitionStatisticOptional.get();
+                playerDashboardDTO.setTotalStartedApps(competitionStatistic.getStartedApps());
+                playerDashboardDTO.setTotalMins(competitionStatistic.getMins());
+                playerDashboardDTO.setTotalAssists(competitionStatistic.getAssists());
+                playerDashboardDTO.setTotalGoals(competitionStatistic.getGoals());
+                playerDashboardDTO.setTotalAssists(competitionStatistic.getAssists());
+                playerDashboardDTO.setAverageShotsPerGame(competitionStatistic.getShotsPerGame().toString());
+                playerDashboardDTO.setAveragePassSuccess(competitionStatistic.getPassSuccess().toString());
+                playerDashboardDTO.setAverageAerialsWon(competitionStatistic.getAerialsWon().toString());
+                playerDashboardDTO.setTotalManOfTheMatch(competitionStatistic.getManOfTheMatch());
+                playerDashboardDTO.setAverageRating(competitionStatistic.getRating().toString());
+                playerDashboardDTO.setStatisticsLastCheck(player.getStatisticLastCheck().format(dateTimeFormatter));
 
-            playerDashboardDTOS.add(playerDashboardDTO);
+                playerDashboardDTOS.add(playerDashboardDTO);
+            }
         }
-        return playerDashboardDTOS;
+        dashboardDTO.setPlayers(playerDashboardDTOS);
+        dashboardDTO.setCurrentPage(playersPage.getNumber());
+        dashboardDTO.setTotalPages(playersPage.getTotalPages());
+
+        return dashboardDTO;
     }
 
     public PlayerCompleteDTO playerToPlayerCompleteDTO(Player player, String username){
