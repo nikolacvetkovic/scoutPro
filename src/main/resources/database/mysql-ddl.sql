@@ -15,6 +15,7 @@ create table if not exists scout_pro_development.player (
     transfer_last_check timestamp null,
     market_value_last_check timestamp null,
 	statistic_last_check timestamp null,
+	inserted timestamp not null default current_timestamp,
     primary key(id))
     engine = InnoDB
     collate = utf8_unicode_ci;
