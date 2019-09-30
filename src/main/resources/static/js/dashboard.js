@@ -11,6 +11,7 @@ $(window).on('load', function() {
     setSortByPsmlValueOnBadge();
     setSortByTMValueOnBadge();
     setFilterByAffiliation();
+    setListenersOnPages();
 });
 
 function setWindowAndFont(){
@@ -19,7 +20,7 @@ function setWindowAndFont(){
     } else {
         document.body.style.fontSize = '13px';
     }
-    $('#left').css('height', window.innerHeight - 148);
+    $('#left').css('height', window.innerHeight - 152);
     $('#left table tbody').css('height', $('#left').height()-34);
     $('#right').css('height', window.innerHeight - 145);
     $('#right table tbody').css('height', $('#right').height()-34);
@@ -28,7 +29,7 @@ function setWindowAndFont(){
 function getPlayersAndFillTable(page){
     $.get('/player/'+ page +'/page', function(data){
         $('#tab-body').empty();
-        data.forEach(function(player, index){
+        data.players.forEach(function(player, index){
                 var keys = Object.keys(player);
                 var tr = document.createElement('tr');
                 if(player.myPlayer) $(tr).addClass('table-success');
@@ -65,6 +66,16 @@ function getPlayersAndFillTable(page){
                     }
                 });
         });
+        $('#pages').empty();
+        var currentPage = data.currentPage;
+        var min = currentPage - 3;
+        min = min<0 ? 0 : min;
+        var max = currentPage + 3;
+        for(var i=min; i<max; i++){
+                $('#pages').append($('<span>').append(i+1).attr('enabled', 'true').addClass('badge badge-primary'));
+                if(currentPage === i)
+                    $('#pages span:nth-of-type('+(i+1)+')').attr('enabled', 'false').css({'color':'black', 'background-color':'lightcoral'});
+            }
     });
 }
 
@@ -303,31 +314,10 @@ function setFilterByAffiliation(){
     $('#freePlayersButton').on('click', showFreePlayers);
 }
 
-function updateDataScript(updatedPlayer, callback){
-    var jsonData = JSON.parse(document.querySelector('#jsonData').textContent);
-    jsonData.forEach(function(player){
-        if(player.id === updatedPlayer.id){
-            callback(player, updatedPlayer);
-            return false;
-        }
-    });
-    $('#jsonData').html(JSON.stringify(jsonData));
-}
-
-function updateDataScriptTransfermarkt(currentPlayer, updatedPlayer){
-    currentPlayer.transfermarktInfo = updatedPlayer.transfermarktInfo;
-}
-
-function updateDataScriptWhoScored(currentPlayer, updatedPlayer){
-    currentPlayer.whoScoredInfoList[currentPlayer.whoScoredInfoList.length-1] = updatedPlayer.whoScoredInfoList[currentPlayer.whoScoredInfoList.length-1];
-}
-
-function updateDataScriptPesDb(currentPlayer, updatedPlayer){
-    currentPlayer.pesDbInfoList[currentPlayer.pesDbInfoList.length-1] = updatedPlayer.pesDbInfoList[currentPlayer.pesDbInfoList.length-1];
-}
-
-function updateDataScriptPsml(currentPlayer, updatedPlayer){
-    currentPlayer.psmlInfoList[currentPlayer.psmlInfoList.length-1] = updatedPlayer.psmlInfoList[currentPlayer.psmlInfoList.length-1];
+function setListenersOnPages(){
+    $('#pages').on('click', 'span[enabled=true]', function(){
+        getPlayersAndFillTable($(this).text()-1);
+    })
 }
 
 function getArrowBasedOnRelation(psmlValue, tmValue){
