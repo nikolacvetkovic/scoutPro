@@ -1,8 +1,9 @@
 package xyz.riocode.scoutpro.service;
 
+import org.springframework.data.domain.Page;
 import xyz.riocode.scoutpro.model.Player;
 
-import java.util.Set;
+import java.util.List;
 
 
 public interface PlayerService {
@@ -10,7 +11,7 @@ public interface PlayerService {
     Player addExistingPlayerToUser(Long id, boolean isUserPlayer, String username);
     Player getByIdAndUser(Long id, String username);
     Player getByIdAndUserComplete(Long id, String username);
-    Set<Player> getByNameAndUser(String playerName, String username);
-    Set<Player> getByUserPaging(String username, int page);
+    List<Player> getByNameAndUser(String playerName, String username);
+    Page<Player> getByUserPaging(String username, int page);
     void delete(Long playerId, String username);
 }

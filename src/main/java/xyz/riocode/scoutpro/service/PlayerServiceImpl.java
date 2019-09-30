@@ -1,6 +1,8 @@
 package xyz.riocode.scoutpro.service;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import xyz.riocode.scoutpro.exception.AppUserNotFoundException;
 import xyz.riocode.scoutpro.exception.DuplicatePlayerException;
@@ -15,8 +17,8 @@ import xyz.riocode.scoutpro.repository.PlayerRepository;
 import xyz.riocode.scoutpro.scrape.template.async.ScrapeAsyncWrapper;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -73,13 +75,13 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Set<Player> getByNameAndUser(String playerName, String username) {
-        return new HashSet<>(playerRepository.findByPlayerNameAndUsername(playerName, username));
+    public List<Player> getByNameAndUser(String playerName, String username) {
+        return new ArrayList<>(playerRepository.findByPlayerNameAndUsername(playerName, username));
     }
 
     @Override
-    public Set<Player> getByUserPaging(String username, int page) {
-        return new HashSet<>(playerRepository.findPlayersByUsername(username, PageRequest.of(page, 25)));
+    public Page<Player> getByUserPaging(String username, int page) {
+        return playerRepository.findPlayersByUsername(username, PageRequest.of(page, 25, Sort.by(Sort.Direction.DESC, "inserted")));
     }
 
     @Override

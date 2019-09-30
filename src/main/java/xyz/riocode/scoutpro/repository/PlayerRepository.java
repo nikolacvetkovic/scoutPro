@@ -1,5 +1,6 @@
 package xyz.riocode.scoutpro.repository;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
-    @Query("SELECT p FROM Player p " +
+    @Query(value = "SELECT p FROM Player p " +
                 " LEFT JOIN FETCH p.characteristic " +
                 " JOIN FETCH p.pesDbInfo " +
                 " JOIN FETCH p.transfermarktInfo " +
@@ -19,8 +20,9 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
                 " LEFT JOIN FETCH p.competitionStatistics " +
                 " JOIN FETCH p.users up " +
                 " JOIN FETCH up.appUser u " +
-            " WHERE u.username = :username")
-    List<Player> findPlayersByUsername(String username, Pageable pageable);
+                " WHERE u.username = :username",
+            countQuery = "SELECT count(p) FROM Player p JOIN p.users up JOIN up.appUser u WHERE u.username = :username")
+    Page<Player> findPlayersByUsername(String username, Pageable pageable);
 
     @Query("SELECT p FROM Player p JOIN FETCH p.users up JOIN FETCH up.appUser u WHERE p.id = :id AND u.username = :username")
     Optional<Player> findPlayerByIdAndUsername(Long id, String username);
