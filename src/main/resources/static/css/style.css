@@ -91,10 +91,37 @@ span.lastMeasured {
     padding: 2px 0px;
 }
 #pages span{
-    cursor: pointer;
     padding: 0px 3px;
     margin: 0px 1.2px;
     font-size: 16px;
     font-weight: 400;
+
+}
+#pages span[enabled=true]{
+    cursor: pointer;
     background-color: #3DC9B3;
+}
+#pages span[enabled=false]{
+    cursor: not-allowed;
+    color: black;
+    background-color: lightcoral;
+}
+#pages i{
+    cursor: pointer;
+    color: #3DC9B3;
+}
+#pages i[enabled=false]{
+    cursor: not-allowed;
+}
+#pages i.fa-chevron-circle-left{
+    margin-right: 5px;
+}
+#pages i.fa-chevron-circle-right{
+    margin-left: 5px;
+}
+#pages i.fa-angle-double-left{
+    margin-right: 10px;
+}
+#pages i.fa-angle-double-right{
+    margin-left: 10px;
 }

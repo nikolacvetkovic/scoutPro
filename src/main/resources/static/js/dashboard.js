@@ -27,6 +27,7 @@ function setWindowAndFont(){
 }
 
 function getPlayersAndFillTable(page){
+    $('#left').css('opacity', '0.2');
     $.get('/player/'+ page +'/page', function(data){
         $('#tab-body').empty();
         data.players.forEach(function(player, index){
@@ -66,16 +67,8 @@ function getPlayersAndFillTable(page){
                     }
                 });
         });
-        $('#pages').empty();
-        var currentPage = data.currentPage;
-        var min = currentPage - 3;
-        min = min<0 ? 0 : min;
-        var max = currentPage + 3;
-        for(var i=min; i<max; i++){
-                $('#pages').append($('<span>').append(i+1).attr('enabled', 'true').addClass('badge badge-primary'));
-                if(currentPage === i)
-                    $('#pages span:nth-of-type('+(i+1)+')').attr('enabled', 'false').css({'color':'black', 'background-color':'lightcoral'});
-            }
+        renderPagination(data.currentPage, data.totalPages);
+        $('#left').css('opacity', '1');
     });
 }
 
@@ -316,8 +309,31 @@ function setFilterByAffiliation(){
 
 function setListenersOnPages(){
     $('#pages').on('click', 'span[enabled=true]', function(){
-        getPlayersAndFillTable($(this).text()-1);
+        getPlayersAndFillTable($(this).attr('data-page'));
     })
+    $('#pages').on('click', 'i.fas[data-page][enabled=true]', function(){
+        getPlayersAndFillTable($(this).attr('data-page'));
+    })
+}
+
+function renderPagination(currentPage, totalPages){
+    $('#pages').empty();
+    var min = currentPage - 3;
+    min = min<0 ? 0 : min;
+    var max = currentPage + 3;
+    max = max>totalPages? totalPages : max;
+
+    $('#pages').append($('<i>').attr({'enabled':currentPage!==0?'true':'false', 'data-page':0}).addClass('fas fa-angle-double-left'));
+    if(!((currentPage-1) < 0)) $('#pages').append($('<i>').attr({'enabled':'true', 'data-page':(currentPage-1)}).addClass('fas fa-chevron-circle-left'));
+
+    for(var i=min; i<max; i++){
+            $('#pages').append($('<span>').append(i+1).attr({'enabled':'true', 'data-page':(i)}).addClass('badge badge-primary'));
+            if(currentPage === i)
+                $('#pages span:last-child').attr('enabled', 'false');
+        }
+
+    if((currentPage+1) < totalPages) $('#pages').append($('<i>').attr({'enabled':'true', 'data-page':(currentPage+1)}).addClass('fas fa-chevron-circle-right'));
+    $('#pages').append($('<i>').attr({'enabled':currentPage!==totalPages-1?'true':'false', 'data-page':(totalPages-1)}).addClass('fas fa-angle-double-right'));
 }
 
 function getArrowBasedOnRelation(psmlValue, tmValue){
