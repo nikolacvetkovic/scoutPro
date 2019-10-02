@@ -160,9 +160,8 @@ public class PlayerConverter{
                 playerDashboardDTO.setTotalManOfTheMatch(competitionStatistic.getManOfTheMatch());
                 playerDashboardDTO.setAverageRating(competitionStatistic.getRating().toString());
                 playerDashboardDTO.setStatisticsLastCheck(player.getStatisticLastCheck().format(dateTimeFormatter));
-
-                playerDashboardDTOS.add(playerDashboardDTO);
             }
+            playerDashboardDTOS.add(playerDashboardDTO);
         }
         dashboardDTO.setPlayers(playerDashboardDTOS);
         dashboardDTO.setCurrentPage(playersPage.getNumber());
