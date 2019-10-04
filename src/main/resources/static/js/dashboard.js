@@ -326,11 +326,11 @@ function renderPagination(currentPage, totalPages){
     $('#pages').append($('<i>').attr({'enabled':currentPage!==0?'true':'false', 'data-page':0}).addClass('fas fa-angle-double-left'));
     if(!((currentPage-1) < 0)) $('#pages').append($('<i>').attr({'enabled':'true', 'data-page':(currentPage-1)}).addClass('fas fa-chevron-circle-left'));
 
-    for(var i=min; i<max; i++){
+    for(var i=min; i<=max; i++){
             $('#pages').append($('<span>').append(i+1).attr({'enabled':'true', 'data-page':(i)}).addClass('badge badge-primary'));
             if(currentPage === i)
                 $('#pages span:last-child').attr('enabled', 'false');
-        }
+    }
 
     if((currentPage+1) < totalPages) $('#pages').append($('<i>').attr({'enabled':'true', 'data-page':(currentPage+1)}).addClass('fas fa-chevron-circle-right'));
     $('#pages').append($('<i>').attr({'enabled':currentPage!==totalPages-1?'true':'false', 'data-page':(totalPages-1)}).addClass('fas fa-angle-double-right'));
