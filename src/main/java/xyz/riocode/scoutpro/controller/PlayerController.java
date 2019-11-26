@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import xyz.riocode.scoutpro.converter.PlayerConverter;
 import xyz.riocode.scoutpro.dto.DashboardDTO;
 import xyz.riocode.scoutpro.dto.PlayerCompleteDTO;
+import xyz.riocode.scoutpro.dto.PlayerDashboardDTO;
 import xyz.riocode.scoutpro.dto.PlayerFormDTO;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.service.PlayerService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Log4j2
 @Controller
@@ -51,8 +53,12 @@ public class PlayerController {
     }
 
     @PostMapping("/player")
-    public String saveNewPlayerAndAddToUser(@Valid PlayerFormDTO player, BindingResult bindingResult){
-        if(bindingResult.hasErrors()) return "playerForm";
+    public String saveNewPlayerAndAddToUser(@Valid PlayerFormDTO player, BindingResult bindingResult, ModelMap modelMap){
+        if(bindingResult.hasErrors()) {
+            bindingResult.getFieldErrors().stream().map(fieldError -> fieldError.getField() + "-" + fieldError.getRejectedValue()).forEach(log::error);
+            modelMap.addAttribute("player", player);
+            return "player/playerForm";
+        }
         playerService.createOrUpdate(playerConverter.playerFormDTOToPlayer(player), "cvele");
         return "redirect:/dashboard";
     }
@@ -82,8 +88,8 @@ public class PlayerController {
     }
 
     @GetMapping("/player/{playerName}/name")
-    public String getPlayerByName(@PathVariable Long playerName, ModelMap modelMap){
-        return "";
+    public ResponseEntity<List<PlayerDashboardDTO>> getPlayerByName(@PathVariable String playerName){
+        return new ResponseEntity<List<PlayerDashboardDTO>>(playerConverter.playersToPlayerDashboardDTO(playerService.getByNameAndUserUnfollowed(playerName, "cvele"), "cvele"), HttpStatus.OK);
     }
 
     @GetMapping("/player/{playerId}/compare")

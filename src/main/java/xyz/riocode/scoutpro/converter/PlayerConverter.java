@@ -13,9 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
-public class PlayerConverter{
+public class PlayerConverter {
 
     private final TransferConverter transferConverter;
     private final MarketValueConverter marketValueConverter;
@@ -52,9 +53,9 @@ public class PlayerConverter{
         return playerFormDTO;
     }
 
-    public Player playerFormDTOToPlayer(PlayerFormDTO playerDTO){
+    public Player playerFormDTOToPlayer(PlayerFormDTO playerDTO) {
         Player player = new Player();
-        if(playerDTO.getId() != null && playerDTO.getId().length() != 0) player.setId(Long.valueOf(playerDTO.getId()));
+        if (playerDTO.getId() != null && playerDTO.getId().length() != 0) player.setId(Long.valueOf(playerDTO.getId()));
         AppUserPlayerId appUserPlayerId = new AppUserPlayerId();
         AppUserPlayer appUserPlayer = new AppUserPlayer();
         appUserPlayer.setAppUserPlayerId(appUserPlayerId);
@@ -69,7 +70,7 @@ public class PlayerConverter{
         return player;
     }
 
-    public DashboardDTO playersToDashboardDTO(Page<Player> playersPage, String username){
+    public DashboardDTO playersToDashboardDTO(Page<Player> playersPage, String username) {
         DashboardDTO dashboardDTO = new DashboardDTO();
         List<PlayerDashboardDTO> playerDashboardDTOS = new ArrayList<>();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").withLocale(Locale.US);
@@ -147,7 +148,7 @@ public class PlayerConverter{
             playerDashboardDTO.setPsmlLastCheck(player.getPsmlInfo().getLastCheck().format(dateTimeFormatter));
 
             Optional<CompetitionStatistic> competitionStatisticOptional = player.getCompetitionStatistics().stream().findFirst();
-            if(competitionStatisticOptional.isPresent()) {
+            if (competitionStatisticOptional.isPresent()) {
                 CompetitionStatistic competitionStatistic = competitionStatisticOptional.get();
                 playerDashboardDTO.setTotalStartedApps(String.valueOf(competitionStatistic.getStartedApps()));
                 playerDashboardDTO.setTotalMins(String.valueOf(competitionStatistic.getMins()));
@@ -170,7 +171,7 @@ public class PlayerConverter{
         return dashboardDTO;
     }
 
-    public PlayerCompleteDTO playerToPlayerCompleteDTO(Player player, String username){
+    public PlayerCompleteDTO playerToPlayerCompleteDTO(Player player, String username) {
         PlayerCompleteDTO playerCompleteDTO = new PlayerCompleteDTO();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").withLocale(Locale.US);
 
@@ -251,5 +252,25 @@ public class PlayerConverter{
         playerCompleteDTO.setPsmlLastCheck(player.getPsmlInfo().getLastCheck().format(dateTimeFormatter));
 
         return playerCompleteDTO;
+    }
+
+    public List<PlayerDashboardDTO> playersToPlayerDashboardDTO(List<Player> players, String username) {
+        return players.stream()
+                .map(player -> {
+                    PlayerDashboardDTO playerDashboardDTO = new PlayerDashboardDTO();
+                    playerDashboardDTO.setId(player.getId().toString());
+                    playerDashboardDTO.setPlayerName(player.getPlayerName());
+                    Optional<Boolean> myPlayerOptional = player.getUsers().stream()
+                            .filter(appUserPlayer -> appUserPlayer.getAppUser().getUsername().equals(username))
+                            .map(AppUserPlayer::isMyPlayer)
+                            .findFirst();
+                    playerDashboardDTO.setMyPlayer(myPlayerOptional.orElse(false));
+                    playerDashboardDTO.setPosition(player.getPesDbInfo().getPrimaryPosition());
+                    playerDashboardDTO.setOverallRating(player.getPesDbInfo().getOverallRating());
+                    playerDashboardDTO.setTmCurrentValue(player.getMarketValues().stream().findFirst().get().getWorth().toString());
+                    playerDashboardDTO.setPsmlValue(player.getPsmlInfo().getPsmlValue().toString());
+                    playerDashboardDTO.setPsmlTeam(player.getPsmlInfo().getPsmlTeam());
+                    return playerDashboardDTO;
+                }).collect(Collectors.toList());
     }
 }
