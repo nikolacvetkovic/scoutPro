@@ -11,7 +11,7 @@ public interface PlayerService {
     Player addExistingPlayerToUser(Long id, boolean isUserPlayer, String username);
     Player getByIdAndUser(Long id, String username);
     Player getByIdAndUserComplete(Long id, String username);
-    List<Player> getByNameAndUser(String playerName, String username);
+    List<Player> getByNameAndUserUnfollowed(String playerName, String username);
     Page<Player> getByUserPaging(String username, int page);
     void delete(Long playerId, String username);
 }
