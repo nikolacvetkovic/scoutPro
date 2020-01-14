@@ -72,7 +72,7 @@
                         </table>
                     </div>
                 </div>
-                <div id="playerForm" style="background-color: rgba(61, 201, 179, 1);; margin-top: 50px; border-radius: 20px;">
+                <div id="playerForm" style="background-color: rgba(61, 201, 179, 1); margin-top: 30px; border-radius: 20px;">
                     <h4 class="text-center">Add New Player</h4>
                     <form id="form" th:action="@{/player}" action="#" method="post">
                         <input name="id" type="hidden" th:value="${player.id}">
@@ -123,7 +123,8 @@
                         <div class="form-group row">
                             <div class="col-lg-10"></div>
                             <div class="col-lg-2">
-                                <button class="btn btn-light btn-lg btn-block">Add</button>
+                                <button th:if="${player.playerName != null}" class="btn btn-light btn-lg btn-block">Edit</button>
+                                <button th:if="${player.playerName == null}" class="btn btn-light btn-lg btn-block">Add</button>
                             </div>
                         </div>
                     </form>
