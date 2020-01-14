@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -76,7 +77,15 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public List<Player> getByNameAndUserUnfollowed(String playerName, String username) {
-        return new ArrayList<>(playerRepository.findByPlayerNameAndUsernameUnfollow(playerName, username));
+        List<Player> players = playerRepository.findByPlayerName(playerName);
+        List<Long> existingPlayerIds = new ArrayList<>();
+        for (Player p : players){
+            List<String> usernames = p.getUsers().stream().map(appUserPlayer -> appUserPlayer.getAppUser().getUsername()).collect(Collectors.toList());
+            if (usernames.stream().anyMatch(u -> u.equals(username))) {
+                existingPlayerIds.add(p.getId());
+            }
+        }
+        return players.stream().filter(player -> !existingPlayerIds.contains(player.getId())).collect(Collectors.toList());
     }
 
     @Override
