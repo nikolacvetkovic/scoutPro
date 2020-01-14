@@ -64,9 +64,8 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
             "LEFT JOIN FETCH p.marketValues " +
             "JOIN FETCH p.users up " +
             "JOIN FETCH up.appUser u " +
-            "WHERE p.playerName LIKE LOWER(CONCAT('%', :playerName, '%')) " +
-            "AND u.username <> :username")
-    List<Player> findByPlayerNameAndUsernameUnfollow(String playerName, String username);
+            "WHERE p.playerName LIKE LOWER(CONCAT('%', :playerName, '%'))")
+    List<Player> findByPlayerName(String playerName);
 
     Player findByTransfermarktUrl(String transfermarktUrl);
     @Query("SELECT p FROM Player p JOIN FETCH p.users up JOIN FETCH up.appUser u JOIN FETCH p.pesDbInfo pes WHERE pes.playerName = :pesDbName AND u.username = :username")
