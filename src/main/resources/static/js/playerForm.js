@@ -19,7 +19,7 @@ function setListenerForSearchingExistingPlayers(){
         var tbody = $('#addPlayerSearchResult tbody').get(0);
         $(tbody).empty();
         if(this.value.length > 2){
-            $.get('/player/'+this.value+'/name', function(data){
+            $.get('/player/unfollowed/'+this.value+'/name', function(data){
                 data.forEach(function(player){
                     $(tbody).append($('<tr>').append($('<td>').append(player.playerName))
                                              .append($('<td>').append(player.position))

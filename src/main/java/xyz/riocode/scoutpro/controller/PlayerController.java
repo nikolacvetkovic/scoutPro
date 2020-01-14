@@ -87,8 +87,8 @@ public class PlayerController {
         return "player/showPlayer";
     }
 
-    @GetMapping("/player/{playerName}/name")
-    public ResponseEntity<List<PlayerDashboardDTO>> getPlayerByName(@PathVariable String playerName){
+    @GetMapping("/player/unfollowed/{playerName}/name")
+    public ResponseEntity<List<PlayerDashboardDTO>> getPlayerByNameUnfollowed(@PathVariable String playerName){
         return new ResponseEntity<List<PlayerDashboardDTO>>(playerConverter.playersToPlayerDashboardDTO(playerService.getByNameAndUserUnfollowed(playerName, "cvele"), "cvele"), HttpStatus.OK);
     }
 
