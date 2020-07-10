@@ -11,11 +11,7 @@ import java.util.Optional;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
     @Query(value = "SELECT p FROM Player p " +
-                " LEFT JOIN FETCH p.characteristic " +
-                " JOIN FETCH p.pesDbInfo " +
-                " JOIN FETCH p.transfermarktInfo " +
-                " JOIN FETCH p.psmlInfo psml " +
-                " LEFT JOIN FETCH psml.psmlTransfers " +
+                " LEFT JOIN FETCH p.psmlTransfers " +
                 " LEFT JOIN FETCH p.marketValues " +
                 " LEFT JOIN FETCH p.competitionStatistics " +
                 " JOIN FETCH p.users up " +
@@ -28,11 +24,7 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     Optional<Player> findPlayerByIdAndUsername(Long id, String username);
 
     @Query("SELECT p FROM Player p " +
-            " JOIN FETCH p.characteristic " +
-            " JOIN FETCH p.pesDbInfo " +
-            " JOIN FETCH p.transfermarktInfo "+
-            " JOIN FETCH p.psmlInfo psml "+
-            " LEFT JOIN FETCH psml.psmlTransfers " +
+            " LEFT JOIN FETCH p.psmlTransfers " +
             " LEFT JOIN FETCH p.transfers " +
             " LEFT JOIN FETCH p.marketValues " +
             " LEFT JOIN FETCH p.competitionStatistics " +
@@ -45,10 +37,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     Optional<Player> findPlayerByIdAndUsernameComplete(Long id, String username);
 
     @Query("SELECT DISTINCT p FROM Player p " +
-            "JOIN FETCH p.characteristic " +
-            "JOIN FETCH p.pesDbInfo " +
-            "JOIN FETCH p.transfermarktInfo "+
-            "JOIN FETCH p.psmlInfo psml "+
             "LEFT JOIN FETCH p.marketValues " +
             "JOIN FETCH p.users up " +
             "JOIN FETCH up.appUser u " +
@@ -57,10 +45,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     List<Player> findByPlayerNameAndUsername(String playerName, String username);
 
     @Query("SELECT DISTINCT p FROM Player p " +
-            "JOIN FETCH p.characteristic " +
-            "JOIN FETCH p.pesDbInfo " +
-            "JOIN FETCH p.transfermarktInfo "+
-            "JOIN FETCH p.psmlInfo psml "+
             "LEFT JOIN FETCH p.marketValues " +
             "JOIN FETCH p.users up " +
             "JOIN FETCH up.appUser u " +
@@ -68,6 +52,7 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     List<Player> findByPlayerName(String playerName);
 
     Player findByTransfermarktUrl(String transfermarktUrl);
-    @Query("SELECT p FROM Player p JOIN FETCH p.users up JOIN FETCH up.appUser u JOIN FETCH p.pesDbInfo pes WHERE pes.playerName = :pesDbName AND u.username = :username")
+
+    @Query("SELECT p FROM Player p JOIN FETCH p.users up JOIN FETCH up.appUser u WHERE p.pesDbPlayerName = :pesDbName AND u.username = :username")
     Player findByPesDbName(String pesDbName, String username);
 }

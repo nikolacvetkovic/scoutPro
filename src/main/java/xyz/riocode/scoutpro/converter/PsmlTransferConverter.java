@@ -7,12 +7,13 @@ import xyz.riocode.scoutpro.model.PsmlTransfer;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 public class PsmlTransferConverter {
 
-    public List<PsmlTransferDTO> psmlTransfersToPsmlTransferDTOs(List<PsmlTransfer> psmlTransfers){
+    public List<PsmlTransferDTO> psmlTransfersToPsmlTransferDTOs(Set<PsmlTransfer> psmlTransfers){
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").withLocale(Locale.US);
         return psmlTransfers.stream().map(psmlTransfer -> {
             PsmlTransferDTO psmlTransferDTO = new PsmlTransferDTO();

@@ -3,13 +3,13 @@ package xyz.riocode.scoutpro.bootstrap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import xyz.riocode.scoutpro.model.*;
-import xyz.riocode.scoutpro.repository.*;
+import xyz.riocode.scoutpro.repository.AppUserRepository;
+import xyz.riocode.scoutpro.repository.PlayerRepository;
 import xyz.riocode.scoutpro.service.PlayerService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,25 +20,13 @@ public class DataLoader implements CommandLineRunner {
 
     private final PlayerRepository playerRepository;
     private final AppUserRepository appUserRepository;
-    private final TransfermarktInfoRepository transfermarktInfoRepository;
-    private final PesDbInfoRepository pesDbInfoRepository;
-    private final PsmlInfoRepository psmlInfoRepository;
-    private final CharacteristicRepository characteristicRepository;
     private final PlayerService playerService;
 
     public DataLoader(PlayerRepository playerRepository,
                       AppUserRepository appUserRepository,
-                      TransfermarktInfoRepository transfermarktInfoRepository,
-                      PesDbInfoRepository pesDbInfoRepository,
-                      PsmlInfoRepository psmlInfoRepository,
-                      CharacteristicRepository characteristicRepository,
                       PlayerService playerService) {
         this.playerRepository = playerRepository;
         this.appUserRepository = appUserRepository;
-        this.transfermarktInfoRepository = transfermarktInfoRepository;
-        this.pesDbInfoRepository = pesDbInfoRepository;
-        this.psmlInfoRepository = psmlInfoRepository;
-        this.characteristicRepository = characteristicRepository;
         this.playerService = playerService;
     }
 
@@ -129,71 +117,66 @@ public class DataLoader implements CommandLineRunner {
         player.setTransferLastCheck(LocalDateTime.now());
     }
 
-    private void saveAllTransfermarktInfo(Player player){
+    private void saveAllplayer(Player player){
         Player foundPlayer = playerRepository.findById(player.getId()).get();
-
-        TransfermarktInfo transfermarktInfo = new TransfermarktInfo();
-        transfermarktInfo.setAge(26);
-        transfermarktInfo.setClubTeam("Leicester City");
-        transfermarktInfo.setContractUntil("30.06.2023");
-        transfermarktInfo.setDateOfBirth("Mar 5, 1993");
-        transfermarktInfo.setNationality("England");
-        transfermarktInfo.setNationalTeam("England");
-        transfermarktInfo.setPosition("Centre-Back");
-        transfermarktInfo.setPlayer(foundPlayer);
+        player.setAge(26);
+        player.setClubTeam("Leicester City");
+        player.setContractUntil("30.06.2023");
+        player.setDateOfBirth("Mar 5, 1993");
+        player.setNationality("England");
+        player.setNationalTeam("England");
+        player.setTransfermarktPosition("Centre-Back");
     }
 
-    private void savePesDbInfo(Player player){
-//        PesDbInfo pesDbInfo = new PesDbInfo();
-//        pesDbInfo.setPlayerName("H. MAGUIRE");
-//        pesDbInfo.setTeamName("EAST MIDLANDS");
-//        pesDbInfo.setFoot(Foot.RIGHT);
-//        pesDbInfo.setWeekCondition('C');
-//        pesDbInfo.setPrimaryPosition("CB");
+    private void saveplayer(Player player){
+//        player.setPesDbPlayerName("H. MAGUIRE");
+//        player.setPesDbTeamName("EAST MIDLANDS");
+//        player.setFoot(Foot.RIGHT);
+//        player.setWeekCondition('C');
+//        player.setPrimaryPosition("CB");
 //        Set<String> otherStrongPositions = new HashSet<>();
 //        otherStrongPositions.add("CMF");
-//        pesDbInfo.setOtherStrongPositions(otherStrongPositions);
+//        player.setOtherStrongPositions(otherStrongPositions);
 //        Set<String> otherWeakPositions = new HashSet<>();
 //        otherWeakPositions.add("RB");
-//        pesDbInfo.setOtherWeakPositions(otherWeakPositions);
-//        pesDbInfo.setOffensiveAwareness(64);
-//        pesDbInfo.setBallControl(78);
-//        pesDbInfo.setDribbling(73);
-//        pesDbInfo.setLowPass(79);
-//        pesDbInfo.setLoftedPass(74);
-//        pesDbInfo.setFinishing(60);
-//        pesDbInfo.setPlaceKicking(61);
-//        pesDbInfo.setSwerve(62);
-//        pesDbInfo.setHeader(89);
-//        pesDbInfo.setDefensiveProwess(86);
-//        pesDbInfo.setBallWinning(89);
-//        pesDbInfo.setKickingPower(73);
-//        pesDbInfo.setSpeed(66);
-//        pesDbInfo.setExplosivePower(65);
-//        pesDbInfo.setUnwaveringBalance(68);
-//        pesDbInfo.setPhysicalContact(93);
-//        pesDbInfo.setJump(79);
-//        pesDbInfo.setGoalkeeping(40);
-//        pesDbInfo.setGkCatch(40);
-//        pesDbInfo.setClearing(40);
-//        pesDbInfo.setReflexes(40);
-//        pesDbInfo.setCoverage(40);
-//        pesDbInfo.setStamina(82);
-//        pesDbInfo.setWeakFootUsage(2);
-//        pesDbInfo.setWeakFootAccuracy(2);
-//        pesDbInfo.setForm(6);
-//        pesDbInfo.setInjuryResistance(3);
-//        pesDbInfo.setOverallRating(83);
-//        pesDbInfo.setPlayingStyle("Build Up");
+//        player.setOtherWeakPositions(otherWeakPositions);
+//        player.setOffensiveAwareness(64);
+//        player.setBallControl(78);
+//        player.setDribbling(73);
+//        player.setLowPass(79);
+//        player.setLoftedPass(74);
+//        player.setFinishing(60);
+//        player.setPlaceKicking(61);
+//        player.setSwerve(62);
+//        player.setHeader(89);
+//        player.setDefensiveProwess(86);
+//        player.setBallWinning(89);
+//        player.setKickingPower(73);
+//        player.setSpeed(66);
+//        player.setExplosivePower(65);
+//        player.setUnwaveringBalance(68);
+//        player.setPhysicalContact(93);
+//        player.setJump(79);
+//        player.setGoalkeeping(40);
+//        player.setGkCatch(40);
+//        player.setClearing(40);
+//        player.setReflexes(40);
+//        player.setCoverage(40);
+//        player.setStamina(82);
+//        player.setWeakFootUsage(2);
+//        player.setWeakFootAccuracy(2);
+//        player.setForm(6);
+//        player.setInjuryResistance(3);
+//        player.setOverallRating(83);
+//        player.setPlayingStyle("Build Up");
 //        Set<String> playerSkills = new HashSet<>();
 //        playerSkills.add("Heading");
 //        playerSkills.add("Weighted Pass");
 //        playerSkills.add("Man Marking");
 //        playerSkills.add("Fighting Spirit");
-//        pesDbInfo.setPlayerSkills(playerSkills);
-//        pesDbInfo.setComPlayingStyles(Collections.emptySet());
-//        pesDbInfo.setLastCheck(LocalDateTime.now());
-//        pesDbInfo.setPlayer(player);
+//        player.setPlayerSkills(playerSkills);
+//        player.setComPlayingStyles(Collections.emptySet());
+//        player.setPesDbLastCheck(LocalDateTime.now());
     }
 
     private void saveAllStatisticsAndCharacteristics(Player player){
@@ -299,31 +282,27 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void saveCharacteristic(Player player){
-        Characteristic c = new Characteristic();
         Set<String> strengths = new HashSet<>();
         strengths.add("Concentration");
-        c.setStrengths(strengths);
+        player.setStrengths(strengths);
         Set<String> stylesOfPlay = new HashSet<>();
         stylesOfPlay.add("Indirect set-piece threat");
         stylesOfPlay.add("Likes to dribble");
         stylesOfPlay.add("Likes to play long balls");
         stylesOfPlay.add("Plays the ball off the ground often");
-        c.setStylesOfPlay(stylesOfPlay);
-        c.setWeaknesses(Collections.EMPTY_SET);
-        c.setPlayer(player);
+        player.setStylesOfPlay(stylesOfPlay);
+        player.setWeaknesses(Collections.EMPTY_SET);
     }
 
     private void savePsmlInfo(Player player){
-        PsmlInfo psmlInfo = new PsmlInfo();
-        psmlInfo.setPsmlTeam("Atomic Ants");
-        psmlInfo.setPsmlValue(BigDecimal.valueOf(15000000));
+        player.setPsmlTeam("Atomic Ants");
+        player.setPsmlValue(BigDecimal.valueOf(15000000));
         PsmlTransfer psmlTransfer = new PsmlTransfer();
         psmlTransfer.setDateOfTransfer(LocalDateTime.now());
         psmlTransfer.setFromTeam("Free Agent");
         psmlTransfer.setToTeam("Atomic Ants");
-        psmlTransfer.setPsmlInfo(psmlInfo);
-        psmlInfo.setPsmlTransfers((Arrays.asList(psmlTransfer)));
-        psmlInfo.setLastCheck(LocalDateTime.now());
-        psmlInfo.setPlayer(player);
+        psmlTransfer.setPlayer(player);
+        player.setPsmlTransfers((Set.of(psmlTransfer)));
+        player.setPsmlLastCheck(LocalDateTime.now());
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import xyz.riocode.scoutpro.model.AppUserPlayer;
 import xyz.riocode.scoutpro.model.AppUserPlayerId;
 import xyz.riocode.scoutpro.model.Player;
+import xyz.riocode.scoutpro.repository.PlayerRepository;
 import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
 import xyz.riocode.scoutpro.service.PlayerService;
 
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 //@Component
 public class ScrapeFreePlayers implements CommandLineRunner {
 
-    private static final String PESDB_SEARCH_BASE_URL = "http://pesdb.net/pes2020/?pos=0&page=";
+    private static final String PESDB_SEARCH_BASE_URL = "http://pesdb.net/pes2020/?pos=1&page=";
     private static final String PESDB_BASE_URL = "http://pesdb.net/pes2020";
     private static final String PSML_SEARCH_BASE_URL = "http://psml.rs/index.php?action=aps&q=&pesdblink=";
     private static final String PSML_BASE_URL = "http://psml.rs/index.php";
@@ -32,9 +33,11 @@ public class ScrapeFreePlayers implements CommandLineRunner {
     private static final String WS_BASE_URL = "https://www.whoscored.com";
     private static final int overallimit = 80;
 
+    private final PlayerRepository playerRepository;
     private final PlayerService playerService;
 
-    public ScrapeFreePlayers(PlayerService playerService) {
+    public ScrapeFreePlayers(PlayerRepository playerRepository, PlayerService playerService) {
+        this.playerRepository = playerRepository;
         this.playerService = playerService;
     }
 
@@ -47,12 +50,13 @@ public class ScrapeFreePlayers implements CommandLineRunner {
                 System.exit(0);
             for (Map.Entry<String, String> e : playersData.entrySet()) {
                 log.info("Player Name: {}, PesDbId: {}", e.getKey(), e.getValue());
+                if(playerRepository.findByPesDbName(e.getKey(), "cvele") != null) continue;
                 try {
                 Thread.sleep(25000);
                 Document psmlSearchResult = getDocumentByWebDriver(PSML_SEARCH_BASE_URL + PESDB_BASE_URL + e.getValue());
                 Element psmlPlayer = ScrapeHelper.getElement(psmlSearchResult, "table.style2 tr:nth-of-type(2)");
                 if (ScrapeHelper.getElement(psmlPlayer, "td:nth-of-type(1) a") == null){ log.warn("Search result is empty for player: {}", e.getKey()); continue;}
-                if (ScrapeHelper.getElement(psmlPlayer, "td:nth-of-type(8) a") != null){ log.warn("Player is in team already"); continue;}
+                //if (ScrapeHelper.getElement(psmlPlayer, "td:nth-of-type(8) a") != null){ log.warn("Player is in team already"); continue;}
                 String psmlQueryUrl = ScrapeHelper.getAttributeValue(psmlPlayer, "td:nth-of-type(1) a", "href");
                 String transfermarktUrl = ScrapeHelper.getAttributeValue(psmlPlayer, "td:nth-of-type(3) a", "href");
                 Document tmPlayerPage = Jsoup.connect(transfermarktUrl).get();

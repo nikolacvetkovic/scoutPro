@@ -35,6 +35,6 @@ public class PsmlTransfer implements Serializable {
     @Column(name = "date_of_transfer")
     private LocalDateTime dateOfTransfer;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "psml_info_id",referencedColumnName = "id")
-    private PsmlInfo psmlInfo;
+    @JoinColumn(name = "player_id",referencedColumnName = "id")
+    private Player player;
 }

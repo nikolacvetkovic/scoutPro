@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import xyz.riocode.scoutpro.model.Player;
-import xyz.riocode.scoutpro.model.PsmlInfo;
 import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
 
 import java.math.BigDecimal;
@@ -22,25 +21,25 @@ public class PsmlScrapeTemplateImpl extends WebDriverAbstractScrapeTemplate {
 
     @Override
     public Player scrape(Player player, Document page) {
-        PsmlInfo psmlInfo = player.getPsmlInfo();
-        if(psmlInfo == null) {
-            psmlInfo = new PsmlInfo();
-            player.setPsmlInfo(psmlInfo);
-            psmlInfo.setPlayer(player);
-        }
-        scrapeCoreData(page, psmlInfo);
+//        PsmlInfo psmlInfo = player.getPsmlInfo();
+//        if(psmlInfo == null) {
+//            psmlInfo = new PsmlInfo();
+//            player.setPsmlInfo(psmlInfo);
+//            psmlInfo.setPlayer(player);
+//        }
+        scrapeCoreData(page, player);
         return player;
     }
 
-    private void scrapeCoreData(Document doc, PsmlInfo psmlInfo){
+    private void scrapeCoreData(Document doc, Player player){
         String teamName = ScrapeHelper.getElementData(doc, "table.innerTable tbody tr:nth-of-type(2) td:nth-of-type(2) p:nth-of-type(2) a");
-        psmlInfo.setPsmlTeam(teamName != null?teamName:"Free");
+        player.setPsmlTeam(teamName != null?teamName:"Free");
         String teamValue = ScrapeHelper.getElementDataOwn(doc, "table.innerTable tbody tr:nth-of-type(2) td:nth-of-type(3) p:nth-of-type(1)");
         if(teamValue != null){
             teamValue = teamValue.replaceAll("[^0-9,]", "").replace(",", "");
         }
-        psmlInfo.setPsmlValue(NumberUtils.isCreatable(teamValue)?new BigDecimal(teamValue):BigDecimal.ZERO);
-        psmlInfo.setLastCheck(LocalDateTime.now());
+        player.setPsmlValue(NumberUtils.isCreatable(teamValue)?new BigDecimal(teamValue):BigDecimal.ZERO);
+        player.setPsmlLastCheck(LocalDateTime.now());
     }
 
     @Override

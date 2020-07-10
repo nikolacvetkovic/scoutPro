@@ -4,7 +4,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import xyz.riocode.scoutpro.enums.Foot;
-import xyz.riocode.scoutpro.model.PesDbInfo;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
 
@@ -22,91 +21,91 @@ public class PesDbScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
 
     @Override
     public Player scrape(Player player, Document page) {
-        PesDbInfo pesDbInfo= player.getPesDbInfo();
-        if(pesDbInfo == null) {
-            pesDbInfo = new PesDbInfo();
-            pesDbInfo.setPlayer(player);
-            player.setPesDbInfo(pesDbInfo);
-        }
+//        player player= player.getplayer();
+//        if(player == null) {
+//            player = new player();
+//            player.setPlayer(player);
+//            player.setplayer(player);
+//        }
         // todo implement async
-        scrapeCoreData(page, pesDbInfo);
-        scrapeRatings(page, pesDbInfo);
-        scrapeAdditionalData(page, pesDbInfo);
+        scrapeCoreData(page, player);
+        scrapeRatings(page, player);
+        scrapeAdditionalData(page, player);
         return player;
     }
 
-    private void scrapeCoreData(Document doc, PesDbInfo pesDbInfo){
+    private void scrapeCoreData(Document doc, Player player){
         if(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(3) td a").equals("Free Agent")){
-            extractCoreDataFreePlayer(doc, pesDbInfo);
+            extractCoreDataFreePlayer(doc, player);
         } else {
-            extractCoreDataStandard(doc, pesDbInfo);
+            extractCoreDataStandard(doc, player);
         }
     }
 
-    private void scrapeRatings(Document doc, PesDbInfo pesDbInfo){
-        pesDbInfo.setOffensiveAwareness(
+    private void scrapeRatings(Document doc, Player player){
+        player.setOffensiveAwareness(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(1) td")));
-        pesDbInfo.setBallControl(
+        player.setBallControl(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(2) td")));
-        pesDbInfo.setDribbling(
+        player.setDribbling(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(3) td")));
-        pesDbInfo.setTightPossession(
+        player.setTightPossession(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(4) td")));
-        pesDbInfo.setLowPass(
+        player.setLowPass(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(5) td")));
-        pesDbInfo.setLoftedPass(
+        player.setLoftedPass(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(6) td")));
-        pesDbInfo.setFinishing(
+        player.setFinishing(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(7) td")));
-        pesDbInfo.setHeading(
+        player.setHeading(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(8) td")));
-        pesDbInfo.setPlaceKicking(
+        player.setPlaceKicking(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(9) td")));
-        pesDbInfo.setCurl(
+        player.setCurl(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(10) td")));
-        pesDbInfo.setSpeed(
+        player.setSpeed(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(11) td")));
-        pesDbInfo.setAcceleration(
+        player.setAcceleration(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(12) td")));
-        pesDbInfo.setKickingPower(
+        player.setKickingPower(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(13) td")));
-        pesDbInfo.setJump(
+        player.setJump(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(14) td")));
-        pesDbInfo.setPhysicalContact(
+        player.setPhysicalContact(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(15) td")));
-        pesDbInfo.setBalance(
+        player.setBalance(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(16) td")));
-        pesDbInfo.setStamina(
+        player.setStamina(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(1) td")));
-        pesDbInfo.setDefensiveAwareness(
+        player.setDefensiveAwareness(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(2) td")));
-        pesDbInfo.setBallWinning(
+        player.setBallWinning(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(3) td")));
-        pesDbInfo.setAggression(
+        player.setAggression(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(4) td")));
-        pesDbInfo.setGkAwareness(
+        player.setGkAwareness(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(5) td")));
-        pesDbInfo.setGkCatching(
+        player.setGkCatching(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(6) td")));
-        pesDbInfo.setGkClearing(
+        player.setGkClearing(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(7) td")));
-        pesDbInfo.setGkReflexes(
+        player.setGkReflexes(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(8) td")));
-        pesDbInfo.setGkReach(
+        player.setGkReach(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(9) td")));
-        pesDbInfo.setWeakFootUsage(
+        player.setWeakFootUsage(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(10) td")));
-        pesDbInfo.setWeakFootAccuracy(
+        player.setWeakFootAccuracy(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(11) td")));
-        pesDbInfo.setForm(
+        player.setForm(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(12) td")));
-        pesDbInfo.setInjuryResistance(
+        player.setInjuryResistance(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(13) td")));
-        pesDbInfo.setOverallRating(
+        player.setOverallRating(
                 Integer.parseInt(ScrapeHelper.getElementDataOwn(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(15) td")));
     }
 
-    private void scrapeAdditionalData(Document doc, PesDbInfo pesDbInfo){
+    private void scrapeAdditionalData(Document doc, Player player){
         String playingStyles = null;
         Set<String> playerSkills = new HashSet<>();
         Set<String> comPlayingStyles = new HashSet<>();
@@ -131,57 +130,57 @@ public class PesDbScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
                 break;
             }
         }
-        pesDbInfo.setPlayingStyle(playingStyles);
-        pesDbInfo.setPlayerSkills(playerSkills);
-        pesDbInfo.setComPlayingStyles(comPlayingStyles);
+        player.setPlayingStyle(playingStyles);
+        player.setPlayerSkills(playerSkills);
+        player.setComPlayingStyles(comPlayingStyles);
     }
 
-    private void extractCoreDataStandard(Document doc, PesDbInfo pesDbInfo){
+    private void extractCoreDataStandard(Document doc, Player player){
         String pesDbName = ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(1) td");
-        pesDbInfo.setPlayerName(pesDbName);
+        player.setPesDbPlayerName(pesDbName);
         String teamName = ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(3) td a");
-        pesDbInfo.setTeamName(teamName);
+        player.setPesDbTeamName(teamName);
         String foot = ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(10) td");
         foot = foot.split(" ")[0];
         // todo
-        pesDbInfo.setFoot(Foot.valueOf(foot.toUpperCase()));
+        player.setFoot(Foot.valueOf(foot.toUpperCase()));
         String weekCondition = ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(11) td");
-        pesDbInfo.setWeekCondition(weekCondition!=null?weekCondition.charAt(0):null);
+        player.setWeekCondition(weekCondition!=null?weekCondition.charAt(0):null);
         String primaryPosition = ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(12) td div");
         //todo
 //        for (Positions p : Positions.values()) {
 //            if(p.toString().equals(primaryPosition)){
-//                pesDbInfo.setPositionNumberValue(p.getNumberValue());
+//                player.setPositionNumberValue(p.getNumberValue());
 //            }
 //        }
-        pesDbInfo.setPrimaryPosition(primaryPosition);
-        pesDbInfo.setOtherStrongPositions(extractOtherStrongPositions(doc, pesDbInfo));
-        pesDbInfo.setOtherWeakPositions(extractOtherWeakPositions(doc));
-        pesDbInfo.setLastCheck(LocalDateTime.now());
+        player.setPrimaryPosition(primaryPosition);
+        player.setOtherStrongPositions(extractOtherStrongPositions(doc, player));
+        player.setOtherWeakPositions(extractOtherWeakPositions(doc));
+        player.setPesDbLastCheck(LocalDateTime.now());
     }
 
-    private void extractCoreDataFreePlayer(Document doc, PesDbInfo pesDbInfo){
+    private void extractCoreDataFreePlayer(Document doc, Player player){
         String pesDbName = ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(1) td");
-        pesDbInfo.setPlayerName(pesDbName);
+        player.setPesDbPlayerName(pesDbName);
         String teamName = ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(2) td a");
-        pesDbInfo.setTeamName(teamName);
+        player.setPesDbTeamName(teamName);
         String foot = ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(9) td");
         foot = foot.split(" ")[0];
         //todo
-        pesDbInfo.setFoot(Foot.valueOf(foot.toUpperCase()));
+        player.setFoot(Foot.valueOf(foot.toUpperCase()));
         String weekCondition = ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(10) td");
-        pesDbInfo.setWeekCondition(weekCondition!=null?weekCondition.charAt(0):null);
+        player.setWeekCondition(weekCondition!=null?weekCondition.charAt(0):null);
         String primaryPosition = ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(11) td div");
         //todo
 //        for (Positions p : Positions.values()) {
 //            if(p.toString().equals(primaryPosition)){
-//                pesDbInfo.setPositionNumberValue(p.getNumberValue());
+//                player.setPositionNumberValue(p.getNumberValue());
 //            }
 //        }
-        pesDbInfo.setPrimaryPosition(primaryPosition);
-        pesDbInfo.setOtherStrongPositions(extractOtherStrongPositions(doc, pesDbInfo));
-        pesDbInfo.setOtherWeakPositions(extractOtherWeakPositions(doc));
-        pesDbInfo.setLastCheck(LocalDateTime.now());
+        player.setPrimaryPosition(primaryPosition);
+        player.setOtherStrongPositions(extractOtherStrongPositions(doc, player));
+        player.setOtherWeakPositions(extractOtherWeakPositions(doc));
+        player.setPesDbLastCheck(LocalDateTime.now());
     }
 
     private Set<String> extractOtherWeakPositions(Element e){
@@ -197,14 +196,14 @@ public class PesDbScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
 
         return positions;
     }
-    private Set<String> extractOtherStrongPositions(Element e, PesDbInfo pesDbInfo){
+    private Set<String> extractOtherStrongPositions(Element e, Player player){
         Set<String> positions = new HashSet<>();
         Elements strongerPositions = ScrapeHelper.getElements(e, "table.player tbody table tr td.positions div span.pos2");
         String s;
         if(strongerPositions.size() > 0){
             for(Element el : strongerPositions){
                 s = el.text();
-                if(!s.equals(pesDbInfo.getPrimaryPosition()))
+                if(!s.equals(player.getPrimaryPosition()))
                     positions.add(s);
             }
         }

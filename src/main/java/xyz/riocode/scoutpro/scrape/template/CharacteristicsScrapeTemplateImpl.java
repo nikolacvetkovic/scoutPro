@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import xyz.riocode.scoutpro.model.Characteristic;
 import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.scrape.helper.ScrapeHelper;
 
@@ -22,25 +21,25 @@ public class CharacteristicsScrapeTemplateImpl extends WebDriverAbstractScrapeTe
 
     @Override
     public Player scrape(Player player, Document page) {
-        Characteristic characteristic = player.getCharacteristic();
-        if(characteristic == null){
-            characteristic = new Characteristic();
-            characteristic.setPlayer(player);
-            player.setCharacteristic(characteristic);
-        }
-        scrapeCharacteristic(page, characteristic);
+//        Characteristic characteristic = player.getCharacteristic();
+//        if(characteristic == null){
+//            characteristic = new Characteristic();
+//            characteristic.setPlayer(player);
+//            player.setCharacteristic(characteristic);
+//        }
+        scrapeCharacteristic(page, player);
 
         return player;
     }
 
 
-    private void scrapeCharacteristic(Document doc, Characteristic characteristic){
+    private void scrapeCharacteristic(Document doc, Player player){
         Elements el1 = ScrapeHelper.getElements(doc, "div.character-card div.strengths tr");
         if(el1.size() > 0){
             for(Element e : el1){
                 String s1 = ScrapeHelper.getElementDataOwn(e, "td:nth-of-type(1) div");
                 String s2 = ScrapeHelper.getElementData(e, "td:nth-of-type(2) span");
-                if(s1 != null && s2 != null) characteristic.getStrengths().add(s1 + " - " + s2);
+                if(s1 != null && s2 != null) player.getStrengths().add(s1 + " - " + s2);
             }
         }
 
@@ -49,7 +48,7 @@ public class CharacteristicsScrapeTemplateImpl extends WebDriverAbstractScrapeTe
             for (Element e : el2) {
                 String s1 = ScrapeHelper.getElementDataOwn(e, "td:nth-of-type(1) div");
                 String s2 = ScrapeHelper.getElementData(e, "td:nth-of-type(2) span");
-                if(s1 != null && s2 != null) characteristic.getWeaknesses().add(s1 + " - " + s2);
+                if(s1 != null && s2 != null) player.getWeaknesses().add(s1 + " - " + s2);
             }
         }
 
@@ -57,7 +56,7 @@ public class CharacteristicsScrapeTemplateImpl extends WebDriverAbstractScrapeTe
         if(el3.size() > 0){
             for (Element e : el3) {
                 String s = e.ownText();
-                if(s != null) characteristic.getStylesOfPlay().add(s);
+                if(s != null) player.getStylesOfPlay().add(s);
             }
         }
 
