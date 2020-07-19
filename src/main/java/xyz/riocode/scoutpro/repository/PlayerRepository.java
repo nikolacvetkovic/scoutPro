@@ -44,12 +44,15 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
             "AND u.username = :username")
     List<Player> findByPlayerNameAndUsername(String playerName, String username);
 
+    List<Player> findByPlayerNameContains(String playerName);
+
     @Query("SELECT DISTINCT p FROM Player p " +
             "LEFT JOIN FETCH p.marketValues " +
-            "JOIN FETCH p.users up " +
-            "JOIN FETCH up.appUser u " +
-            "WHERE p.playerName LIKE LOWER(CONCAT('%', :playerName, '%'))")
-    List<Player> findByPlayerName(String playerName);
+            "WHERE p NOT IN (SELECT p FROM p.users u" +
+            "                JOIN u.appUser au" +
+            "                WHERE au.username = :username)" +
+            "AND p.playerName LIKE LOWER(CONCAT('%', :playerName, '%'))")
+    List<Player> findByPlayerNameWithUser(String playerName, String username);
 
     Player findByTransfermarktUrl(String transfermarktUrl);
 

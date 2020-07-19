@@ -77,15 +77,12 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public List<Player> getByNameAndUserUnfollowed(String playerName, String username) {
-        List<Player> players = playerRepository.findByPlayerName(playerName);
-        List<Long> existingPlayerIds = new ArrayList<>();
-        for (Player p : players){
-            List<String> usernames = p.getUsers().stream().map(appUserPlayer -> appUserPlayer.getAppUser().getUsername()).collect(Collectors.toList());
-            if (usernames.stream().anyMatch(u -> u.equals(username))) {
-                existingPlayerIds.add(p.getId());
-            }
-        }
-        return players.stream().filter(player -> !existingPlayerIds.contains(player.getId())).collect(Collectors.toList());
+        return playerRepository.findByPlayerNameWithUser(playerName, username);
+    }
+
+    @Override
+    public List<Player> getByName(String playerName) {
+        return playerRepository.findByPlayerNameContains(playerName);
     }
 
     @Override

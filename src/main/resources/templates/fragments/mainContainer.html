@@ -22,15 +22,18 @@
                     <a class="nav-link" th:href="@{/player/new}" href="#">Add Player</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/player/compare}" href="#">Compare players</a>
+                    <a class="nav-link" th:href="@{/compare}" href="#">Compare players</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/player/transfersandnews}" href="#">Transfers and News</a>
+                    <a class="nav-link" th:href="@{/transfersandnews}" href="#">Transfers and News</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto mr-auto ">
                 <li class="nav-item mr-2" style="width: 25em">
                     <input id="search" class="form-control" type="search" placeholder="Search players" autocomplete="off" name="s">
+                <table id="searchResult" style="">
+                    <tbody></tbody>
+                </table>
                 </li>
             </ul>
             <form class="form-inline my-2">
