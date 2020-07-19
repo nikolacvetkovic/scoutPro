@@ -19,7 +19,7 @@ function setListenerForSearchingExistingPlayers(){
         var tbody = $('#addPlayerSearchResult tbody').get(0);
         $(tbody).empty();
         if(this.value.length > 2){
-            $.get('/player/unfollowed/'+this.value+'/name', function(data){
+            $.get('/player/'+this.value+'/name/unfollowed', function(data){
                 data.forEach(function(player){
                     $(tbody).append($('<tr>').append($('<td>').append(player.playerName))
                                              .append($('<td>').append(player.position))
@@ -27,8 +27,8 @@ function setListenerForSearchingExistingPlayers(){
                                              .append($('<td>').append(player.psmlTeam))
                                              .append($('<td>').append(formatPlayerValue(player.tmCurrentValue)))
                                              .append($('<td>').append(formatPlayerValue(player.psmlValue)))
-                                             .append($('<td>').append($('<button>').append('Add').attr({'value': player.id, 'data-my-player': player.myPlayer}).addClass('btn btn-success btn-sm').addClass(player.myPlayer===true?'disabled':''))));
-
+                                             .append($('<td>').append($('<input>').attr({'name': 'existMyPlayer', 'type': 'checkbox'})))
+                                             .append($('<td>').append($('<button>').append('Follow').attr({'value': player.id}).addClass('btn btn-success btn-sm'))));
                 });
             });
         }
@@ -36,10 +36,10 @@ function setListenerForSearchingExistingPlayers(){
 }
 
 function setListenerOnAddExistingPlayerButton(){
-    $('#addPlayerSearchResult tbody').on('click', 'tr button:not([class*=disabled])', function(){
-        $.post('/player/'+this.value+'/add', {
-                isUserPlayer: this.getAttribute('data-my-player')
-        }).done(function(){
+    $('#addPlayerSearchResult tbody').on('click', 'tr td button', function(){
+        var myPlayer = $(this).parent().parent().find('input').prop('checked');
+        $.get('/player/'+this.value+'/'+myPlayer+'/follow')
+            .done(function(){
                 $('div.alert').html('The player was added successfully. <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
                 $('div.alert').addClass('alert-success');
                 $('form input').val('');

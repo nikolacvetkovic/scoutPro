@@ -27,7 +27,7 @@ label.col-form-label, #playerName{
     font-style: italic;
     text-decoration-line: underline;
 }
-input[type=checkbox] {
+.checkboxOne input[type=checkbox] {
     visibility: hidden;
 }
 .checkboxOne {
@@ -110,4 +110,7 @@ input[type=checkbox] {
 }
 button.btn-sm {
     font-size: .7rem;
+}
+#addPlayerSearchResult tr input[type=checkbox]{
+    vertical-align: middle;
 }
