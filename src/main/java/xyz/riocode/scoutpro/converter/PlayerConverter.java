@@ -260,11 +260,6 @@ public class PlayerConverter {
                     PlayerDashboardDTO playerDashboardDTO = new PlayerDashboardDTO();
                     playerDashboardDTO.setId(player.getId().toString());
                     playerDashboardDTO.setPlayerName(player.getPlayerName());
-                    Optional<Boolean> myPlayerOptional = player.getUsers().stream()
-                            .filter(appUserPlayer -> appUserPlayer.getAppUser().getUsername().equals(username))
-                            .map(AppUserPlayer::isMyPlayer)
-                            .findFirst();
-                    playerDashboardDTO.setMyPlayer(myPlayerOptional.orElse(false));
                     playerDashboardDTO.setPosition(player.getPrimaryPosition());
                     playerDashboardDTO.setOverallRating(player.getOverallRating());
                     playerDashboardDTO.setTmCurrentValue(player.getMarketValues().stream().findFirst().get().getWorth().toString());
