@@ -15,13 +15,19 @@
                 <div th:text="${player.playerName}+ '  (' +${player.age}+ ')'" class="col-lg-3"><span ></span></div>
                 <div id="mainPosition" th:text="${player.position}" class="col-lg-1"></div>
                 <div id="mainOverall" th:text="${player.overallRating}" class="col-lg-1"></div>
-                <div class="col-lg-5"></div>
+                <div class="col-lg-4"></div>
                 <div class="col-lg-2" style="text-align: right;">
                     <button class="btn btn-info">Edit</button>
-                    <button class="btn btn-danger">Unfollow</button>
+                    <button th:if="${player.clubTeam != null}" class="btn btn-danger">Unfollow</button>
+                    <button th:if="${player.clubTeam == null}" class="btn btn-danger">Follow</button>
+                </div>
+                <div class="col-lg-1" th:if="${player.clubTeam == null}">
+                    <label for="myPlayer">My Player</label>
+                    <input id="myPlayer" type="checkbox" name="myPlayer">
                 </div>
             </div>
             <hr>
+            <div id="overlay" th:if="${player.clubTeam == null}"></div>
             <div class="row">
                 <div id="first-col" class="col-lg-3">
                     <div class="wrapper">

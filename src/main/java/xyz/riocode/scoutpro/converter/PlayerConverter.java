@@ -1,5 +1,6 @@
 package xyz.riocode.scoutpro.converter;
 
+import org.hibernate.LazyInitializationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import xyz.riocode.scoutpro.dto.DashboardDTO;
@@ -24,6 +25,8 @@ public class PlayerConverter {
     private final PositionStatisticConverter positionStatisticConverter;
     private final GameStatisticConverter gameStatisticConverter;
     private final PsmlTransferConverter psmlTransferConverter;
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").withLocale(Locale.US);
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.US);
 
     public PlayerConverter(TransferConverter transferConverter, MarketValueConverter marketValueConverter,
                            CompetitionStatisticConverter competitionStatisticConverter, PositionStatisticConverter positionStatisticConverter,
@@ -73,8 +76,6 @@ public class PlayerConverter {
     public DashboardDTO playersToDashboardDTO(Page<Player> playersPage, String username) {
         DashboardDTO dashboardDTO = new DashboardDTO();
         List<PlayerDashboardDTO> playerDashboardDTOS = new ArrayList<>();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").withLocale(Locale.US);
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.US);
         for (Player player : playersPage.getContent()) {
             PlayerDashboardDTO playerDashboardDTO = new PlayerDashboardDTO();
             playerDashboardDTO.setId(player.getId().toString());
@@ -173,88 +174,93 @@ public class PlayerConverter {
 
     public PlayerCompleteDTO playerToPlayerCompleteDTO(Player player, String username) {
         PlayerCompleteDTO playerCompleteDTO = new PlayerCompleteDTO();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").withLocale(Locale.US);
 
         playerCompleteDTO.setId(player.getId().toString());
-        playerCompleteDTO.setMyPlayer(player.getUsers().stream()
-                .filter(appUserPlayer -> appUserPlayer.getAppUser().getUsername().equals(username))
-                .map(AppUserPlayer::isMyPlayer)
-                .findFirst()
-                .get());
-
         playerCompleteDTO.setPlayerName(player.getPlayerName());
-        playerCompleteDTO.setDateOfBirth(player.getDateOfBirth());
         playerCompleteDTO.setAge(String.valueOf(player.getAge()));
-        playerCompleteDTO.setNationality(player.getNationality());
-        playerCompleteDTO.setNationalTeam(player.getNationalTeam());
-        playerCompleteDTO.setClubTeam(player.getClubTeam());
-        playerCompleteDTO.setContractUntil(player.getContractUntil());
-        playerCompleteDTO.setTmPosition(player.getTransfermarktPosition());
-
-        playerCompleteDTO.setTransferDTOS(transferConverter.transfersToTransferDTOs(player.getTransfers()));
-        playerCompleteDTO.setTransferLastCheck(player.getTransferLastCheck().format(dateTimeFormatter));
-        playerCompleteDTO.setMarketValueDTOS(marketValueConverter.marketValuesToMarketValueDTOs(player.getMarketValues()));
-        playerCompleteDTO.setMarketValueLastCheck(player.getMarketValueLastCheck().format(dateTimeFormatter));
-
-        playerCompleteDTO.setCompetitionStatisticDTOS(competitionStatisticConverter.competitionStatisticsToCompetitionStatisticDTOs(player.getCompetitionStatistics()));
-        playerCompleteDTO.setPositionStatisticDTOS(positionStatisticConverter.positionStatisticsToPositionStatisticDTOs(player.getPositionStatistics()));
-        playerCompleteDTO.setGameStatisticDTOS(gameStatisticConverter.gameStatisticsToGameStatisticDTOs(player.getGameStatistics()));
-        playerCompleteDTO.setStatisticLastCheck(player.getStatisticLastCheck().format(dateTimeFormatter));
-        playerCompleteDTO.setStrengths(player.getStrengths());
-        playerCompleteDTO.setWeaknesses(player.getWeaknesses());
-        playerCompleteDTO.setStylesOfPlay(player.getStylesOfPlay());
-
-        playerCompleteDTO.setPesDbPlayerName(player.getPesDbPlayerName());
-        playerCompleteDTO.setPesDbTeamName(player.getPesDbTeamName());
-        playerCompleteDTO.setFoot(player.getFoot().toString());
-        playerCompleteDTO.setWeekCondition(player.getWeekCondition().toString());
         playerCompleteDTO.setPosition(player.getPrimaryPosition());
-        playerCompleteDTO.setOtherStrongPositions(player.getOtherStrongPositions());
-        playerCompleteDTO.setOtherWeakPositions(player.getOtherWeakPositions());
-        playerCompleteDTO.setOffensiveAwareness(player.getOffensiveAwareness());
-        playerCompleteDTO.setBallControl(player.getBallControl());
-        playerCompleteDTO.setDribbling(player.getDribbling());
-        playerCompleteDTO.setTightPossession(player.getTightPossession());
-        playerCompleteDTO.setLowPass(player.getLowPass());
-        playerCompleteDTO.setLoftedPass(player.getLoftedPass());
-        playerCompleteDTO.setFinishing(player.getFinishing());
-        playerCompleteDTO.setHeading(player.getHeading());
-        playerCompleteDTO.setPlaceKicking(player.getPlaceKicking());
-        playerCompleteDTO.setCurl(player.getCurl());
-        playerCompleteDTO.setSpeed(player.getSpeed());
-        playerCompleteDTO.setAcceleration(player.getAcceleration());
-        playerCompleteDTO.setKickingPower(player.getKickingPower());
-        playerCompleteDTO.setJump(player.getJump());
-        playerCompleteDTO.setPhysicalContact(player.getPhysicalContact());
-        playerCompleteDTO.setBalance(player.getBalance());
-        playerCompleteDTO.setStamina(player.getStamina());
-        playerCompleteDTO.setDefensiveAwareness(player.getDefensiveAwareness());
-        playerCompleteDTO.setBallWinning(player.getBallWinning());
-        playerCompleteDTO.setAggression(player.getAggression());
-        playerCompleteDTO.setGkAwareness(player.getGkAwareness());
-        playerCompleteDTO.setGkCatching(player.getGkCatching());
-        playerCompleteDTO.setGkClearing(player.getGkClearing());
-        playerCompleteDTO.setGkReflexes(player.getGkReflexes());
-        playerCompleteDTO.setGkReach(player.getGkReach());
-        playerCompleteDTO.setWeakFootUsage(player.getWeakFootUsage());
-        playerCompleteDTO.setWeakFootAccuracy(player.getWeakFootAccuracy());
-        playerCompleteDTO.setForm(player.getForm());
-        playerCompleteDTO.setInjuryResistance(player.getInjuryResistance());
         playerCompleteDTO.setOverallRating(player.getOverallRating());
-        playerCompleteDTO.setPlayingStyle(player.getPlayingStyle());
-        playerCompleteDTO.setPlayerSkills(player.getPlayerSkills());
-        playerCompleteDTO.setComPlayingStyles(player.getComPlayingStyles());
-        playerCompleteDTO.setPesDbLastCheck(player.getPesDbLastCheck().format(dateTimeFormatter));
 
-        playerCompleteDTO.setPsmlTeam(player.getPsmlTeam());
-        playerCompleteDTO.setPsmlValue(player.getPsmlValue().toString());
-        playerCompleteDTO.setPsmlTransferDTOS(psmlTransferConverter.psmlTransfersToPsmlTransferDTOs(player.getPsmlTransfers()));
-        playerCompleteDTO.setPsmlLastCheck(player.getPsmlLastCheck().format(dateTimeFormatter));
+        try {
+            player.getUsers().size();
+            playerCompleteDTO.setMyPlayer(player.getUsers().stream()
+                    .filter(appUserPlayer -> appUserPlayer.getAppUser().getUsername().equals(username))
+                    .map(AppUserPlayer::isMyPlayer)
+                    .findFirst()
+                    .orElse(false));
+            playerCompleteDTO.setDateOfBirth(player.getDateOfBirth());
+            playerCompleteDTO.setNationality(player.getNationality());
+            playerCompleteDTO.setNationalTeam(player.getNationalTeam());
+            playerCompleteDTO.setClubTeam(player.getClubTeam());
+            playerCompleteDTO.setContractUntil(player.getContractUntil());
+            playerCompleteDTO.setTmPosition(player.getTransfermarktPosition());
+
+            playerCompleteDTO.setTransferDTOS(transferConverter.transfersToTransferDTOs(player.getTransfers()));
+            playerCompleteDTO.setTransferLastCheck(player.getTransferLastCheck().format(dateTimeFormatter));
+            playerCompleteDTO.setMarketValueDTOS(marketValueConverter.marketValuesToMarketValueDTOs(player.getMarketValues()));
+            playerCompleteDTO.setMarketValueLastCheck(player.getMarketValueLastCheck().format(dateTimeFormatter));
+
+            playerCompleteDTO.setCompetitionStatisticDTOS(competitionStatisticConverter.competitionStatisticsToCompetitionStatisticDTOs(player.getCompetitionStatistics()));
+            playerCompleteDTO.setPositionStatisticDTOS(positionStatisticConverter.positionStatisticsToPositionStatisticDTOs(player.getPositionStatistics()));
+            playerCompleteDTO.setGameStatisticDTOS(gameStatisticConverter.gameStatisticsToGameStatisticDTOs(player.getGameStatistics()));
+            playerCompleteDTO.setStatisticLastCheck(player.getStatisticLastCheck().format(dateTimeFormatter));
+            playerCompleteDTO.setStrengths(player.getStrengths());
+            playerCompleteDTO.setWeaknesses(player.getWeaknesses());
+            playerCompleteDTO.setStylesOfPlay(player.getStylesOfPlay());
+
+            playerCompleteDTO.setPesDbPlayerName(player.getPesDbPlayerName());
+            playerCompleteDTO.setPesDbTeamName(player.getPesDbTeamName());
+            playerCompleteDTO.setFoot(player.getFoot().toString());
+            playerCompleteDTO.setWeekCondition(player.getWeekCondition().toString());
+
+            playerCompleteDTO.setOtherStrongPositions(player.getOtherStrongPositions());
+            playerCompleteDTO.setOtherWeakPositions(player.getOtherWeakPositions());
+            playerCompleteDTO.setOffensiveAwareness(player.getOffensiveAwareness());
+            playerCompleteDTO.setBallControl(player.getBallControl());
+            playerCompleteDTO.setDribbling(player.getDribbling());
+            playerCompleteDTO.setTightPossession(player.getTightPossession());
+            playerCompleteDTO.setLowPass(player.getLowPass());
+            playerCompleteDTO.setLoftedPass(player.getLoftedPass());
+            playerCompleteDTO.setFinishing(player.getFinishing());
+            playerCompleteDTO.setHeading(player.getHeading());
+            playerCompleteDTO.setPlaceKicking(player.getPlaceKicking());
+            playerCompleteDTO.setCurl(player.getCurl());
+            playerCompleteDTO.setSpeed(player.getSpeed());
+            playerCompleteDTO.setAcceleration(player.getAcceleration());
+            playerCompleteDTO.setKickingPower(player.getKickingPower());
+            playerCompleteDTO.setJump(player.getJump());
+            playerCompleteDTO.setPhysicalContact(player.getPhysicalContact());
+            playerCompleteDTO.setBalance(player.getBalance());
+            playerCompleteDTO.setStamina(player.getStamina());
+            playerCompleteDTO.setDefensiveAwareness(player.getDefensiveAwareness());
+            playerCompleteDTO.setBallWinning(player.getBallWinning());
+            playerCompleteDTO.setAggression(player.getAggression());
+            playerCompleteDTO.setGkAwareness(player.getGkAwareness());
+            playerCompleteDTO.setGkCatching(player.getGkCatching());
+            playerCompleteDTO.setGkClearing(player.getGkClearing());
+            playerCompleteDTO.setGkReflexes(player.getGkReflexes());
+            playerCompleteDTO.setGkReach(player.getGkReach());
+            playerCompleteDTO.setWeakFootUsage(player.getWeakFootUsage());
+            playerCompleteDTO.setWeakFootAccuracy(player.getWeakFootAccuracy());
+            playerCompleteDTO.setForm(player.getForm());
+            playerCompleteDTO.setInjuryResistance(player.getInjuryResistance());
+            playerCompleteDTO.setPlayingStyle(player.getPlayingStyle());
+            playerCompleteDTO.setPlayerSkills(player.getPlayerSkills());
+            playerCompleteDTO.setComPlayingStyles(player.getComPlayingStyles());
+            playerCompleteDTO.setPesDbLastCheck(player.getPesDbLastCheck().format(dateTimeFormatter));
+
+            playerCompleteDTO.setPsmlTeam(player.getPsmlTeam());
+            playerCompleteDTO.setPsmlValue(player.getPsmlValue().toString());
+            playerCompleteDTO.setPsmlTransferDTOS(psmlTransferConverter.psmlTransfersToPsmlTransferDTOs(player.getPsmlTransfers()));
+            playerCompleteDTO.setPsmlLastCheck(player.getPsmlLastCheck().format(dateTimeFormatter));
+        } catch (LazyInitializationException exception){
+
+        }
 
         return playerCompleteDTO;
     }
 
-    public List<PlayerDashboardDTO> playersToPlayerDashboardDTO(List<Player> players, String username) {
+    public List<PlayerDashboardDTO> playersToPlayersSearchDTO(List<Player> players, String username) {
         return players.stream()
                 .map(player -> {
                     PlayerDashboardDTO playerDashboardDTO = new PlayerDashboardDTO();

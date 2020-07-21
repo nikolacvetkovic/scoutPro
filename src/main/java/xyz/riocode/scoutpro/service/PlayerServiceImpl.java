@@ -79,7 +79,9 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player getByIdAndUserComplete(Long id, String username) {
-        return playerRepository.findPlayerByIdAndUsernameComplete(id, username).orElseThrow(PlayerNotFoundException::new);
+        Player foundPlayer = playerRepository.findPlayerByIdAndUsernameComplete(id, username).orElse(null);
+        if(foundPlayer != null) return foundPlayer;
+        return playerRepository.findById(id).orElseThrow(PlayerNotFoundException::new);
     }
 
     @Override
