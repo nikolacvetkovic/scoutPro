@@ -45,7 +45,7 @@ public class PlayerController {
         return "player/playerForm";
     }
 
-    @PostMapping("/")
+    @PostMapping
     public String saveNewPlayerAndAddToUser(@Valid PlayerFormDTO player, BindingResult bindingResult, ModelMap modelMap){
         if(bindingResult.hasErrors()) {
             bindingResult.getFieldErrors().stream().map(fieldError -> fieldError.getField() + "-" + fieldError.getRejectedValue()).forEach(log::error);
