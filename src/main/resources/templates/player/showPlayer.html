@@ -15,7 +15,7 @@
                 <div th:text="${player.playerName}+ '  (' +${player.age}+ ')'" class="col-lg-3"><span ></span></div>
                 <div id="mainPosition" th:text="${player.position}" class="col-lg-1"></div>
                 <div id="mainOverall" th:text="${player.overallRating}" class="col-lg-1"></div>
-                <div class="col-lg-4"></div>
+                <div th:class="${player.clubTeam == null}?'col-lg-4':'col-lg-5'"></div>
                 <div class="col-lg-2" style="text-align: right;">
                     <button class="btn btn-info">Edit</button>
                     <button th:if="${player.clubTeam != null}" class="btn btn-danger">Unfollow</button>
@@ -206,7 +206,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div id="pesDb" class="" style="border-bottom: solid green 2px; padding: 10px 0px">
-                        <h6 class="separator">PesDb Data <span id="pesDbLastCheck" style="font-size: 12px;" th:text="'(' +${player.pesDbLastCheck}+ ')'"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
+                        <h6 class="separator">PesDB Data <span id="pesDbLastCheck" style="font-size: 12px;" th:text="'(' +${player.pesDbLastCheck}+ ')'"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
                         <div class="row" style="margin-left: 0px; margin-right: 0px;">
                             <div class="col-sm-4 col-lg-4" style="padding: 0">
                                 <table class="table">
