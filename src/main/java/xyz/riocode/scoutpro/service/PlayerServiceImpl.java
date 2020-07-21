@@ -17,11 +17,9 @@ import xyz.riocode.scoutpro.repository.PlayerRepository;
 import xyz.riocode.scoutpro.scrape.template.async.ScrapeAsyncWrapper;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -40,12 +38,21 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Player createOrUpdate(Player player, String username) {
-        if(player.getId() == null) {
-            return createPlayerAndAddToUser(player, username);
+    public Player create(Player player) {
+        return playerRepository.save(scrape(player));
+    }
+
+    @Override
+    public Player createOrUpdate(Player player, String username){
+        Player p = null;
+        if (player.getId() == null) {
+            p = scrape(player);
+            AppUser appUser = appUserRepository.findByUsername(username).get();
+            p.getUsers().stream().findFirst().get().setAppUser(appUser);
         } else {
-            return update(player, username);
+            p = update(player, username);
         }
+        return playerRepository.save(p);
     }
 
     @Override
@@ -103,12 +110,9 @@ public class PlayerServiceImpl implements PlayerService {
         playerRepository.save(foundPlayer);
     }
 
-    private Player createPlayerAndAddToUser(Player player, String username){
+    private Player scrape(Player player){
         Player foundPlayer = playerRepository.findByTransfermarktUrl(player.getTransfermarktUrl());
         if(foundPlayer != null) throw new DuplicatePlayerException();
-
-        AppUser appUser = appUserRepository.findByUsername(username).get();
-        player.getUsers().stream().findFirst().get().setAppUser(appUser);
 
         CompletableFuture<Player> tmAll = scrapeAsyncWrapper.tmAllScrape(player);
         CompletableFuture<Player> pesDb = scrapeAsyncWrapper.pesDbScrape(player);
@@ -126,7 +130,7 @@ public class PlayerServiceImpl implements PlayerService {
             e.printStackTrace();
         }
 
-        return playerRepository.save(p);
+        return p;
     }
 
     private Player update(Player player, String username) {

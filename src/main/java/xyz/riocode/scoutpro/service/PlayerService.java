@@ -7,6 +7,7 @@ import java.util.List;
 
 
 public interface PlayerService {
+    Player create(Player player);
     Player createOrUpdate(Player player, String username);
     Player addExistingPlayerToUser(Long id, boolean isUserPlayer, String username);
     Player getByIdAndUser(Long id, String username);
