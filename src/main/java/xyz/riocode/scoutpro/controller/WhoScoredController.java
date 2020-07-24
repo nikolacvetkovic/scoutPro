@@ -9,9 +9,9 @@ import xyz.riocode.scoutpro.dto.PlayerCompleteDTO;
 import xyz.riocode.scoutpro.dto.PlayerDashboardDTO;
 
 @Log4j2
-@RequestMapping("/psml/scrape")
+@RequestMapping("/ws/scrape")
 @Controller
-public class PsmlController {
+public class WhoScoredController {
 
     @GetMapping("/light/{playerId}")
     public PlayerDashboardDTO lightScrape(@PathVariable Long playerId){

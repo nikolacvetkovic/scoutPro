@@ -5,21 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import xyz.riocode.scoutpro.dto.PlayerCompleteDTO;
 import xyz.riocode.scoutpro.dto.PlayerDashboardDTO;
 
 @Log4j2
-@RequestMapping("/psml/scrape")
+@RequestMapping("/pesdb/scrape")
 @Controller
-public class PsmlController {
+public class PesDbController {
 
-    @GetMapping("/light/{playerId}")
-    public PlayerDashboardDTO lightScrape(@PathVariable Long playerId){
-        return null;
-    }
-
-    @GetMapping("/full/{playerId}")
-    public PlayerCompleteDTO fullScrape(@PathVariable Long playerId){
+    @GetMapping("/{playerId}")
+    public PlayerDashboardDTO scrape(@PathVariable Long playerId){
         return null;
     }
 
