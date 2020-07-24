@@ -18,8 +18,8 @@
                 <div th:class="${player.clubTeam == null}?'col-lg-4':'col-lg-5'"></div>
                 <div class="col-lg-2" style="text-align: right;">
                     <button class="btn btn-info">Edit</button>
-                    <button th:if="${player.clubTeam != null}" class="btn btn-danger">Unfollow</button>
-                    <button th:if="${player.clubTeam == null}" class="btn btn-danger">Follow</button>
+                    <button id="unfollowPlayer" th:if="${player.clubTeam != null}" class="btn btn-danger">Unfollow</button>
+                    <button id="followPlayer" th:if="${player.clubTeam == null}" class="btn btn-danger">Follow</button>
                 </div>
                 <div class="col-lg-1" th:if="${player.clubTeam == null}">
                     <label for="myPlayer">My Player</label>
@@ -58,7 +58,7 @@
                         </table>
                     </div>
                     <div class="wrapper">
-                        <h6 class="separator">Psml Data <span style="font-size: 12px;" th:text="'('+ ${player.psmlLastCheck} +')'"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
+                        <h6 class="separator">Psml Data <span style="font-size: 12px;" th:text="'('+ ${player.psmlLastCheck} +')'"></span> <span class="badge badge-primary measure" th:data-url="'/psml/scrape/full/'+${player.id}">Measure Now!</span></h6>
                         <table id="psmlData" class="table table-hover">
                             <tbody>
                             <tr>
@@ -140,11 +140,11 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="wrapper">
-                        <h6 class="separator">MarketValues <span style="font-size: 12px;" th:text="'(' +${player.marketValueLastCheck}+ ')'"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
+                        <h6 class="separator">MarketValues <span style="font-size: 12px;" th:text="'(' +${player.marketValueLastCheck}+ ')'"></span> <span class="badge badge-primary measure" th:data-url="'/tm/scrape/full/'+${player.id}">Measure Now!</span></h6>
                         <canvas id="marketValuesChart"></canvas>
                     </div>
                     <div class="wrapper">
-                        <h6 class="separator" >Real Life Transfers <span style="font-size: 12px;" th:text="'(' +${player.transferLastCheck}+ ')'"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
+                        <h6 class="separator" >Real Life Transfers <span style="font-size: 12px;" th:text="'(' +${player.transferLastCheck}+ ')'"></span> <span class="badge badge-primary measure" th:data-url="'/tm/scrape/full/'+${player.id}">Measure Now!</span></h6>
                         <table id="transfers" class="table table-hover">
                             <thead>
                             <tr>
@@ -167,7 +167,7 @@
                         </table>
                     </div>
                     <div class="wrapper">
-                        <h6 class="separator">Competition Statistics <span style="font-size: 12px;" th:text="'(' +${player.statisticLastCheck}+ ')'"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
+                        <h6 class="separator">Competition Statistics <span style="font-size: 12px;" th:text="'(' +${player.statisticLastCheck}+ ')'"></span> <span class="badge badge-primary measure" th:data-url="'/ws/scrape/full/'+${player.id}">Measure Now!</span></h6>
                         <table id="competitionStats" class="table table-hover">
                             <thead>
                             <tr>
@@ -206,7 +206,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div id="pesDb" class="" style="border-bottom: solid green 2px; padding: 10px 0px">
-                        <h6 class="separator">PesDB Data <span id="pesDbLastCheck" style="font-size: 12px;" th:text="'(' +${player.pesDbLastCheck}+ ')'"></span> <span class="badge badge-primary" data-url="#">Measure Now!</span></h6>
+                        <h6 class="separator">PesDB Data <span id="pesDbLastCheck" style="font-size: 12px;" th:text="'(' +${player.pesDbLastCheck}+ ')'"></span> <span class="badge badge-primary measure" th:data-url="'/pesdb/scrape/'+${player.id}">Measure Now!</span></h6>
                         <div class="row" style="margin-left: 0px; margin-right: 0px;">
                             <div class="col-sm-4 col-lg-4" style="padding: 0">
                                 <table class="table">

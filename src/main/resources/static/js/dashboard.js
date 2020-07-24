@@ -44,7 +44,7 @@ function getPlayersAndFillTable(page){
                                           .append($('<td>').attr('id', 'arrow').css('width', '5%').append($(' <i>').addClass(getArrowBasedOnRelation(player.psmlValue, player.tmCurrentValue)))));
                 keys.forEach(function(key){
                     switch(key){
-                        case 'id': $('#id-value').append(player.id); break;
+                        case 'id': $('#id-value').attr('id', 'id-'+player.id).append(player.id); break;
                         case 'playerName': $('#playerName').attr('id', key+'-'+player.id).append(player.playerName + ' ').append($('<a>').attr('href', '/player/'+ player.id +'/show').attr('target', '_blank').append($('<i>').addClass('fas fa-external-link-alt').css('color', 'black'))); break;
                         case 'age': $('#age').attr('id', key+'-'+player.id).append(player.age); break;
                         case 'position': $('#position').attr('id', key+'-'+player.id).append(player.position); break;
@@ -91,6 +91,7 @@ function fillTransfermarkInfo(selectedPlayerTr){
     $('#tmValueLastChanged').append($(selectedPlayerTr).find('td[id*=tmValueLastChanged]').text());
     $('#tmValueLastCheck').empty();
     $('#tmValueLastCheck').append('(' + $(selectedPlayerTr).find('td[id*=tmValueLastCheck]').text() + ')');
+    $('#tm span.measure').attr('data-url', '/tm/scrape/light/'+$(selectedPlayerTr).find('td[id*=id]').text());
 }
 
 function fillPsmlInfo(selectedPlayerTr){
@@ -101,8 +102,10 @@ function fillPsmlInfo(selectedPlayerTr){
     $('#psmlLastTransferToTeam').append($(selectedPlayerTr).find('td[id*=psmlLastTransferToTeam]').text());
     $('#psmlLastTransferFee').append(formatPlayerValue($(selectedPlayerTr).find('td[id*=psmlLastTransferFee]').text()));
     $('#psmlLastTransferDate').append($(selectedPlayerTr).find('td[id*=psmlLastTransferDate]').text());
-    $('#psmlLastCheck').empty();
-    $('#psmlLastCheck').append('(' + $(selectedPlayerTr).find('td[id*=psmlLastCheck]').text() + ')');
+    var psmlLastCheck = $('#psmlLastCheck').get(0);
+    $(psmlLastCheck).empty();
+    $(psmlLastCheck).append('(' + $(selectedPlayerTr).find('td[id*=psmlLastCheck]').text() + ')');
+    $('#psml span.measure').attr('data-url', '/psml/scrape/light/'+$(selectedPlayerTr).find('td[id*=id]').text());
 }
 
 function fillPesDbInfo(selectedPlayerTr){
@@ -146,6 +149,7 @@ function fillPesDbInfo(selectedPlayerTr){
     $('#overallRating').append($(selectedPlayerTr).find('td[id*=overallRating]').text());
     $('#pesDbLastCheck').empty();
     $('#pesDbLastCheck').append('(' + $(selectedPlayerTr).find('td[id*=pesDbLastCheck]').text() + ')');
+    $('#pesDb span.measure').attr('data-url', '/pesdb/scrape/'+$(selectedPlayerTr).find('td[id*=id]').text());
     setColorOnRatings();
     setColorOnPositions();
 }
@@ -163,6 +167,7 @@ function fillWhoScoredInfo(selectedPlayerTr){
     $('#averageRating').append($(selectedPlayerTr).find('td[id*=averageRating]').text());
     $('#statisticsLastCheck').empty();
     $('#statisticsLastCheck').append('(' + $(selectedPlayerTr).find('td[id*=statisticsLastCheck]').text() + ')');
+    $('#ws span.measure').attr('data-url', '/ws/scrape/light/'+$(selectedPlayerTr).find('td[id*=id]').text());
 }
 
 function setColorOnRatings(){
