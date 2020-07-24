@@ -39,14 +39,14 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player create(Player player) {
-        return playerRepository.save(scrape(player));
+        return playerRepository.save(scrapeAll(player));
     }
 
     @Override
     public Player createOrUpdate(Player player, String username){
         Player p = null;
         if (player.getId() == null) {
-            p = scrape(player);
+            p = scrapeAll(player);
             AppUser appUser = appUserRepository.findByUsername(username).get();
             p.getUsers().stream().findFirst().get().setAppUser(appUser);
         } else {
@@ -112,7 +112,7 @@ public class PlayerServiceImpl implements PlayerService {
         playerRepository.save(foundPlayer);
     }
 
-    private Player scrape(Player player){
+    private Player scrapeAll(Player player){
         Player foundPlayer = playerRepository.findByTransfermarktUrl(player.getTransfermarktUrl());
         if(foundPlayer != null) throw new DuplicatePlayerException();
 
