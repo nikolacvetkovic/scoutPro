@@ -20,7 +20,7 @@ function setWindowAndFont(){
     } else {
         document.body.style.fontSize = '13px';
     }
-    $('#left').css('height', window.innerHeight - 152);
+    $('#left').css('height', window.innerHeight - 160);
     $('#left table tbody').css('height', $('#left').height()-34);
     $('#right').css('height', window.innerHeight - 145);
     $('#right table tbody').css('height', $('#right').height()-34);
