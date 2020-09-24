@@ -260,7 +260,7 @@ public class PlayerConverter {
         return playerCompleteDTO;
     }
 
-    public List<PlayerDashboardDTO> playersToPlayersSearchDTO(List<Player> players, String username) {
+    public List<PlayerDashboardDTO> playersToAddPlayerSearchDTO(List<Player> players, String username) {
         return players.stream()
                 .map(player -> {
                     PlayerDashboardDTO playerDashboardDTO = new PlayerDashboardDTO();
@@ -273,5 +273,17 @@ public class PlayerConverter {
                     playerDashboardDTO.setPsmlTeam(player.getPsmlTeam());
                     return playerDashboardDTO;
                 }).collect(Collectors.toList());
+    }
+
+    public List<PlayerDashboardDTO> playersToPlayerSearchDTO(List<Player> players, String username){
+        return players.stream()
+                    .map(player -> {
+                        PlayerDashboardDTO playerDashboardDTO = new PlayerDashboardDTO();
+                        playerDashboardDTO.setId(player.getId().toString());
+                        playerDashboardDTO.setPlayerName(player.getPlayerName());
+                        playerDashboardDTO.setPosition(player.getPrimaryPosition());
+                        playerDashboardDTO.setOverallRating(player.getOverallRating());
+                        return playerDashboardDTO;
+                    }).collect(Collectors.toList());
     }
 }

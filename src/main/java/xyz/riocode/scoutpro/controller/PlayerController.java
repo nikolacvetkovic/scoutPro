@@ -86,12 +86,12 @@ public class PlayerController {
 
     @GetMapping("/{playerName}/name")
     public ResponseEntity<List<PlayerDashboardDTO>> getPlayerByName(@PathVariable String playerName){
-        return new ResponseEntity<List<PlayerDashboardDTO>>(playerConverter.playersToPlayersSearchDTO(playerService.getByName(playerName), "cvele"), HttpStatus.OK);
+        return new ResponseEntity<List<PlayerDashboardDTO>>(playerConverter.playersToPlayerSearchDTO(playerService.getByName(playerName), "cvele"), HttpStatus.OK);
     }
 
     @GetMapping("/{playerName}/name/unfollowed")
     public ResponseEntity<List<PlayerDashboardDTO>> getPlayerByNameUnfollowed(@PathVariable String playerName){
-        return new ResponseEntity<List<PlayerDashboardDTO>>(playerConverter.playersToPlayersSearchDTO(playerService.getByNameAndUserUnfollowed(playerName, "cvele"), "cvele"), HttpStatus.OK);
+        return new ResponseEntity<List<PlayerDashboardDTO>>(playerConverter.playersToAddPlayerSearchDTO(playerService.getByNameAndUserUnfollowed(playerName, "cvele"), "cvele"), HttpStatus.OK);
     }
 
     @GetMapping("/{playerId}/compare")
