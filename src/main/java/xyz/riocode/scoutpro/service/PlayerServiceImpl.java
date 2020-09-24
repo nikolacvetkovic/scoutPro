@@ -100,6 +100,11 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    public Page<Player> getByUserAndPositionPaging(String username, String position, int page) {
+        return playerRepository.findPlayersByUsernameAndPosition(username, position, PageRequest.of(page, 25, Sort.by(Sort.Direction.DESC, "inserted")));
+    }
+
+    @Override
     public void delete(Long playerId, String username) {
         Player foundPlayer = playerRepository.findPlayerByIdAndUsername(playerId, username).orElseThrow(PlayerNotFoundException::new);
 

@@ -19,6 +19,16 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
                 " WHERE u.username = :username",
             countQuery = "SELECT count(p) FROM Player p JOIN p.users up JOIN up.appUser u WHERE u.username = :username")
     Page<Player> findPlayersByUsername(String username, Pageable pageable);
+    @Query(value = "SELECT p FROM Player p " +
+            " LEFT JOIN FETCH p.psmlTransfers " +
+            " LEFT JOIN FETCH p.marketValues " +
+            " LEFT JOIN FETCH p.competitionStatistics " +
+            " JOIN FETCH p.users up " +
+            " JOIN FETCH up.appUser u " +
+            " WHERE u.username = :username" +
+            " AND p.primaryPosition = :position",
+            countQuery = "SELECT count(p) FROM Player p JOIN p.users up JOIN up.appUser u WHERE u.username = :username AND p.primaryPosition = :position")
+    Page<Player> findPlayersByUsernameAndPosition(String username, String position, Pageable pageable);
 
     @Query("SELECT p FROM Player p JOIN FETCH p.users up JOIN FETCH up.appUser u WHERE p.id = :id AND u.username = :username")
     Optional<Player> findPlayerByIdAndUsername(Long id, String username);

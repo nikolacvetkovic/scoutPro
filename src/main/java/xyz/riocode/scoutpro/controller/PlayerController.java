@@ -63,9 +63,13 @@ public class PlayerController {
     }
 
     @GetMapping(value = "/{pageNumber}/page", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DashboardDTO> getPlayers(@PathVariable int pageNumber){
+    public ResponseEntity<DashboardDTO> getPlayers(@PathVariable int pageNumber, @RequestParam(required = false) String position){
         log.info("Get players by page number: {}", pageNumber);
-        return new ResponseEntity<>(playerConverter.playersToDashboardDTO(playerService.getByUserPaging("cvele", pageNumber), "cvele"), HttpStatus.OK);
+        if (position == null) {
+            return new ResponseEntity<>(playerConverter.playersToDashboardDTO(playerService.getByUserPaging("cvele", pageNumber), "cvele"), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(playerConverter.playersToDashboardDTO(playerService.getByUserAndPositionPaging("cvele", position, pageNumber), "cvele"), HttpStatus.OK);
+        }
     }
 
     @GetMapping(value = "/{playerId}", produces = MediaType.APPLICATION_JSON_VALUE)

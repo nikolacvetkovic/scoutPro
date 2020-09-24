@@ -3,7 +3,7 @@ $(window).on('load', function() {
     $(window).resize(function(){
         setWindowAndFont();
     });
-    getPlayersAndFillTable(0);
+    getPlayersAndFillTable('/player/0/page');
     setListenersOnRows();
     setSortByAgeOnBadge();
     setSortByPositionOnBadge();
@@ -11,6 +11,7 @@ $(window).on('load', function() {
     setSortByPsmlValueOnBadge();
     setSortByTMValueOnBadge();
     setFilterByAffiliation();
+    setFilterByPosition();
     setListenersOnPages();
 });
 
@@ -26,9 +27,9 @@ function setWindowAndFont(){
     $('#right table tbody').css('height', $('#right').height()-34);
 }
 
-function getPlayersAndFillTable(page){
+function getPlayersAndFillTable(url){
     $('#left').css('opacity', '0.2');
-    $.get('/player/'+ page +'/page', function(data){
+    $.get(url, function(data){
         $('#tab-body').empty();
         data.players.forEach(function(player, index){
                 var keys = Object.keys(player);
@@ -312,13 +313,34 @@ function setFilterByAffiliation(){
     $('#freePlayersButton').on('click', showFreePlayers);
 }
 
+function setFilterByPosition(){
+    $('#dashboard span[id*=position]').on('click', function (){
+        if ($(this).attr('active') == 'true') {
+            $('#dashboard span[id*=position]').attr('active', false);
+            getPlayersAndFillTable('/player/0/page');
+        } else {
+            $('#dashboard span[id*=position]').attr('active', false);
+            $(this).attr('active', true);
+            var position = $(this).attr('id').split('-')[1];
+            getPlayersAndFillTable('/player/0/page?position=' + position);
+        }
+    });
+}
+
 function setListenersOnPages(){
-    $('#pages').on('click', 'span[enabled=true]', function(){
-        getPlayersAndFillTable($(this).attr('data-page'));
-    })
-    $('#pages').on('click', 'i.fas[data-page][enabled=true]', function(){
-        getPlayersAndFillTable($(this).attr('data-page'));
-    })
+    $('#pages').on('click', "span[enabled=true], i.fas[data-page][enabled=true]", function(){
+        var activePositionFilterButton = $('#dashboard span[id*=position][active=true]');
+        var selectedPageNumber = $(this).attr('data-page');
+        if (activePositionFilterButton.length == 0) {
+            getPlayersAndFillTable('/player/' + selectedPageNumber + '/page');
+        } else {
+            var activePositionFilterButtonValue = $(activePositionFilterButton).attr('id').split('-')[1];
+            getPlayersAndFillTable('/player/' + selectedPageNumber + '/page?position=' + activePositionFilterButtonValue);
+        }
+    });
+    // $('#pages').on('click', 'i.fas[data-page][enabled=true]', function(){
+    //     getPlayersAndFillTable($(this).attr('data-page'));
+    // });
 }
 
 function renderPagination(currentPage, totalPages){
@@ -331,7 +353,7 @@ function renderPagination(currentPage, totalPages){
     $('#pages').append($('<i>').attr({'enabled':currentPage!==0?'true':'false', 'data-page':0}).addClass('fas fa-angle-double-left'));
     if(!((currentPage-1) < 0)) $('#pages').append($('<i>').attr({'enabled':'true', 'data-page':(currentPage-1)}).addClass('fas fa-chevron-circle-left'));
 
-    for(var i=min; i<=max; i++){
+    for(var i=min; i<max; i++){
             $('#pages').append($('<span>').append(i+1).attr({'enabled':'true', 'data-page':(i)}).addClass('badge badge-primary'));
             if(currentPage === i)
                 $('#pages span:last-child').attr('enabled', 'false');
