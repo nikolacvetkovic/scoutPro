@@ -338,9 +338,6 @@ function setListenersOnPages(){
             getPlayersAndFillTable('/player/' + selectedPageNumber + '/page?position=' + activePositionFilterButtonValue);
         }
     });
-    // $('#pages').on('click', 'i.fas[data-page][enabled=true]', function(){
-    //     getPlayersAndFillTable($(this).attr('data-page'));
-    // });
 }
 
 function renderPagination(currentPage, totalPages){
