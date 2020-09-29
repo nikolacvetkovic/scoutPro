@@ -13,7 +13,6 @@ import xyz.riocode.scoutpro.dto.DashboardDTO;
 import xyz.riocode.scoutpro.dto.PlayerCompleteDTO;
 import xyz.riocode.scoutpro.dto.PlayerDashboardDTO;
 import xyz.riocode.scoutpro.dto.PlayerFormDTO;
-import xyz.riocode.scoutpro.model.Player;
 import xyz.riocode.scoutpro.service.PlayerService;
 
 import javax.validation.Valid;
@@ -73,8 +72,8 @@ public class PlayerController {
     }
 
     @GetMapping(value = "/{playerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Player> getPlayerById(@PathVariable Long playerId, ModelMap modelMap){
-        return new ResponseEntity<>(playerService.getByIdAndUser(playerId, "cvele"), HttpStatus.OK);
+    public ResponseEntity<PlayerCompleteDTO> getPlayerById(@PathVariable Long playerId, ModelMap modelMap){
+        return new ResponseEntity<>(playerConverter.playerToPlayerCompleteDTO(playerService.getByIdAndUserComplete(playerId, "cvele"), "cvele"), HttpStatus.OK);
     }
 
     @GetMapping("/{playerId}/show")
@@ -96,7 +95,8 @@ public class PlayerController {
 
     @GetMapping("/{playerId}/compare")
     public String compare(@PathVariable Long playerId, ModelMap modelMap){
-        return "";
+        modelMap.addAttribute("player1", playerConverter.playerToPlayerCompleteDTO(playerService.getByIdAndUserComplete(playerId, "cvele"), "cvele"));
+        return "player/compare";
     }
 
     @GetMapping("/{playerId}/unfollow")
