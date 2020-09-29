@@ -101,6 +101,7 @@ public class PlayerController {
 
     @GetMapping("/{playerId}/unfollow")
     public String unfollow(@PathVariable Long playerId){
-        return "";
+        playerService.delete(playerId, "cvele");
+        return "redirect:/dashboard";
     }
 }
