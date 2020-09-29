@@ -56,9 +56,9 @@ public class PlayerController {
     }
 
     @GetMapping("/{playerId}/{isUserPlayer}/follow")
-    public ResponseEntity follow(@PathVariable Long playerId, @PathVariable Boolean isUserPlayer){
-        playerService.addExistingPlayerToUser(playerId, isUserPlayer, "cvele");
-        return new ResponseEntity(HttpStatus.OK);
+    public String follow(@PathVariable Long playerId, @PathVariable Boolean isUserPlayer){
+        playerConverter.playerToPlayerCompleteDTO(playerService.addExistingPlayerToUser(playerId, isUserPlayer, "cvele"), "cvele");
+        return "redirect:/player/"+ playerId + "/show";
     }
 
     @GetMapping(value = "/{pageNumber}/page", produces = MediaType.APPLICATION_JSON_VALUE)
