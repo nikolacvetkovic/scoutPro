@@ -21,12 +21,6 @@ public class PesDbScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
 
     @Override
     public Player scrape(Player player, Document page) {
-//        player player= player.getplayer();
-//        if(player == null) {
-//            player = new player();
-//            player.setPlayer(player);
-//            player.setplayer(player);
-//        }
         // todo implement async
         scrapeCoreData(page, player);
         scrapeRatings(page, player);
@@ -34,7 +28,7 @@ public class PesDbScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
         return player;
     }
 
-    private void scrapeCoreData(Document doc, Player player){
+    protected void scrapeCoreData(Document doc, Player player){
         if(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(1) table tr:nth-of-type(3) td a").equals("Free Agent")){
             extractCoreDataFreePlayer(doc, player);
         } else {
@@ -42,7 +36,7 @@ public class PesDbScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
         }
     }
 
-    private void scrapeRatings(Document doc, Player player){
+    protected void scrapeRatings(Document doc, Player player){
         player.setOffensiveAwareness(
                 Integer.parseInt(ScrapeHelper.getElementData(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(2) table tr:nth-of-type(1) td")));
         player.setBallControl(
@@ -105,7 +99,7 @@ public class PesDbScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
                 Integer.parseInt(ScrapeHelper.getElementDataOwn(doc, "table.player tbody tr:nth-of-type(1) td:nth-of-type(3) table tr:nth-of-type(15) td")));
     }
 
-    private void scrapeAdditionalData(Document doc, Player player){
+    protected void scrapeAdditionalData(Document doc, Player player){
         String playingStyles = null;
         Set<String> playerSkills = new HashSet<>();
         Set<String> comPlayingStyles = new HashSet<>();

@@ -14,12 +14,6 @@ public class TMCoreScrapeTemplateImpl extends SimpleAbstractScrapeTemplate {
 
     @Override
     public Player scrape(Player player, Document page) {
-//        TransfermarktInfo transfermarktInfo = player.getTransfermarktInfo();
-//        if(transfermarktInfo == null){
-//            transfermarktInfo = new TransfermarktInfo();
-//            transfermarktInfo.setPlayer(player);
-//            player.setTransfermarktInfo(transfermarktInfo);
-//        }
         scrapeCoreData(page, player);
         return player;
     }

@@ -21,12 +21,6 @@ public class PsmlScrapeTemplateImpl extends WebDriverAbstractScrapeTemplate {
 
     @Override
     public Player scrape(Player player, Document page) {
-//        PsmlInfo psmlInfo = player.getPsmlInfo();
-//        if(psmlInfo == null) {
-//            psmlInfo = new PsmlInfo();
-//            player.setPsmlInfo(psmlInfo);
-//            psmlInfo.setPlayer(player);
-//        }
         scrapeCoreData(page, player);
         return player;
     }
