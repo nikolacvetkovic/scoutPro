@@ -111,10 +111,7 @@ public class PlayerServiceImpl implements PlayerService {
         AppUserPlayer appUserPlayer = foundPlayer.getUsers().stream().findFirst().get();
         AppUser appUser = appUserPlayer.getAppUser();
 
-        foundPlayer.removeUser(appUserPlayer);
-        appUser.removePlayer(appUserPlayer);
-
-        playerRepository.save(foundPlayer);
+        foundPlayer.removeUser(appUser);
     }
 
     private Player scrapeAll(Player player){

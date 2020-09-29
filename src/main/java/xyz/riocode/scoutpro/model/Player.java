@@ -15,6 +15,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -370,8 +372,40 @@ public class Player implements Serializable {
     @Column(name = "inserted")
     private LocalDateTime inserted;
 
-    public void removeUser(AppUserPlayer appUserPlayer){
-        this.users.remove(appUserPlayer);
-        appUserPlayer.setPlayer(null);
+    public void addUser(AppUser appUser){
+        AppUserPlayer appUserPlayer = new AppUserPlayer(this, appUser);
+        users.add(appUserPlayer);
+        appUser.getPlayers().add(appUserPlayer);
+    }
+
+    public void removeUser(AppUser appUser){
+        for(Iterator<AppUserPlayer> iterator = users.iterator(); iterator.hasNext();){
+            AppUserPlayer appUserPlayer = iterator.next();
+            if(appUserPlayer.getPlayer().equals(this) && appUserPlayer.getAppUser().equals(appUser)){
+                iterator.remove();
+                appUserPlayer.getAppUser().getPlayers().remove(appUserPlayer);
+                appUserPlayer.setAppUser(null);
+                appUserPlayer.setPlayer(null);
+            }
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(id, player.id) &&
+                playerName.equals(player.playerName) &&
+                pesDbPlayerName.equals(player.pesDbPlayerName);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (playerName != null ? playerName.hashCode() : 0);
+        result = 31 * result + (pesDbPlayerName != null ? pesDbPlayerName.hashCode() : 0);
+        result = 31 * result + (pesDbTeamName != null ? pesDbTeamName.hashCode() : 0);
+        return result;
     }
 }
