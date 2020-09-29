@@ -4,6 +4,7 @@ $(window).on('load', function() {
     setCharacteristics();
     setCharts();
     setGameStats();
+    setListenerOnMyPlayerCheckBox();
 });
 
 function setColorOnRatings(){
@@ -171,6 +172,19 @@ function setGameStats(){
         $(m).html($(m).text()+'"');
     });
 
+}
+
+function setListenerOnMyPlayerCheckBox(){
+    $('#myPlayer').click(function (){
+        var followButton = $('#followPlayer').get(0);
+        var followButtonHrefValue = $(followButton).attr('href');
+        if(followButtonHrefValue.includes('false')) {
+            followButtonHrefValue = followButtonHrefValue.replace('false', 'true');
+        } else if($(followButton).attr('href').includes('true')) {
+            followButtonHrefValue = followButtonHrefValue.replace('true', 'false');
+        }
+        $(followButton).attr('href', followButtonHrefValue);
+    });
 }
 
 function formatPlayerValue(value){
