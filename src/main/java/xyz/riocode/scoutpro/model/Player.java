@@ -320,23 +320,23 @@ public class Player implements Serializable {
     private Set<String> stylesOfPlay = new HashSet<>();
 
     @OrderBy("datePoint DESC")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<MarketValue> marketValues = new HashSet<>();
 
     @OrderBy("dateOfTransfer DESC")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Transfer> transfers = new HashSet<>();
 
     @OrderBy("id DESC")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<CompetitionStatistic> competitionStatistics = new HashSet<>();
 
     @OrderBy("id DESC")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<PositionStatistic> positionStatistics = new HashSet<>();
 
     @OrderBy("dateOfGame")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<GameStatistic> gameStatistics = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
