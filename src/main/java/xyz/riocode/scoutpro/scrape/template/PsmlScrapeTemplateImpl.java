@@ -3,6 +3,7 @@ package xyz.riocode.scoutpro.scrape.template;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -44,6 +45,8 @@ public class PsmlScrapeTemplateImpl extends WebDriverAbstractScrapeTemplate {
         chromeOptions.addArguments("--headless");
         try {
             driver = new ChromeDriver(chromeOptions);
+            driver.get(url);
+            driver.manage().addCookie(new Cookie("PHPSESSID", "4850431d895c6da08c23dfb5e168b411"));
             driver.get(url);
             Thread.sleep(5000);
             driver.switchTo().frame("content");
