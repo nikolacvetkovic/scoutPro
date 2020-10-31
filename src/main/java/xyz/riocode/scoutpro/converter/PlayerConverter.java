@@ -161,8 +161,9 @@ public class PlayerConverter {
                 playerDashboardDTO.setAverageAerialsWon(competitionStatistic.getAerialsWon().toString());
                 playerDashboardDTO.setTotalManOfTheMatch(String.valueOf(competitionStatistic.getManOfTheMatch()));
                 playerDashboardDTO.setAverageRating(competitionStatistic.getRating().toString());
+                playerDashboardDTO.setStatisticsLastCheck(player.getStatisticLastCheck().format(dateTimeFormatter));
             }
-            playerDashboardDTO.setStatisticsLastCheck(player.getStatisticLastCheck().format(dateTimeFormatter));
+
             playerDashboardDTOS.add(playerDashboardDTO);
         }
         dashboardDTO.setPlayers(playerDashboardDTOS);
