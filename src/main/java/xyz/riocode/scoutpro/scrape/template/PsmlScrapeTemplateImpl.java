@@ -46,7 +46,8 @@ public class PsmlScrapeTemplateImpl extends WebDriverAbstractScrapeTemplate {
         try {
             driver = new ChromeDriver(chromeOptions);
             driver.get(url);
-            driver.manage().addCookie(new Cookie("PHPSESSID", "4850431d895c6da08c23dfb5e168b411"));
+            driver.manage().deleteAllCookies();
+            driver.manage().addCookie(new Cookie("PHPSESSID", "dd30cdbecced0f98b3483e64f89a7d27"));
             driver.get(url);
             Thread.sleep(5000);
             driver.switchTo().frame("content");
