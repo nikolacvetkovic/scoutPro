@@ -120,10 +120,11 @@ public class PlayerServiceImpl implements PlayerService {
 
         CompletableFuture<Player> tmAll = scrapeAsyncWrapper.tmAllScrape(player);
         CompletableFuture<Player> pesDb = scrapeAsyncWrapper.pesDbScrape(player);
-        CompletableFuture<Player> wsAll = scrapeAsyncWrapper.wsAllScrape(player);
+//        CompletableFuture<Player> wsAll = scrapeAsyncWrapper.wsAllScrape(player);
         CompletableFuture<Player> psml = scrapeAsyncWrapper.psmlScrape(player);
 
-        CompletableFuture.allOf(tmAll, pesDb, wsAll, psml).join();
+//        CompletableFuture.allOf(tmAll, pesDb, wsAll, psml).join();
+        CompletableFuture.allOf(tmAll, pesDb, psml).join();
         Player p = null;
 
         try {
