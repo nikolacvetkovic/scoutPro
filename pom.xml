@@ -12,14 +12,14 @@
   <parent>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-parent</artifactId>
-      <version>2.2.4.RELEASE</version>
+      <version>2.4.3</version>
       <relativePath/>
   </parent>
   
   <properties>
     <start-class>xyz.riocode.scoutpro.ScoutProApp</start-class>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>1.9</java.version>
+    <java.version>11</java.version>
     <jquery.version>3.3.1</jquery.version>
     <bootstrap.version>4.3.1</bootstrap.version>
     <popper.version>1.14.7</popper.version>
@@ -38,6 +38,10 @@
       <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-data-jpa</artifactId>  
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-validation</artifactId>
       </dependency>
 <!--      <dependency>-->
 <!--          <groupId>org.springframework.boot</groupId>-->
@@ -133,17 +137,11 @@
           <version>${chartjs.version}</version>
       </dependency>
 
-                        <!--MySQL Connector-->
-      <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-      </dependency>
 
-                        <!--PostgreSQL Connector-->
       <dependency>
-          <groupId>org.postgresql</groupId>
-          <artifactId>postgresql</artifactId>
-          <version>${postgres-driver.version}</version>
+          <groupId>com.h2database</groupId>
+          <artifactId>h2</artifactId>
+          <scope>runtime</scope>
       </dependency>
 
                         <!--Test-->
