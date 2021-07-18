@@ -24,7 +24,7 @@ public class PlayerFormDTO {
     @Size(max = 256)
     @Column(name = "who_scored_url")
     private String whoScoredUrl;
-    @Pattern(regexp = "^(http://pesdb\\.net/pes20[1-9][0-9]/\\?id=)\\d+$", message = "Not valid PesDb url")
+    @Pattern(regexp = "^(http(s)?://pesdb\\.net/pes20[1-9][0-9]/\\?id=)\\d+$", message = "Not valid PesDb url")
     @Size(max = 256)
     @Column(name = "pes_db_url")
     private String pesDbUrl;
