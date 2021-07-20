@@ -23,59 +23,46 @@ public class GameStatistic implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "competition")
     private String competition;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
-    @Basic(optional = false)
     @NotNull
     @Column(name = "date_of_game")
     private LocalDate dateOfGame;
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "team1")
     private String team1;
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "team2")
     private String team2;
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 5)
     @Column(name = "result")
     private String result;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "man_of_the_match")
     private boolean manOfTheMatch;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "goals")
     private int goals;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "assists")
     private int assists;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "yellow_card")
     private boolean yellowCard;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "red_card")
     private boolean redCard;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "minutes_played")
     private int minutesPlayed;
-    @Basic(optional = false)
     @NotNull
     @DecimalMin("0.00")
     @DecimalMax("10.00")

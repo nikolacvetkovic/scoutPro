@@ -25,18 +25,14 @@ public class MarketValue implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "worth")
     private BigDecimal worth;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "date_point")
     private LocalDate datePoint;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "club_team")
     private String clubTeam;

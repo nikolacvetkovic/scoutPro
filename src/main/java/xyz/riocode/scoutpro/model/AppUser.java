@@ -20,18 +20,14 @@ public class AppUser implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
     @Size(min = 4, max = 50)
     @Column(name = "username")
     private String username;
-    @Basic(optional = false)
     @Size(min = 4, max = 50)
     @Column(name = "pass")
     private String password;
-    @Basic(optional = false)
     @Column(name = "enabled")
     private boolean enabled;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser", orphanRemoval = true)

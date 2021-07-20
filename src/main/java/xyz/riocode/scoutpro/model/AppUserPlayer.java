@@ -33,7 +33,6 @@ public class AppUserPlayer implements Serializable {
     @MapsId("playerId")
     private Player player;
 
-    @Basic(optional = false)
     @Column(name = "my_player")
     private boolean myPlayer;
 

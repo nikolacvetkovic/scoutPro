@@ -18,10 +18,8 @@ public class AppRole implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
     @Size(max = 10)
     @Column(name = "role_name")
     private String name;

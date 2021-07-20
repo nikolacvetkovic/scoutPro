@@ -17,14 +17,11 @@ public class News implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
     @Column(name = "content", columnDefinition = "text")
     private String content;
 
-    @Basic(optional = false)
     @Column(name = "inserted_date")
     private LocalDateTime insertedDate;
     @ManyToOne(optional = false)

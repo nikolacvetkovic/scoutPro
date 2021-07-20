@@ -31,43 +31,34 @@ public class Player implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "player_name")
     private String playerName;
 
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
     @Column(name = "date_of_birth")
     private String dateOfBirth;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "age")
     private int age;
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "nationality")
     private String nationality;
-    @Basic(optional = false)
     @Size(min = 1, max = 50)
     @Column(name = "national_team")
     private String nationalTeam;
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "club_team")
     private String clubTeam;
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 12)
     @Column(name = "contract_until")
     private String contractUntil;
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 40)
     @Column(name = "transfermarkt_position")
@@ -82,7 +73,6 @@ public class Player implements Serializable {
     @Column(name = "psml_url")
     private String psmlUrl;
 
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "psml_team")
@@ -90,26 +80,21 @@ public class Player implements Serializable {
     @Column(name = "psml_value")
     private BigDecimal psmlValue;
 
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256)
     @Column(name = "pesdb_player_name")
     private String pesDbPlayerName;
-    @Basic(optional = false)
     @NotNull()
     @Size(min = 1, max = 50)
     @Column(name = "pesdb_team_name")
     private String pesDbTeamName;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "pesdb_foot")
     @Enumerated(EnumType.STRING)
     private Foot foot;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "pesdb_week_condition")
     private Character weekCondition;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "pesdb_primary_position")
     private String primaryPosition;
@@ -119,179 +104,149 @@ public class Player implements Serializable {
     @Convert(converter = SetStringStringConverter.class)
     @Column(name = "pesdb_other_weak_positions")
     private Set<String> otherWeakPositions;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_offensive_awareness")
     private int offensiveAwareness;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_ball_control")
     private int ballControl;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_dribbling")
     private int dribbling;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_tight_possession")
     private int tightPossession;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_low_pass")
     private int lowPass;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_lofted_pass")
     private int loftedPass;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_finishing")
     private int finishing;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_heading")
     private int heading;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_place_kicking")
     private int placeKicking;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_curl")
     private int curl;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_speed")
     private int speed;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_acceleration")
     private int acceleration;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_kicking_power")
     private int kickingPower;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_jump")
     private int jump;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_physical_contact")
     private int physicalContact;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_balance")
     private int balance;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_stamina")
     private int stamina;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_defensive_awareness")
     private int defensiveAwareness;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_ball_winning")
     private int ballWinning;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_aggression")
     private int aggression;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_gk_awareness")
     private int gkAwareness;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_gk_catching")
     private int gkCatching;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_gk_clearing")
     private int gkClearing;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_gk_reflexes")
     private int gkReflexes;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
     @Column(name = "pesdb_gk_reach")
     private int gkReach;
-    @Basic(optional = false)
     @Min(1)
     @Max(4)
     @Column(name = "pesdb_weak_foot_usage")
     private int weakFootUsage;
-    @Basic(optional = false)
     @NotNull
     @Min(1)
     @Max(4)
     @Column(name = "pesdb_weak_foot_accuracy")
     private int weakFootAccuracy;
-    @Basic(optional = false)
     @Min(1)
     @Max(8)
     @Column(name = "pesdb_form")
     private int form;
-    @Basic(optional = false)
     @NotNull
     @Min(1)
     @Max(3)
     @Column(name = "pesdb_injury_resistance")
     private int injuryResistance;
-    @Basic(optional = false)
     @NotNull
     @Min(40)
     @Max(99)
@@ -348,28 +303,22 @@ public class Player implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", orphanRemoval = true)
     private Set<PsmlTransfer> psmlTransfers = new HashSet<>();
 
-    @Basic(optional = false)
     @Column(name = "pesdb_last_check")
     private LocalDateTime pesDbLastCheck;
 
-    @Basic(optional = false)
     @Column(name = "psml_last_check")
     private LocalDateTime psmlLastCheck;
 
-    @Basic(optional = false)
     @Column(name = "transfer_last_check")
     private LocalDateTime transferLastCheck;
 
-    @Basic(optional = false)
     @Column(name = "market_value_last_check")
     private LocalDateTime marketValueLastCheck;
 
-    @Basic(optional = false)
     @Column(name = "statistic_last_check")
     private LocalDateTime statisticLastCheck;
 
-    @Basic(optional = false)
-    @Column(name = "inserted")
+    @Column(name = "inserted", columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime inserted;
 
     public void addUser(AppUser appUser){

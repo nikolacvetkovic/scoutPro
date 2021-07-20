@@ -25,30 +25,24 @@ public class Transfer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "from_team")
     private String fromTeam;
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "to_team")
     private String toTeam;
 
-    @Basic(optional = false)
     @NotNull
     @Column(name = "date_of_transfer")
     private LocalDate dateOfTransfer;
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
     @Column(name = "market_value")
     private String marketValue;
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
     @Column(name = "transfer_fee")
